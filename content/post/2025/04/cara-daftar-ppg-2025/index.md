@@ -21,7 +21,7 @@ tags:
 
 
 > <a href="https://chat.whatsapp.com/CxtsSVXqIw4IUdnxAor0of" class="button add-to-cart">GABUNG GROUP INFO PPG 2025 SEKARANG</a>  
-# Panduan Lengkap PPG Prajabatan 2025: Raih Sertifikat Guru Profesional!
+## Panduan Lengkap PPG Prajabatan 2025: Raih Sertifikat Guru Profesional!
 
 Program **[PPG Prajabatan 2025](/jadwal-ppg-2025-kapan-dibuka/)** kembali dibuka bagi Anda yang bercita-cita menjadi guru profesional. PPG (Pendidikan Profesi Guru) Prajabatan adalah program sertifikasi guru untuk lulusan S1 atau D-IV, baik dari jurusan pendidikan maupun non-kependidikan. Bagi guru honorer maupun *fresh graduate* S1 kependidikan, PPG Prajabatan 2025 adalah kesempatan emas untuk mendapatkan **sertifikat pendidik**. Melalui program ini, Anda akan mengikuti pelatihan dua semester dan ujian kompetensi guna memperoleh sertifikasi guru. Artikel ini membahas secara lengkap tentang **[cara daftar PPG Prajabatan 2025](/cara-daftar-ppg-prajab-2025/)**, mulai dari langkah pendaftaran *online*, **syarat terbaru Kemendikbudristek**, alur seleksi, estimasi biaya, hingga tips lolos seleksi.
 

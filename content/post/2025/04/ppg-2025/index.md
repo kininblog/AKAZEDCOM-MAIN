@@ -23,7 +23,7 @@ tags:
 > <a href="https://chat.whatsapp.com/CxtsSVXqIw4IUdnxAor0of" class="button add-to-cart">GABUNG GROUP INFO PPG 2025 SEKARANG</a>  
 
 
-Program Pendidikan Profesi Guru (PPG) adalah syarat sertifikasi guru yang sangat penting bagi **guru honorer** maupun **lulusan S1 kependidikan**. **Jadwal PPG 2025** menjadi informasi paling dicari: *kapan dibuka* dan bagaimana proses seleksinya? Artikel ini membahas lengkap mengenai *[kapan pendaftaran PPG 2025 dibuka](/jadwal-ppg-2025-kapan-dibuka/)*, jadwal PPG Prajabatan dan PPG Dalam Jabatan, beserta cara pendaftaran resmi dari Kemendikbudristek. Simak uraian berikut agar Anda tidak ketinggalan informasi penting tentang PPG 2025.
+Program Pendidikan Profesi Guru (PPG) adalah syarat sertifikasi guru yang sangat penting bagi **guru honorer** maupun **lulusan S1 kependidikan**. **Jadwal PPG 2025** menjadi informasi paling dicari: *kapan dibuka* dan bagaimana proses seleksinya? Artikel ini membahas lengkap mengenai **[kapan pendaftaran PPG 2025 dibuka](/jadwal-ppg-2025-kapan-dibuka/)**, jadwal PPG Prajabatan dan PPG Dalam Jabatan, beserta cara pendaftaran resmi dari Kemendikbudristek. Simak uraian berikut agar Anda tidak ketinggalan informasi penting tentang PPG 2025.
 
 ---
 
@@ -37,7 +37,7 @@ PPG penting karena sesuai Undang-Undang, guru wajib memiliki sertifikat pendidik
 
 ## PPG Prajabatan 2025: Kapan Pendaftaran Dibuka?
 
-PPG Prajabatan adalah jalur untuk **lulusan S1/D4** yang ingin menjadi guru bersertifikat. Lulusan S1 [kependidikan](/categories/pendidikan/) dan juga non-kependidikan dapat mendaftar PPG Prajabatan. **Kapan PPG Prajabatan 2025 dibuka?** Hingga awal 2025 belum ada pengumuman resmi dari Kemendikbudristek. Namun, berdasarkan pola tahun-tahun sebelumnya, pendaftaran PPG Prajabatan biasanya dibuka sekitar **Maret–April** tahun berjalan. Artinya, Anda perlu memantau situs resmi PPG dan akun sosial media GTK secara berkala untuk informasi terupdate.
+PPG Prajabatan adalah jalur untuk **lulusan S1/D4** yang ingin menjadi guru bersertifikat. Lulusan S1 **[kependidikan]**(/categories/pendidikan/) dan juga non-kependidikan dapat mendaftar PPG Prajabatan. **Kapan PPG Prajabatan 2025 dibuka?** Hingga awal 2025 belum ada pengumuman resmi dari Kemendikbudristek. Namun, berdasarkan pola tahun-tahun sebelumnya, pendaftaran PPG Prajabatan biasanya dibuka sekitar **Maret–April** tahun berjalan. Artinya, Anda perlu memantau situs resmi PPG dan akun sosial media GTK secara berkala untuk informasi terupdate.
 
 ### Prediksi Jadwal PPG Prajabatan 2025
 
@@ -69,7 +69,7 @@ Sebelum mendaftar PPG Prajabatan, pastikan Anda memenuhi **syarat utama** beriku
 
 ### Cara Daftar PPG Prajabatan 2025
 
-Proses [pendaftaran PPG Prajabatan 2025](/cara-daftar-ppg-prajab-2025/) umumnya dilakukan secara **online** melalui sistem Kemendikbudristek. Berikut langkah-langkah umum mendaftar PPG Prajabatan: 
+Proses **[pendaftaran PPG Prajabatan 2025]**(/cara-daftar-ppg-prajab-2025/) umumnya dilakukan secara **online** melalui sistem Kemendikbudristek. Berikut langkah-langkah umum mendaftar PPG Prajabatan: 
 
 - Akses situs resmi pendaftaran PPG (misalnya **ppg.kemdikbud.go.id** atau **simsikp**). 
 - Pilih menu **“Daftar PPG Calon Guru (Prajabatan)”** dan klik **“Daftar sebagai Peserta”**. 
@@ -85,7 +85,7 @@ Proses [pendaftaran PPG Prajabatan 2025](/cara-daftar-ppg-prajab-2025/) umumnya 
 
 ## PPG Dalam Jabatan 2025: Jadwal Resmi PPG Bagi Guru Tertentu
 
-[PPG](/) Dalam Jabatan, sering disebut PPG **Guru Tertentu**, ditujukan untuk **guru aktif (termasuk honorer)** yang belum memiliki sertifikat pendidik. Tahun 2025, Kemendikbudristek kembali menyelenggarakan PPG Daljab secara bertahap. **Kapan PPG Dalam Jabatan 2025 dibuka?** Batch 1 sudah dimulai pada **Mei 2025**. Bagi guru honorer, berikut jadwal lengkap PPG Daljab 2025 yang dirilis resmi:
+**[PPG](/)** Dalam Jabatan, sering disebut PPG **Guru Tertentu**, ditujukan untuk **guru aktif (termasuk honorer)** yang belum memiliki sertifikat pendidik. Tahun 2025, Kemendikbudristek kembali menyelenggarakan PPG Daljab secara bertahap. **Kapan PPG Dalam Jabatan 2025 dibuka?** Batch 1 sudah dimulai pada **Mei 2025**. Bagi guru honorer, berikut jadwal lengkap PPG Daljab 2025 yang dirilis resmi:
 
 #### Syarat Peserta PPG Dalam Jabatan 2025
 
@@ -138,7 +138,7 @@ Dengan persiapan matang dan informasi jadwal di tangan, peluang Anda lulus selek
 
 ## Kesimpulan
 
-[Jadwal PPG 2025](/jadwal-ppg-2025-kapan-dibuka/) untuk **PPG Prajabatan dan Dalam Jabatan** belum sepenuhnya diumumkan, tapi berdasarkan sumber resmi dapat diperkirakan sebagai berikut: PPG Prajabatan 2025 kemungkinan pendaftarannya dibuka sekitar **Maret–April 2025**. Sedangkan PPG Dalam Jabatan Batch 1 telah dimulai Mei 2025 dengan tahapan seleksi sesuai jadwal resmi. Pastikan memantau situs Kemendikbudristek dan SIMPKB untuk pengumuman terbaru, serta penuhi semua persyaratan administrasi. Semoga informasi [jadwal PPG](/categories/ppg/) 2025 ini membantu Anda mempersiapkan diri meraih sertifikat pendidik.
+*[Jadwal PPG 2025]*(/jadwal-ppg-2025-kapan-dibuka/) untuk **PPG Prajabatan dan Dalam Jabatan** belum sepenuhnya diumumkan, tapi berdasarkan sumber resmi dapat diperkirakan sebagai berikut: PPG Prajabatan 2025 kemungkinan pendaftarannya dibuka sekitar **Maret–April 2025**. Sedangkan PPG Dalam Jabatan Batch 1 telah dimulai Mei 2025 dengan tahapan seleksi sesuai jadwal resmi. Pastikan memantau situs Kemendikbudristek dan SIMPKB untuk pengumuman terbaru, serta penuhi semua persyaratan administrasi. Semoga informasi **[jadwal PPG](/categories/ppg/)** 2025 ini membantu Anda mempersiapkan diri meraih sertifikat pendidik.
 
 ---
 
