@@ -1,0 +1,120 @@
+
+.card {
+  max-width: auto;
+  margin: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 1.2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.card p {
+  font-size: 1.2rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.price {
+  float: right;
+  font-size: 2rem;
+  color: #333;
+}
+
+.features {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1rem;
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+}
+
+.features li {
+  margin-bottom: 0.5rem;
+}
+
+.features li::before {
+  content: "✔";
+  margin-right: 0.5rem;
+  color: #4caf50;
+}
+
+.extend-support {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.extend-support input {
+  margin-right: 0.5rem;
+}
+
+.strike {
+  text-decoration: line-through;
+  color: #888;
+  margin-right: 0.3rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem;
+  font-weight: bold;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+}
+
+.add-to-cart {
+  background-color: #8bc34a;
+}
+
+.add-to-cart:hover {
+  background-color: #7cb342;
+}
+
+.view-license {
+  background-color: #607d8b;
+}
+
+.view-license:hover {
+  background-color: #546e7a;
+}
+
+.note {
+  font-size: 0.85rem;
+  text-align: center;
+  color: #666;
+  margin-top: 0.8rem;
+}
+
+@media (max-width: 480px) {
+  .price {
+    float: none;
+    display: block;
+    text-align: right;
+    margin-top: 0.3rem;
+  }
+
+  .card p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+}

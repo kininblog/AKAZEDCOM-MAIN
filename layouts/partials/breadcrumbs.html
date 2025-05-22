@@ -1,0 +1,84 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <!-- Home -->
+    <li class="breadcrumb-item">
+      <a href="{{ "/" | relURL }}">Home</a>
+    </li>
+
+    {{- /* Jika ini page (post) dengan kategori */ -}}
+    {{- if and .IsPage (isset .Params "categories") -}}
+      {{- $cat := index .Params.categories 0 -}}
+      <!-- Kategori pertama -->
+      <li class="breadcrumb-item">
+        <a href="{{ "/categories/" | relURL }}{{ $cat | urlize }}/">
+          {{ $cat }}
+        </a>
+      </li>
+    {{- end -}}
+
+    <!-- Item terakhir (active) -->
+    <li class="breadcrumb-item active" aria-current="page">
+      {{ .Title }}
+    </li>
+  </ol>
+</nav>
+<style>/* Reset default list styling dan atur flex */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Tambahkan separator “>” antar item */
+.breadcrumb-item + .breadcrumb-item::before {
+  content: ">";
+  padding: 0 0.5rem;
+  color: #6c757d; /* sesuaikan warna */
+}
+
+/* Optional: spasi dan hover */
+.breadcrumb-item a {
+  text-decoration: none;
+}
+.breadcrumb-item a:hover {
+  text-decoration: underline;
+}
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@id": "{{ "/" | relURL }}",
+        "name": "Home"
+      }
+    }
+    {{- /* Jika ada kategori */ -}}
+    {{- if and .IsPage (isset .Params "categories") -}},
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@id": "{{ "/categories/" | relURL }}{{ (index .Params.categories 0) | urlize }}/",
+        "name": "{{ index .Params.categories 0 }}"
+      }
+    }
+    {{- end -}},
+    {
+      "@type": "ListItem",
+      "position": {{ if and .IsPage (isset .Params "categories") }}3{{ else }}2{{ end }},
+      "item": {
+        "@id": "{{ .Permalink }}",
+        "name": "{{ .Title }}"
+      }
+    }
+  ]
+}
+</script>

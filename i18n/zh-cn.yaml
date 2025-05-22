@@ -1,0 +1,72 @@
+toggleMenu:
+    other: Beralih menu
+
+darkMode:
+    other: Mode gelap
+
+article:
+    back:
+        other: Kembali
+
+    tableOfContents:
+        other: Daftar isi
+
+    relatedContent:
+        other: Artikel terkait lainnya
+
+    lastUpdatedOn:
+        other: Terakhir diperbarui pada
+
+    readingTime:
+        other: "Waktu membaca: {{ .Count }} menit"
+
+notFound:
+    title:
+        other: Tidak ada artikel di sini!
+    subtitle:
+        other: Lihat lainnya
+
+widget:
+    archives:
+        title:
+            other: Arsip
+
+        more:
+            other: Lainnya
+
+    tagCloud:
+        title:
+            other: Tag
+
+    categoriesCloud:
+        title:
+            other: Kategori
+
+search:
+    title:
+        other: Cari konten blog
+
+    placeholder:
+        other: Masukkan kata kunci pencarian...
+
+    resultTitle:
+        other: "{{ .PagesCount }} hasil ditemukan (membutuhkan {{ .TimeSeconds }} detik)"
+
+footer:
+    builtWith:
+        other: Dibuat dengan {{ .Generator }}
+
+    designedBy:
+        other: Tema {{ .Theme }} dirancang oleh {{ .DesignedBy }}, diperbarui oleh 吕楪 😎
+
+warning:
+    other: Peringatan
+
+note:
+    other: Catatan
+
+info:
+    other: Pendahuluan
+
+tip:
+    other: Tip

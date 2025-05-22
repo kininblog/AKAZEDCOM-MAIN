@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Hugo on Akazed.com - Edu &amp; Tech</title>
+        <link>http://localhost:1313/categories/hugo/</link>
+        <description>Recent content in Hugo on Akazed.com - Edu &amp; Tech</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>id</language>
+        <lastBuildDate>Thu, 27 Feb 2025 21:14:15 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/hugo/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Gerous Hugo Theme for Modern Portfolio and Blog</title>
+        <link>http://localhost:1313/gerous-hugo-theme/</link>
+        <pubDate>Thu, 27 Feb 2025 21:14:15 +0800</pubDate>
+        
+        <guid>http://localhost:1313/gerous-hugo-theme/</guid>
+        <description>&lt;img src="http://localhost:1313/gerous-hugo-theme/images/gerous-theme.webp" alt="Featured image of post Gerous Hugo Theme for Modern Portfolio and Blog" /&gt;&lt;div class=&#34;card&#34;&gt; &lt;p&gt; Regular License &lt;span class=&#34;price&#34;&gt;$21&lt;/span&gt; &lt;/p&gt; &lt;table class=&#34;details-table&#34;&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td&gt;Diperbarui&lt;/td&gt; &lt;td&gt;November 30, 2024&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;Versi Tema&lt;/td&gt; &lt;td&gt;1.0.2&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;Compatible with&lt;/td&gt; &lt;td&gt;Hugo&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;Berkas Termasuk&lt;/td&gt; &lt;td&gt;HTML, SCSS, JS&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;Dokumentasi&lt;/td&gt; &lt;td&gt;✔&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt;&lt;div class=&#34;extend-support&#34;&gt; &lt;label&gt; &lt;input type=&#34;checkbox&#34; /&gt; Extend support to 12 months &lt;span class=&#34;strike&#34;&gt;$14&lt;/span&gt; &lt;strong&gt;$6&lt;/strong&gt; &lt;/label&gt; &lt;/div&gt; &lt;div class=&#34;button-group&#34;&gt; &lt;button class=&#34;button add-to-cart&#34;&gt;🛒 Buy Now&lt;/button&gt; &lt;a href=&#34;https://gerous-hugo.netlify.app/&#34; class=&#34;button view-license&#34;&gt;👁️ Live Preview&lt;/a&gt; &lt;/div&gt;&lt;div class=&#34;note&#34;&gt; Price is in US dollars and excludes tax and handling fees &lt;/div&gt; &lt;/div&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://localhost:1313/gerous-hugo-theme/&#34; &gt;&lt;em&gt;Gerous Hugo theme&lt;/em&gt;&lt;/a&gt; adalah tema blog hugo pertama yang Saya gunakan. Memiliki tampilan yang modern, gerous hugo cocok digunakan untuk tema portolio dan blog personal, ataupun berita.&lt;/p&gt;
+&lt;h2 id=&#34;apa-itu-gerous-hugo-theme&#34;&gt;Apa Itu &lt;em&gt;Gerous Hugo Theme&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;Gerous adalah sebuah tema portofolio untuk &lt;a class=&#34;link&#34; href=&#34;http://localhost:1313/categories/hugo/&#34; &gt;Hugo&lt;/a&gt;, didesain untuk blog personal dan profesional. menggunakan Gerous bertujuan untuk meningkatkan visibilitas online anda dengan tampilan yang stylish, modern dan desain yang premium&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://localhost:1313/categories/template/&#34; &gt;Tema hugo&lt;/a&gt; gerous memiliki performa yang sangat baik dengan score Lighthouse Speed yang tinggi.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Fitur lain template hugo gerous seperti showcase project yang menggunakan &lt;em&gt;build-in slider&lt;/em&gt;, dan fitur &lt;em&gt;dark mode&lt;/em&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;-fitur-gerous-hugo-theme-premium&#34;&gt;💡 Fitur &lt;em&gt;Gerous Hugo Theme Premium&lt;/em&gt;&lt;/h3&gt;
+&lt;p&gt;Beberapa fitur utama template hugo terbaik ini seperti;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Fitur&lt;/th&gt;
+&lt;th&gt;Ketersediaan&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Dark and light mode&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No jQuery, only vanilla JS&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;100% responsive design&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Clean and modern code&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Super fast performance&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Optimized for mobile devices&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Slider featured projects&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Section projects&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Section blog&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Section testimonials&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Section FAQ&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Compatible with modern browsers&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Post navigation&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Social sharing buttons&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Syntax highlighting&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Medium style image zoom&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Image gallery&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Tag page&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Custom logo support&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Supports video posts&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Supports contact form (Formspree)&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Supports MailChimp newsletter&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Supports Disqus comments&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Supports Google analytics&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Font Awesome icons&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Free Google fonts&lt;/td&gt;
+&lt;td&gt;✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;gerous-theme-details&#34;&gt;&lt;em&gt;Gerous&lt;/em&gt; Theme Details&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Kategori&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Deskripsi&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;LISENSI - Diizinkan&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Menggunakan tema dalam satu produk akhir (situs web).&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Memasang tema satu kali pada satu (1) domain.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Menggunakan tema secara pribadi maupun komersial.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Memodifikasi tema atau membuat tema baru berdasarkan tema ini.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;LISENSI - Tidak Diizinkan&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Menjual atau mendistribusikan tema (baik asli maupun yang sudah dimodifikasi).&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Memindahtangankan materi kepada pihak lain.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;THEME DETAILS&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Diperbarui: November 30, 2024&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Versi Tema: 1.0.2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Berkas Termasuk: HTML, SCSS, JS&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Dokumentasi: ✔&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;SUPPORT - Meliputi&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Menjawab pertanyaan spesifik mengenai fitur dan fungsionalitas tema.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Membantu mengatasi masalah penggunaan tema dan memaksimalkan fungsionalitas.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Memberikan bantuan terkait laporan bug dan masalah.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;SUPPORT - Tidak Meliputi&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Kustomisasi dan instalasi.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;download-gerous-hugo-theme&#34;&gt;Download Gerous Hugo Theme&lt;/h3&gt;
+&lt;p&gt;Gerous merupakan template hugo premium, kamu bisa membelinya di situs resmi designer atau melalui themeforest. Jika kamu menginginkan template hugo premium gerous ini dengan harga terjangkau, kamu bisa hubungi NDF Blog melalui kontak whatsapp.&lt;/p&gt;
+&lt;h2 id=&#34;penutup&#34;&gt;Penutup&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Gerous adalah salah satu tema hugo premium terbaik untuk blog dan portofolio, memilki desain yang modern serta stylish dengan fitur-fitur yang menarik serta premium.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://localhost:1313/&#34; &gt;Template hugo&lt;/a&gt; &lt;em&gt;gerous&lt;/em&gt; cukup terjangkau dengan harga $59 di situs resminya, jika belum memiliki kamu juga bisa menghubungi kami via contact dengan harga yang jauh lebih murah.&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Selamat Datang di Blog Baru Saya Powered by Hugo</title>
+        <link>http://localhost:1313/welcome-to-my-hugo-blog/</link>
+        <pubDate>Sat, 27 Jan 2024 21:14:15 +0800</pubDate>
+        
+        <guid>http://localhost:1313/welcome-to-my-hugo-blog/</guid>
+        <description>&lt;img src="http://localhost:1313/welcome-to-my-hugo-blog/images/welcome.webp" alt="Featured image of post Selamat Datang di Blog Baru Saya Powered by Hugo" /&gt;&lt;blockquote&gt;
+&lt;p&gt;Halo semuanya, selamat datang di &lt;a class=&#34;link&#34; href=&#34;http://localhost:1313/welcome-to-my-hugo-blog/&#34; &gt;Blog baru saya&lt;/a&gt;! Saya sangat bersemangat menunjukkan pada kalian semua rumah baru saya, yang kini ditenagai oleh Hugo.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;kenapa-saya-memilih-hugo-untuk-kembali-memulai-blog-baru&#34;&gt;Kenapa Saya Memilih Hugo untuk Kembali Memulai Blog Baru?&lt;/h2&gt;
+&lt;p&gt;Sebelumnya, saya sudah sering membuat berbagai macam blog dari berbagai tema dan tentunya menggunakan CMS Instan yang mudah seperti membuat blog di Blogger, dan sesekali menggunakan Wordpress. Tapi, setelah sering mengalami dampak perubahan &lt;em&gt;algoritma Google&lt;/em&gt; ketika menggunakan platform blogger saya-pun berpikir untuk migrasi ke platform lain.&lt;/p&gt;
+&lt;h3 id=&#34;hugo-itu-gratis-dan-rasa-wordpress&#34;&gt;Hugo itu Gratis dan Rasa Wordpress&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Bikin blog dengan Hugo itu gratis dan rasa wordpress yang bisa kita kostumisasi, cepat dan ramah pemula.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Yap, hugo itu 100% gratis dan gak perlu repot memikirkan biaya sewa hosting maupun server. Saya menggunakan Github dan Netlify untuk mempublikasikan situs blog itu dan itu gratis, Saya  suka gratisan.&lt;/p&gt;
+&lt;h3 id=&#34;kenapa-gak-jekyll-aja&#34;&gt;Kenapa Gak Jekyll Aja?&lt;/h3&gt;
+&lt;p&gt;Hugo itu kayak jekyll, membantu mengubah situs kita menjadi web statis. Sebenarnya beberapa bulan lalu saya juga sudah mencoba menggunakan dan membuat blog dengan jekyll, dan itu mudah apalagi komunitas nya cukup besar, dan didukung langsung oleh GitHub.&lt;/p&gt;
+&lt;p&gt;Kenapa saya memilih Hugo sebenarnya gak ada alasan khusus, tapi&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Saya ingin mencoba hal baru termasuk hugo yang sedari awal membuat saya penasaran&lt;/li&gt;
+&lt;li&gt;Katanya hugo lebih cepat dibandingkan jekyll yang notabene nya menggunakan Ruby&lt;/li&gt;
+&lt;li&gt;Karena Hugo dikembangkan oleh Google&lt;/li&gt;
+&lt;li&gt;Kostumisasi nya lebih luas, walaupun ini tergantung pengguna dan kebutuhan sih!&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;struktur-folder-postingan-hugo&#34;&gt;Struktur Folder Postingan Hugo&lt;/h3&gt;
+&lt;p&gt;Sebenarnya agak ribet juga sih menggunakan hugo dengan manual. Gak seperti jekyll yang bisa dengan mudah memasukkan file artikel di folder Post. Tapi Hugo agak berbeda, contohnya&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;your-hugo-site/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── content/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   ├── posts/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   │   ├── my-first-post.md
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   │   ├── another-post.md
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   │   └── subfolder/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   │       └── nested-post.md
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Sedangkan yang Akazed gunakan sendiri menggunakan folder tahun, dan bulan agar lebih terstruktur aja sih.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Akazedblog/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── content/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   ├── posts/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   │   ├── post/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   │       ├── 2025/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   │           └── 01/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   │               └── images
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    └── index.md
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                └── 02/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    └── images
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    └── index.md
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;isi-pembahasan-blog-akazed-apa-saja-sih&#34;&gt;Isi Pembahasan Blog Akazed Apa Saja Sih?&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://localhost:1313/&#34; &gt;Akazed&lt;/a&gt; ini akan dijadikan blog utama saya kedepannya, dan tentunya akan diisi dengan berbagai macam konten. Baik itu &lt;a class=&#34;link&#34; href=&#34;http://localhost:1313/categories/blogger/&#34; &gt;Blogger&lt;/a&gt;, SEO, perkembangan teknologi, berita bisnis bahkan dunia pendidikan.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Perkembangan kedepannya mungkin tidak hanya terbatas topik-topik di atas, saya akan menulis apa yang ingin saya tulis dan kemungkinan besar akan dipublikasikan di blog ini.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Oh ya, bagi yang penasaran Tema hugo yang saya gunakan saat ini, saya menggunakan template &lt;a class=&#34;link&#34; href=&#34;http://localhost:1313/gerous-hugo-theme/&#34; &gt;Gerous for hugo&lt;/a&gt;. Gimana, ciamik gak? Lumayan lah&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Eh lupa, sebelum di publish Akazed memutuskan untuk mengganti tema menjadi Hugo stack theme.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;penutup&#34;&gt;Penutup&lt;/h2&gt;
+&lt;p&gt;Yap, jadi beginilah tampilan blog baru saya, di build dengan Hugo yang selanjutnya akan dijadikan blog utama saya kedepannya.&lt;/p&gt;
+&lt;p&gt;Jangan lupa untuk bergabung di &lt;a class=&#34;link&#34; href=&#34;http://localhost:1313/&#34; &gt;Group WA Blogger Indonesia&lt;/a&gt; atau jika kamu ingin menghubungi saya dapat melalui formcontact&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
