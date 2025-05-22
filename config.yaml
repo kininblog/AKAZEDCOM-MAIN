@@ -1,4 +1,4 @@
-baseurl: https://akazed.com #TODO 博客链接
+baseurl: https://akazed.com #TODO 
 languageCode: en-us
 #theme: hugo-theme-stack hugo-theme-stack-3.17.0
 theme: hugo-theme-stack-3.17.0
@@ -68,48 +68,48 @@ params:
         enabled: true
         provider: disqus
 
-        disqusjs:
-            shortname:
-            apiUrl:
-            apiKey:
-            admin:
-            adminLabel:
+       # disqusjs:
+          #  shortname:
+          #  apiUrl:
+          #  apiKey:
+          #  admin:
+          #  adminLabel:
 
-        utterances:
-            repo: 
-            issueTerm: 
-            label: 
+       # utterances:
+         #   repo: 
+         #   issueTerm: 
+         #   label: 
 
-        remark42:
-            host:
-            site:
-            locale:
+       # remark42:
+       #     host:
+        #    site:
+        #    locale:
 
-        vssue:
-            platform:
-            owner:
-            repo:
-            clientId:
-            clientSecret:
-            autoCreateIssue: false
+       # vssue:
+         #   platform:
+        #    owner:
+        #    repo:
+         #   clientId:
+         #   clientSecret:
+         #   autoCreateIssue: false
 
         # Waline client configuration see: https://waline.js.org/en/reference/client.html
-        waline:
-            serverURL: #TODO Waline 自行配置
-            lang:
-            visitor: true
-            pageview: true
-            dark: auto
-            emoji: #TODO 聊天使用的emoji
+      #  waline:
+       #     serverURL: #TODO Waline 自行配置
+        #    lang:
+        #    visitor: true
+       #     pageview: true
+       #     dark: auto
+        #    emoji: #TODO 聊天使用的emoji
                 # - https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo
                 # - https://cdn.jsdelivr.net/gh/walinejs/emojis/bilibili@1.0.6
-            requiredMeta:
-                - name
-                - email
-                - url
-            locale:
-                admin: 博主 
-                placeholder: 有什么新点子？🎉（上方留下邮箱可以收到通知哦）
+        #    requiredMeta:
+           #     - name
+           #     - email
+          #      - url
+         #   locale:
+        #        admin: 博主 
+         #       placeholder: 有什么新点子？🎉（上方留下邮箱可以收到通知哦）
 
         twikoo:
             envId:

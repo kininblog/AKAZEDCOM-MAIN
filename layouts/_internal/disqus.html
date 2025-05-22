@@ -1,0 +1,47 @@
+{{ if .Site.DisqusShortname }}
+<style>
+  #load-disqus {
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 20px 0;
+    display: inline-block;
+  }
+
+  #load-disqus:hover {
+    background-color: #0d74d1;
+    transform: translateY(-2px);
+  }
+
+  #load-disqus:active {
+    transform: scale(0.98);
+  }
+</style>
+
+<button id="load-disqus">💬 Tampilkan Komentar</button>
+<div id="disqus_thread" style="margin-top: 20px;"></div>
+
+<script>
+  document.getElementById('load-disqus').addEventListener('click', function () {
+    var disqus_config = function () {
+      this.page.url = '{{ .Permalink }}';
+      this.page.identifier = '{{ .File.Path }}';
+    };
+
+    var d = document, s = d.createElement('script');
+    s.src = 'https://{{ .Site.DisqusShortname }}.disqus.com/embed.js';
+    s.defer = true;
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+
+    this.remove(); // hapus tombol setelah diklik
+  });
+</script>
+
+<noscript>Aktifkan JavaScript untuk melihat komentar Disqus.</noscript>
+{{ end }}
