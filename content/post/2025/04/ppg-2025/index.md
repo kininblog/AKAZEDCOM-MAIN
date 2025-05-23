@@ -37,7 +37,7 @@ PPG penting karena sesuai Undang-Undang, guru wajib memiliki sertifikat pendidik
 
 ## PPG Prajabatan 2025: Kapan Pendaftaran Dibuka?
 
-PPG Prajabatan adalah jalur untuk **lulusan S1/D4** yang ingin menjadi guru bersertifikat. Lulusan S1 **[kependidikan]**(/categories/pendidikan/) dan juga non-kependidikan dapat mendaftar PPG Prajabatan. **Kapan PPG Prajabatan 2025 dibuka?** Hingga awal 2025 belum ada pengumuman resmi dari Kemendikbudristek. Namun, berdasarkan pola tahun-tahun sebelumnya, pendaftaran PPG Prajabatan biasanya dibuka sekitar **Maret–April** tahun berjalan. Artinya, Anda perlu memantau situs resmi PPG dan akun sosial media GTK secara berkala untuk informasi terupdate.
+PPG Prajabatan adalah jalur untuk **lulusan S1/D4** yang ingin menjadi guru bersertifikat. Lulusan S1 **[kependidikan](/categories/pendidikan/)** dan juga non-kependidikan dapat mendaftar PPG Prajabatan. **Kapan PPG Prajabatan 2025 dibuka?** Hingga awal 2025 belum ada pengumuman resmi dari Kemendikbudristek. Namun, berdasarkan pola tahun-tahun sebelumnya, pendaftaran PPG Prajabatan biasanya dibuka sekitar **Maret–April** tahun berjalan. Artinya, Anda perlu memantau situs resmi PPG dan akun sosial media GTK secara berkala untuk informasi terupdate.
 
 ### Prediksi Jadwal PPG Prajabatan 2025
 
@@ -87,14 +87,14 @@ Proses **[pendaftaran PPG Prajabatan 2025]**(/cara-daftar-ppg-prajab-2025/) umum
 
 **[PPG](/)** Dalam Jabatan, sering disebut PPG **Guru Tertentu**, ditujukan untuk **guru aktif (termasuk honorer)** yang belum memiliki sertifikat pendidik. Tahun 2025, Kemendikbudristek kembali menyelenggarakan PPG Daljab secara bertahap. **Kapan PPG Dalam Jabatan 2025 dibuka?** Batch 1 sudah dimulai pada **Mei 2025**. Bagi guru honorer, berikut jadwal lengkap PPG Daljab 2025 yang dirilis resmi:
 
-#### Syarat Peserta PPG Dalam Jabatan 2025
+### Syarat Peserta PPG Dalam Jabatan 2025
 
 - **Aktif mengajar** pada tahun ajaran 2023/2024 dan terdaftar di **Dapodik**. 
 - **Belum memiliki sertifikat pendidik**. 
 - **Memenuhi persyaratan akademik S1/D-IV** dan administrasi (ijazah, transkrip, KTP, SKCK, surat sehat, dll). 
 - **Tidak ada biaya pendaftaran**: Program PPG Daljab 2025 **bebas biaya** (tidak ada pungutan apa pun). 
 
-#### Proses Seleksi PPG Dalam Jabatan 2025
+### Proses Seleksi PPG Dalam Jabatan 2025
 
 Seleksi PPG Daljab dilakukan secara bertahap melalui akun **SIMPKB** guru. Tahapan umumnya adalah: 
 
@@ -104,7 +104,7 @@ Seleksi PPG Daljab dilakukan secara bertahap melalui akun **SIMPKB** guru. Tahap
 4. **Pembelajaran Mandiri:** Peserta mengikuti pembelajaran mandiri dan terstruktur secara daring melalui platform **Ruang Guru dan Tenaga Kependidikan (Ruang GTK)**. 
 5. **Uji Kompetensi (UKPPPG):** Setelah pembelajaran, peserta akan mendaftar dan mengikuti Uji Kompetensi PPG secara online. 
 
-#### Jadwal Lengkap PPG Daljab 2025 (Batch 1)
+### Jadwal Lengkap PPG Daljab 2025 (Batch 1)
 
 Berikut tabel jadwal tahapan resmi **PPG Guru Tertentu (Dalam Jabatan) 2025 Batch 1** yang dirilis Kemendikbudristek:
 
@@ -138,7 +138,7 @@ Dengan persiapan matang dan informasi jadwal di tangan, peluang Anda lulus selek
 
 ## Kesimpulan
 
-*[Jadwal PPG 2025]*(/jadwal-ppg-2025-kapan-dibuka/) untuk **PPG Prajabatan dan Dalam Jabatan** belum sepenuhnya diumumkan, tapi berdasarkan sumber resmi dapat diperkirakan sebagai berikut: PPG Prajabatan 2025 kemungkinan pendaftarannya dibuka sekitar **Maret–April 2025**. Sedangkan PPG Dalam Jabatan Batch 1 telah dimulai Mei 2025 dengan tahapan seleksi sesuai jadwal resmi. Pastikan memantau situs Kemendikbudristek dan SIMPKB untuk pengumuman terbaru, serta penuhi semua persyaratan administrasi. Semoga informasi **[jadwal PPG](/categories/ppg/)** 2025 ini membantu Anda mempersiapkan diri meraih sertifikat pendidik.
+*[Jadwal PPG 2025](/jadwal-ppg-2025-kapan-dibuka/)* untuk **PPG Prajabatan dan Dalam Jabatan** belum sepenuhnya diumumkan, tapi berdasarkan sumber resmi dapat diperkirakan sebagai berikut: PPG Prajabatan 2025 kemungkinan pendaftarannya dibuka sekitar **Maret–April 2025**. Sedangkan PPG Dalam Jabatan Batch 1 telah dimulai Mei 2025 dengan tahapan seleksi sesuai jadwal resmi. Pastikan memantau situs Kemendikbudristek dan SIMPKB untuk pengumuman terbaru, serta penuhi semua persyaratan administrasi. Semoga informasi **[jadwal PPG](/categories/ppg/)** 2025 ini membantu Anda mempersiapkan diri meraih sertifikat pendidik.
 
 ---
 

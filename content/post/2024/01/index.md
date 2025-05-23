@@ -18,7 +18,7 @@ tags:
 ---
 
 
->Halo semuanya, selamat datang di **[Blog baru saya]**(/welcome-to-my-hugo-blog/)! Saya sangat bersemangat menunjukkan pada kalian semua rumah baru saya, yang kini ditenagai oleh Hugo.
+>Halo semuanya, selamat datang di **[Blog baru saya](/welcome-to-my-hugo-blog/)**! Saya sangat bersemangat menunjukkan pada kalian semua rumah baru saya, yang kini ditenagai oleh Hugo.
 
 ## Kenapa Saya Memilih Hugo untuk Kembali Memulai Blog Baru?
 Sebelumnya, saya sudah sering membuat berbagai macam blog dari berbagai tema dan tentunya menggunakan CMS Instan yang mudah seperti membuat blog di Blogger, dan sesekali menggunakan Wordpress. Tapi, setelah sering mengalami dampak perubahan *algoritma Google* ketika menggunakan platform blogger saya-pun berpikir untuk migrasi ke platform lain.
@@ -66,15 +66,15 @@ Akazedblog/
 
 
 ## Isi Pembahasan Blog Akazed Apa Saja Sih?
-**[Akazed]**(/) ini akan dijadikan blog utama saya kedepannya, dan tentunya akan diisi dengan berbagai macam konten. Baik itu **[Blogger]**(/categories/blogger/), SEO, perkembangan teknologi, berita bisnis bahkan dunia pendidikan.
+**[Akazed](/)** ini akan dijadikan blog utama saya kedepannya, dan tentunya akan diisi dengan berbagai macam konten. Baik itu **[Blogger](/categories/blogger/)**, SEO, perkembangan teknologi, berita bisnis bahkan dunia pendidikan.
 
 >Perkembangan kedepannya mungkin tidak hanya terbatas topik-topik di atas, saya akan menulis apa yang ingin saya tulis dan kemungkinan besar akan dipublikasikan di blog ini.
 
->Oh ya, bagi yang penasaran Tema hugo yang saya gunakan saat ini, saya menggunakan template **[Gerous for hugo]**(/gerous-hugo-theme/). Gimana, ciamik gak? Lumayan lah
+>Oh ya, bagi yang penasaran Tema hugo yang saya gunakan saat ini, saya menggunakan template **[Gerous for hugo](/gerous-hugo-theme/)**. Gimana, ciamik gak? Lumayan lah
 
 > Eh lupa, sebelum di publish Akazed memutuskan untuk mengganti tema menjadi Hugo stack theme. 
 
 ## Penutup
 Yap, jadi beginilah tampilan blog baru saya, di build dengan Hugo yang selanjutnya akan dijadikan blog utama saya kedepannya. 
 
-Jangan lupa untuk bergabung di **[Group WA Blogger Indonesia]**(/) atau jika kamu ingin menghubungi saya dapat melalui formcontact
+Jangan lupa untuk bergabung di **[Group WA Blogger Indonesia](/)** atau jika kamu ingin menghubungi saya dapat melalui formcontact

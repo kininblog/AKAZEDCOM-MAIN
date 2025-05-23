@@ -41,13 +41,13 @@ Pendaftaran PPG Prajabatan 2025 dilakukan secara daring (*online*) melalui situs
 8.  **Pembayaran biaya seleksi.** Setelah pengajuan pendaftaran Anda lulus seleksi administrasi, lakukan pembayaran biaya seleksi sekitar **Rp300.000**. Bukti pembayaran biasanya diunggah atau diverifikasi oleh panitia.
 9.  **Persiapan tes lanjutan.** Jika lolos administrasi, Anda akan dijadwalkan **tes substantif** (ujian materi) dan **wawancara**. Pastikan mempersiapkan diri untuk mengikuti ujian dan wawancara sesuai jadwal yang diumumkan.
 
-Setelah semua proses di atas selesai, Anda akan dinyatakan sebagai Mahasiswa [PPG Prajabatan](/categories/ppg/) dan dapat mengikuti perkuliahan di LPTK (Lembaga Pendidikan Tenaga Kependidikan) penyelenggara sesuai bidang studi.
+Setelah semua proses di atas selesai, Anda akan dinyatakan sebagai Mahasiswa **[PPG Prajabatan](/categories/ppg/)** dan dapat mengikuti perkuliahan di LPTK (Lembaga Pendidikan Tenaga Kependidikan) penyelenggara sesuai bidang studi.
 
 ---
 
 ### Syarat PPG Prajabatan 2025
 
-Kemendikbudristek menetapkan syarat utama bagi calon peserta [PPG Prajabatan 2025](/cara-daftar-ppg-prajab-2025/). Berdasarkan situs resmi, syarat tersebut meliputi:
+Kemendikbudristek menetapkan syarat utama bagi calon peserta **[PPG Prajabatan 2025](/cara-daftar-ppg-prajab-2025/)**. Berdasarkan situs resmi, syarat tersebut meliputi:
 
 * **WNI** (Warga Negara Indonesia).
 * **Belum terdaftar sebagai guru/sekolah pada Data Pokok Pendidikan (Dapodik)**. (*Artinya, guru honorer yang sudah tercantum di Dapodik biasanya tidak memenuhi syarat ini.*)

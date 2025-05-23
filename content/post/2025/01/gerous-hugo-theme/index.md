@@ -20,12 +20,12 @@ tags:
 
 <div class="card"> <p> Regular License <span class="price">$21</span> </p> <table class="details-table"> <tbody> <tr> <td>Diperbarui</td> <td>November 30, 2024</td> </tr> <tr> <td>Versi Tema</td> <td>1.0.2</td> </tr> <tr> <td>Compatible with</td> <td>Hugo</td> </tr> <tr> <td>Berkas Termasuk</td> <td>HTML, SCSS, JS</td> </tr> <tr> <td>Dokumentasi</td> <td>✔</td> </tr> </tbody> </table><div class="extend-support"> <label> <input type="checkbox" /> Extend support to 12 months <span class="strike">$14</span> <strong>$6</strong> </label> </div> <div class="button-group"> <button class="button add-to-cart">🛒 Buy Now</button> <a href="https://gerous-hugo.netlify.app/" class="button view-license">👁️ Live Preview</a> </div><div class="note"> Price is in US dollars and excludes tax and handling fees </div> </div>
 
-[**Gerous Hugo theme**](/gerous-hugo-theme/) adalah tema blog hugo pertama yang Saya gunakan. Memiliki tampilan yang modern, gerous hugo cocok digunakan untuk tema portolio dan blog personal, ataupun berita.
+**[Gerous Hugo theme](/gerous-hugo-theme/)** adalah tema blog hugo pertama yang Saya gunakan. Memiliki tampilan yang modern, gerous hugo cocok digunakan untuk tema portolio dan blog personal, ataupun berita.
 
 ## Apa Itu *Gerous Hugo Theme*
-Gerous adalah sebuah tema portofolio untuk **[Hugo]**(/categories/hugo/), didesain untuk blog personal dan profesional. menggunakan Gerous bertujuan untuk meningkatkan visibilitas online anda dengan tampilan yang stylish, modern dan desain yang premium
+Gerous adalah sebuah tema portofolio untuk **[Hugo](/categories/hugo/)**, didesain untuk blog personal dan profesional. menggunakan Gerous bertujuan untuk meningkatkan visibilitas online anda dengan tampilan yang stylish, modern dan desain yang premium
 
->*[Tema hugo]*(/categories/template/) gerous memiliki performa yang sangat baik dengan score Lighthouse Speed yang tinggi.
+>*[Tema hugo](/categories/template/)* gerous memiliki performa yang sangat baik dengan score Lighthouse Speed yang tinggi.
 
 Fitur lain template hugo gerous seperti showcase project yang menggunakan *build-in slider*, dan fitur *dark mode*. 
 
@@ -91,4 +91,4 @@ Gerous merupakan template hugo premium, kamu bisa membelinya di situs resmi desi
 ## Penutup
 > Gerous adalah salah satu tema hugo premium terbaik untuk blog dan portofolio, memilki desain yang modern serta stylish dengan fitur-fitur yang menarik serta premium. 
 
-*[Template hugo]*(/) *gerous* cukup terjangkau dengan harga $59 di situs resminya, jika belum memiliki kamu juga bisa menghubungi kami via contact dengan harga yang jauh lebih murah.
+*[Template hugo](/)* *gerous* cukup terjangkau dengan harga $59 di situs resminya, jika belum memiliki kamu juga bisa menghubungi kami via contact dengan harga yang jauh lebih murah.
