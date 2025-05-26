@@ -2,7 +2,7 @@ baseurl: https://akazed.com #TODO
 languageCode: en-us
 #theme: hugo-theme-stack hugo-theme-stack-3.17.0
 theme: hugo-theme-stack-3.17.0
-paginate: 10
+paginate: 6
 title: Akazed.com - Edu & Tech  #TODO 博客标题
 
 
