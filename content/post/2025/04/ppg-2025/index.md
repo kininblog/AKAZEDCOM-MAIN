@@ -3,7 +3,7 @@ title: PPG 2025 Kapan Dibuka, Ini Jadwal Lengkapnya
 description: Informasi jadwal PPG 2025 kapan dibuka, syarat dan cara daftar PPG 2025 untuk guru honorer dan lulusan S1 kependidikan Indonesia.
 date: 2025-04-27T21:14:15+08:00 
 #2023年12月27日21:14:15
-lastmod: 2025-04-27T21:14:15+08:00 
+lastmod: 2025-05-26T21:14:15+08:00 
 comments: true
 license: 
 slug: /jadwal-ppg-2025-kapan-dibuka/
@@ -31,7 +31,7 @@ Program Pendidikan Profesi Guru *[PPG adalah](/mengenal-apa-itu-ppg-guru/)* syar
 
 PPG adalah program pendidikan profesional untuk mencetak guru bersertifikat pendidik. Ada dua jenis PPG: **Prajabatan** dan **Dalam Jabatan (Daljab/Guru Tertentu)**. PPG Prajabatan ditujukan untuk calon guru (lulusan S1/D4 kependidikan atau non-kependidikan) yang ingin berkarier sebagai guru, sedangkan PPG Dalam Jabatan (PPG Guru Tertentu) ditujukan untuk guru yang sudah mengajar (termasuk guru honorer) namun belum memiliki sertifikat pendidik. Kemendikbudristek melalui Direktorat Jenderal GTK (Guru dan Tenaga Kependidikan) mengatur jalannya program ini. 
 
-PPG penting karena sesuai Undang-Undang, guru wajib memiliki sertifikat pendidik. Dengan mengikuti PPG, peserta akan mengikuti perkuliahan, praktik lapangan (PPL), ujian kompetensi, dan various kegiatan pendukung lainnya. Setelah lulus PPG, guru akan mendapatkan sertifikat pendidik resmi.
+*[PPG penting karena](/pentingnya-sertifikasi-guru/)* sesuai Undang-Undang, guru wajib memiliki sertifikat pendidik. Dengan mengikuti PPG, peserta akan mengikuti perkuliahan, praktik lapangan (PPL), ujian kompetensi, dan various kegiatan pendukung lainnya. Setelah lulus PPG, guru akan mendapatkan sertifikat pendidik resmi.
 
 ---
 

@@ -2,7 +2,7 @@
 title:  Mengenal Apa Itu PPG Guru? Definisi, Tujuan, dan Manfaatnya
 description:  kupas tuntas semua tentang PPG dengan gaya bahasa yang santai, mudah dimengerti, dan pastinya nggak bikin kening berkerut. Anggap saja kita lagi ngobrol ngopi-ngopi sore, membahas salah satu gerbang penting menuju profesi guru yang profesional dan kompeten. 
 date: 2025-05-20T21:14:15+08:00 
-lastmod: 2025-04-27T21:14:15+08:00 
+lastmod: 2025-05-26T21:14:15+08:00 
 comments: true
 license: 
 slug: /mengenal-apa-itu-ppg-guru/
@@ -21,7 +21,7 @@ tags:
 
 > <a href="https://chat.whatsapp.com/CxtsSVXqIw4IUdnxAor0of" class="button add-to-cart">GABUNG GROUP INFO PPG 2025 SEKARANG</a>  
 
-Halo teman-teman calon guru hebat! Atau mungkin kamu *[mahasiswa](/categories/pendidikan/)* S1 yang lagi galau mikirin masa depan, atau bahkan pelajar SMA/SMK yang sudah punya cita-cita mulia jadi pahlawan tanpa tanda jasa? Pasti sering dengar dong istilah **[Pendidikan Profesi Guru](/mengenal-apa-itu-ppg-guru/)** atau yang lebih akrab disingkat **PPG Guru**? Nah, mungkin di antara kalian masih ada yang bertanya-tanya, "Apa itu PPG Guru, sih?" atau "Penting banget ya ikut PPG bagi guru? bahkan informasi seputar *[jadwal ppg prajab kapan dibuka](/jadwal-ppg-2025-kapan-dibuka/) "
+Halo teman-teman calon guru hebat! Atau mungkin kamu *[mahasiswa](/categories/pendidikan/)* S1 yang lagi galau mikirin masa depan, atau bahkan pelajar SMA/SMK yang sudah punya cita-cita mulia jadi pahlawan tanpa tanda jasa? Pasti sering dengar dong istilah **[Pendidikan Profesi Guru](/mengenal-apa-itu-ppg-guru/)** atau yang lebih akrab disingkat **PPG Guru**? Nah, mungkin di antara kalian masih ada yang bertanya-tanya, "Apa itu PPG Guru, sih?" atau "*[Penting banget ya ikut PPG](/pentingnya-sertifikasi-guru/)* bagi guru? bahkan informasi seputar *[jadwal ppg prajab kapan dibuka](/jadwal-ppg-2025-kapan-dibuka/) "
 
 Tenang saja, di artikel ini kita akan kupas tuntas semua tentang PPG dengan gaya bahasa yang santai, mudah dimengerti, dan pastinya nggak bikin kening berkerut. Anggap saja kita lagi ngobrol ngopi-ngopi sore, membahas salah satu gerbang penting menuju profesi guru yang profesional dan kompeten. Kita bakal bahas mulai dari definisinya, tujuannya, manfaatnya, sampai tips-tips biar kamu sukses menjalaninya. Yuk, langsung saja kita mulai petualangan kita!
 
