@@ -25,7 +25,7 @@ tags:
 
 Program **[PPG Prajabatan 2025](/jadwal-ppg-2025-kapan-dibuka/)** kembali dibuka bagi Anda yang bercita-cita menjadi guru profesional. PPG (Pendidikan Profesi Guru) Prajabatan adalah program sertifikasi guru untuk lulusan S1 atau D-IV, baik dari jurusan pendidikan maupun non-kependidikan. Bagi guru honorer maupun *fresh graduate* S1 kependidikan, PPG Prajabatan 2025 adalah kesempatan emas untuk mendapatkan **sertifikat pendidik**. Melalui program ini, Anda akan mengikuti pelatihan dua semester dan ujian kompetensi guna memperoleh sertifikasi guru. Artikel ini membahas secara lengkap tentang **[cara daftar PPG Prajabatan 2025](/cara-daftar-ppg-prajab-2025/)**, mulai dari langkah pendaftaran *online*, **syarat terbaru Kemendikbudristek**, alur seleksi, estimasi biaya, hingga tips lolos seleksi.
 
----
+>Bagi kamu yang masih sedikit bingung apa itu PPG, silahkan baca ulasan sebelum nya tentang *[apa itu ppg](/mengenal-apa-itu-ppg-guru/)*
 
 ## Panduan Teknis Pendaftaran Online PPG Prajabatan 2025
 
