@@ -9,6 +9,9 @@
 
 <!-- Author: hardcoded Akazed -->
 <meta name="author" content="Akazed">
+{{- $keywords := .Params.keywords | default (slice .Title) -}}
+<meta name="keywords" content="{{ delimit $keywords ", " }}">
+
 
 {{- $description := partialCached "data/description" . .RelPermalink -}}
 <meta name='description' content='{{ $description }}'>
