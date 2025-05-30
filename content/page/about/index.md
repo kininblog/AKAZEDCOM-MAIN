@@ -17,6 +17,7 @@ menu:
             icon: address-card-solid
 ---
 
+![akazed default image](images/default.webp)
 Hi. Saya penulis serta pengelola **Akazed.com**, senang mempelajari hal-hal baru di dunia blogging, saat ini Saya juga menjadi **seorang pendidik**.
 
 [Akazed.com](/) merupakan kanal blog yang Saya buat pada mei 2025, yang memuat berbagai konten seputar blogger, teknologi, ekonomi, bahkan topik-topik seputar pendidikan.

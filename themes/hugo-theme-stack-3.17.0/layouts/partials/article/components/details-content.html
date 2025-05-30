@@ -8,6 +8,7 @@
         {{ end }}
     </header>
     {{ end }}
+  {{ partial "breadcrumbs.html" . }}
 
     <div class="article-title-wrapper">
         <h1 class="article-title">
@@ -22,6 +23,8 @@
         </h3>
         {{ end }}
     </div>
+
+{{ partial "social-share.html" . }}
 
     {{ $showReadingTime := .Params.readingTime | default (.Site.Params.article.readingTime) }}
     {{ $showDate := not .Date.IsZero }}
