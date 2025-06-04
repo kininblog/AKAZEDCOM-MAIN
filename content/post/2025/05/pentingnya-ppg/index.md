@@ -153,6 +153,8 @@ Bagi Anda yang belum bersertifikat, jangan tunda lagi! Segera cari informasi men
 
 Mari bersama wujudkan guru-guru profesional yang siap mencetak generasi emas bangsa! Jadilah bagian dari perubahan positif di **dunia pendidikan**.
 
+>Bagi kamu yang ingin latihan soal, bisa pelajari *[contoh soal test ppg](/contoh-soal-pretest-ppg-dalam-jabatan/)*
+
 ---
 
 ## FAQ (Pertanyaan yang Sering Diajukan)

@@ -130,7 +130,8 @@ Meskipun detailnya bisa berubah sewaktu-waktu (tergantung kebijakan pemerintah),
 5.  **Penetapan Peserta:** Setelah semua tahapan seleksi selesai, akan ada pengumuman peserta yang lolos dan berhak mengikuti PPG.
 6.  **Pendidikan dan Latihan:** Ini adalah inti dari PPG, di mana kamu akan mengikuti perkuliahan, workshop, praktik mengajar, dan berbagai aktivitas lainnya.
 7.  **Uji Kinerja (UKin) dan Uji Pengetahuan (UP):** Di akhir program, kamu akan mengikuti Uji Kompetensi Mahasiswa PPG (UKMPPG) yang terdiri dari Uji Kinerja (praktik mengajar dan portofolio) dan Uji Pengetahuan (tes tertulis).
-8.  **Sertifikasi Pendidik:** Kalau kamu berhasil lulus UKMPPG, selamat! Kamu resmi mendapatkan sertifikat pendidik.
+8.  **Sertifikasi Pendidik:** Kalau kamu berhasil lulus UKMPPG, selamat! Kamu resmi mendapatkan sertifikat pendidik. 
+> Kamu bisa latihan soal ppg 2025, di halaman berikut **[contoh soal test ppg dalam jabatan](/contoh-soal-pretest-ppg-dalam-jabatan/)**
 
 > Kalau kamu masih bingung, jangan lupa baca juga ulasan kami tentang *[cara daftar ppg prajab 2025](/cara-daftar-ppg-prajab-2025/)* di sini, kamu akan dipandu *step-by-step* lho
 

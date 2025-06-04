@@ -27,6 +27,9 @@ Program **[PPG Prajabatan 2025](/jadwal-ppg-2025-kapan-dibuka/)** kembali dibuka
 
 >Bagi kamu yang masih sedikit bingung apa itu PPG, silahkan baca ulasan sebelum nya tentang *[apa itu ppg](/mengenal-apa-itu-ppg-guru/)*
 
+
+>Belajar soal PPG gratis sekarang, pelajari **[soal ppg pdf](/contoh-soal-pretest-ppg-dalam-jabatan/)**
+
 ## Panduan Teknis Pendaftaran Online PPG Prajabatan 2025
 
 Pendaftaran PPG Prajabatan 2025 dilakukan secara daring (*online*) melalui situs resmi PPG Kemendikbudristek. Berikut langkah demi langkahnya:
