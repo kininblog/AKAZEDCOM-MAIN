@@ -1,0 +1,797 @@
+ <style>
+        /* CSS Internal untuk Kuis */
+        :root {
+            --primary-color: #00897b; /* Teal color for PAI theme */
+            --secondary-color: #ffb300; /* Amber color */
+            --correct-color: #4caf50;
+            --incorrect-color: #f44336;
+            --bg-color: #f4f7f9;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+      
+        .quiz-container {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+        }
+
+        .quiz-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+        }
+
+        .quiz-header h2 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+        
+        #progress-text {
+            font-weight: 500;
+            margin-top: 5px;
+        }
+
+        .quiz-body {
+            padding: 30px;
+        }
+
+        #question-area .stimulus {
+            background-color: #f9f9f9;
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            line-height: 1.6;
+            text-align: justify;
+        }
+        
+        #question-text {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        #options-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .option {
+            background-color: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            background-color: #e0f2f1;
+            border-color: var(--primary-color);
+        }
+        
+        .option.selected {
+            background-color: #b2dfdb;
+            border-color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .option.correct {
+            background-color: #dcedc8;
+            border-color: var(--correct-color);
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .option.incorrect {
+            background-color: #ffcdd2;
+            border-color: var(--incorrect-color);
+            color: #c62828;
+            font-weight: bold;
+        }
+        
+        .option.disabled {
+            pointer-events: none;
+        }
+        
+        .option-letter {
+            font-weight: bold;
+            margin-right: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        
+        .option.correct .option-letter { background-color: var(--correct-color); }
+        .option.incorrect .option-letter { background-color: var(--incorrect-color); }
+        .option.selected .option-letter { background-color: var(--primary-color); }
+
+
+        .quiz-footer {
+            padding: 20px 30px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        #next-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        #next-btn:hover {
+            background-color: #00695c;
+        }
+
+        #next-btn:disabled {
+            background-color: #a0a0a0;
+            cursor: not-allowed;
+        }
+        
+        #results-screen {
+            padding: 40px;
+            text-align: center;
+        }
+
+        #results-screen h2 {
+            font-size: 2em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        #score-text {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        #score-details {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+        
+        #restart-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        #restart-btn:hover {
+            background-color: #ffa000;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 15px;
+            animation: slide-down 0.4s ease-out;
+        }
+
+        .modal-header {
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.4em;
+        }
+
+        .close-btn {
+            color: #aaa;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px 15px;
+            line-height: 1.7;
+        }
+        
+        .modal-body strong {
+            color: var(--text-color);
+        }
+
+        @keyframes slide-down {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 600px) {
+            .quiz-body { padding: 20px; }
+        }
+    </style>
+
+
+    <div class="quiz-container">
+        <div id="quiz-area">
+            <div class="quiz-header">
+                <h2>Tes Penguasaan Konten PAI</h2>
+                <p id="progress-text">Soal 1 dari 50</p>
+            </div>
+            <div class="quiz-body">
+                <div id="question-area">
+                    <div id="stimulus-container" class="stimulus"></div>
+                    <p id="question-text"></p>
+                    <ul id="options-list"></ul>
+                </div>
+            </div>
+            <div class="quiz-footer">
+                <button id="next-btn" disabled>Pilih Jawaban</button>
+            </div>
+        </div>
+
+        <div id="results-screen" class="hidden">
+            <h2>Kuis Selesai!</h2>
+            <p id="score-text"></p>
+            <p id="score-details"></p>
+            <button id="restart-btn">Ulangi Kuis</button>
+        </div>
+    </div>
+    
+    <div id="explanation-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Pembahasan</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="explanation-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            // Al-Qur'an & Hadis
+            {
+                stimulus: "Klasifikasi surah dalam Al-Qur'an berdasarkan waktu dan tempat turunnya wahyu merupakan salah satu cabang penting dalam Ulumul Qur'an.",
+                question: "Surah Al-Qur'an yang ayat-ayatnya turun sebelum Nabi Muhammad SAW hijrah ke Madinah, meskipun sebagian turun di luar kota Mekkah, digolongkan sebagai...",
+                options: ["Surah Madaniyah", "Surah Makkiyah", "Surah Hijaziyah", "Surah Syamiyah"],
+                answer: "Surah Makkiyah",
+                explanation: "Surah Makkiyah adalah surah yang diturunkan sebelum peristiwa Hijrah Nabi ke Madinah. Ciri utamanya adalah ayat-ayatnya cenderung pendek, berisi ajakan pada tauhid, hari akhir, dan akhlak mulia."
+            },
+            {
+                stimulus: "Ilmu yang mempelajari sebab-sebab turunnya ayat Al-Qur'an sangat membantu dalam memahami konteks dan makna ayat.",
+                question: "Ilmu yang secara khusus membahas latar belakang atau sebab-sebab turunnya suatu ayat Al-Qur'an disebut...",
+                options: ["Ilmu Nasikh Mansukh", "Ilmu Munasabah", "Asbabun Nuzul", "Ilmu Gharibil Qur'an"],
+                answer: "Asbabun Nuzul",
+                explanation: "Asbabun Nuzul secara harfiah berarti sebab-sebab turunnya (ayat). Ilmu ini penting untuk menafsirkan ayat secara kontekstual dan akurat, menghindari kesalahpahaman."
+            },
+            {
+                stimulus: "Hadis merupakan sumber hukum Islam kedua setelah Al-Qur'an. Klasifikasi hadis berdasarkan kualitas sanadnya sangat menentukan kehujahannya.",
+                question: "Hadis yang sanadnya bersambung, diriwayatkan oleh perawi yang adil dan dhabit, serta tidak memiliki syadz dan 'illah, disebut hadis...",
+                options: ["Hasan", "Dhaif", "Maudhu'", "Shahih"],
+                answer: "Shahih",
+                explanation: "Hadis Shahih memenuhi lima kriteria ketat: sanad bersambung, perawi adil, perawi dhabit (kuat hafalan), tidak syadz (janggal), dan tidak memiliki 'illah (cacat tersembunyi)."
+            },
+            {
+                stimulus: "Salah satu fungsi Hadis terhadap Al-Qur'an adalah memberikan rincian terhadap ayat yang bersifat umum.",
+                question: "Perintah shalat dalam Al-Qur'an disebutkan secara umum. Hadis yang menjelaskan rukun, syarat, dan tata cara shalat secara rinci merupakan contoh dari fungsi Hadis sebagai...",
+                options: ["Bayan Taqrir", "Bayan Tafsir", "Bayan Tasyri'", "Bayan Nasakh"],
+                answer: "Bayan Tafsir",
+                explanation: "Bayan Tafsir adalah fungsi Hadis untuk menafsirkan dan merinci ayat-ayat Al-Qur'an yang masih bersifat global (mujmal), seperti rincian tata cara shalat, zakat, dan haji."
+            },
+            {
+                stimulus: "Ada ayat Al-Qur'an yang hukumnya digantikan oleh ayat yang turun kemudian. Ini menunjukkan fleksibilitas syariat Islam.",
+                question: "Konsep di mana suatu ketentuan hukum dalam Al-Qur'an digantikan (dihapus) oleh ketentuan yang datang sesudahnya disebut...",
+                options: ["Takhsisul 'Am", "Taqyidul Muthlaq", "Nasikh dan Mansukh", "Muhkam dan Mutasyabih"],
+                answer: "Nasikh dan Mansukh",
+                explanation: "Nasikh adalah ayat yang menghapus, sedangkan Mansukh adalah ayat yang hukumnya dihapus. Contohnya adalah perubahan arah kiblat."
+            },
+            // Akidah Akhlak
+            {
+                stimulus: "Meyakini keberadaan Allah SWT adalah pondasi utama akidah Islam.",
+                question: "Sifat Allah yang pasti ada dan tidak mungkin tidak ada pada Dzat-Nya disebut...",
+                options: ["Sifat Jaiz", "Sifat Salbiyah", "Sifat Wajib", "Sifat Mustahil"],
+                answer: "Sifat Wajib",
+                explanation: "Sifat Wajib adalah sifat kesempurnaan yang mutlak dimiliki oleh Allah SWT, seperti Wujud, Qidam, Baqa', dan lainnya."
+            },
+            {
+                stimulus: "Rukun iman keenam adalah beriman kepada Qada dan Qadar.",
+                question: "Ketentuan atau ketetapan Allah SWT yang telah ditetapkan sejak zaman azali dan tidak dapat diubah disebut...",
+                options: ["Qadar", "Takdir Mu'allaq", "Qada", "Ikhtiar"],
+                answer: "Qada",
+                explanation: "Qada adalah ketetapan azali Allah atas segala sesuatu. Sementara Qadar adalah perwujudan dari Qada tersebut sesuai dengan kondisi yang menyertainya."
+            },
+            {
+                stimulus: "Akhlak terpuji (mahmudah) merupakan cerminan dari keimanan seseorang.",
+                question: "Sikap menerima dengan lapang dada atas segala ketentuan Allah setelah berusaha secara maksimal disebut...",
+                options: ["Syukur", "Tawakal", "Qana'ah", "Sabar"],
+                answer: "Qana'ah",
+                explanation: "Qana'ah adalah sikap merasa cukup dan ridha atas apa yang diberikan Allah. Ini berbeda dengan tawakal yang berarti berserah diri setelah berikhtiar."
+            },
+            {
+                stimulus: "Menjauhi akhlak tercela (mazmumah) adalah kewajiban setiap muslim.",
+                question: "Sifat merasa lebih baik atau lebih tinggi dari orang lain dan meremehkan mereka disebut...",
+                options: ["Riya'", "Ujub", "Takabur (Sombong)", "Hasad"],
+                answer: "Takabur (Sombong)",
+                explanation: "Takabur atau sombong adalah penyakit hati yang menolak kebenaran dan merendahkan orang lain. Ini adalah sifat yang sangat dibenci Allah SWT."
+            },
+            {
+                stimulus: "Salah satu rukun iman adalah iman kepada kitab-kitab Allah.",
+                question: "Kitab suci yang diturunkan kepada Nabi Musa a.s. yang berisi petunjuk bagi Bani Israil adalah...",
+                options: ["Zabur", "Taurat", "Injil", "Al-Qur'an"],
+                answer: "Taurat",
+                explanation: "Kitab Taurat diturunkan kepada Nabi Musa a.s., Zabur kepada Nabi Daud a.s., Injil kepada Nabi Isa a.s., dan Al-Qur'an kepada Nabi Muhammad SAW."
+            },
+            // Fikih Ibadah
+            {
+                stimulus: "Thaharah (bersuci) adalah syarat sahnya shalat.",
+                question: "Menyucikan diri dari hadas besar dengan cara meratakan air ke seluruh tubuh sesuai dengan syariat disebut...",
+                options: ["Wudhu", "Tayamum", "Istinja'", "Mandi Wajib (Ghusl)"],
+                answer: "Mandi Wajib (Ghusl)",
+                explanation: "Mandi wajib atau ghusl diwajibkan karena sebab-sebab tertentu seperti junub, haid, dan nifas untuk menghilangkan hadas besar."
+            },
+            {
+                stimulus: "Shalat adalah tiang agama.",
+                question: "Shalat sunnah yang sangat dianjurkan (mu'akkad) untuk dilaksanakan pada malam hari di bulan Ramadhan adalah...",
+                options: ["Shalat Tahajud", "Shalat Tarawih", "Shalat Witir", "Shalat Dhuha"],
+                answer: "Shalat Tarawih",
+                explanation: "Shalat Tarawih adalah shalat sunnah khusus yang dilaksanakan secara berjamaah atau sendiri pada malam-malam bulan Ramadhan."
+            },
+            {
+                stimulus: "Zakat adalah salah satu rukun Islam yang bertujuan membersihkan harta dan membantu fakir miskin.",
+                question: "Batas minimal kepemilikan harta yang wajib dizakati disebut...",
+                options: ["Haul", "Waqaf", "Nishab", "Rikaz"],
+                answer: "Nishab",
+                explanation: "Nishab adalah ambang batas kuantitas harta yang ditetapkan syariat untuk wajib dikeluarkan zakatnya. Jika harta belum mencapai nishab, maka belum wajib zakat."
+            },
+            {
+                stimulus: "Puasa Ramadhan adalah kewajiban bagi setiap muslim yang mampu.",
+                question: "Berikut ini yang termasuk hal-hal yang membatalkan puasa adalah...",
+                options: ["Berkumur-kumur secara berlebihan", "Tidur sepanjang hari", "Makan dan minum dengan sengaja", "Mencicipi makanan tanpa menelannya"],
+                answer: "Makan dan minum dengan sengaja",
+                explanation: "Makan dan minum dengan sengaja adalah pembatal puasa yang paling jelas. Adapun yang lain bisa jadi makruh atau tidak membatalkan jika tidak berlebihan dan tidak masuk ke rongga perut."
+            },
+            {
+                stimulus: "Ibadah haji merupakan rukun Islam kelima.",
+                question: "Wukuf di Padang Arafah pada tanggal 9 Dzulhijjah merupakan salah satu dari...",
+                options: ["Syarat Wajib Haji", "Sunnah Haji", "Wajib Haji", "Rukun Haji"],
+                answer: "Rukun Haji",
+                explanation: "Wukuf di Arafah adalah puncak dari ibadah haji dan merupakan rukun haji. Meninggalkannya menyebabkan haji tidak sah."
+            },
+            // Fikih Muamalah, Munakahat, Jinayat
+            {
+                stimulus: "Akad dalam muamalah Islam harus memenuhi syarat dan rukunnya.",
+                question: "Jual beli di mana harga diserahkan saat akad, tetapi barang diserahkan di kemudian hari dengan spesifikasi yang jelas, disebut...",
+                options: ["Jual Beli Salam", "Jual Beli Murabahah", "Jual Beli Istishna'", "Jual Beli 'Inah"],
+                answer: "Jual Beli Salam",
+                explanation: "Akad Salam adalah jual beli pesanan, di mana pembeli membayar lunas di muka untuk barang dengan kriteria tertentu yang akan diserahkan nanti."
+            },
+            {
+                stimulus: "Pernikahan adalah ikatan suci dalam Islam.",
+                question: "Saksi, Ijab dan Qabul, Mahar, dan adanya dua calon mempelai merupakan bagian dari...",
+                options: ["Syarat Nikah", "Sunnah Nikah", "Kewajiban Nikah", "Rukun Nikah"],
+                answer: "Rukun Nikah",
+                explanation: "Rukun nikah adalah elemen-elemen pokok yang harus ada agar pernikahan dianggap sah menurut syariat Islam. Jika salah satu tidak ada, nikahnya tidak sah."
+            },
+            {
+                stimulus: "Hukum Islam mengatur tentang tindak pidana dan sanksinya.",
+                question: "Hukuman yang jenis dan kadarnya telah ditentukan secara pasti oleh Al-Qur'an dan Hadis, seperti hukuman bagi pencuri atau pezina, disebut...",
+                options: ["Qisas", "Diyat", "Ta'zir", "Hudud"],
+                answer: "Hudud",
+                explanation: "Hudud adalah bentuk hukuman yang ketentuannya sudah ditetapkan oleh Allah (merupakan hak Allah) dan tidak bisa diubah oleh hakim."
+            },
+            {
+                stimulus: "Hukum waris dalam Islam diatur secara rinci.",
+                question: "Ahli waris yang bagiannya sudah ditentukan secara pasti dalam Al-Qur'an atau Hadis disebut...",
+                options: ["Ashabul Furudh", "'Ashabah", "Dzawil Arham", "Mawali"],
+                answer: "Ashabul Furudh",
+                explanation: "Ashabul Furudh adalah para ahli waris yang memiliki bagian pasti seperti 1/2, 1/4, 1/8, 2/3, 1/3, atau 1/6. Contohnya adalah anak perempuan, suami, istri, ibu."
+            },
+            {
+                stimulus: "Dalam transaksi ekonomi Islam, ada praktik yang diharamkan.",
+                question: "Tambahan pembayaran atas utang yang disyaratkan di awal akad karena adanya penundaan waktu pembayaran disebut...",
+                options: ["Gharar", "Maysir", "Riba", "Tadlis"],
+                answer: "Riba",
+                explanation: "Ini adalah definisi dari Riba Nasi'ah, salah satu jenis riba yang paling umum, yaitu keuntungan yang diambil dari penundaan pembayaran utang."
+            },
+            // Sejarah Kebudayaan Islam (SKI)
+            {
+                stimulus: "Masa Khulafaur Rasyidin adalah masa keemasan setelah wafatnya Rasulullah SAW.",
+                question: "Khalifah yang memprakarsai kodifikasi (pengumpulan dan penulisan) mushaf Al-Qur'an menjadi satu kitab standar adalah...",
+                options: ["Abu Bakar Ash-Shiddiq", "Umar bin Khattab", "Utsman bin Affan", "Ali bin Abi Thalib"],
+                answer: "Utsman bin Affan",
+                explanation: "Meskipun pengumpulan awal diinisiasi pada masa Abu Bakar, proses standarisasi dialek dan penulisan menjadi satu mushaf resmi (Mushaf Utsmani) terjadi pada masa Khalifah Utsman bin Affan."
+            },
+            {
+                stimulus: "Dinasti Umayyah memberikan kontribusi besar dalam perluasan wilayah Islam.",
+                question: "Puncak kejayaan Dinasti Umayyah di Andalusia (Spanyol) ditandai dengan berkembang pesatnya ilmu pengetahuan dan pembangunan kota Cordoba sebagai pusat peradaban. Ini terjadi pada masa kepemimpinan...",
+                options: ["Abdurrahman Ad-Dakhil", "Al-Hakam II", "Abdurrahman III An-Nasir", "Hisyam II"],
+                answer: "Abdurrahman III An-Nasir",
+                explanation: "Pada masa pemerintahan Abdurrahman III, ia memproklamirkan diri sebagai Khalifah di Cordoba dan membawa Andalusia ke puncak kejayaan politik, ekonomi, dan kebudayaan."
+            },
+            {
+                stimulus: "Masa Dinasti Abbasiyah dikenal sebagai zaman keemasan ilmu pengetahuan Islam.",
+                question: "Lembaga perpustakaan, pusat penerjemahan, dan akademi ilmu pengetahuan yang didirikan oleh Khalifah Al-Ma'mun di Baghdad disebut...",
+                options: ["Darul Hikmah", "Nizhamiyah", "Al-Azhar", "Baitul Hikmah"],
+                answer: "Baitul Hikmah",
+                explanation: "Baitul Hikmah menjadi pusat intelektual dunia pada masanya, tempat naskah-naskah kuno dari Yunani, Persia, dan India diterjemahkan dan dikaji."
+            },
+            {
+                stimulus: "Masuknya Islam ke Nusantara melalui berbagai jalur.",
+                question: "Teori yang menyatakan bahwa Islam masuk ke Indonesia langsung dari Arab (Mekkah) pada abad ke-7 Masehi, didukung oleh adanya perkampungan Arab di pesisir Sumatera, adalah...",
+                options: ["Teori Gujarat", "Teori Persia", "Teori Cina", "Teori Mekkah"],
+                answer: "Teori Mekkah",
+                explanation: "Teori Mekkah, yang dipopulerkan oleh Buya Hamka, mengoreksi Teori Gujarat dan berpendapat bahwa Islam dibawa langsung oleh para musafir dan pedagang Arab pada masa-masa awal Islam."
+            },
+            {
+                stimulus: "Wali Songo adalah tokoh sentral dalam penyebaran Islam di Pulau Jawa.",
+                question: "Salah satu anggota Wali Songo yang terkenal dengan metode dakwahnya menggunakan media wayang kulit dan gamelan adalah...",
+                options: ["Sunan Gresik", "Sunan Ampel", "Sunan Kalijaga", "Sunan Gunung Jati"],
+                answer: "Sunan Kalijaga",
+                explanation: "Sunan Kalijaga sangat piawai dalam mengakulturasi budaya Jawa dengan ajaran Islam, menjadikannya lebih mudah diterima oleh masyarakat. Wayang dan gamelan adalah contoh media dakwahnya yang terkenal."
+            },
+            // Tambahan Soal
+            {
+                question: "Dalam Ulumul Hadis, hadis yang diriwayatkan oleh sejumlah besar perawi pada setiap tingkatan sanadnya sehingga mustahil mereka bersepakat untuk berdusta disebut...",
+                options: ["Hadis Ahad", "Hadis Masyhur", "Hadis Aziz", "Hadis Mutawatir"],
+                answer: "Hadis Mutawatir",
+                explanation: "Hadis Mutawatir memiliki kepastian (ilmu dharuri) bahwa ia benar-benar berasal dari Nabi SAW karena banyaknya jalur periwayatan yang independen."
+            },
+            {
+                question: "Perilaku syirik yang tersembunyi dan sering tidak disadari, seperti melakukan ibadah agar dipuji orang lain, disebut...",
+                options: ["Syirik Akbar", "Syirik Ashghar", "Nifaq I'tiqadi", "Kufur Ni'mat"],
+                answer: "Syirik Ashghar",
+                explanation: "Syirik Ashghar (syirik kecil) tidak mengeluarkan pelakunya dari Islam tetapi mengurangi kesempurnaan tauhid. Contoh utamanya adalah Riya' (pamer)."
+            },
+            {
+                question: "Hukum asal segala bentuk muamalah (transaksi) dalam Islam adalah...",
+                options: ["Haram sampai ada dalil yang menghalalkan", "Wajib", "Mubah (boleh) sampai ada dalil yang mengharamkan", "Makruh"],
+                answer: "Mubah (boleh) sampai ada dalil yang mengharamkan",
+                explanation: "Ini adalah kaidah fikih penting (Al-ashlu fil mu'amalah al-ibahah hatta yadulla ad-dalilu 'ala at-tahrim), yang memberikan fleksibilitas dalam inovasi transaksi selama tidak melanggar prinsip syariah."
+            },
+            {
+                question: "Perang besar pertama dalam sejarah Islam yang dimenangkan oleh kaum muslimin meskipun jumlah mereka jauh lebih sedikit dari musuh terjadi di...",
+                options: ["Uhud", "Khandaq", "Badar", "Mu'tah"],
+                answer: "Badar",
+                explanation: "Perang Badar (tahun 2 H) adalah kemenangan monumental yang sangat menguatkan posisi kaum muslimin di Madinah."
+            },
+            {
+                question: "Tokoh pembaharu Islam dari Mesir yang terkenal dengan gagasannya tentang Pan-Islamisme (persatuan umat Islam sedunia) bersama muridnya Muhammad Abduh adalah...",
+                options: ["Rasyid Ridha", "Jamaluddin Al-Afghani", "Hasan Al-Banna", "Sayyid Qutb"],
+                answer: "Jamaluddin Al-Afghani",
+                explanation: "Jamaluddin Al-Afghani adalah tokoh sentral gerakan modernisme dan Pan-Islamisme pada abad ke-19 yang menyerukan persatuan umat Islam untuk melawan kolonialisme Barat."
+            },
+             {
+                question: "Berikut adalah rukun wudhu yang disepakati oleh mayoritas ulama, KECUALI...",
+                options: ["Niat", "Membasuh muka", "Membasuh kedua tangan hingga siku", "Mengusap telinga"],
+                answer: "Mengusap telinga",
+                explanation: "Mayoritas ulama (Jumhur) sepakat bahwa rukun wudhu adalah niat, membasuh wajah, membasuh kedua tangan hingga siku, mengusap sebagian kepala, membasuh kedua kaki hingga mata kaki, dan tertib. Mengusap telinga hukumnya sunnah."
+            },
+            {
+                question: "Puasa pada tanggal 9 Dzulhijjah bagi orang yang tidak sedang melaksanakan ibadah haji disebut puasa...",
+                options: ["Asyura", "Tarwiyah", "Arafah", "Ayyamul Bidh"],
+                answer: "Arafah",
+                explanation: "Puasa Arafah sangat dianjurkan karena memiliki keutamaan menghapus dosa setahun yang lalu dan setahun yang akan datang."
+            },
+            {
+                question: "Transaksi jual beli di mana terdapat ketidakjelasan atau spekulasi yang tinggi mengenai objek akad disebut...",
+                options: ["Riba", "Gharar", "Maysir", "Tadlis"],
+                answer: "Gharar",
+                explanation: "Gharar adalah ketidakpastian atau ketidakjelasan dalam transaksi, misalnya menjual buah yang belum tampak di pohon atau menjual ikan di dalam laut. Hal ini dilarang karena berpotensi merugikan salah satu pihak."
+            },
+            {
+                question: "Seorang istri yang diceraikan oleh suaminya dan sedang dalam masa iddah talak raj'i (talak satu atau dua), maka status nafkah dan tempat tinggalnya adalah...",
+                options: ["Tidak berhak atas keduanya", "Hanya berhak atas nafkah", "Hanya berhak atas tempat tinggal", "Berhak atas nafkah dan tempat tinggal"],
+                answer: "Berhak atas nafkah dan tempat tinggal",
+                explanation: "Dalam masa iddah talak raj'i, istri masih memiliki hak penuh atas nafkah dan tempat tinggal dari suaminya, karena suami masih memiliki hak untuk merujuknya kembali."
+            },
+            {
+                question: "Hukuman balasan yang setimpal atas kejahatan pembunuhan atau penganiayaan disebut...",
+                options: ["Hudud", "Ta'zir", "Diyat", "Qisas"],
+                answer: "Qisas",
+                explanation: "Qisas adalah hukuman pembalasan yang serupa dengan perbuatan pelaku (jiwa dibalas jiwa, mata dibalas mata). Namun, keluarga korban dapat memaafkan dan menggantinya dengan Diyat (denda)."
+            },
+            {
+                question: "Pendiri Dinasti Abbasiyah adalah...",
+                options: ["Abu Ja'far Al-Mansur", "Harun Ar-Rasyid", "Abdullah Al-Saffah", "Al-Ma'mun"],
+                answer: "Abdullah Al-Saffah",
+                explanation: "Abu al-Abbas Abdullah bin Muhammad as-Saffah adalah khalifah pertama dari Dinasti Abbasiyah. Ia memproklamirkan kekhalifahan setelah berhasil menumbangkan Dinasti Umayyah."
+            },
+            {
+                question: "Peristiwa penting di mana Nabi Muhammad SAW 'membedah' bulan menjadi dua sebagai salah satu mukjizatnya untuk membuktikan kenabian di hadapan kaum kafir Quraisy dikenal sebagai peristiwa...",
+                options: ["Isra' Mi'raj", "Fathu Makkah", "Insyiqaqul Qamar", "Hijrah ke Habasyah"],
+                answer: "Insyiqaqul Qamar",
+                explanation: "Insyiqaqul Qamar (terbelahnya bulan) adalah mukjizat agung yang disebutkan dalam Al-Qur'an (Surah Al-Qamar) dan hadis-hadis shahih."
+            },
+            {
+                question: "Salah satu kerajaan Islam pertama di Indonesia yang terletak di pesisir utara Aceh adalah...",
+                options: ["Kerajaan Demak", "Kerajaan Samudera Pasai", "Kerajaan Mataram Islam", "Kerajaan Ternate"],
+                answer: "Kerajaan Samudera Pasai",
+                explanation: "Kerajaan Samudera Pasai dianggap sebagai kerajaan Islam pertama di Nusantara, berdiri sekitar abad ke-13 M dan menjadi pusat studi Islam dan perdagangan."
+            },
+            {
+                question: "Dalam ilmu waris (faraidh), jika seorang meninggal dunia dan hanya meninggalkan seorang anak perempuan dan seorang ibu, maka bagian anak perempuan tersebut adalah...",
+                options: ["1/2", "1/3", "1/6", "2/3"],
+                answer: "1/2",
+                explanation: "Seorang anak perempuan tunggal (tidak bersama anak laki-laki) berhak mendapatkan setengah (1/2) dari harta warisan. Sisanya akan diberikan kepada ahli waris lain, dalam kasus ini ibu dan 'ashabah (jika ada)."
+            },
+            {
+                question: "Sifat Allah 'Mukhalafatu lil Hawaditsi' memiliki arti...",
+                options: ["Berdiri sendiri", "Berbeda dengan makhluk-Nya", "Maha Esa", "Berkuasa"],
+                answer: "Berbeda dengan makhluk-Nya",
+                explanation: "Mukhalafatu lil Hawaditsi adalah salah satu sifat Salbiyah, yang artinya Allah SWT sama sekali tidak menyerupai makhluk-Nya, baik dalam Dzat, Sifat, maupun Af'al (perbuatan)."
+            },
+            // Pedagogik PAI
+            {
+                stimulus: "Seorang guru PAI mendapati siswanya kesulitan memahami konsep abstrak tentang sifat-sifat Allah. Guru tersebut kemudian menggunakan kisah-kisah teladan dalam Al-Qur'an untuk mengkonkretkan makna sifat-sifat tersebut.",
+                question: "Pendekatan pembelajaran yang diterapkan oleh guru tersebut sesuai dengan teori belajar...",
+                options: ["Behavioristik", "Kognitif", "Konstruktivistik", "Humanistik"],
+                answer: "Kognitif",
+                explanation: "Teori kognitif, khususnya yang dikembangkan oleh Jerome Bruner, menekankan pentingnya pembelajaran bermakna dengan bergerak dari tahap enaktif (konkret) ke ikonik (gambar/kisah) lalu ke simbolik (abstrak). Guru tersebut membantu siswa membangun pemahaman dari konkret (kisah) ke abstrak (konsep)."
+            },
+            {
+                stimulus: "Bu Aisyah, seorang guru PAI, ingin menilai sikap spiritual siswa seperti kejujuran dan ketaatan beribadah dalam keseharian mereka, baik di dalam maupun di luar kelas.",
+                question: "Teknik penilaian autentik yang paling tepat digunakan oleh Bu Aisyah adalah...",
+                options: ["Tes Tertulis", "Penilaian Proyek", "Jurnal atau Catatan Anekdot", "Penilaian Portofolio"],
+                answer: "Jurnal atau Catatan Anekdot",
+                explanation: "Jurnal atau catatan anekdot adalah teknik penilaian sikap yang paling efektif untuk merekam peristiwa-peristiwa atau perilaku siswa yang signifikan secara faktual dan berkelanjutan, baik yang positif maupun negatif."
+            },
+            {
+                stimulus: "Dalam merancang RPP, seorang guru PAI harus merumuskan Indikator Pencapaian Kompetensi (IPK).",
+                question: "Kriteria utama dalam merumuskan IPK yang baik adalah menggunakan kata kerja operasional (KKO) yang...",
+                options: ["Sulit diukur dan bersifat umum", "Bermakna ganda dan luas", "Spesifik, terukur, dan dapat diamati", "Hanya berfokus pada ranah pengetahuan"],
+                answer: "Spesifik, terukur, dan dapat diamati",
+                explanation: "IPK yang baik harus memenuhi kriteria SMART (Specific, Measurable, Achievable, Relevant, Time-bound). Penggunaan KKO yang terukur (seperti 'mengidentifikasi', 'mempraktikkan', 'menganalisis') sangat krusial."
+            },
+            {
+                stimulus: "Pak Ahmad menemukan bahwa tingkat kelancaran membaca Al-Qur'an di kelasnya masih rendah. Ia ingin mencoba sebuah metode baru dan melihat peningkatannya secara sistematis.",
+                question: "Jenis penelitian yang paling sesuai untuk dilakukan Pak Ahmad dalam mengatasi masalah di kelasnya adalah...",
+                options: ["Penelitian Eksperimen", "Penelitian Survei", "Penelitian Tindakan Kelas (PTK)", "Penelitian Etnografi"],
+                answer: "Penelitian Tindakan Kelas (PTK)",
+                explanation: "PTK (Classroom Action Research) dirancang secara spesifik untuk guru guna memperbaiki masalah pembelajaran praktis di kelasnya sendiri melalui siklus terencana: perencanaan, tindakan, observasi, dan refleksi."
+            },
+            {
+                stimulus: "Untuk mengajarkan materi Fikih tentang tata cara haji, seorang guru PAI menggunakan miniatur Ka'bah, Safa-Marwah, dan tempat lainnya.",
+                question: "Pemanfaatan media tersebut bertujuan untuk menerapkan prinsip pembelajaran...",
+                options: ["Dari abstrak ke konkret", "Dari mudah ke sulit", "Dari yang dikenal ke yang asing", "Dari konkret ke abstrak"],
+                answer: "Dari konkret ke abstrak",
+                explanation: "Siswa mungkin belum pernah melihat Ka'bah secara langsung (abstrak bagi mereka). Dengan menggunakan miniatur (konkret), guru membantu siswa membangun pemahaman yang lebih nyata sebelum masuk ke konsep-konsep ibadah haji yang lebih dalam."
+            },
+            {
+                question: "Dalam model pembelajaran berbasis masalah (Problem-Based Learning) pada materi zakat, langkah pertama yang harus dilakukan guru adalah...",
+                options: ["Membentuk kelompok diskusi", "Menyajikan masalah kontekstual terkait distribusi zakat", "Menjelaskan rumus perhitungan zakat", "Memberikan tes akhir tentang zakat"],
+                answer: "Menyajikan masalah kontekstual terkait distribusi zakat",
+                explanation: "Sintaks PBL selalu diawali dengan orientasi siswa pada masalah. Guru menyajikan sebuah masalah nyata (misalnya, 'Bagaimana cara mendistribusikan zakat agar efektif mengentaskan kemiskinan di lingkungan sekolah?'), yang akan memicu siswa untuk belajar."
+            },
+            {
+                question: "Penilaian yang dilakukan di akhir suatu unit pembelajaran atau semester untuk menentukan tingkat pencapaian siswa secara keseluruhan disebut...",
+                options: ["Penilaian Formatif", "Penilaian Diagnostik", "Penilaian Sumatif", "Penilaian Otentik"],
+                answer: "Penilaian Sumatif",
+                explanation: "Penilaian Sumatif (assessment of learning) bertujuan untuk menyimpulkan hasil belajar siswa pada akhir periode, contohnya adalah Ujian Akhir Semester (UAS) atau Ujian Kenaikan Kelas (UKK)."
+            },
+            {
+                question: "Ketika merumuskan tujuan pembelajaran, komponen yang menggambarkan perilaku atau kemampuan yang dapat diukur dari siswa disebut...",
+                options: ["Audience (Siswa)", "Behavior (Perilaku)", "Condition (Kondisi)", "Degree (Tingkat)"],
+                answer: "Behavior (Perilaku)",
+                explanation: "Dalam format ABCD (Audience, Behavior, Condition, Degree), 'Behavior' adalah inti dari tujuan pembelajaran, yaitu apa yang diharapkan dapat dilakukan oleh siswa setelah belajar, yang dinyatakan dengan kata kerja operasional."
+            },
+            {
+                question: "Hadis yang berisi tentang perbuatan, ketetapan (taqrir), dan sifat fisik atau akhlak Nabi Muhammad SAW disebut...",
+                options: ["Hadis Qauliyah", "Hadis Fi'liyah", "Hadis Taqririyah", "Semua jawaban benar"],
+                answer: "Semua jawaban benar",
+                explanation: "Secara umum, Hadis (atau Sunnah) mencakup semua yang disandarkan kepada Nabi, baik berupa ucapan (Qauliyah), perbuatan (Fi'liyah), maupun ketetapan atau persetujuan beliau (Taqririyah), termasuk sifat-sifatnya."
+            },
+            {
+                question: "Dalam Fikih Munakahat, talak yang dijatuhkan suami di mana ia tidak boleh merujuk istrinya kembali kecuali dengan akad nikah yang baru disebut...",
+                options: ["Talak Raj'i", "Talak Ba'in", "Khulu'", "Fasakh"],
+                answer: "Talak Ba'in",
+                explanation: "Talak Ba'in (baik sughra maupun kubra) memutuskan ikatan perkawinan secara penuh. Jika ingin kembali, harus melalui proses akad nikah yang baru, berbeda dengan talak raj'i di mana suami bisa rujuk selama masa iddah."
+            }
+        ];
+
+
+        const quizArea = document.getElementById('quiz-area');
+        const resultsScreen = document.getElementById('results-screen');
+        const stimulusContainer = document.getElementById('stimulus-container');
+        const questionText = document.getElementById('question-text');
+        const optionsList = document.getElementById('options-list');
+        const nextBtn = document.getElementById('next-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const progressText = document.getElementById('progress-text');
+        const scoreText = document.getElementById('score-text');
+        const scoreDetails = document.getElementById('score-details');
+        
+        const explanationModal = document.getElementById('explanation-modal');
+        const explanationText = document.getElementById('explanation-text');
+        const closeBtn = document.querySelector('.close-btn');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedOptionElement = null;
+
+        function startQuiz() {
+            questions.sort(() => Math.random() - 0.5);
+            currentQuestionIndex = 0;
+            score = 0;
+            resultsScreen.classList.add('hidden');
+            quizArea.classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            resetState();
+            const currentQuestion = questions[currentQuestionIndex];
+
+            if (currentQuestion.stimulus) {
+                stimulusContainer.innerHTML = currentQuestion.stimulus;
+                stimulusContainer.style.display = 'block';
+            } else {
+                stimulusContainer.style.display = 'none';
+            }
+            
+            questionText.textContent = currentQuestion.question;
+            progressText.textContent = `Soal ${currentQuestionIndex + 1} dari ${questions.length}`;
+            
+            currentQuestion.options.forEach((option, index) => {
+                const li = document.createElement('li');
+                li.classList.add('option');
+                
+                const letter = document.createElement('span');
+                letter.classList.add('option-letter');
+                letter.textContent = String.fromCharCode(65 + index);
+                
+                const text = document.createElement('span');
+                text.textContent = option;
+                
+                li.appendChild(letter);
+                li.appendChild(text);
+
+                li.addEventListener('click', () => selectAnswer(li, option));
+                optionsList.appendChild(li);
+            });
+        }
+
+        function resetState() {
+            nextBtn.disabled = true;
+            nextBtn.textContent = 'Pilih Jawaban';
+            while (optionsList.firstChild) {
+                optionsList.removeChild(optionsList.firstChild);
+            }
+            selectedOptionElement = null;
+        }
+
+        function selectAnswer(optionElement, selectedAnswer) {
+            if (selectedOptionElement) {
+                selectedOptionElement.classList.remove('selected');
+            }
+            selectedOptionElement = optionElement;
+            selectedOptionElement.classList.add('selected');
+            nextBtn.disabled = false;
+            nextBtn.textContent = 'Kunci Jawaban';
+        }
+
+        function handleNextClick() {
+            const currentQuestion = questions[currentQuestionIndex];
+            const selectedOptionText = selectedOptionElement.textContent.substring(1);
+            const isCorrect = selectedOptionText === currentQuestion.answer;
+
+            Array.from(optionsList.children).forEach(optionNode => {
+                optionNode.classList.add('disabled');
+                const optionText = optionNode.textContent.substring(1);
+                if (optionText === currentQuestion.answer) {
+                    optionNode.classList.add('correct');
+                }
+            });
+
+            if (isCorrect) {
+                score++;
+            } else {
+                selectedOptionElement.classList.add('incorrect');
+            }
+            
+            explanationText.innerHTML = `<strong>Jawaban Benar:</strong> ${currentQuestion.answer}<br><br>${currentQuestion.explanation}`;
+            explanationModal.style.display = "flex";
+            
+            nextBtn.textContent = 'Soal Berikutnya';
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.textContent = 'Lihat Hasil';
+            }
+        }
+        
+        function moveToNextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            quizArea.classList.add('hidden');
+            resultsScreen.classList.remove('hidden');
+
+            const percentage = Math.round((score / questions.length) * 100);
+            scoreText.textContent = `Skor Anda: ${percentage}`;
+            scoreDetails.textContent = `Anda menjawab ${score} dari ${questions.length} soal dengan benar.`;
+        }
+        
+        nextBtn.addEventListener('click', () => {
+            if(nextBtn.textContent === 'Kunci Jawaban') {
+                handleNextClick();
+            } else {
+                explanationModal.style.display = "none";
+                moveToNextQuestion();
+            }
+        });
+
+        restartBtn.addEventListener('click', startQuiz);
+        
+        closeBtn.onclick = function() {
+            explanationModal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == explanationModal) {
+                explanationModal.style.display = "none";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', startQuiz);
+    </script>
+
