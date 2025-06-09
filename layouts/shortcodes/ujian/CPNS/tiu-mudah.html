@@ -18,6 +18,8 @@
             --unanswered-bg: #ffffff;
             --timer-alert: #d32f2f; /* Merah */
         }
+        
+
         /* --- Halaman Login --- */
         #login-container {
             display: flex;
@@ -487,7 +489,6 @@
         }
 
     </style>
-    
     <div id="login-container">
         <div class="login-box">
             <h2>Login Peserta Ujian</h2>
@@ -568,7 +569,7 @@
             <h3>Pembahasan Jawaban Salah</h3>
             <div id="review-section"></div>
         </div>
-         
+        
         <div style="text-align: center;">
            <button id="restart-btn" class="action-button">Ulangi Ujian</button>
         </div>
@@ -588,7 +589,7 @@
 
 
 <script>
-// --- DATABASE SOAL TIU ---
+// --- DATABASE SOAL TIU (LENGKAP & UNIK) ---
 const questions = [
     // --- TES INTELEGENSIA UMUM (TIU) - 35 Soal ---
     { subtest: 'Tes Intelegensia Umum', question: 'API : PANAS = ... : ...', options: ['ES : DINGIN', 'AIR : HUJAN', 'SIANG : MALAM', 'GULA : TEH'], answer: 'ES : DINGIN', explanation: 'Hubungan analogi adalah "sumber : sifat/rasa yang dihasilkan". API menghasilkan PANAS, sama seperti ES menghasilkan DINGIN.' },
@@ -601,7 +602,31 @@ const questions = [
     { subtest: 'Tes Intelegensia Umum', question: 'Semua bunga mawar berwarna merah. Lili memiliki bunga berwarna putih. Kesimpulan yang tepat adalah...', options: ['Bunga Lili bukan mawar', 'Semua bunga berwarna merah atau putih', 'Beberapa mawar berwarna putih', 'Tidak dapat disimpulkan'], answer: 'Bunga Lili bukan mawar', explanation: 'Karena semua mawar berwarna merah, dan bunga Lili berwarna putih, maka dapat dipastikan bunga Lili bukanlah bagian dari kelompok mawar.' },
     { subtest: 'Tes Intelegensia Umum', question: 'Ayah lebih tua dari Ibu. Rina adalah anak Ibu. Maka...', options: ['Ayah lebih tua dari Rina', 'Ibu lebih tua dari Ayah', 'Rina lebih tua dari Ibu', 'Ayah dan Rina seumuran'], answer: 'Ayah lebih tua dari Rina', explanation: 'Secara logika, orang tua (Ayah dan Ibu) pasti lebih tua dari anaknya (Rina). Karena Ayah lebih tua dari Ibu, maka sudah pasti Ayah juga lebih tua dari Rina.' },
     { subtest: 'Tes Intelegensia Umum', question: 'Berapakah 20% dari 150?', options: ['30', '20', '25', '35'], answer: '30', explanation: '20% dari 150 sama dengan (20/100) * 150 = 30.' },
-    ...Array(25).fill({ subtest: 'Tes Intelegensia Umum', question: 'Contoh Soal TIU Mudah: Meja : Kayu = Patung : ...', options: ['Batu', 'Ukir', 'Seniman', 'Pameran'], answer: 'Batu', explanation: 'Hubungan analogi adalah "benda : bahan pembuatnya". Meja terbuat dari Kayu, Patung umumnya terbuat dari Batu.' }),
+    { subtest: 'Tes Intelegensia Umum', question: 'SERUT : KAYU = PERAH : ...', options: ['SAPI', 'SUSU', 'RUMPUT', 'KANDANG'], answer: 'SUSU', explanation: 'SERUT adalah aktivitas untuk mengambil sebagian dari KAYU. PERAH adalah aktivitas untuk mengambil SUSU dari hewan (sapi).'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Sinonim dari "VANDALISME" adalah...', options: ['Perusakan', 'Pembangunan', 'Perbaikan', 'Pelestarian'], answer: 'Perusakan', explanation: 'Vandalisme adalah tindakan merusak dan menghancurkan hasil karya seni dan barang berharga lainnya.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Antonim dari "DEPENDEN" adalah...', options: ['Mandiri', 'Bergantung', 'Terikat', 'Ikut'], answer: 'Mandiri', explanation: 'Dependen berarti bergantung pada pihak lain. Lawan katanya adalah mandiri atau independen.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Seri Angka: 1, 4, 9, 16, 25, ...', options: ['36', '35', '49', '32'], answer: '36', explanation: 'Pola deret adalah bilangan kuadrat berurutan: 1², 2², 3², 4², 5². Maka selanjutnya adalah 6² = 36.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Seri Huruf: A, C, F, J, O, ...', options: ['U', 'T', 'S', 'V'], answer: 'U', explanation: 'Pola loncatan huruf meningkat: +2, +3, +4, +5. Maka huruf selanjutnya adalah O + 6 langkah = U.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Jika p=3 dan q=4, maka nilai dari (p+q)² adalah...', options: ['49', '14', '25', '7'], answer: '49', explanation: '(3+4)² = 7² = 49.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Sebuah mobil berjalan selama 3 jam dengan kecepatan rata-rata 60 km/jam. Berapa jarak yang ditempuh?', options: ['180 km', '20 km', '150 km', '200 km'], answer: '180 km', explanation: 'Jarak = Kecepatan × Waktu = 60 km/jam × 3 jam = 180 km.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Jika tidak belajar, maka nilai akan jelek. Budi mendapat nilai bagus. Kesimpulan:', options: ['Budi belajar', 'Budi tidak belajar', 'Nilai bagus karena menyontek', 'Tidak dapat disimpulkan'], answer: 'Budi belajar', explanation: 'Ini adalah bentuk penalaran logis Modus Tollens. Jika P maka Q. Tidak Q, maka kesimpulannya Tidak P. Dalam kasus ini, "tidak belajar" (P) maka "nilai jelek" (Q). "Nilai tidak jelek" (tidak Q), maka kesimpulannya "belajar" (tidak P).'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Semua mamalia menyusui. Paus adalah mamalia. Maka...', options: ['Paus menyusui', 'Semua yang menyusui adalah mamalia', 'Paus tidak menyusui', 'Paus adalah ikan'], answer: 'Paus menyusui', explanation: 'Ini adalah bentuk penalaran logis silogisme yang valid. Jika semua A adalah B, dan C adalah A, maka C adalah B.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Berapakah 1/4 dari 200?', options: ['50', '40', '25', '75'], answer: '50', explanation: '(1/4) * 200 = 50.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'KULIT : SISIK = MANUSIA : ...', options: ['RAMBUT', 'BAJU', 'KEPALA', 'KUKU'], answer: 'RAMBUT', explanation: 'Kulit ikan ditutupi oleh SISIK. Kulit kepala MANUSIA ditutupi oleh RAMBUT. Ini adalah analogi penutup permukaan.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Sinonim dari "PROTESIS" adalah...', options: ['Tesis', 'Anggota tubuh buatan', 'Proses', 'Hipotesis'], answer: 'Anggota tubuh buatan', explanation: 'Protesis atau prostesis adalah alat bantu berupa anggota tubuh tiruan.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Antonim dari "MAKAR" adalah...', options: ['Jujur', 'Setia', 'Pemberontak', 'Licik'], answer: 'Setia', explanation: 'Makar berarti akal busuk atau perbuatan dengan maksud menyerang/membunuh orang, atau menggulingkan pemerintahan yang sah (kudeta). Lawan katanya adalah setia atau loyal.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Seri Angka: 5, 6, 8, 11, 15, ...', options: ['20', '21', '22', '19'], answer: '20', explanation: 'Pola deret adalah penambahan bertingkat: +1, +2, +3, +4. Maka angka selanjutnya adalah 15 + 5 = 20.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Seri Huruf: B, D, G, K, P, ...', options: ['V', 'U', 'W', 'S'], answer: 'V', explanation: 'Pola loncatan huruf meningkat: +2, +3, +4, +5. Maka huruf selanjutnya adalah P + 6 langkah = V.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Jika 2a + b = 10 dan b = 4, maka nilai a adalah...', options: ['3', '4', '5', '6'], answer: '3', explanation: '2a + 4 = 10 => 2a = 6 => a = 3.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Sebuah persegi panjang memiliki panjang 10 cm dan lebar 5 cm. Berapa luasnya?', options: ['50 cm²', '30 cm²', '15 cm²', '100 cm²'], answer: '50 cm²', explanation: 'Luas = Panjang × Lebar = 10 cm × 5 cm = 50 cm².'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Beberapa siswa suka matematika. Semua siswa suka olahraga. Kesimpulan:', options: ['Beberapa siswa suka matematika dan olahraga.', 'Siswa yang suka olahraga pasti suka matematika.', 'Siswa yang tidak suka matematika tidak suka olahraga.', 'Tidak dapat ditarik kesimpulan.'], answer: 'Beberapa siswa suka matematika dan olahraga.', explanation: 'Karena beberapa siswa suka matematika, dan semua siswa (termasuk yang suka matematika) suka olahraga, maka dapat disimpulkan beberapa siswa tersebut menyukai keduanya.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Mana yang tidak termasuk dalam kelompoknya?', options: ['Merah', 'Kuning', 'Hijau', 'Biru'], answer: 'Hijau', explanation: 'Merah, Kuning, dan Biru adalah warna primer. Hijau adalah warna sekunder (campuran biru dan kuning).'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Berapakah hasil dari 5² + 3³?', options: ['52', '19', '34', '25'], answer: '52', explanation: '5² = 25. 3³ = 27. Maka, 25 + 27 = 52.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'ULAT : KEPOMPONG = ... : ...', options: ['BAYI : ANAK-ANAK', 'KATAK : BERUDU', 'DEWASA : TUA', 'PAGI : SIANG'], answer: 'BAYI : ANAK-ANAK', explanation: 'Hubungan analogi adalah "tahap sebelum : tahap sesudah" dalam metamorfosis/pertumbuhan. ULAT menjadi KEPOMPONG, sama seperti BAYI menjadi ANAK-ANAK.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Sinonim dari "AFIRMASI" adalah...', options: ['Penegasan', 'Pertanyaan', 'Peniadaan', 'Keraguan'], answer: 'Penegasan', explanation: 'Afirmasi berarti penegasan atau pengakuan yang positif.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Antonim dari "SEKULER" adalah...', options: ['Duniawi', 'Modern', 'Keagamaan', 'Abadi'], answer: 'Keagamaan', explanation: 'Sekuler berarti bersifat duniawi atau kebendaan (tidak bersifat keagamaan). Lawan katanya adalah keagamaan.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Seri Angka: 4, 5, 7, 10, 14, 19, ...', options: ['25', '24', '26', '23'], answer: '25', explanation: 'Pola deret adalah penambahan bertingkat: +1, +2, +3, +4, +5. Maka angka selanjutnya adalah 19 + 6 = 25.'},
+    { subtest: 'Tes Intelegensia Umum', question: 'Jika Andi lebih tinggi dari Budi, dan Candra lebih pendek dari Andi, maka...', options: ['Budi lebih tinggi dari Candra', 'Candra lebih tinggi dari Budi', 'Budi dan Candra sama tinggi', 'Tidak dapat disimpulkan'], answer: 'Tidak dapat disimpulkan', explanation: 'Kita tahu A > B dan A > C. Namun, tidak ada informasi yang membandingkan langsung antara Budi dan Candra. Keduanya bisa sama tinggi, atau salah satu lebih tinggi dari yang lain.'},
 ];
 // --- LOGIKA KUIS ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -645,6 +670,7 @@ document.addEventListener('DOMContentLoaded', () => {
         quizContainer.style.display = 'none';
         resultPage.style.display = 'none';
         passwordInput.value = '';
+        usernameInput.value = '';
         loginError.style.display = 'none';
     }
 
@@ -722,9 +748,9 @@ document.addEventListener('DOMContentLoaded', () => {
             radio.value = option;
             
              if (userAnswers[index] === option) {
-                radio.checked = true;
-                label.classList.add('selected');
-            }
+                 radio.checked = true;
+                 label.classList.add('selected');
+             }
             radio.onchange = () => selectAnswer(index, option);
             
             const span = document.createElement('span');
@@ -783,9 +809,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function startTimer(duration) {
         let timer = duration;
         clearInterval(timerInterval);
+        timerEl.classList.remove('low-time');
         timerInterval = setInterval(() => {
-            let hours = parseInt(timer / 3600, 10);
-            let minutes = parseInt((timer % 3600) / 60, 10);
+            let minutes = parseInt(timer / 60, 10);
             let seconds = parseInt(timer % 60, 10);
 
             minutes = minutes < 10 ? "0" + minutes : minutes;
@@ -816,7 +842,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         questions.forEach((q, index) => {
             if (userAnswers[index] === q.answer) {
-                score++;
+                score += 5; // Skor 5 untuk jawaban benar
                 correctQuestionNumbers.push(index + 1);
             } else {
                 incorrectQuestionNumbers.push(index + 1);
@@ -828,9 +854,9 @@ document.addEventListener('DOMContentLoaded', () => {
         appHeader.style.display = 'flex';
         headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
         
-        const overallPercentage = ((score / questions.length) * 100).toFixed(1);
-        document.getElementById('final-score').textContent = `${overallPercentage}%`;
-        document.getElementById('score-details').textContent = `Benar ${score} dari ${questions.length} soal`;
+        const totalCorrect = correctQuestionNumbers.length;
+        document.getElementById('final-score').textContent = score;
+        document.getElementById('score-details').textContent = `Skor Anda (Benar ${totalCorrect} dari ${questions.length} soal)`;
 
         // Hide subtest analysis because there is only one
         document.getElementById('subtest-analysis-container').innerHTML = '';
@@ -856,6 +882,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
             });
         } else {
+            document.getElementById('review-section-container').style.display = 'block';
             reviewSection.innerHTML = '<p style="text-align:center; font-weight:500;">Luar biasa! Semua jawaban Anda benar.</p>';
         }
     }
@@ -863,6 +890,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event Listeners
     loginBtn.addEventListener('click', handleLogin);
     passwordInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
+    usernameInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
     logoutBtn.addEventListener('click', handleLogout);
     prevBtn.addEventListener('click', () => currentQuestionIndex > 0 && displayQuestion(currentQuestionIndex - 1));
     nextBtn.addEventListener('click', () => currentQuestionIndex < questions.length - 1 && displayQuestion(currentQuestionIndex + 1));

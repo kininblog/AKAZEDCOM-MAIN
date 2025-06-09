@@ -18,6 +18,7 @@
             --unanswered-bg: #ffffff;
             --timer-alert: #d32f2f; /* Merah */
         }
+        
         /* --- Halaman Login --- */
         #login-container {
             display: flex;
@@ -533,7 +534,7 @@
         <aside class="navigation-panel">
             <div class="timer-box">
                 Sisa Waktu
-                <div id="timer">120:00</div>
+                <div id="timer">100:00</div>
             </div>
             <div class="question-grid-container">
                 <div class="subtest-group">
@@ -559,24 +560,24 @@
     <div id="result-page" class="result-container">
         <div class="result-card overall-summary">
             <h2>Hasil Akhir Ujian</h2>
-            <div id="final-score" class="score">0%</div>
+            <div id="final-score" class="score">0</div>
             <div id="score-details" class="score-details"></div>
             <div id="subtest-analysis-container" class="subtest-analysis"></div>
         </div>
         
         <div class="result-card">
             <h3>Rekap Jawaban</h3>
-            <h4>Jawaban Benar</h4>
+            <h4>Jawaban Benar (TWK/TIU) / Skor Tertinggi (TKP)</h4>
             <ul id="correct-list" class="answer-list"></ul>
-            <h4 style="margin-top: 20px;">Jawaban Salah / Kosong</h4>
+            <h4 style="margin-top: 20px;">Jawaban Salah / Kosong / Skor Rendah</h4>
             <ul id="incorrect-list" class="answer-list"></ul>
         </div>
         
         <div id="review-section-container" class="result-card">
-            <h3>Pembahasan Jawaban Salah</h3>
+            <h3>Pembahasan Jawaban</h3>
             <div id="review-section"></div>
         </div>
-         
+        
         <div style="text-align: center;">
            <button id="restart-btn" class="action-button">Ulangi Ujian</button>
         </div>
@@ -596,7 +597,7 @@
 
 
 <script>
-// --- DATABASE SOAL CPNS #3 ---
+// --- DATABASE SOAL CPNS #3 (LENGKAP DAN UNIK) ---
 const questions = [
     // --- TES WAWASAN KEBANGSAAN (TWK) - 30 Soal ---
     { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Perwujudan nilai-nilai Pancasila dalam bidang pertahanan dan keamanan secara tegas dinyatakan dalam UUD 1945 pasal...', options: ['27 ayat (3)', '30 ayat (1)', '29 ayat (2)', '31 ayat (1)'], answer: '30 ayat (1)', explanation: 'Pasal 30 ayat (1) UUD 1945 menyatakan, "Tiap-tiap warga negara berhak dan wajib ikut serta dalam usaha pertahanan dan keamanan negara."' },
@@ -604,15 +605,63 @@ const questions = [
     { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Implementasi Bhinneka Tunggal Ika dalam kehidupan berbangsa dan bernegara adalah...', options: ['Mempelajari semua tarian daerah di Indonesia', 'Menghormati hari raya keagamaan umat lain', 'Menggunakan produk dalam negeri', 'Hanya berteman dengan yang satu suku'], answer: 'Menghormati hari raya keagamaan umat lain', explanation: 'Menghormati hari raya umat lain adalah wujud nyata dari toleransi dan penghargaan terhadap perbedaan (kebhinnekaan) dalam bingkai persatuan.' },
     { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Kewenangan untuk menguji peraturan perundang-undangan di bawah undang-undang terhadap undang-undang adalah milik...', options: ['Mahkamah Konstitusi', 'Mahkamah Agung', 'Komisi Yudisial', 'Dewan Perwakilan Rakyat'], answer: 'Mahkamah Agung', explanation: 'Mahkamah Agung (MA) memiliki hak uji materiil, yaitu menguji apakah suatu peraturan di bawah UU (misalnya Perpres, Perda) bertentangan dengan UU yang lebih tinggi.' },
     { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Sikap yang menunjukkan pengamalan Sila Kelima Pancasila adalah...', options: ['Suka bekerja keras dan menghargai hasil karya orang lain', 'Mengembangkan sikap tenggang rasa', 'Mengutamakan musyawarah untuk mufakat', 'Tidak memaksakan suatu agama kepada orang lain'], answer: 'Suka bekerja keras dan menghargai hasil karya orang lain', explanation: 'Sila kelima, "Keadilan Sosial bagi Seluruh Rakyat Indonesia", mencakup nilai-nilai seperti suka bekerja keras, tidak boros, dan menghargai hasil karya orang lain untuk kemajuan bersama.' },
-    ...Array(25).fill({ subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Contoh Soal TWK Tambahan: Konferensi Asia-Afrika (KAA) yang diselenggarakan di Bandung pada tahun 1955 menghasilkan...', options: ['Dasasila Bandung', 'Piagam PBB', 'Deklarasi Bangkok', 'Jakarta Accord'], answer: 'Dasasila Bandung', explanation: 'KAA 1955 menghasilkan Dasasila Bandung, yang berisi sepuluh prinsip dasar dalam usaha memajukan perdamaian dan kerja sama dunia.' }),
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Peran Indonesia sebagai salah satu pendiri Gerakan Non-Blok (GNB) menunjukkan komitmen Indonesia terhadap...', options: ['Pembentukan aliansi militer baru', 'Politik luar negeri bebas aktif', 'Dominasi negara-negara besar', 'Pembangunan blok kekuatan ketiga'], answer: 'Politik luar negeri bebas aktif', explanation: 'Pendirian GNB adalah wujud nyata dari politik bebas aktif, yaitu tidak memihak Blok Barat atau Blok Timur dan aktif berkontribusi pada perdamaian dunia.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Nasionalisme dapat menjadi pendorong kemajuan bangsa, namun jika berlebihan dapat berubah menjadi...', options: ['Patriotisme', 'Chauvinisme', 'Internasionalisme', 'Liberalisme'], answer: 'Chauvinisme', explanation: 'Chauvinisme adalah nasionalisme yang sempit dan berlebihan yang menganggap bangsa sendiri paling unggul sehingga merendahkan bangsa lain.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Bendera negara, Sang Merah Putih, pertama kali dikibarkan secara resmi pada saat...', options: ['Kongres Pemuda II', 'Peristiwa Rengasdengklok', 'Proklamasi Kemerdekaan 17 Agustus 1945', 'Sidang BPUPKI'], answer: 'Proklamasi Kemerdekaan 17 Agustus 1945', explanation: 'Bendera Pusaka Sang Saka Merah Putih yang dijahit oleh Ibu Fatmawati dikibarkan pertama kali saat Proklamasi Kemerdekaan.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Sikap menjaga nama baik bangsa dan negara di kancah internasional adalah bagian dari...', options: ['Wawasan Nusantara', 'Integritas Nasional', 'Ketahanan Nasional', 'Bela Negara'], answer: 'Bela Negara', explanation: 'Bela Negara tidak hanya dalam bentuk fisik, tetapi juga non-fisik seperti menjaga nama baik bangsa (citra positif) di mata dunia.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Menurut teori kedaulatan rakyat, pemegang kekuasaan tertinggi dalam negara adalah...', options: ['Presiden', 'Rakyat', 'Parlemen', 'Raja'], answer: 'Rakyat', explanation: 'Teori kedaulatan rakyat menyatakan bahwa kekuasaan tertinggi berada di tangan rakyat, dan pemerintah menjalankan kekuasaan atas nama rakyat.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Yang dimaksud dengan "negara hukum" menurut Pasal 1 Ayat (3) UUD 1945 adalah...', options: ['Negara yang berdasarkan pada hukum tertulis saja', 'Segala aspek kehidupan berbangsa dan bernegara diatur dan berdasarkan hukum', 'Hukum hanya berlaku bagi rakyat biasa', 'Kekuasaan hakim adalah absolut'], answer: 'Segala aspek kehidupan berbangsa dan bernegara diatur dan berdasarkan hukum', explanation: 'Konsep negara hukum (rechtsstaat) berarti bahwa penyelenggaraan kekuasaan pemerintahan didasarkan atas hukum, bukan kekuasaan belaka.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Amnesti dan abolisi adalah hak prerogatif Presiden yang diberikan setelah mendapat pertimbangan dari...', options: ['Mahkamah Agung', 'Dewan Perwakilan Rakyat (DPR)', 'Majelis Permusyawaratan Rakyat (MPR)', 'Mahkamah Konstitusi'], answer: 'Dewan Perwakilan Rakyat (DPR)', explanation: 'Sesuai Pasal 14 ayat (2) UUD 1945, dalam memberi amnesti (pengampunan umum) dan abolisi (penghentian tuntutan), Presiden harus memperhatikan pertimbangan DPR.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Cita-cita nasional bangsa Indonesia sebagaimana tercantum dalam Pembukaan UUD 1945 adalah mewujudkan masyarakat yang...', options: ['Kaya raya dan modern', 'Religius dan tradisional', 'Adil, makmur, dan sejahtera', 'Seragam dalam segala hal'], answer: 'Adil, makmur, dan sejahtera', explanation: 'Alinea kedua dan keempat Pembukaan UUD 1945 secara implisit dan eksplisit menyebutkan cita-cita untuk mewujudkan negara yang merdeka, bersatu, berdaulat, adil dan makmur.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Pancasila berfungsi sebagai "Philosophische Grondslag", artinya...', options: ['Dasar filsafat negara', 'Perjanjian luhur bangsa', 'Pandangan hidup bangsa', 'Ideologi terbuka'], answer: 'Dasar filsafat negara', explanation: 'Istilah "Philosophische Grondslag" yang diucapkan oleh Soekarno berarti Pancasila adalah fondasi filsafat yang menjadi dasar berdirinya negara Indonesia.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Sistem Demokrasi Terpimpin yang pernah berlaku di Indonesia didasarkan pada...', options: ['Ketetapan MPR', 'Dekrit Presiden 5 Juli 1959', 'UUDS 1950', 'Konstitusi RIS'], answer: 'Dekrit Presiden 5 Juli 1959', explanation: 'Demokrasi Terpimpin dimulai secara formal setelah dikeluarkannya Dekrit Presiden 5 Juli 1959 yang mengembalikan Indonesia ke UUD 1945.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Berikut ini yang termasuk dalam empat pilar kebangsaan Indonesia adalah...', options: ['Pancasila, UUD 1945, NKRI, Bhinneka Tunggal Ika', 'Presiden, DPR, MPR, DPD', 'TNI, Polri, Kejaksaan, Kehakiman', 'Garuda, Merah Putih, Indonesia Raya, Bahasa Indonesia'], answer: 'Pancasila, UUD 1945, NKRI, Bhinneka Tunggal Ika', explanation: 'Empat Pilar Kebangsaan adalah konsensus dasar yang menopang kehidupan berbangsa dan bernegara di Indonesia.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Peristiwa Rengasdengklok memiliki makna penting bagi sejarah proklamasi, yaitu...', options: ['Penyusunan teks proklamasi', 'Pengamanan Soekarno-Hatta dari pengaruh Jepang oleh golongan muda', 'Pengibaran bendera Merah Putih pertama kali', 'Pembacaan teks proklamasi'], answer: 'Pengamanan Soekarno-Hatta dari pengaruh Jepang oleh golongan muda', explanation: 'Golongan muda membawa Soekarno-Hatta ke Rengasdengklok untuk mendesak mereka agar segera memproklamasikan kemerdekaan tanpa campur tangan Jepang.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Salah satu ciri dari Wawasan Nusantara adalah cara pandang yang selalu mengutamakan...', options: ['Kepentingan golongan', 'Persatuan dan kesatuan bangsa', 'Kepentingan daerah asal', 'Pembangunan di pulau Jawa'], answer: 'Persatuan dan kesatuan bangsa', explanation: 'Esensi Wawasan Nusantara adalah memandang Indonesia sebagai satu kesatuan yang utuh (politik, ekonomi, sosial, budaya, pertahanan, dan keamanan) demi kepentingan nasional.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Sikap menghargai hasil karya orang lain merupakan pengamalan Pancasila, sila ke-', options: ['Dua', 'Tiga', 'Empat', 'Lima'], answer: 'Lima', explanation: 'Menghargai hasil karya orang lain yang bermanfaat bagi kemajuan dan kesejahteraan bersama adalah salah satu butir pengamalan sila Keadilan Sosial.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Lembaga negara yang anggotanya terdiri dari perwakilan setiap provinsi yang dipilih melalui pemilu adalah...', options: ['DPR', 'MPR', 'DPD', 'BPK'], answer: 'DPD', explanation: 'Dewan Perwakilan Daerah (DPD) adalah lembaga perwakilan daerah yang memperjuangkan aspirasi dan kepentingan daerahnya di tingkat nasional.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Bela negara adalah hak sekaligus kewajiban. Hal ini mengandung arti bahwa negara...', options: ['Boleh memaksa warga negara untuk ikut wajib militer', 'Akan memberikan sanksi bagi yang menolak', 'Memberikan kesempatan seluas-luasnya bagi warga untuk membela negara', 'Hanya mewajibkan TNI dan Polri untuk membela negara'], answer: 'Memberikan kesempatan seluas-luasnya bagi warga untuk membela negara', explanation: 'Sebagai hak, negara harus memberikan kesempatan bagi warga negara untuk berperan dalam bela negara sesuai dengan profesi dan kemampuannya masing-masing.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Contoh ancaman di bidang sosial budaya yang perlu diwaspadai adalah...', options: ['Masuknya investasi asing', 'Gaya hidup konsumtif dan hedonisme', 'Perdagangan bebas', 'Agresi militer'], answer: 'Gaya hidup konsumtif dan hedonisme', explanation: 'Gaya hidup yang tidak sesuai dengan kepribadian bangsa seperti konsumtif dan hedonisme dapat mengikis nilai-nilai luhur budaya bangsa.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Piagam Jakarta (Jakarta Charter) merupakan cikal bakal dari...', options: ['Batang Tubuh UUD 1945', 'Pancasila', 'Pembukaan UUD 1945', 'GBHN'], answer: 'Pembukaan UUD 1945', explanation: 'Rumusan dalam Piagam Jakarta, setelah perubahan pada tujuh katanya, menjadi dasar dari alinea keempat Pembukaan UUD 1945.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Sikap setia kepada NKRI dapat ditunjukkan dengan...', options: ['Menolak produk dari luar negeri', 'Hanya mau bekerja di dalam negeri', 'Menghafal semua isi UUD 1945', 'Tidak terlibat dalam gerakan yang ingin memisahkan diri dari Indonesia'], answer: 'Tidak terlibat dalam gerakan yang ingin memisahkan diri dari Indonesia', explanation: 'Kesetiaan pada NKRI berarti komitmen untuk menjaga keutuhan wilayah dan persatuan bangsa dari segala bentuk ancaman separatisme.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Pancasila sebagai ideologi terbuka artinya...', options: ['Dapat diubah sesuai kehendak penguasa', 'Menerima semua pengaruh asing tanpa filter', 'Nilai-nilainya dapat berinteraksi dengan perkembangan zaman tanpa kehilangan hakikatnya', 'Hanya cocok untuk generasi tua'], answer: 'Nilai-nilainya dapat berinteraksi dengan perkembangan zaman tanpa kehilangan hakikatnya', explanation: 'Sebagai ideologi terbuka, Pancasila memiliki nilai dasar yang tetap, namun nilai instrumental dan praksisnya dapat dikembangkan secara dinamis sesuai perkembangan zaman.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Lagu Indonesia Raya diciptakan oleh Wage Rudolf Supratman. Stanza ketiga lagu tersebut menekankan pada...', options: ['Janji dan doa untuk keselamatan rakyat dan bangsa Indonesia', 'Keindahan alam Indonesia', 'Semangat perjuangan kemerdekaan', 'Persatuan dan kesatuan bangsa'], answer: 'Janji dan doa untuk keselamatan rakyat dan bangsa Indonesia', explanation: 'Lirik pada stanza ketiga ("Indonesya tanah yang suci... Selamatlah rakyatnya, selamatlah putranya...") berisi janji dan doa untuk keselamatan bangsa.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Salah satu tujuan dibentuknya pemerintah negara Indonesia yang tercantum dalam Pembukaan UUD 1945 adalah...', options: ['Menguasai dunia', 'Mencerdaskan kehidupan bangsa', 'Membangun aliansi militer terkuat', 'Menjadi negara adidaya'], answer: 'Mencerdaskan kehidupan bangsa', explanation: 'Tujuan negara Indonesia tercantum jelas di alinea keempat Pembukaan UUD 1945, salah satunya adalah mencerdaskan kehidupan bangsa.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Tindakan korupsi merupakan pelanggaran terhadap Pancasila, terutama sila...', options: ['Pertama dan Kedua', 'Kedua dan Kelima', 'Ketiga dan Keempat', 'Pertama dan Kelima'], answer: 'Kedua dan Kelima', explanation: 'Korupsi melanggar hak orang lain (tidak manusiawi/Sila 2) dan merampas hak rakyat atas kesejahteraan (tidak adil/Sila 5).' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Otonomi daerah bertujuan untuk...', options: ['Memisahkan daerah dari pusat', 'Meningkatkan daya saing antar daerah', 'Meningkatkan kesejahteraan masyarakat daerah melalui pelayanan dan pemberdayaan', 'Memberikan kekuasaan absolut kepada kepala daerah'], answer: 'Meningkatkan kesejahteraan masyarakat daerah melalui pelayanan dan pemberdayaan', explanation: 'Tujuan utama otonomi daerah adalah mempercepat terwujudnya kesejahteraan masyarakat melalui peningkatan pelayanan, pemberdayaan, dan peran serta masyarakat.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Konferensi Asia-Afrika (KAA) yang diselenggarakan di Bandung pada tahun 1955 menghasilkan...', options: ['Dasasila Bandung', 'Piagam PBB', 'Deklarasi Bangkok', 'Jakarta Accord'], answer: 'Dasasila Bandung', explanation: 'KAA 1955 menghasilkan Dasasila Bandung, yang berisi sepuluh prinsip dasar dalam usaha memajukan perdamaian dan kerja sama dunia.' },
 
     // --- TES INTELEGENSIA UMUM (TIU) - 35 Soal ---
     { subtest: 'Tes Intelegensia Umum (TIU)', question: 'VIRTUAL : ... = ... : NYATA', options: ['MAYA : FAKTA', 'KOMPUTER : REALITAS', 'ONLINE : ASLI', 'GAME : DUNIA'], answer: 'MAYA : FAKTA', explanation: 'Hubungan katanya adalah sinonim dan antonim. VIRTUAL bersinonim dengan MAYA, dan MAYA berantonim dengan FAKTA (yang bersinonim dengan NYATA).' },
     { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Antonim dari kata "APRIORI" adalah...', options: ['A Posteriori', 'Unggulan', 'Teoretis', 'Asumsi'], answer: 'A Posteriori', explanation: 'Apriori berarti pengetahuan yang didapat tanpa melalui pengalaman (berpangkal pada teori). A Posteriori adalah kebalikannya, yaitu pengetahuan yang didapat dari pengalaman atau fakta empiris.' },
-    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Seri Angka: 5, 7, 10, 15, 22, ...', options: ['33', '31', '30', '29'], answer: '33', explanation: 'Pola deret adalah penjumlahan bertingkat: +2, +3, +5, +7, ... (bilangan prima berikutnya adalah 11). Maka angka selanjutnya adalah 22 + 11 = 33.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Seri Angka: 5, 8, 12, 17, 23, ...', options: ['30', '31', '32', '29'], answer: '30', explanation: 'Pola deret adalah penjumlahan yang meningkat: +3, +4, +5, +6, ... Maka angka selanjutnya adalah 23 + 7 = 30.' },
     { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Sebuah pekerjaan dapat diselesaikan oleh 12 orang dalam 10 hari. Jika setelah 4 hari bekerja, 4 orang pekerja sakit dan tidak bisa melanjutkan, berapa hari tambahan yang dibutuhkan untuk menyelesaikan pekerjaan tersebut?', options: ['3 hari', '4 hari', '5 hari', '6 hari'], answer: '3 hari', explanation: 'Total beban kerja: 12 orang x 10 hari = 120. Pekerjaan yang sudah selesai: 12 orang x 4 hari = 48. Sisa beban kerja: 120 - 48 = 72. Sisa pekerja: 12 - 4 = 8 orang. Waktu yang dibutuhkan untuk menyelesaikan sisa pekerjaan: 72 / 8 = 9 hari. Sisa waktu sesuai jadwal awal: 10 - 4 = 6 hari. Jadi, waktu tambahan yang dibutuhkan adalah 9 - 6 = 3 hari.' },
     { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Jika semua A adalah B, dan beberapa C adalah A, maka...', options: ['Semua C adalah B', 'Beberapa B adalah C', 'Tidak ada C yang B', 'Tidak dapat disimpulkan'], answer: 'Beberapa B adalah C', explanation: 'Karena beberapa C adalah A, dan semua A adalah B, maka dapat disimpulkan bahwa beberapa C tersebut juga merupakan B. Ini berarti "Beberapa C adalah B" atau bisa dibalik menjadi "Beberapa B adalah C".' },
-    ...Array(30).fill({ subtest: 'Tes Intelegensia Umum (TIU)', question: 'Contoh Soal TIU Tambahan: Harga sebuah buku didiskon dua kali berturut-turut, yaitu 20% dan 10%. Berapa total diskon harga buku tersebut?', options: ['30%', '28%', '32%', '25%'], answer: '28%', explanation: 'Misal harga awal 100. Diskon pertama 20% -> 100 - 20 = 80. Diskon kedua 10% dari 80 -> 80 - 8 = 72. Harga akhir 72. Total diskon = 100 - 72 = 28. Jadi total diskonnya adalah 28%.' }),
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'MOBIL : BENSIN = MANUSIA : ...', options: ['OKSIGEN', 'RUMAH', 'MAKANAN', 'PAKAIAN'], answer: 'MAKANAN', explanation: 'MOBIL membutuhkan BENSIN sebagai sumber energi untuk bergerak. MANUSIA membutuhkan MAKANAN sebagai sumber energi.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Sinonim dari kata "TENDENSI" adalah...', options: ['Kecenderungan', 'Tegangan', 'Tujuan', 'Harapan'], answer: 'Kecenderungan', explanation: 'Tendensi memiliki arti kecenderungan atau kecondongan pada suatu hal.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Seri Huruf: A, Z, C, X, E, V, ...', options: ['G', 'T', 'F', 'U'], answer: 'G', explanation: 'Ini adalah dua seri yang berselang-seling. Seri pertama maju (A, C, E, G...). Seri kedua mundur (Z, X, V, T...). Angka selanjutnya adalah dari seri pertama, yaitu G.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Jika 2x + 3y = 21 dan x + y = 8, maka nilai x adalah...', options: ['3', '4', '5', '6'], answer: '3', explanation: 'Dari x+y=8, maka y=8-x. Substitusi ke persamaan pertama: 2x + 3(8-x) = 21 => 2x + 24 - 3x = 21 => -x = -3 => x = 3.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Semua ilmuwan berpikir logis. Sebagian filsuf adalah ilmuwan. Kesimpulan:', options: ['Sebagian filsuf berpikir logis', 'Semua filsuf berpikir logis', 'Filsuf tidak berpikir logis', 'Berpikir logis adalah syarat jadi filsuf'], answer: 'Sebagian filsuf berpikir logis', explanation: 'Karena sebagian filsuf adalah ilmuwan, dan semua ilmuwan berpikir logis, maka dapat disimpulkan bahwa sebagian filsuf tersebut juga berpikir logis.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Antonim dari kata "Sporadis" adalah...', options: ['Jarang', 'Sering', 'Teratur', 'Kadang-kadang'], answer: 'Teratur', explanation: 'Sporadis berarti tidak tentu, kadang-kadang, atau tidak teratur. Lawan katanya adalah teratur atau rutin.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Ayah 4 tahun lebih tua dari Paman. Ibu 3 tahun lebih muda dari Ayah. Usia Paman saat ini 28 tahun. Berapa usia Ibu?', options: ['28 tahun', '29 tahun', '30 tahun', '31 tahun'], answer: '29 tahun', explanation: 'Usia Ayah = Usia Paman + 4 = 28 + 4 = 32 tahun. Usia Ibu = Usia Ayah - 3 = 32 - 3 = 29 tahun.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Seri Angka: 3, 4, 7, 11, 18, 29, ...', options: ['47', '45', '40', '39'], answer: '47', explanation: 'Ini adalah deret Fibonacci, di mana setiap angka adalah hasil penjumlahan dua angka sebelumnya. Angka selanjutnya adalah 18 + 29 = 47.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Matahari : Terang = Api : ...', options: ['Panas', 'Merah', 'Listrik', 'Cahaya'], answer: 'Panas', explanation: 'Matahari menghasilkan Terang (dan panas). Api menghasilkan Panas (dan terang). Hubungan yang paling utama dan khas adalah panas.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Jika ada pesta, Budi selalu datang. Hari ini tidak ada pesta. Kesimpulan:', options: ['Budi tidak datang', 'Budi tetap datang', 'Budi mungkin datang', 'Tidak dapat disimpulkan'], answer: 'Tidak dapat disimpulkan', explanation: 'Premis hanya menyatakan apa yang terjadi jika ada pesta. Tidak ada informasi tentang apa yang Budi lakukan jika tidak ada pesta. Ia bisa saja datang karena alasan lain.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Sinonim dari kata "RABAT" adalah...', options: ['Rapat', 'Debat', 'Potongan harga', 'Tambahan biaya'], answer: 'Potongan harga', explanation: 'Rabat adalah istilah lain untuk diskon atau potongan harga.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Jika 5% dari suatu bilangan adalah 6, maka 20% dari bilangan tersebut adalah...', options: ['12', '18', '24', '30'], answer: '24', explanation: 'Jika 5% = 6, maka 1% = 6/5. Maka 20% = (6/5) * 20 = 6 * 4 = 24. Atau, karena 20% adalah 4 kali lipat dari 5%, maka nilainya juga 4 kali lipat dari 6, yaitu 24.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Seri Huruf: G, H, J, M, Q, ...', options: ['V', 'U', 'T', 'S'], answer: 'V', explanation: 'Pola loncatan huruf meningkat: +1, +2, +3, +4. Maka huruf selanjutnya adalah Q + 5 langkah (R,S,T,U,V) = V.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Antonim dari kata "KOHEREN" adalah...', options: ['Berhubungan', 'Selaras', 'Kacau', 'Logis'], answer: 'Kacau', explanation: 'Koheren berarti berhubungan secara logis atau bersangkut paut. Lawan katanya adalah tidak beraturan atau kacau.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Mana yang tidak termasuk dalam kelompoknya?', options: ['Jakarta', 'Bangkok', 'Kuala Lumpur', 'Singapura'], answer: 'Jakarta', explanation: 'Bangkok, Kuala Lumpur, dan Singapura adalah nama ibu kota negara sekaligus nama negaranya (City-State, atau dalam kasus Thailand dan Malaysia nama kotanya sama dengan nama yang dikenal luas). Jakarta adalah ibu kota negara Indonesia.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Jika p = 2 dan q = -3, maka nilai dari p² - 2q adalah...', options: ['-2', '10', '4', '1'], answer: '10', explanation: '(2)² - 2(-3) = 4 - (-6) = 4 + 6 = 10.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Semua perawat mengenakan seragam. Sebagian wanita adalah perawat. Kesimpulan:', options: ['Semua wanita mengenakan seragam', 'Sebagian wanita mengenakan seragam', 'Wanita tidak mengenakan seragam', 'Perawat bukan wanita'], answer: 'Sebagian wanita mengenakan seragam', explanation: 'Karena sebagian wanita adalah perawat, dan semua perawat mengenakan seragam, maka sebagian wanita tersebut pasti mengenakan seragam.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Sinonim dari "GALAT" adalah...', options: ['Benar', 'Salah', 'Kekeliruan', 'Keraguan'], answer: 'Kekeliruan', explanation: 'Galat adalah istilah lain untuk kesalahan atau kekeliruan, sering digunakan dalam konteks teknis atau ilmiah.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Sebuah taman berbentuk lingkaran dengan diameter 28 meter. Berapa keliling taman tersebut? (π=22/7)', options: ['88 meter', '154 meter', '616 meter', '44 meter'], answer: '88 meter', explanation: 'Keliling lingkaran = π × d = (22/7) × 28 = 22 × 4 = 88 meter.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Seri Angka: 2, 6, 12, 20, 30, ...', options: ['40', '42', '50', '56'], answer: '42', explanation: 'Pola deret adalah penambahan bilangan genap berurutan: +4, +6, +8, +10. Maka angka selanjutnya adalah 30 + 12 = 42.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Antonim dari "MANDIRI" adalah...', options: ['Sendiri', 'Bergantung', 'Swadaya', 'Bebas'], answer: 'Bergantung', explanation: 'Mandiri berarti tidak bergantung pada orang lain. Lawan katanya adalah bergantung.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Beberapa dosen adalah peneliti. Semua peneliti harus kreatif. Kesimpulan:', options: ['Beberapa dosen harus kreatif', 'Semua dosen harus kreatif', 'Dosen tidak harus kreatif', 'Peneliti adalah dosen'], answer: 'Beberapa dosen harus kreatif', explanation: 'Karena beberapa dosen adalah peneliti, dan semua peneliti harus kreatif, maka beberapa dosen tersebut harus kreatif.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Berapa nilai dari 12,5% dari 512?', options: ['51.2', '64', '72', '80'], answer: '64', explanation: '12,5% sama dengan 1/8. Maka (1/8) * 512 = 64.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'SUARA : TELEPON = GAMBAR : ...', options: ['KAMERA', 'LUKISAN', 'TELEVISI', 'FOTO'], answer: 'TELEVISI', explanation: 'SUARA disalurkan melalui TELEPON. GAMBAR (yang bergerak) disalurkan melalui TELEVISI.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Harga sebuah buku didiskon dua kali berturut-turut, yaitu 20% dan 10%. Berapa total diskon harga buku tersebut?', options: ['30%', '28%', '32%', '25%'], answer: '28%', explanation: 'Misal harga awal 100. Diskon pertama 20% -> 100 - 20 = 80. Diskon kedua 10% dari 80 -> 80 - 8 = 72. Harga akhir 72. Total diskon = 100 - 72 = 28. Jadi total diskonnya adalah 28%.' },
 
     // --- TES KARAKTERISTIK PRIBADI (TKP) - 45 Soal ---
     { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Anda diminta untuk mengerjakan tugas yang belum pernah Anda lakukan sebelumnya dan tidak ada panduan yang jelas. Sikap Anda:', options: ['Menolak tugas tersebut karena di luar kompetensi saya.', 'Meminta atasan untuk memberikan tugas kepada rekan yang lebih berpengalaman.', 'Mencoba mencari referensi dari berbagai sumber, belajar mandiri, dan bertanya pada senior untuk menyelesaikannya.', 'Mengerjakannya semampu saya, tidak masalah jika hasilnya tidak maksimal.', 'Menunda pekerjaan sambil menunggu arahan yang lebih jelas.'], answer: 'Mencoba mencari referensi dari berbagai sumber, belajar mandiri, dan bertanya pada senior untuk menyelesaikannya.', explanation: 'Jawaban ini mencerminkan inisiatif tinggi, kemauan belajar (pengembangan diri), dan profesionalisme dalam menghadapi tantangan baru untuk mencapai hasil terbaik. Skor tertinggi (5).' },
@@ -620,7 +669,43 @@ const questions = [
     { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Di lingkungan kerja Anda, banyak rekan yang menggunakan bahasa daerah untuk berkomunikasi. Sementara Anda berasal dari daerah lain. Sikap Anda:', options: ['Merasa tidak nyaman dan menjaga jarak.', 'Meminta mereka untuk selalu menggunakan Bahasa Indonesia di lingkungan kerja.', 'Berusaha untuk sedikit demi sedikit mempelajari bahasa mereka agar lebih akrab sambil tetap menggunakan Bahasa Indonesia.', 'Hanya berkomunikasi seperlunya terkait pekerjaan.', 'Menganggapnya sebagai hal yang tidak penting.'], answer: 'Berusaha untuk sedikit demi sedikit mempelajari bahasa mereka agar lebih akrab sambil tetap menggunakan Bahasa Indonesia.', explanation: 'Sikap ini menunjukkan kemampuan adaptasi sosial-kultural yang sangat baik. Anda menunjukkan penghargaan pada budaya lain sambil tetap menjaga fungsi Bahasa Indonesia sebagai pemersatu. Skor tertinggi (5).' },
     { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Target pekerjaan tim Anda bulan ini sangat tinggi dan tampaknya sulit dicapai. Sebagai anggota tim, apa yang Anda lakukan?', options: ['Bekerja seperti biasa, karena pencapaian target adalah tanggung jawab ketua tim.', 'Mengeluh bahwa targetnya tidak realistis.', 'Mendorong diri sendiri dan rekan lain untuk lebih bersemangat, serta mencari cara-cara kerja yang lebih efisien.', 'Pasrah dengan keadaan dan siap menerima konsekuensi jika target tidak tercapai.', 'Bekerja lembur setiap hari tanpa memikirkan efektivitas.'], answer: 'Mendorong diri sendiri dan rekan lain untuk lebih bersemangat, serta mencari cara-cara kerja yang lebih efisien.', explanation: 'Jawaban ini menunjukkan semangat berprestasi, kemampuan bekerja sama, dan orientasi pada hasil. Anda tidak hanya fokus pada diri sendiri tetapi juga memotivasi tim. Skor tertinggi (5).' },
     { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Anda adalah seorang resepsionis. Seorang tamu datang dengan marah-marah karena merasa tidak mendapatkan pelayanan yang baik dari petugas sebelumnya. Tindakan Anda:', options: ['Memintanya untuk tenang terlebih dahulu baru menyampaikan keluhannya.', 'Mendengarkan keluhannya dengan penuh empati, meminta maaf atas ketidaknyamanannya, dan menawarkan solusi.', 'Menyalahkan rekan saya yang bertugas sebelumnya.', 'Memintanya untuk membuat laporan tertulis agar bisa diproses.', 'Mengatakan bahwa itu bukan giliran jaga saya.'], answer: 'Mendengarkan keluhannya dengan penuh empati, meminta maaf atas ketidaknyamanannya, dan menawarkan solusi.', explanation: 'Ini adalah standar emas dalam pelayanan publik. Menunjukkan empati, mengambil tanggung jawab atas nama instansi, dan berorientasi pada solusi adalah kunci untuk menangani keluhan pelanggan secara profesional. Skor tertinggi (5).' },
-    ...Array(40).fill({ subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Contoh Soal TKP Tambahan: Saat ada pemadaman listrik di kantor, apa yang Anda lakukan?', options: ['Ikut panik dan tidak melakukan apa-apa.', 'Menggunakannya sebagai alasan untuk bersantai dan mengobrol.', 'Mencari tahu penyebabnya dan kapan akan menyala kembali sambil mengerjakan tugas yang bisa dilakukan tanpa listrik.', 'Langsung pulang karena tidak bisa bekerja.', 'Menyalakan lilin di meja kerja.'], answer: 'Mencari tahu penyebabnya dan kapan akan menyala kembali sambil mengerjakan tugas yang bisa dilakukan tanpa listrik.', explanation: 'Sikap ini menunjukkan inisiatif, kemampuan mengelola diri, dan tetap berusaha produktif meskipun dalam kondisi yang tidak ideal. Skor tertinggi (5).' }),
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Ketika ada pemadaman listrik di kantor, apa yang Anda lakukan?', options: ['Ikut panik dan tidak melakukan apa-apa.', 'Menggunakannya sebagai alasan untuk bersantai dan mengobrol.', 'Mencari tahu penyebabnya dan kapan akan menyala kembali sambil mengerjakan tugas yang bisa dilakukan tanpa listrik.', 'Langsung pulang karena tidak bisa bekerja.', 'Menyalakan lilin di meja kerja.'], answer: 'Mencari tahu penyebabnya dan kapan akan menyala kembali sambil mengerjakan tugas yang bisa dilakukan tanpa listrik.', explanation: 'Sikap ini menunjukkan inisiatif, kemampuan mengelola diri, dan tetap berusaha produktif meskipun dalam kondisi yang tidak ideal. Skor tertinggi (5).' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Anda melihat ada fasilitas kantor yang rusak karena ulah rekan kerja Anda. Namun ia diam saja. Sikap Anda:', options: ['Ikut diam saja agar tidak punya masalah dengannya.', 'Menegurnya di depan umum.', 'Melaporkannya secara anonim ke bagian umum atau atasan.', 'Menasihatinya secara pribadi untuk mengakui dan melaporkan kerusakan tersebut.', 'Memperbaikinya sendiri tanpa memberitahu siapapun.'], answer: 'Menasihatinya secara pribadi untuk mengakui dan melaporkan kerusakan tersebut.', explanation: 'Pilihan ini menunjukkan integritas dan kepedulian. Anda mendorong tanggung jawab pada rekan dengan cara yang etis tanpa mempermalukannya. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Saya lebih suka dihargai karena...', options: ['Penampilan saya.', 'Status sosial saya.', 'Hasil kerja dan kontribusi saya.', 'Hubungan baik saya dengan atasan.', 'Keberuntungan saya.'], answer: 'Hasil kerja dan kontribusi saya.', explanation: 'Jawaban ini menunjukkan orientasi pada prestasi yang kuat. Anda ingin dinilai berdasarkan kinerja dan apa yang telah Anda berikan. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Jika saya tidak sengaja mendengar rahasia pribadi rekan kerja, saya akan:', options: ['Menyebarkannya ke seluruh kantor.', 'Menggunakannya untuk menjatuhkannya suatu saat nanti.', 'Menyimpannya rapat-rapat dan bersikap seolah tidak pernah mendengarnya.', 'Mengkonfirmasinya langsung kepada yang bersangkutan.', 'Memberitahu teman terdekat saya saja.'], answer: 'Menyimpannya rapat-rapat dan bersikap seolah tidak pernah mendengarnya.', explanation: 'Ini menunjukkan integritas dan kemampuan menjaga amanah. Menghormati privasi orang lain adalah bagian dari etika profesional. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Saya akan merasa bangga menjadi seorang ASN jika...', options: ['Saya bisa mendapatkan banyak fasilitas negara.', 'Saya bisa membantu mewujudkan program pemerintah dan melayani masyarakat dengan baik.', 'Saya memiliki kekuasaan.', 'Pekerjaan saya santai dan gajinya besar.', 'Saya bisa pulang kerja tepat waktu setiap hari.'], answer: 'Saya bisa membantu mewujudkan program pemerintah dan melayani masyarakat dengan baik.', explanation: 'Jawaban ini mencerminkan motivasi dan pemahaman yang paling benar tentang peran dan fungsi ASN sebagai pelayan publik dan abdi negara. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Ketika tim saya tidak kompak, saya akan...', options: ['Menyalahkan pemimpin tim.', 'Bekerja sendiri-sendiri.', 'Mencoba menginisiasi kegiatan atau diskusi untuk membangun kembali kebersamaan dan komunikasi.', 'Pindah ke tim lain.', 'Membiarkannya saja, nanti juga akan baik sendiri.'], answer: 'Mencoba menginisiasi kegiatan atau diskusi untuk membangun kembali kebersamaan dan komunikasi.', explanation: 'Ini menunjukkan inisiatif, kemampuan jejaring kerja, dan peran aktif dalam menciptakan lingkungan kerja yang positif. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Cara saya menjaga semangat kerja saat merasa jenuh adalah...', options: ['Sering izin tidak masuk kerja.', 'Bekerja lebih lambat dari biasanya.', 'Mengingat kembali tujuan dan motivasi saya bekerja, serta mencari tantangan baru.', 'Mengeluh terus-menerus.', 'Menunggu dimarahi atasan baru semangat lagi.'], answer: 'Mengingat kembali tujuan dan motivasi saya bekerja, serta mencari tantangan baru.', explanation: 'Ini menunjukkan kemampuan mengelola diri dan motivasi yang berasal dari dalam (intrinsik). Anda proaktif mencari cara untuk kembali bersemangat. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Anda melihat rekan kerja yang lebih muda kesulitan menggunakan peralatan kantor yang sudah tua. Saya akan:', options: ['Mengejeknya karena tidak bisa menggunakan alat sederhana.', 'Membiarkannya, biar dia belajar sendiri.', 'Menawarkan bantuan dan menunjukkan cara menggunakannya dengan sabar.', 'Melaporkan kepada atasan bahwa peralatannya sudah usang.', 'Menyuruhnya mencari tutorial di internet.'], answer: 'Menawarkan bantuan dan menunjukkan cara menggunakannya dengan sabar.', explanation: 'Ini menunjukkan kepedulian, empati, dan kemampuan bekerja sama. Anda proaktif membantu rekan tanpa memandang usia. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Ketika ada perselisihan antara dua rekan kerja, saya akan:', options: ['Memihak salah satu yang paling dekat dengan saya.', 'Menjadi kompor agar perselisihan semakin panas.', 'Berusaha menjadi penengah yang netral dan membantu mereka menemukan solusi.', 'Tidak mau ikut campur sama sekali.', 'Melaporkan keduanya kepada atasan.'], answer: 'Berusaha menjadi penengah yang netral dan membantu mereka menemukan solusi.', explanation: 'Ini menunjukkan kemampuan mengelola sosial-emosional dan membangun jejaring kerja yang positif. Anda berperan sebagai pemecah masalah. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Sikap saya terhadap aturan yang ada di kantor adalah...', options: ['Selalu mematuhinya tanpa kecuali sebagai bentuk disiplin dan integritas.', 'Mematuhinya hanya jika ada yang mengawasi.', 'Mencari celah untuk bisa melanggarnya.', 'Aturan dibuat untuk dilanggar.', 'Menganggap aturan merepotkan.'], answer: 'Selalu mematuhinya tanpa kecuali sebagai bentuk disiplin dan integritas.', explanation: 'Ini adalah cerminan profesionalisme dan integritas yang paling dasar dan penting bagi seorang ASN. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Ketika atasan meminta masukan untuk sebuah program baru, saya akan:', options: ['Diam saja karena tidak mau ambil risiko jika ide saya salah.', 'Memberikan masukan yang orisinal dan konstruktif berdasarkan analisis saya.', 'Hanya setuju dengan ide atasan agar aman.', 'Mengkritik semua ide yang muncul.', 'Menunggu teman lain memberikan masukan terlebih dahulu.'], answer: 'Memberikan masukan yang orisinal dan konstruktif berdasarkan analisis saya.', explanation: 'Ini menunjukkan inisiatif, kreativitas, dan keberanian untuk berkontribusi secara positif bagi kemajuan instansi. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Seorang warga memberikan Anda hadiah sebagai ucapan terima kasih atas pelayanan Anda. Sikap Anda:', options: ['Menerimanya dengan senang hati.', 'Menolaknya dengan tegas karena merupakan bentuk gratifikasi.', 'Menerimanya dan membaginya dengan rekan kerja lain.', 'Menolaknya secara halus dan menjelaskan bahwa itu sudah menjadi tugas saya.', 'Menerimanya agar warga tersebut tidak tersinggung.'], answer: 'Menolaknya secara halus dan menjelaskan bahwa itu sudah menjadi tugas saya.', explanation: 'Menolak gratifikasi adalah wajib. Melakukannya dengan halus sambil memberi pemahaman menunjukkan pelayanan dan integritas yang baik. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Rekan kerja Anda sering meminta tolong hal-hal kecil yang sebenarnya bisa ia kerjakan sendiri, hal ini sedikit mengganggu pekerjaan Anda. Sikap Anda:', options: ['Selalu membantunya tanpa syarat.', 'Menolaknya dengan ketus.', 'Mengeluhkan perilakunya kepada rekan kerja lain.', 'Membantunya sesekali, sambil dengan sopan mendorongnya untuk lebih mandiri.', 'Menghindarinya setiap kali ia mendekat.'], answer: 'Membantunya sesekali, sambil dengan sopan mendorongnya untuk lebih mandiri.', explanation: 'Pilihan ini seimbang antara menjaga hubungan baik, tetap kolaboratif, namun juga secara halus dan konstruktif mendorong kemandirian rekan kerja. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Ketika dihadapkan pada banyak tugas dengan tenggat waktu yang bersamaan, hal pertama yang saya lakukan adalah:', options: ['Merasa panik dan tidak tahu harus mulai dari mana.', 'Mengerjakan yang paling saya sukai terlebih dahulu.', 'Membuat daftar prioritas berdasarkan urgensi dan pentingnya tugas, lalu mengerjakannya secara sistematis.', 'Mengerjakan semuanya secara bersamaan (multitasking).', 'Meminta keringanan waktu kepada atasan.'], answer: 'Membuat daftar prioritas berdasarkan urgensi dan pentingnya tugas, lalu mengerjakannya secara sistematis.', explanation: 'Ini menunjukkan kemampuan manajemen diri dan perencanaan yang sangat baik. Membuat prioritas adalah kunci untuk bekerja efektif di bawah tekanan. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Atasan saya memiliki gaya komunikasi yang blak-blakan dan terkadang menyinggung. Sebagai bawahannya, saya akan:', options: ['Membalasnya dengan gaya yang sama.', 'Menyimpan dendam dan bekerja tidak maksimal.', 'Mencoba beradaptasi dan fokus pada substansi pesan yang disampaikan, bukan pada cara penyampaiannya.', 'Melaporkannya ke bagian SDM.', 'Menghindar dari interaksi langsung dengannya.'], answer: 'Mencoba beradaptasi dan fokus pada substansi pesan yang disampaikan, bukan pada cara penyampaiannya.', explanation: 'Kemampuan beradaptasi dan mengelola emosi adalah hal penting. Fokus pada isi pesan menunjukkan profesionalisme dan kedewasaan. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Definisi bekerja keras menurut saya adalah...', options: ['Bekerja melebihi jam kerja setiap hari.', 'Bekerja dengan cerdas, efisien, dan tuntas sesuai target yang ditetapkan.', 'Bekerja tanpa pernah istirahat.', 'Mengerjakan semua pekerjaan sendirian.', 'Selalu terlihat sibuk di depan atasan.'], answer: 'Bekerja dengan cerdas, efisien, dan tuntas sesuai target yang ditetapkan.', explanation: 'Bekerja keras bukan sekadar tentang kuantitas waktu, melainkan kualitas dan efektivitas dalam mencapai hasil (orientasi pada hasil). Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Jika saya menemukan informasi sensitif tentang instansi yang bocor di internet, saya akan:', options: ['Mengabaikannya karena bukan tanggung jawab saya.', 'Ikut menyebarkannya agar menjadi viral.', 'Segera melaporkannya kepada atasan atau pihak yang berwenang di instansi dan tidak menyebarluaskannya lebih lanjut.', 'Mencari tahu siapa yang membocorkannya.', 'Panik dan memberitahu semua rekan kerja.'], answer: 'Segera melaporkannya kepada atasan atau pihak yang berwenang di instansi dan tidak menyebarluaskannya lebih lanjut.', explanation: 'Ini menunjukkan integritas, tanggung jawab, dan kepedulian terhadap keamanan informasi instansi. Anda bertindak cepat, tepat, dan tidak memperkeruh suasana. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Saat memberikan pelayanan, seorang warga marah-marah karena antrean yang panjang. Reaksi saya:', options: ['Ikut marah karena saya juga lelah.', 'Tidak mempedulikannya.', 'Tetap tenang, mendengarkan keluhannya dengan empati, dan menjelaskan situasi dengan sopan.', 'Menyuruh satpam untuk mengeluarkannya.', 'Menyalahkan sistem yang ada.'], answer: 'Tetap tenang, mendengarkan keluhannya dengan empati, dan menjelaskan situasi dengan sopan.', explanation: 'Ini adalah cerminan kemampuan mengelola diri dan orientasi pelayanan yang prima. Tetap tenang dan empatik di bawah tekanan adalah kunci. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Saya lebih suka berteman dengan orang yang...', options: ['Hanya yang sependapat dengan saya.', 'Bisa memberikan keuntungan bagi saya.', 'Memiliki latar belakang yang sama.', 'Berasal dari berbagai latar belakang yang berbeda untuk memperluas wawasan.', 'Populer dan punya banyak pengikut.'], answer: 'Berasal dari berbagai latar belakang yang berbeda untuk memperluas wawasan.', explanation: 'Ini menunjukkan keterbukaan, kemampuan beradaptasi sosial budaya, dan keinginan untuk belajar dari orang lain. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Ketika mengikuti sebuah diklat atau pelatihan, saya akan:', options: ['Menganggapnya sebagai formalitas untuk mendapatkan sertifikat.', 'Aktif bertanya, berdiskusi, dan berusaha menyerap ilmu sebanyak mungkin untuk diterapkan dalam pekerjaan.', 'Hadir secara fisik tetapi pikiran saya di tempat lain.', 'Hanya fokus pada hal-hal yang saya sukai.', 'Datang terlambat dan pulang lebih awal.'], answer: 'Aktif bertanya, berdiskusi, dan berusaha menyerap ilmu sebanyak mungkin untuk diterapkan dalam pekerjaan.', explanation: 'Sikap ini menunjukkan semangat belajar dan pengembangan diri yang tinggi. Anda proaktif dan melihat pelatihan sebagai kesempatan untuk berkembang. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Jika terjadi konflik antara kepentingan pribadi (misal, acara keluarga penting) dengan kepentingan dinas yang mendesak, saya akan...', options: ['Selalu mengutamakan kepentingan pribadi.', 'Mencoba menyeimbangkan keduanya dengan mengerjakan tugas dinas secepatnya lalu izin untuk acara keluarga.', 'Mendahulukan kepentingan dinas sebagai bentuk tanggung jawab, dan menjelaskan situasinya kepada keluarga.', 'Merasa bingung dan tidak bisa memilih.', 'Mengabaikan tugas dinas.'], answer: 'Mendahulukan kepentingan dinas sebagai bentuk tanggung jawab, dan menjelaskan situasinya kepada keluarga.', explanation: 'Profesionalisme seringkali menuntut prioritas pada tanggung jawab pekerjaan, terutama yang mendesak, sambil tetap berkomunikasi baik dengan keluarga. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Sikap saya terhadap berita atau informasi yang belum terverifikasi kebenarannya (hoax) adalah...', options: ['Langsung mempercayai dan menyebarkannya.', 'Tidak peduli sama sekali.', 'Mencari tahu kebenarannya terlebih dahulu dari sumber yang kredibel sebelum menanggapinya.', 'Menyebarkannya dengan catatan "belum tentu benar".', 'Menanyakan kebenarannya di grup WhatsApp keluarga.'], answer: 'Mencari tahu kebenarannya terlebih dahulu dari sumber yang kredibel sebelum menanggapinya.', explanation: 'Ini menunjukkan kemampuan berpikir kritis dan tanggung jawab sosial dalam menggunakan teknologi informasi. Tidak mudah percaya dan menyaring informasi adalah ciri ASN modern. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Hal yang paling membuat saya termotivasi dalam bekerja adalah...', options: ['Gaji dan tunjangan yang besar.', 'Pujian dari atasan.', 'Kesempatan untuk memberikan dampak positif bagi masyarakat dan negara.', 'Lingkungan kerja yang santai.', 'Takut pada hukuman.'], answer: 'Kesempatan untuk memberikan dampak positif bagi masyarakat dan negara.', explanation: 'Jawaban ini menunjukkan motivasi instrinsik yang kuat dan pemahaman mendalam tentang tujuan menjadi ASN, yaitu sebagai pelayan publik. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Ketika ada rekan kerja baru yang tampak kesulitan beradaptasi, saya akan...', options: ['Membiarkannya, itu masalah dia sendiri.', 'Menjadikannya bahan omongan.', 'Mengambil inisiatif untuk mengajaknya bicara, mengenalkannya pada lingkungan, dan menawarkan bantuan.', 'Menjauhinya agar tidak ikut repot.', 'Melaporkan pada atasan bahwa ia tidak kompeten.'], answer: 'Mengambil inisiatif untuk mengajaknya bicara, mengenalkannya pada lingkungan, dan menawarkan bantuan.', explanation: 'Ini menunjukkan kemampuan jejaring kerja, empati, dan kepedulian sosial. Membantu rekan baru adalah investasi untuk kekompakan tim. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Saya diminta mengerjakan tugas yang tidak sesuai dengan keahlian saya. Saya akan...', options: ['Menolaknya secara mentah-mentah.', 'Mencobanya, namun jika gagal saya akan menyerah.', 'Menerimanya sebagai tantangan, mencari referensi, dan berkonsultasi dengan yang lebih ahli untuk menyelesaikannya.', 'Mengerjakannya dengan asal-asalan.', 'Meminta atasan untuk mencari orang lain.'], answer: 'Menerimanya sebagai tantangan, mencari referensi, dan berkonsultasi dengan yang lebih ahli untuk menyelesaikannya.', explanation: 'Sikap ini menunjukkan kemauan belajar, kemampuan beradaptasi, dan semangat berprestasi. Anda tidak takut keluar dari zona nyaman. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Ketika menggunakan media sosial, saya sadar bahwa sebagai ASN saya harus...', options: ['Bebas berpendapat apa saja karena itu hak asasi.', 'Menjaga perilaku dan perkataan agar tidak merusak citra ASN dan instansi.', 'Hanya memposting tentang kegiatan pribadi.', 'Menggunakan akun anonim untuk mengkritik pemerintah.', 'Tidak aktif sama sekali di media sosial.'], answer: 'Menjaga perilaku dan perkataan agar tidak merusak citra ASN dan instansi.', explanation: 'Ini menunjukkan kesadaran akan etika dan integritas. ASN membawa nama baik institusi bahkan di ranah pribadi seperti media sosial. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Saat target kerja tim dinaikkan secara signifikan oleh manajemen, reaksi pertama saya adalah...', options: ['Pesimis dan yakin target tersebut tidak akan tercapai.', 'Mengeluh karena beban kerja bertambah.', 'Mempelajari target baru tersebut dan segera berdiskusi dengan tim untuk menyusun strategi pencapaiannya.', 'Bekerja seperti biasa, tidak peduli dengan target baru.', 'Mencari alasan agar tim saya mendapat pengecualian.'], answer: 'Mempelajari target baru tersebut dan segera berdiskusi dengan tim untuk menyusun strategi pencapaiannya.', explanation: 'Ini menunjukkan sikap proaktif, orientasi pada hasil, dan kemampuan bekerja sama. Anda langsung fokus pada solusi, bukan pada masalah. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Saya melihat fasilitas kantor seperti AC dan lampu masih menyala di ruangan yang sudah kosong setelah jam kerja. Saya akan...', options: ['Membiarkannya karena ada petugas kebersihan yang akan mematikan.', 'Ikut membiarkannya karena yang lain juga begitu.', 'Mengambil inisiatif untuk mematikannya sebagai bentuk kepedulian dan penghematan.', 'Mengomel di media sosial tentang pemborosan di kantor.', 'Melaporkan hal ini ke grup kantor.'], answer: 'Mengambil inisiatif untuk mematikannya sebagai bentuk kepedulian dan penghematan.', explanation: 'Ini adalah tindakan kecil yang menunjukkan kepedulian, integritas, dan rasa memiliki terhadap instansi. Anda bertindak langsung untuk kebaikan. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Seorang teman mengajak untuk "titip absen" karena ia ada keperluan mendadak. Sikap saya:', options: ['Menyetujuinya karena kasihan.', 'Menolaknya dengan tegas karena itu adalah bentuk ketidakjujuran.', 'Mempertimbangkannya jika keperluannya sangat penting.', 'Menyarankannya untuk meminta izin secara resmi kepada atasan.', 'Menolak sambil menyindirnya.'], answer: 'Menyarankannya untuk meminta izin secara resmi kepada atasan.', explanation: 'Ini adalah jawaban terbaik. Anda menolak tindakan tidak jujur (integritas) sambil memberikan solusi yang benar dan etis kepada teman Anda (kepedulian). Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Bagi saya, melayani masyarakat adalah...', options: ['Beban pekerjaan.', 'Sebuah kewajiban yang harus dijalankan dengan tulus dan sebaik mungkin.', 'Pekerjaan yang membosankan.', 'Hanya rutinitas biasa.', 'Cara untuk mendapatkan imbalan.'], answer: 'Sebuah kewajiban yang harus dijalankan dengan tulus dan sebaik mungkin.', explanation: 'Jawaban ini mencerminkan pemahaman yang paling mendalam tentang esensi pelayanan publik sebagai seorang ASN. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Ketika harus membuat keputusan sulit yang berdampak pada banyak orang, saya akan...', options: ['Memutuskannya sendiri dengan cepat.', 'Menunda keputusan selama mungkin.', 'Meminta pendapat dari berbagai pihak terkait dan mempertimbangkan semua konsekuensi sebelum memutuskan.', 'Mengikuti apa kata atasan saja.', 'Memilih opsi yang paling aman untuk posisi saya.'], answer: 'Meminta pendapat dari berbagai pihak terkait dan mempertimbangkan semua konsekuensi sebelum memutuskan.', explanation: 'Ini menunjukkan kebijaksanaan, kemampuan bekerja sama, dan profesionalisme dalam pengambilan keputusan yang bertanggung jawab. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Rekan kerja saya mendapat promosi, padahal menurut saya, saya lebih layak. Reaksi saya:', options: ['Merasa iri dan menunjukkan sikap tidak suka.', 'Menyebarkan isu bahwa promosinya karena ada "orang dalam".', 'Memberikan ucapan selamat secara tulus, sambil melakukan evaluasi diri untuk meningkatkan kinerja di masa depan.', 'Mengajukan protes kepada manajemen.', 'Bekerja dengan malas-malasan setelahnya.'], answer: 'Memberikan ucapan selamat secara tulus, sambil melakukan evaluasi diri untuk meningkatkan kinerja di masa depan.', explanation: 'Sikap ini menunjukkan kedewasaan, sportivitas, dan orientasi pada pengembangan diri yang kuat. Anda mengubah kekecewaan menjadi motivasi. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Saya harus bekerja sama dengan orang yang pernah berkonflik dengan saya. Saya akan:', options: ['Menolak untuk bekerja dengannya.', 'Bekerja dengannya namun menjaga jarak.', 'Mengesampingkan masalah pribadi dan bekerja secara profesional demi tujuan bersama tim.', 'Meminta atasan untuk memindahkannya.', 'Bekerja sambil mencoba mencari kesalahannya.'], answer: 'Mengesampingkan masalah pribadi dan bekerja secara profesional demi tujuan bersama tim.', explanation: 'Profesionalisme berarti mampu memisahkan urusan pribadi dengan tanggung jawab pekerjaan. Ini menunjukkan kemampuan mengelola diri dan jejaring kerja. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Menurut saya, kesalahan dalam bekerja adalah...', options: ['Sesuatu yang harus dihindari dengan cara apapun.', 'Aib yang harus ditutupi.', 'Bagian dari proses belajar, selama kita mau memperbaikinya dan tidak mengulanginya.', 'Tanda bahwa seseorang tidak kompeten.', 'Selalu disebabkan oleh faktor eksternal.'], answer: 'Bagian dari proses belajar, selama kita mau memperbaikinya dan tidak mengulanginya.', explanation: 'Pandangan ini menunjukkan pola pikir yang bertumbuh (growth mindset) dan orientasi pada perbaikan. Kesalahan dilihat sebagai peluang untuk belajar. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Ketika ada lowongan untuk jabatan yang lebih tinggi, saya akan...', options: ['Merasa tidak percaya diri untuk mendaftar.', 'Menunggu ditunjuk oleh atasan.', 'Mempersiapkan diri sebaik mungkin dan proaktif mendaftar jika merasa memenuhi kualifikasi.', 'Membiarkan rekan lain yang mendaftar.', 'Tidak tertarik karena tanggung jawabnya lebih besar.'], answer: 'Mempersiapkan diri sebaik mungkin dan proaktif mendaftar jika merasa memenuhi kualifikasi.', explanation: 'Ini menunjukkan semangat berprestasi dan keinginan untuk terus maju dan berkembang dalam karir. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Saya melihat ada prosedur kerja yang tidak efisien dan bisa disederhanakan. Saya akan:', options: ['Membiarkannya karena sudah berjalan lama.', 'Mengeluhkannya kepada rekan kerja.', 'Menganalisis masalahnya, merancang usulan perbaikan, dan menyampaikannya kepada atasan dengan data pendukung.', 'Mengubahnya sendiri tanpa izin.', 'Tidak peduli karena bukan tugas saya.'], answer: 'Menganalisis masalahnya, merancang usulan perbaikan, dan menyampaikannya kepada atasan dengan data pendukung.', explanation: 'Sikap ini menunjukkan kreativitas, inovasi, dan inisiatif untuk perbaikan berkelanjutan. Anda tidak hanya melihat masalah, tetapi juga menawarkan solusi. Skor 5.' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Bagaimana Anda memandang perubahan dalam pekerjaan?', options: ['Sebagai ancaman yang dapat mengganggu zona nyaman.', 'Sebagai sesuatu yang harus dihindari jika memungkinkan.', 'Sebagai peluang untuk belajar hal baru dan meningkatkan kinerja.', 'Sebagai beban tambahan yang merepotkan.', 'Sebagai hal yang biasa saja dan tidak perlu reaksi berlebihan.'], answer: 'Sebagai peluang untuk belajar hal baru dan meningkatkan kinerja.', explanation: 'Memandang perubahan sebagai peluang menunjukkan kemampuan beradaptasi yang positif, pola pikir yang berkembang (growth mindset), dan orientasi pada perbaikan. Skor tertinggi (5).' },
 ];
 // --- LOGIKA KUIS ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -664,6 +749,7 @@ document.addEventListener('DOMContentLoaded', () => {
         quizContainer.style.display = 'none';
         resultPage.style.display = 'none';
         passwordInput.value = '';
+        usernameInput.value = '';
         loginError.style.display = 'none';
     }
 
@@ -704,7 +790,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         setupQuestionGrids();
         displayQuestion(currentQuestionIndex);
-        startTimer(120 * 60); // Waktu 120 Menit
+        startTimer(100 * 60); // Waktu 100 Menit
     }
 
     function setupQuestionGrids() {
@@ -734,22 +820,25 @@ document.addEventListener('DOMContentLoaded', () => {
         questionTextEl.innerHTML = question.question;
         optionsEl.innerHTML = '';
 
-        question.options.forEach(option => {
+        // Added to handle graded options for TKP if needed in the future
+        const options = Array.isArray(question.options) ? question.options.map(opt => (typeof opt === 'string' ? {text: opt} : opt)) : [];
+
+        options.forEach(option => {
             const li = document.createElement('li');
             const label = document.createElement('label');
             const radio = document.createElement('input');
             radio.type = 'radio';
             radio.name = 'option';
-            radio.value = option;
+            radio.value = option.text;
             
-             if (userAnswers[index] === option) {
+            if (userAnswers[index] === option.text) {
                 radio.checked = true;
                 label.classList.add('selected');
             }
-            radio.onchange = () => selectAnswer(index, option);
+            radio.onchange = () => selectAnswer(index, option.text);
             
             const span = document.createElement('span');
-            span.textContent = option;
+            span.textContent = option.text;
             
             label.appendChild(radio);
             label.appendChild(span);
@@ -804,17 +893,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function startTimer(duration) {
         let timer = duration;
         clearInterval(timerInterval);
+        timerEl.classList.remove('low-time');
+
         timerInterval = setInterval(() => {
-            let hours = parseInt(timer / 3600, 10);
-            let minutes = parseInt((timer % 3600) / 60, 10);
+            let minutes = parseInt(timer / 60, 10);
             let seconds = parseInt(timer % 60, 10);
 
-            hours = hours < 10 ? "0" + hours : hours;
             minutes = minutes < 10 ? "0" + minutes : minutes;
             seconds = seconds < 10 ? "0" + seconds : seconds;
 
-            // Display as HH:MM:SS format
-            timerEl.textContent = hours + ":" + minutes + ":" + seconds;
+            timerEl.textContent = minutes + ":" + seconds;
             
             if(timer < 300) timerEl.classList.add('low-time');
 
@@ -833,21 +921,37 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(timerInterval);
         confirmationModal.style.display = 'none';
         
-        let score = 0;
         const subtestScores = {
-            'Tes Wawasan Kebangsaan (TWK)': { correct: 0, total: 0 },
-            'Tes Intelegensia Umum (TIU)': { correct: 0, total: 0 },
-            'Tes Karakteristik Pribadi (TKP)': { correct: 0, total: 0 },
+            'Tes Wawasan Kebangsaan (TWK)': { correct: 0, score: 0 },
+            'Tes Intelegensia Umum (TIU)': { correct: 0, score: 0 },
+            'Tes Karakteristik Pribadi (TKP)': { score: 0 }
         };
+
         const correctQuestionNumbers = [];
         const incorrectQuestionNumbers = [];
 
         questions.forEach((q, index) => {
-            if (subtestScores[q.subtest]) {
-                subtestScores[q.subtest].total++;
-                if (userAnswers[index] === q.answer) {
-                    score++;
-                    subtestScores[q.subtest].correct++;
+            const subtest = subtestScores[q.subtest];
+            if (!subtest) return;
+
+            const userAnswer = userAnswers[index];
+
+            if (q.subtest === 'Tes Karakteristik Pribadi (TKP)') {
+                // Simplified scoring for TKP: 5 for correct answer, 1 for any other answered, 0 for unanswered.
+                // A real test would have graded scores (1-5) for each option.
+                if (userAnswer === q.answer) {
+                    subtest.score += 5; 
+                    correctQuestionNumbers.push(index + 1);
+                } else if (userAnswer !== null) {
+                    subtest.score += 1; // Assuming other answers get a minimal score
+                    incorrectQuestionNumbers.push(index + 1);
+                } else {
+                    incorrectQuestionNumbers.push(index + 1);
+                }
+            } else { // For TWK and TIU
+                if (userAnswer === q.answer) {
+                    subtest.correct++;
+                    subtest.score += 5;
                     correctQuestionNumbers.push(index + 1);
                 } else {
                     incorrectQuestionNumbers.push(index + 1);
@@ -860,20 +964,24 @@ document.addEventListener('DOMContentLoaded', () => {
         appHeader.style.display = 'flex';
         headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
         
-        const overallPercentage = ((score / questions.length) * 100).toFixed(1);
-        document.getElementById('final-score').textContent = `${overallPercentage}%`;
-        document.getElementById('score-details').textContent = `${score} dari ${questions.length} soal benar`;
+        const totalScore = Object.values(subtestScores).reduce((acc, current) => acc + current.score, 0);
+        document.getElementById('final-score').textContent = totalScore;
+        document.getElementById('score-details').textContent = `Total Skor yang Anda Peroleh`;
 
         const subtestAnalysisContainer = document.getElementById('subtest-analysis-container');
         subtestAnalysisContainer.innerHTML = '';
         for (const key in subtestScores) {
             const subtest = subtestScores[key];
-            const percentage = subtest.total > 0 ? ((subtest.correct / subtest.total) * 100).toFixed(1) : 0;
+            const passingGrade = key === 'Tes Wawasan Kebangsaan (TWK)' ? 65 : key === 'Tes Intelegensia Umum (TIU)' ? 80 : 166;
+            const status = subtest.score >= passingGrade ? 'Lulus' : 'Tidak Lulus';
+            const color = status === 'Lulus' ? 'var(--correct-text)' : 'var(--incorrect-text)';
+
             subtestAnalysisContainer.innerHTML += `
                 <div class="subtest-card">
                     <h4>${key}</h4>
-                    <div class="subtest-score" style="color: ${percentage >= 50 ? 'var(--correct-text)' : 'var(--incorrect-text)'}">${percentage}%</div>
-                    <div>${subtest.correct}/${subtest.total} Benar</div>
+                    <div class="subtest-score" style="color: ${color};">${subtest.score}</div>
+                    <div>Ambang Batas: ${passingGrade}</div>
+                    <div style="font-weight:bold; color: ${color};">${status}</div>
                 </div>`;
         }
         
@@ -882,29 +990,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const reviewSection = document.getElementById('review-section');
         reviewSection.innerHTML = '';
-        if (incorrectQuestionNumbers.length > 0) {
-            document.getElementById('review-section-container').style.display = 'block';
-            incorrectQuestionNumbers.forEach(num => {
-                const index = num - 1;
-                const q = questions[index];
+        document.getElementById('review-section-container').style.display = 'block';
+
+        if(questions.length > 0) {
+             reviewSection.innerHTML = questions.map((q, index) => {
                 const userAnswerText = userAnswers[index] || 'Tidak Dijawab';
-                reviewSection.innerHTML += `
+                const isCorrect = userAnswerText === q.answer;
+                
+                // For TKP, every answer could be considered "correct" with different scores.
+                // For review, we show the best answer.
+                // We'll show review for all questions for clarity.
+                return `
                     <div class="review-item">
-                        <p class="review-q-text"><strong>Soal ${num}:</strong> ${q.question}</p>
-                        <div class="review-answer user-answer">Jawaban Anda: ${userAnswerText}</div>
-                        <div class="review-answer correct-answer">Jawaban Benar: ${q.answer}</div>
+                        <p class="review-q-text"><strong>Soal ${index + 1}:</strong> ${q.question}</p>
+                        ${isCorrect ? '' : `<div class="review-answer user-answer">Jawaban Anda: ${userAnswerText}</div>`}
+                        <div class="review-answer correct-answer">${q.subtest === 'Tes Karakteristik Pribadi (TKP)' ? 'Jawaban Skor Tertinggi' : 'Jawaban Benar'}: ${q.answer}</div>
                         <div class="explanation"><strong>Pembahasan:</strong> ${q.explanation}</div>
                     </div>
                 `;
-            });
-        } else {
-            reviewSection.innerHTML = '<p style="text-align:center; font-weight:500;">Luar biasa! Semua jawaban Anda benar.</p>';
+            }).join('');
         }
     }
 
     // Event Listeners
     loginBtn.addEventListener('click', handleLogin);
     passwordInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
+    usernameInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
     logoutBtn.addEventListener('click', handleLogout);
     prevBtn.addEventListener('click', () => currentQuestionIndex > 0 && displayQuestion(currentQuestionIndex - 1));
     nextBtn.addEventListener('click', () => currentQuestionIndex < questions.length - 1 && displayQuestion(currentQuestionIndex + 1));

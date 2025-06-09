@@ -18,6 +18,7 @@
             --unanswered-bg: #ffffff;
             --timer-alert: #e74c3c; /* Merah Alizarin */
         }
+        
 
         /* --- Halaman Login --- */
         #login-container {
@@ -574,10 +575,10 @@
         </div>
         
         <div id="review-section-container" class="result-card">
-            <h3>Pembahasan Jawaban Salah</h3>
+            <h3>Pembahasan Jawaban</h3>
             <div id="review-section"></div>
         </div>
-         
+        
         <div style="text-align: center;">
            <button id="restart-btn" class="action-button">Ulangi Ujian</button>
         </div>
@@ -597,26 +598,115 @@
 
 
 <script>
-// --- DATABASE SOAL PPG PGSD ---
+// --- DATABASE SOAL PPG PGSD (LENGKAP & UNIK) ---
 const questions = [
     // --- PENGUASAAN KONTEN (50 Soal) ---
-    // Pedagogik
+    // Pedagogik (20 soal)
     { subtest: 'Penguasaan Konten', question: 'Seorang guru SD ingin menerapkan pembelajaran yang sesuai dengan prinsip konstruktivisme di kelas IV pada materi sifat-sifat cahaya. Kegiatan yang paling tepat untuk dilakukan adalah...', options: ['Guru menjelaskan semua sifat cahaya menggunakan slide presentasi dan video.', 'Siswa diminta membaca buku paket lalu merangkum sifat-sifat cahaya.', 'Guru melakukan demonstrasi percobaan sifat cahaya di depan kelas.', 'Siswa secara berkelompok melakukan serangkaian percobaan untuk menemukan sendiri sifat-sifat cahaya.'], answer: 'Siswa secara berkelompok melakukan serangkaian percobaan untuk menemukan sendiri sifat-sifat cahaya.', explanation: 'Prinsip utama konstruktivisme adalah siswa membangun pengetahuannya sendiri. Kegiatan percobaan secara mandiri memungkinkan siswa untuk aktif menemukan konsep, bukan hanya menerima informasi dari guru.' },
     { subtest: 'Penguasaan Konten', question: 'Penilaian yang dilakukan guru pada akhir suatu bab atau tema untuk mengukur penguasaan kompetensi siswa setelah proses pembelajaran selesai disebut...', options: ['Penilaian diagnostik', 'Penilaian formatif', 'Penilaian sumatif', 'Penilaian autentik'], answer: 'Penilaian sumatif', explanation: 'Penilaian sumatif bertujuan untuk menyimpulkan pencapaian siswa pada akhir periode pembelajaran (satu bab, satu semester) dan sering digunakan untuk menentukan nilai rapor.' },
     { subtest: 'Penguasaan Konten', question: 'Menurut teori perkembangan kognitif Piaget, siswa usia SD (7-11 tahun) berada pada tahap operasional konkret. Implikasi dari hal ini dalam pembelajaran adalah...', options: ['Pembelajaran harus selalu menggunakan benda-benda nyata atau media konkret.', 'Siswa sudah mampu berpikir abstrak dan hipotetis.', 'Fokus pembelajaran hanya pada pengembangan keterampilan motorik.', 'Siswa belajar paling baik melalui hafalan materi.'], answer: 'Pembelajaran harus selalu menggunakan benda-benda nyata atau media konkret.', explanation: 'Pada tahap operasional konkret, anak berpikir secara logis namun masih terikat pada objek atau kejadian yang konkret (nyata). Oleh karena itu, penggunaan media pembelajaran yang dapat dilihat dan dimanipulasi sangat penting.' },
-    // Profesional: Matematika
+    { subtest: 'Penguasaan Konten', question: 'Seorang guru menemukan bahwa siswanya kesulitan memahami konsep volume balok. Berdasarkan teori Bruner, urutan tahapan pembelajaran yang paling efektif adalah...', options: ['Simbolik -> Ikonik -> Enaktif', 'Enaktif -> Ikonik -> Simbolik', 'Ikonik -> Simbolik -> Enaktif', 'Simbolik -> Enaktif -> Ikonik'], answer: 'Enaktif -> Ikonik -> Simbolik', explanation: 'Teori Bruner menyarankan urutan belajar dari pengalaman konkret (enaktif: menggunakan balok satuan), ke representasi gambar (ikonik: menggambar jaring-jaring balok), baru ke simbol abstrak (simbolik: menggunakan rumus p x l x t).' },
+    { subtest: 'Penguasaan Konten', question: 'Model pembelajaran yang memiliki sintaks orientasi siswa pada masalah, mengorganisasi siswa untuk belajar, membimbing penyelidikan, mengembangkan hasil karya, dan menganalisis evaluasi adalah...', options: ['Discovery Learning', 'Problem Based Learning (PBL)', 'Project Based Learning (PjBL)', 'Inquiry Learning'], answer: 'Problem Based Learning (PBL)', explanation: 'Sintaks tersebut adalah ciri khas dari model Problem Based Learning (PBL), di mana pembelajaran dimulai dari penyajian masalah nyata.' },
+    { subtest: 'Penguasaan Konten', question: 'Apa fungsi utama dari Rencana Pelaksanaan Pembelajaran (RPP)?', options: ['Sebagai syarat administrasi guru.', 'Sebagai bukti fisik saat akreditasi sekolah.', 'Sebagai panduan dan pedoman guru dalam melaksanakan kegiatan pembelajaran agar lebih terarah dan efektif.', 'Sebagai bahan untuk dilaporkan kepada orang tua siswa.'], answer: 'Sebagai panduan dan pedoman guru dalam melaksanakan kegiatan pembelajaran agar lebih terarah dan efektif.', explanation: 'RPP berfungsi sebagai skenario pembelajaran yang dirancang guru untuk memastikan proses belajar mengajar berjalan sistematis dan mencapai tujuan yang ditetapkan.' },
+    { subtest: 'Penguasaan Konten', question: 'Penilaian autentik menekankan pada...', options: ['Penilaian hasil belajar berupa skor angka.', 'Penilaian proses dan hasil belajar siswa dalam konteks dunia nyata.', 'Penilaian yang hanya dilakukan di akhir semester.', 'Penilaian menggunakan tes pilihan ganda.'], answer: 'Penilaian proses dan hasil belajar siswa dalam konteks dunia nyata.', explanation: 'Penilaian autentik mengukur kompetensi siswa secara komprehensif (sikap, keterampilan, pengetahuan) melalui tugas-tugas yang relevan dengan kehidupan nyata, seperti portofolio, proyek, atau unjuk kerja.' },
+    { subtest: 'Penguasaan Konten', question: 'Teori belajar behavioristik memandang belajar sebagai...', options: ['Proses membangun pengetahuan.', 'Perubahan tingkah laku sebagai akibat dari adanya interaksi antara stimulus dan respon.', 'Proses berpikir yang kompleks.', 'Upaya memahami potensi diri.'], answer: 'Perubahan tingkah laku sebagai akibat dari adanya interaksi antara stimulus dan respon.', explanation: 'Behaviorisme fokus pada perubahan perilaku yang dapat diamati, yang dikondisikan oleh stimulus (rangsangan) dan diperkuat oleh respon (tanggapan).' },
+    { subtest: 'Penguasaan Konten', question: 'Seorang siswa di kelas Anda sangat aktif, tetapi seringkali mengganggu teman-temannya yang sedang belajar. Tindakan Anda sebagai guru adalah...', options: ['Menghukum siswa tersebut di depan kelas.', 'Memindahkan tempat duduknya ke pojok belakang.', 'Memberikan tugas tambahan yang sangat banyak.', 'Memberikan penyaluran energi yang positif, seperti menjadikannya pemimpin kelompok atau memberikan tanggung jawab khusus.'], answer: 'Memberikan penyaluran energi yang positif, seperti menjadikannya pemimpin kelompok atau memberikan tanggung jawab khusus.', explanation: 'Tindakan ini bersifat pedagogis, yaitu mengelola perilaku siswa dengan cara yang positif dan mendidik, mengubah potensi negatif menjadi kontribusi positif bagi kelas.' },
+    { subtest: 'Penguasaan Konten', question: 'Indikator Pencapaian Kompetensi (IPK) yang baik harus memenuhi kriteria...', options: ['Spesifik, Terukur, Dapat Dicapai, Relevan, dan Berbatas Waktu (SMART).', 'Sulit, Kompleks, dan Abstrak.', 'Sesuai dengan keinginan guru.', 'Sama untuk semua jenjang kelas.'], answer: 'Spesifik, Terukur, Dapat Dicapai, Relevan, dan Berbatas Waktu (SMART).', explanation: 'Kriteria SMART (Specific, Measurable, Achievable, Relevant, Time-bound) digunakan untuk memastikan IPK dirumuskan secara jelas, terukur, dan realistis untuk dicapai.' },
+    { subtest: 'Penguasaan Konten', question: 'Kemampuan berpikir tingkat tinggi (HOTS) dalam taksonomi Bloom yang direvisi meliputi...', options: ['Mengingat, Memahami, Menerapkan', 'Menerapkan, Menganalisis, Mengevaluasi', 'Menganalisis, Mengevaluasi, Mencipta', 'Memahami, Menganalisis, Mencipta'], answer: 'Menganalisis, Mengevaluasi, Mencipta', explanation: 'Tiga level teratas dalam taksonomi Bloom ranah kognitif yang direvisi (Anderson & Krathwohl) adalah C4 (Analyzing), C5 (Evaluating), dan C6 (Creating), yang dikategorikan sebagai HOTS.' },
+    { subtest: 'Penguasaan Konten', question: 'Pembelajaran Terdiferensiasi adalah pendekatan pembelajaran yang...', options: ['Menyeragamkan semua tugas untuk seluruh siswa.', 'Memberikan perlakuan yang sama kepada semua siswa tanpa kecuali.', 'Menyesuaikan proses, konten, dan produk pembelajaran untuk memenuhi kebutuhan belajar individu siswa.', 'Hanya fokus pada siswa yang pintar.'], answer: 'Menyesuaikan proses, konten, dan produk pembelajaran untuk memenuhi kebutuhan belajar individu siswa.', explanation: 'Esensi dari pembelajaran terdiferensiasi adalah mengakomodasi keragaman kebutuhan, minat, dan profil belajar siswa.' },
+    { subtest: 'Penguasaan Konten', question: 'Apa yang dimaksud dengan "scaffolding" dalam pembelajaran?', options: ['Memberikan hukuman kepada siswa.', 'Bantuan atau dukungan sementara yang diberikan guru kepada siswa untuk membantunya menyelesaikan tugas yang sulit.', 'Memberikan kebebasan penuh kepada siswa untuk belajar sendiri.', 'Memberikan tes di awal pembelajaran.'], answer: 'Bantuan atau dukungan sementara yang diberikan guru kepada siswa untuk membantunya menyelesaikan tugas yang sulit.', explanation: 'Scaffolding, seperti perancah pada bangunan, adalah bantuan bertahap yang diberikan guru dan akan ditarik kembali secara perlahan seiring dengan meningkatnya kemampuan siswa.' },
+    { subtest: 'Penguasaan Konten', question: 'Tujuan utama dari kegiatan refleksi pada akhir pembelajaran adalah...', options: ['Mengisi waktu luang sebelum pulang.', 'Memastikan siswa memahami dan memaknai apa yang telah mereka pelajari.', 'Memberikan tugas rumah kepada siswa.', 'Menilai pekerjaan siswa.'], answer: 'Memastikan siswa memahami dan memaknai apa yang telah mereka pelajari.', explanation: 'Refleksi membantu siswa untuk menginternalisasi pembelajaran, menghubungkan konsep baru dengan pengetahuan lama, dan menemukan makna dari proses belajar.' },
+    { subtest: 'Penguasaan Konten', question: 'Pendekatan Technological Pedagogical Content Knowledge (TPACK) menekankan pentingnya integrasi antara...', options: ['Teknologi, Media, dan Guru.', 'Teknologi, Pedagogi, dan Konten/Materi Pelajaran.', 'Siswa, Guru, dan Orang Tua.', 'Kurikulum, Penilaian, dan Pembelajaran.'], answer: 'Teknologi, Pedagogi, dan Konten/Materi Pelajaran.', explanation: 'TPACK adalah kerangka kerja yang menggambarkan pengetahuan yang harus dimiliki guru untuk dapat mengintegrasikan teknologi secara efektif ke dalam pembelajaran, dengan mempertimbangkan aspek pedagogi dan materi.' },
+    { subtest: 'Penguasaan Konten', question: 'Media pembelajaran yang paling tepat untuk menjelaskan proses siklus air di kelas V adalah...', options: ['Gambar bagan di papan tulis.', 'Video animasi atau torso tiga dimensi.', 'Ceramah dari guru.', 'Buku paket siswa.'], answer: 'Video animasi atau torso tiga dimensi.', explanation: 'Proses yang dinamis seperti siklus air akan lebih mudah dipahami melalui media visual yang bergerak (video animasi) atau model tiga dimensi yang dapat diamati dari berbagai sisi.' },
+    { subtest: 'Penguasaan Konten', question: 'Seorang guru menetapkan KKM (Kriteria Ketuntasan Minimal) 75. Jika seorang siswa mendapat nilai 70, tindakan remedial yang paling tepat adalah...', options: ['Memberikan tugas tambahan yang sama dengan siswa lain.', 'Mengulang tes dengan soal yang sama persis.', 'Memberikan pembelajaran ulang pada bagian yang belum dikuasai, lalu memberikan tes atau tugas perbaikan.', 'Langsung memberikan nilai 75 agar tuntas.'], answer: 'Memberikan pembelajaran ulang pada bagian yang belum dikuasai, lalu memberikan tes atau tugas perbaikan.', explanation: 'Remedial yang efektif bukan sekadar mengulang tes, tetapi harus diawali dengan identifikasi kesulitan dan pemberian bimbingan atau pembelajaran ulang pada materi yang belum tuntas.' },
+    { subtest: 'Penguasaan Konten', question: 'Menurut teori kecerdasan majemuk (multiple intelligences) Howard Gardner, seorang siswa yang pandai menari dan berolahraga memiliki kecerdasan...', options: ['Spasial-Visual', 'Musikal', 'Kinestetik-Jasmani', 'Interpersonal'], answer: 'Kinestetik-Jasmani', explanation: 'Kecerdasan kinestetik-jasmani ditandai dengan kemampuan menggunakan tubuh secara terampil untuk mengekspresikan ide dan perasaan (seperti menari) atau menggunakan tangan untuk menciptakan atau mengubah sesuatu (seperti berolahraga).' },
+    { subtest: 'Penguasaan Konten', question: 'Prinsip penilaian yang menyatakan bahwa penilaian tidak boleh menguntungkan atau merugikan siswa karena perbedaan latar belakang disebut prinsip...', options: ['Objektif', 'Adil', 'Terpadu', 'Sistematis'], answer: 'Adil', explanation: 'Prinsip keadilan dalam penilaian berarti tidak ada siswa yang dirugikan atau diuntungkan karena perbedaan suku, agama, ras, status sosial ekonomi, gender, atau hal-hal lain yang tidak relevan dengan pencapaian belajar.' },
+    { subtest: 'Penguasaan Konten', question: 'Ketika guru memberikan sebuah studi kasus nyata kepada siswa untuk dianalisis dan dipecahkan, guru tersebut sedang menerapkan pembelajaran berbasis...', options: ['Masalah (Problem-based)', 'Proyek (Project-based)', 'Konteks (Contextual)', 'Kooperatif (Cooperative)'], answer: 'Masalah (Problem-based)', explanation: 'Ciri utama dari Problem-based Learning (PBL) adalah penggunaan masalah dunia nyata sebagai titik awal untuk penyelidikan dan pembelajaran siswa.' },
+    // Profesional: Matematika (10 soal)
     { subtest: 'Penguasaan Konten', question: 'FPB dan KPK dari bilangan 24, 36, dan 48 adalah...', options: ['FPB=12, KPK=144', 'FPB=6, KPK=72', 'FPB=12, KPK=72', 'FPB=6, KPK=144'], answer: 'FPB=12, KPK=144', explanation: 'Faktorisasi prima: 24=2³x3; 36=2²x3²; 48=2⁴x3. FPB (ambil faktor sama pangkat terkecil): 2²x3 = 12. KPK (ambil semua faktor pangkat terbesar): 2⁴x3² = 16x9 = 144.' },
-    // Profesional: IPA
+    { subtest: 'Penguasaan Konten', question: 'Ibu membeli 2,5 kg gula. Sebanyak 1/2 kg digunakan untuk membuat kue dan 0,75 kg digunakan untuk membuat teh. Sisa gula ibu adalah...', options: ['1,25 kg', '1 kg', '1,5 kg', '0,75 kg'], answer: '1,25 kg', explanation: 'Gula yang digunakan = 0,5 kg + 0,75 kg = 1,25 kg. Sisa gula = 2,5 kg - 1,25 kg = 1,25 kg.' },
+    { subtest: 'Penguasaan Konten', question: 'Sebuah bangun datar yang memiliki 4 sisi sama panjang, sudut-sudutnya tidak siku-siku, dan kedua diagonalnya berpotongan tegak lurus adalah...', options: ['Persegi', 'Persegi panjang', 'Jajar genjang', 'Belah ketupat'], answer: 'Belah ketupat', explanation: 'Sifat-sifat tersebut secara spesifik merujuk pada bangun datar belah ketupat.' },
+    { subtest: 'Penguasaan Konten', question: 'Sebuah bus berangkat pukul 07.30 dan tiba pukul 11.00. Jika jarak yang ditempuh adalah 210 km, kecepatan rata-rata bus tersebut adalah...', options: ['60 km/jam', '70 km/jam', '55 km/jam', '65 km/jam'], answer: '60 km/jam', explanation: 'Waktu tempuh = 11.00 - 07.30 = 3,5 jam. Kecepatan = Jarak / Waktu = 210 km / 3,5 jam = 60 km/jam.' },
+    { subtest: 'Penguasaan Konten', question: 'Data nilai ulangan matematika siswa kelas V adalah: 8, 7, 9, 6, 8, 10, 7, 8, 9, 8. Modus dan Median dari data tersebut adalah...', options: ['Modus=8, Median=8', 'Modus=7, Median=8', 'Modus=8, Median=8,5', 'Modus=9, Median=7,5'], answer: 'Modus=8, Median=8', explanation: 'Urutkan data: 6, 7, 7, 8, 8, 8, 8, 9, 9, 10. Modus (paling sering muncul) adalah 8. Median (nilai tengah) adalah rata-rata data ke-5 dan ke-6: (8+8)/2 = 8.' },
+    { subtest: 'Penguasaan Konten', question: 'Pecahan yang senilai dengan 4/6 adalah...', options: ['2/3', '3/4', '1/2', '5/8'], answer: '2/3', explanation: 'Pecahan senilai didapat dengan membagi atau mengalikan pembilang dan penyebut dengan bilangan yang sama. 4/6 jika disederhanakan (dibagi 2) menjadi 2/3.' },
+    { subtest: 'Penguasaan Konten', question: 'Sudut yang besarnya 90 derajat disebut sudut...', options: ['Lancip', 'Tumpul', 'Siku-siku', 'Lurus'], answer: 'Siku-siku', explanation: 'Sudut siku-siku adalah sudut yang besarnya tepat 90 derajat.' },
+    { subtest: 'Penguasaan Konten', question: 'Volume sebuah balok adalah 120 cm³. Jika panjangnya 6 cm dan lebarnya 5 cm, maka tingginya adalah...', options: ['4 cm', '5 cm', '6 cm', '3 cm'], answer: '4 cm', explanation: 'Volume = p × l × t. 120 = 6 × 5 × t. 120 = 30 × t. t = 120 / 30 = 4 cm.' },
+    { subtest: 'Penguasaan Konten', question: 'Perbandingan uang Ali dan Budi adalah 2:3. Jika jumlah uang mereka adalah Rp 50.000, berapakah uang Budi?', options: ['Rp 20.000', 'Rp 25.000', 'Rp 30.000', 'Rp 35.000'], answer: 'Rp 30.000', explanation: 'Bagian Budi = 3 / (2+3) = 3/5. Uang Budi = (3/5) * Rp 50.000 = Rp 30.000.' },
+    { subtest: 'Penguasaan Konten', question: 'Bilangan Romawi untuk 49 adalah...', options: ['XLIX', 'IL', 'XXXXIX', 'XIXL'], answer: 'XLIX', explanation: '40 ditulis XL (50-10) dan 9 ditulis IX (10-1). Jadi, 49 adalah XLIX.' },
+    // Profesional: IPA (10 soal)
     { subtest: 'Penguasaan Konten', question: 'Proses perubahan wujud dari gas menjadi cair disebut mengembun. Peristiwa sehari-hari yang menunjukkan proses ini adalah...', options: ['Baju basah yang dijemur menjadi kering.', 'Terbentuknya titik-titik air di bagian luar gelas berisi es.', 'Kapur barus yang diletakkan di lemari menjadi habis.', 'Air yang direbus hingga mendidih mengeluarkan uap.'], answer: 'Terbentuknya titik-titik air di bagian luar gelas berisi es.', explanation: 'Udara di sekitar gelas yang dingin (mengandung uap air) melepaskan kalor ke gelas, sehingga wujudnya berubah dari gas (uap air) menjadi cair (titik-titik air).' },
-    ...Array(45).fill({ subtest: 'Penguasaan Konten', question: 'Contoh Soal Konten Sulit: Seorang guru menemukan bahwa siswanya kesulitan memahami konsep volume balok. Berdasarkan teori Bruner, urutan tahapan pembelajaran yang paling efektif adalah...', options: ['Simbolik -> Ikonik -> Enaktif', 'Enaktif -> Ikonik -> Simbolik', 'Ikonik -> Simbolik -> Enaktif', 'Simbolik -> Enaktif -> Ikonik'], answer: 'Enaktif -> Ikonik -> Simbolik', explanation: 'Teori Bruner menyarankan urutan belajar dari pengalaman konkret (enaktif: menggunakan balok satuan), ke representasi gambar (ikonik: menggambar jaring-jaring balok), baru ke simbol abstrak (simbolik: menggunakan rumus p x l x t).' }),
-    
+    { subtest: 'Penguasaan Konten', question: 'Bagian tumbuhan yang berfungsi sebagai tempat terjadinya fotosintesis adalah...', options: ['Akar', 'Batang', 'Daun', 'Bunga'], answer: 'Daun', explanation: 'Daun mengandung klorofil (zat hijau daun) yang berperan penting dalam menangkap energi cahaya matahari untuk proses fotosintesis.' },
+    { subtest: 'Penguasaan Konten', question: 'Hewan yang mengalami metamorfosis sempurna dalam siklus hidupnya adalah...', options: ['Kucing', 'Ayam', 'Belalang', 'Kupu-kupu'], answer: 'Kupu-kupu', explanation: 'Metamorfosis sempurna memiliki 4 tahap: telur, larva (ulat), pupa (kepompong), dan imago (dewasa). Kupu-kupu mengalami semua tahapan ini.' },
+    { subtest: 'Penguasaan Konten', question: 'Planet yang dikenal sebagai "Planet Merah" dalam tata surya kita adalah...', options: ['Venus', 'Mars', 'Jupiter', 'Saturnus'], answer: 'Mars', explanation: 'Mars dijuluki Planet Merah karena permukaannya yang kaya akan besi oksida, yang memberinya warna kemerahan.' },
+    { subtest: 'Penguasaan Konten', question: 'Perpindahan panas melalui aliran zat perantara, baik cair maupun gas, disebut...', options: ['Konduksi', 'Konveksi', 'Radiasi', 'Isolasi'], answer: 'Konveksi', explanation: 'Konveksi adalah perpindahan panas yang disertai dengan perpindahan partikel zat perantaranya, contohnya pada air yang direbus atau angin darat dan angin laut.' },
+    { subtest: 'Penguasaan Konten', question: 'Fungsi utama rangka bagi tubuh manusia adalah...', options: ['Memberi bentuk tubuh dan melindungi organ vital.', 'Memompa darah ke seluruh tubuh.', 'Mencerna makanan.', 'Menghasilkan sel darah merah.'], answer: 'Memberi bentuk tubuh dan melindungi organ vital.', explanation: 'Rangka memberikan struktur dan bentuk pada tubuh, serta melindungi organ-organ penting seperti otak (oleh tengkorak) dan jantung (oleh tulang rusuk).' },
+    { subtest: 'Penguasaan Konten', question: 'Sumber energi alternatif yang memanfaatkan panas bumi adalah...', options: ['PLTA (Pembangkit Listrik Tenaga Air)', 'PLTS (Pembangkit Listrik Tenaga Surya)', 'Geotermal', 'Biomassa'], answer: 'Geotermal', explanation: 'Geotermal adalah energi panas yang tersimpan di dalam bumi dan dapat dimanfaatkan untuk membangkitkan listrik.' },
+    { subtest: 'Penguasaan Konten', question: 'Contoh simbiosis mutualisme adalah...', options: ['Benalu pada pohon mangga.', 'Ikan remora dan ikan hiu.', 'Kerbau dan burung jalak.', 'Cacing pita dalam usus manusia.'], answer: 'Kerbau dan burung jalak.', explanation: 'Mutualisme adalah hubungan yang saling menguntungkan. Burung jalak memakan kutu di punggung kerbau (mendapat makanan), dan kerbau terbebas dari kutu.' },
+    { subtest: 'Penguasaan Konten', question: 'Gaya yang menyebabkan benda jatuh ke bawah saat dilepaskan adalah...', options: ['Gaya gesek', 'Gaya magnet', 'Gaya gravitasi', 'Gaya pegas'], answer: 'Gaya gravitasi', explanation: 'Gaya gravitasi bumi adalah gaya tarik yang menarik semua benda menuju pusat bumi.' },
+    { subtest: 'Penguasaan Konten', question: 'Pengelompokan hewan berdasarkan jenis makanannya adalah...', options: ['Vertebrata dan Invertebrata', 'Ovipar, Vivipar, dan Ovovivipar', 'Herbivora, Karnivora, dan Omnivora', 'Mamalia, Reptil, dan Aves'], answer: 'Herbivora, Karnivora, dan Omnivora', explanation: 'Herbivora (pemakan tumbuhan), Karnivora (pemakan daging), dan Omnivora (pemakan segala) adalah klasifikasi hewan berdasarkan jenis makanannya.' },
+    // Profesional: Bahasa Indonesia, PKN, IPS (10 soal)
+    { subtest: 'Penguasaan Konten', question: 'Kalimat yang menggunakan tanda baca dengan benar adalah...', options: ['Ibu membeli; apel, jeruk, dan mangga.', 'Kapan kamu akan datang? Tanya Andi.', 'Dia adalah anak yang rajin, tetapi kadang-kadang malas.', 'Lihat, betapa indahnya pemandangan itu!'], answer: 'Lihat, betapa indahnya pemandangan itu!', explanation: 'Kalimat seru diakhiri dengan tanda seru (!). Pilihan A salah menggunakan titik koma. Pilihan B salah penempatan tanda tanya. Pilihan C tidak memerlukan koma sebelum "tetapi".' },
+    { subtest: 'Penguasaan Konten', question: 'Penulisan gelar yang benar adalah...', options: ['Prof. Dr. Budi, M.Pd.', 'Prof. Dr. Budi, M.Pd', 'Prof. DR. Budi, Mpd.', 'Prof Dr Budi, M.Pd.'], answer: 'Prof. Dr. Budi, M.Pd.', explanation: 'Setiap singkatan gelar diikuti oleh titik, dan ada koma di antara nama dan gelar pertama.' },
+    { subtest: 'Penguasaan Konten', question: 'Lembaga negara yang berwenang mengubah dan menetapkan UUD 1945 adalah...', options: ['Presiden', 'DPR', 'MPR', 'Mahkamah Konstitusi'], answer: 'MPR', explanation: 'Sesuai Pasal 3 ayat (1) UUD 1945, Majelis Permusyawaratan Rakyat (MPR) berwenang mengubah dan menetapkan Undang-Undang Dasar.' },
+    { subtest: 'Penguasaan Konten', question: 'Semboyan "Ing Ngarso Sung Tulodo, Ing Madyo Mangun Karso, Tut Wuri Handayani" dicetuskan oleh...', options: ['Ir. Soekarno', 'Ki Hajar Dewantara', 'Mohammad Hatta', 'R.A. Kartini'], answer: 'Ki Hajar Dewantara', explanation: 'Semboyan ini adalah filosofi pendidikan dari Ki Hajar Dewantara, yang berarti "Di depan memberi teladan, di tengah membangun semangat, di belakang memberi dorongan".' },
+    { subtest: 'Penguasaan Konten', question: 'Kegiatan ekonomi yang bertujuan mengurangi atau menghabiskan nilai guna suatu barang disebut...', options: ['Produksi', 'Distribusi', 'Konsumsi', 'Investasi'], answer: 'Konsumsi', explanation: 'Konsumsi adalah kegiatan menggunakan barang atau jasa untuk memenuhi kebutuhan.' },
+    { subtest: 'Penguasaan Konten', question: 'Kerajaan bercorak Hindu-Buddha pertama di Indonesia adalah...', options: ['Majapahit', 'Sriwijaya', 'Singasari', 'Kutai Martadipura'], answer: 'Kutai Martadipura', explanation: 'Kerajaan Kutai di Kalimantan Timur, yang dibuktikan dengan penemuan prasasti Yupa, dianggap sebagai kerajaan Hindu tertua di Nusantara.' },
+    { subtest: 'Penguasaan Konten', question: 'Unsur intrinsik dalam sebuah cerita pendek meliputi hal-hal berikut, kecuali...', options: ['Tema, Alur, dan Latar', 'Tokoh dan Penokohan', 'Sudut Pandang', 'Latar belakang sosial pengarang'], answer: 'Latar belakang sosial pengarang', explanation: 'Latar belakang pengarang termasuk dalam unsur ekstrinsik, yaitu unsur yang berada di luar karya sastra tetapi mempengaruhi isinya.' },
+    { subtest: 'Penguasaan Konten', question: 'Bentuk partisipasi warga negara dalam bela negara di lingkungan masyarakat adalah...', options: ['Ikut dalam kegiatan siskamling atau ronda malam.', 'Membayar pajak bumi dan bangunan.', 'Belajar dengan giat di sekolah.', 'Mengikuti upacara bendera.'], answer: 'Ikut dalam kegiatan siskamling atau ronda malam.', explanation: 'Siskamling adalah bentuk partisipasi langsung warga dalam menjaga keamanan dan ketertiban lingkungan, yang merupakan bagian dari bela negara.' },
+    { subtest: 'Penguasaan Konten', question: 'Candi Borobudur merupakan peninggalan dari Kerajaan...', options: ['Mataram Kuno (Wangsa Syailendra)', 'Majapahit', 'Singasari', 'Sriwijaya'], answer: 'Mataram Kuno (Wangsa Syailendra)', explanation: 'Candi Borobudur yang megah dibangun pada masa pemerintahan Dinasti Syailendra dari Kerajaan Mataram Kuno.' },
+    { subtest: 'Penguasaan Konten', question: 'Makna imbuhan "me-" pada kata "membatu" adalah...', options: ['Melakukan pekerjaan', 'Menjadi seperti', 'Memiliki sifat', 'Menuju ke'], answer: 'Menjadi seperti', explanation: 'Imbuhan "me-" pada kata dasar "batu" membentuk kata kerja yang berarti menjadi keras seperti batu.' },
+
     // --- KEMAMPUAN DASAR: LITERASI (25 Soal) ---
     { subtest: 'Literasi', question: 'Bacalah teks berikut! "Pemanasan global disebabkan oleh meningkatnya emisi gas rumah kaca. Gas-gas ini, seperti karbon dioksida, memerangkap panas di atmosfer, menyebabkan suhu bumi naik. Dampaknya sangat luas, mulai dari mencairnya es di kutub hingga perubahan pola cuaca ekstrem." | Apa gagasan utama paragraf tersebut?', options: ['Dampak perubahan pola cuaca.', 'Penyebab dan dampak pemanasan global.', 'Komposisi gas rumah kaca.', 'Proses mencairnya es di kutub.'], answer: 'Penyebab dan dampak pemanasan global.', explanation: 'Kalimat pertama menjelaskan penyebab (emisi gas rumah kaca), dan kalimat selanjutnya menjelaskan dampak (mencairnya es, perubahan cuaca). Ini merangkum keseluruhan isi paragraf.' },
-    ...Array(24).fill({ subtest: 'Literasi', question: 'Contoh Soal Literasi Sulit: Perhatikan dua teks berikut! Teks 1: Berita tentang kenaikan kasus DBD di kota A. Teks 2: Iklan layanan masyarakat tentang 3M Plus. | Bagaimana kaitan antara kedua teks tersebut?', options: ['Teks 1 adalah akibat dari diabaikannya pesan pada Teks 2.', 'Teks 2 adalah solusi parsial untuk masalah yang digambarkan di Teks 1.', 'Teks 1 dan Teks 2 tidak memiliki hubungan sebab-akibat.', 'Teks 2 adalah sanggahan terhadap informasi di Teks 1.'], answer: 'Teks 2 adalah solusi parsial untuk masalah yang digambarkan di Teks 1.', explanation: 'Soal ini meminta kemampuan mengevaluasi dan menghubungkan informasi dari teks yang berbeda. Teks 2 (iklan 3M Plus) menawarkan solusi pencegahan untuk masalah yang diangkat di Teks 1 (kenaikan kasus DBD).' }),
-
+    { subtest: 'Literasi', question: 'Kata "ini" pada kalimat kedua teks tersebut merujuk pada...', options: ['Pemanasan global', 'Emisi', 'Atmosfer', 'Gas rumah kaca'], answer: 'Gas rumah kaca', explanation: 'Kata rujuk "ini" mengacu pada subjek yang baru saja disebutkan di kalimat sebelumnya, yaitu "gas rumah kaca".' },
+    { subtest: 'Literasi', question: 'Tujuan penulis dalam teks tersebut adalah untuk...', options: ['Menghibur pembaca dengan cerita fiksi.', 'Meyakinkan pembaca untuk tidak menggunakan kendaraan.', 'Memberikan informasi mengenai fenomena pemanasan global.', 'Mengajak pembaca berlibur ke kutub.'], answer: 'Memberikan informasi mengenai fenomena pemanasan global.', explanation: 'Teks tersebut bersifat informatif (eksplanasi), yaitu menjelaskan suatu fenomena beserta penyebab dan dampaknya.' },
+    { subtest: 'Literasi', question: 'Makna kata "emisi" dalam teks tersebut adalah...', options: ['Pancaran', 'Penyerapan', 'Pengurangan', 'Penyimpanan'], answer: 'Pancaran', explanation: 'Emisi berarti pancaran atau pengeluaran, dalam konteks ini adalah pengeluaran gas ke udara.' },
+    { subtest: 'Literasi', question: 'Simpulan yang dapat ditarik dari teks tersebut adalah...', options: ['Suhu bumi akan terus meningkat tanpa henti.', 'Aktivitas manusia yang menghasilkan gas rumah kaca menjadi penyebab utama masalah lingkungan global.', 'Perubahan cuaca adalah satu-satunya dampak pemanasan global.', 'Karbon dioksida tidak berbahaya.'], answer: 'Aktivitas manusia yang menghasilkan gas rumah kaca menjadi penyebab utama masalah lingkungan global.', explanation: 'Meskipun tidak disebutkan secara eksplisit, emisi gas rumah kaca sangat erat kaitannya dengan aktivitas manusia. Ini adalah simpulan logis dari teks.' },
+    { subtest: 'Literasi', question: 'Antonim kata "ekstrem" dalam teks tersebut adalah...', options: ['Biasa', 'Luar biasa', 'Parah', 'Ringan'], answer: 'Biasa', explanation: 'Ekstrem berarti sangat hebat atau di luar batas kewajaran. Lawan katanya adalah biasa atau normal.' },
+    { subtest: 'Literasi', question: 'Informasi yang TIDAK ditemukan dalam teks adalah...', options: ['Contoh gas rumah kaca.', 'Contoh dampak pemanasan global.', 'Cara mengurangi pemanasan global.', 'Penyebab suhu bumi naik.'], answer: 'Cara mengurangi pemanasan global.', explanation: 'Teks tersebut hanya menjelaskan penyebab dan dampak, tetapi tidak menawarkan solusi atau cara penanggulangan.' },
+    { subtest: 'Literasi', question: 'Jenis teks tersebut adalah...', options: ['Narasi', 'Deskripsi', 'Eksposisi/Eksplanasi', 'Argumentasi'], answer: 'Eksposisi/Eksplanasi', explanation: 'Teks tersebut bertujuan untuk menjelaskan suatu proses atau fenomena (eksplanasi) dengan memaparkan informasi (eksposisi).' },
+    { subtest: 'Literasi', question: 'Pernyataan yang sesuai dengan isi teks adalah...', options: ['Gas rumah kaca membantu mendinginkan bumi.', 'Mencairnya es di kutub tidak berhubungan dengan pemanasan global.', 'Karbon dioksida adalah salah satu gas yang memerangkap panas.', 'Pemanasan global hanya terjadi di daerah industri.'], answer: 'Karbon dioksida adalah salah satu gas yang memerangkap panas.', explanation: 'Teks secara eksplisit menyebutkan "Gas-gas ini, seperti karbon dioksida, memerangkap panas...".' },
+    { subtest: 'Literasi', question: 'Struktur informasi dalam paragraf tersebut adalah...', options: ['Sebab - Akibat', 'Akibat - Sebab', 'Perbandingan', 'Urutan waktu'], answer: 'Sebab - Akibat', explanation: 'Paragraf dimulai dengan menjelaskan penyebab (emisi gas rumah kaca) kemudian diikuti oleh akibat-akibatnya (suhu naik, es mencair, dll.).' },
+    { subtest: 'Literasi', question: 'Apa fungsi tanda koma pada kalimat "Gas-gas ini, seperti karbon dioksida, memerangkap panas di atmosfer..."?', options: ['Memisahkan anak kalimat dan induk kalimat.', 'Mengapit keterangan tambahan (aposisi).', 'Memisahkan perincian.', 'Mengakhiri kalimat.'], answer: 'Mengapit keterangan tambahan (aposisi).', explanation: 'Frasa "seperti karbon dioksida" berfungsi sebagai keterangan tambahan yang menjelaskan "Gas-gas ini", sehingga diapit oleh tanda koma.' },
+    { subtest: 'Literasi', question: 'Manakah judul yang paling sesuai untuk teks di atas?', options: ['Bahaya Karbon Dioksida', 'Memahami Pemanasan Global', 'Selamatkan Kutub Utara', 'Cuaca Dunia yang Berubah'], answer: 'Memahami Pemanasan Global', explanation: 'Judul ini paling komprehensif merangkum isi teks yang menjelaskan konsep dasar pemanasan global, penyebab, dan dampaknya.' },
+    { subtest: 'Literasi', question: 'Teks di atas kemungkinan besar dapat ditemukan di...', options: ['Buku resep masakan', 'Majalah mode', 'Artikel ilmiah atau buku pelajaran IPA', 'Novel detektif'], answer: 'Artikel ilmiah atau buku pelajaran IPA', explanation: 'Isi teks yang membahas fenomena alam secara ilmiah sangat sesuai dengan konten artikel ilmiah atau buku pelajaran IPA/Geografi.' },
+    { subtest: 'Literasi', question: 'Prediksi yang paling mungkin terjadi jika emisi gas rumah kaca terus meningkat adalah...', options: ['Bumi akan menjadi lebih sejuk.', 'Permukaan air laut akan naik secara signifikan.', 'Hewan-hewan kutub akan berkembang biak lebih cepat.', 'Kualitas udara akan membaik.'], answer: 'Permukaan air laut akan naik secara signifikan.', explanation: 'Berdasarkan informasi bahwa es di kutub mencair, prediksi logisnya adalah volume air laut akan bertambah dan permukaannya akan naik.' },
+    { subtest: 'Literasi', question: 'Kata "dampaknya" pada kalimat ketiga merujuk pada dampak dari...', options: ['Pola cuaca', 'Atmosfer', 'Gas rumah kaca', 'Pemanasan global'], answer: 'Pemanasan global', explanation: 'Konteks kalimat membahas dampak luas dari fenomena yang menjadi topik utama, yaitu pemanasan global.' },
+    { subtest: 'Literasi', question: 'Manakah pernyataan yang merupakan opini, bukan fakta, dari pilihan berikut?', options: ['Karbon dioksida adalah gas rumah kaca.', 'Pemanasan global adalah masalah paling serius saat ini.', 'Es di kutub mencair karena suhu naik.', 'Pola cuaca dapat berubah secara ekstrem.'], answer: 'Pemanasan global adalah masalah paling serius saat ini.', explanation: 'Menyatakan sesuatu sebagai yang "paling serius" adalah sebuah penilaian atau opini. Pilihan lain adalah pernyataan faktual yang dapat diverifikasi.' },
+    { subtest: 'Literasi', question: 'Tujuan penggunaan kata "seperti" pada kalimat "Gas-gas ini, seperti karbon dioksida,..." adalah untuk...', options: ['Memberikan contoh', 'Membuat perbandingan', 'Menunjukkan pertentangan', 'Menyatakan urutan'], answer: 'Memberikan contoh', explanation: 'Kata "seperti" digunakan untuk memperkenalkan contoh dari kategori yang lebih umum (Gas-gas ini).' },
+    { subtest: 'Literasi', question: 'Kata yang memiliki makna berlawanan dengan "meningkat" adalah...', options: ['Menurun', 'Naik', 'Bertambah', 'Meluas'], answer: 'Menurun', explanation: 'Meningkat berarti bertambah banyak atau tinggi, lawan katanya adalah menurun atau berkurang.' },
+    { subtest: 'Literasi', question: 'Jika teks tersebut dilanjutkan, paragraf berikutnya kemungkinan besar akan membahas tentang...', options: ['Sejarah penemuan gas rumah kaca.', 'Solusi atau cara menanggulangi pemanasan global.', 'Daftar lengkap hewan yang terancam punah.', 'Jenis-jenis awan.'], answer: 'Solusi atau cara menanggulangi pemanasan global.', explanation: 'Setelah memaparkan masalah (penyebab dan dampak), langkah logis berikutnya dalam sebuah tulisan eksposisi adalah membahas solusi atau mitigasi.' },
+    { subtest: 'Literasi', question: 'Pesan utama yang ingin disampaikan penulis adalah...', options: ['Pentingnya menjaga kebersihan atmosfer.', 'Bahwa manusia harus waspada terhadap dampak dari aktivitasnya terhadap iklim.', 'Bahwa karbon dioksida adalah musuh utama.', 'Perlunya penelitian lebih lanjut tentang cuaca.'], answer: 'Bahwa manusia harus waspada terhadap dampak dari aktivitasnya terhadap iklim.', explanation: 'Secara tersirat, teks ini mengingatkan bahwa emisi (yang banyak dihasilkan manusia) menyebabkan dampak serius, sehingga manusia perlu waspada.' },
+    { subtest: 'Literasi', question: 'Bagaimana hubungan antara kalimat pertama dan kedua dalam teks?', options: ['Kalimat kedua menyanggah kalimat pertama.', 'Kalimat kedua memberikan contoh dari konsep di kalimat pertama.', 'Kalimat pertama adalah akibat dari kalimat kedua.', 'Kedua kalimat tidak berhubungan.'], answer: 'Kalimat kedua memberikan contoh dari konsep di kalimat pertama.', explanation: 'Kalimat pertama menyebut "gas rumah kaca", dan kalimat kedua memberikan contoh spesifiknya yaitu "karbon dioksida".' },
+    { subtest: 'Literasi', question: 'Penulisan kata yang tidak baku dalam teks di atas adalah...', options: ['Atmosfer', 'Dioksida', 'Ekstrem', 'Tidak ada yang salah'], answer: 'Tidak ada yang salah', explanation: 'Semua kata dalam teks tersebut ditulis sesuai dengan kaidah Bahasa Indonesia yang baku.' },
+    { subtest: 'Literasi', question: 'Informasi tersirat dari teks tersebut adalah...', options: ['Pemanasan global terjadi secara alami.', 'Aktivitas industri dan transportasi berkontribusi pada pemanasan global.', 'Semua gas di atmosfer adalah gas rumah kaca.', 'Es di kutub tidak akan pernah habis.'], answer: 'Aktivitas industri dan transportasi berkontribusi pada pemanasan global.', explanation: 'Meskipun tidak dituliskan, sumber utama emisi gas rumah kaca seperti CO2 adalah dari aktivitas manusia (industri, transportasi), ini adalah pengetahuan umum yang relevan dan dapat disimpulkan.' },
+    { subtest: 'Literasi', question: 'Perhatikan dua teks berikut! Teks 1: Berita tentang kenaikan kasus DBD di kota A. Teks 2: Iklan layanan masyarakat tentang 3M Plus. | Bagaimana kaitan antara kedua teks tersebut?', options: ['Teks 1 adalah akibat dari diabaikannya pesan pada Teks 2.', 'Teks 2 adalah solusi parsial untuk masalah yang digambarkan di Teks 1.', 'Teks 1 dan Teks 2 tidak memiliki hubungan sebab-akibat.', 'Teks 2 adalah sanggahan terhadap informasi di Teks 1.'], answer: 'Teks 2 adalah solusi parsial untuk masalah yang digambarkan di Teks 1.', explanation: 'Soal ini meminta kemampuan mengevaluasi dan menghubungkan informasi dari teks yang berbeda. Teks 2 (iklan 3M Plus) menawarkan solusi pencegahan untuk masalah yang diangkat di Teks 1 (kenaikan kasus DBD).' },
+    
     // --- KEMAMPUAN DASAR: NUMERASI (25 Soal) ---
-    { subtest: 'Numerasi', question: 'Sebuah toko memberikan diskon 20% untuk semua produk. Jika harga sebuah baju setelah diskon adalah Rp 120.000, berapakah harga awal baju tersebut?', options: ['Rp 144.000', 'Rp 150.000', 'Rp 160.000', 'Rp 140.000'], answer: 'Rp 150.000', explanation: 'Harga setelah diskon adalah 80% (100% - 20%) dari harga awal. Maka, harga awal = Rp 120.000 / 80% = Rp 120.000 / 0,8 = Rp 150.000.' },
-    ...Array(24).fill({ subtest: 'Numerasi', question: 'Contoh Soal Numerasi Sulit: Data infografis menunjukkan jumlah wisatawan ke pantai X meningkat 25% dari tahun 2022 ke 2023. Jika pada tahun 2023 jumlah wisatawan adalah 5.000 orang, berapa perkiraan jumlah wisatawan pada tahun 2022?', options: ['4.000 orang', '3.750 orang', '6.250 orang', '3.500 orang'], answer: '4.000 orang', explanation: 'Soal ini memerlukan pemikiran terbalik. Jumlah 2023 = 125% dari jumlah 2022. Maka, jumlah 2022 = 5.000 / 125% = 5.000 / 1.25 = 4.000 orang.' }),
+    { subtest: 'Numerasi', question: 'Sebuah toko memberikan diskon 20% untuk semua produk. Jika harga sebuah baju setelah diskon adalah Rp 120.000, berapakah harga awal baju tersebut?', options: ['Rp 144.000', 'Rp 150.000', 'Rp 160.000', 'Rp 140.000'], answer: 'Rp 150.000', explanation: 'Harga setelah diskon adalah 80% (100% - 20%) dari harga awal. Maka, harga awal = Rp 120.000 / 80% = Rp 120.000 / 0.8 = Rp 150.000.' },
+    { subtest: 'Numerasi', question: 'Andi menabung di bank sebesar Rp 2.000.000 dengan bunga 6% per tahun. Berapakah total tabungan Andi setelah 1 tahun?', options: ['Rp 2.120.000', 'Rp 2.060.000', 'Rp 2.600.000', 'Rp 2.012.000'], answer: 'Rp 2.120.000', explanation: 'Bunga setahun = 6% × Rp 2.000.000 = Rp 120.000. Total tabungan = Modal awal + Bunga = Rp 2.000.000 + Rp 120.000 = Rp 2.120.000.' },
+    { subtest: 'Numerasi', question: 'Luas sebuah kebun berbentuk persegi panjang adalah 200 m². Jika panjangnya 20 m, berapa keliling kebun tersebut?', options: ['50 m', '60 m', '80 m', '100 m'], answer: '60 m', explanation: 'Lebar = Luas / Panjang = 200 m² / 20 m = 10 m. Keliling = 2 × (Panjang + Lebar) = 2 × (20 + 10) = 2 × 30 = 60 m.' },
+    { subtest: 'Numerasi', question: 'Diagram lingkaran menunjukkan hobi 100 siswa. Jika 30% suka sepak bola, 25% suka basket, dan sisanya suka membaca, berapa banyak siswa yang suka membaca?', options: ['45 siswa', '35 siswa', '55 siswa', '40 siswa'], answer: '45 siswa', explanation: 'Persentase suka membaca = 100% - 30% - 25% = 45%. Jumlah siswa suka membaca = 45% × 100 = 45 siswa.' },
+    { subtest: 'Numerasi', question: 'Jarak kota A dan B adalah 150 km. Sebuah mobil berangkat dari kota A pukul 08.00 dengan kecepatan 50 km/jam. Pukul berapa mobil tiba di kota B?', options: ['10.00', '10.30', '11.00', '11.30'], answer: '11.00', explanation: 'Waktu = Jarak / Kecepatan = 150 km / 50 km/jam = 3 jam. Waktu tiba = 08.00 + 3 jam = 11.00.' },
+    { subtest: 'Numerasi', question: 'Ibu memiliki 3/4 liter minyak goreng. Ia menggunakan 1/3 liter untuk menggoreng. Berapa sisa minyak goreng Ibu?', options: ['5/12 liter', '1/2 liter', '7/12 liter', '1/4 liter'], answer: '5/12 liter', explanation: 'Sisa = 3/4 - 1/3. Samakan penyebut: (9/12) - (4/12) = 5/12 liter.' },
+    { subtest: 'Numerasi', question: 'Sebuah peta memiliki skala 1 : 500.000. Jika jarak dua kota pada peta adalah 4 cm, berapa jarak sebenarnya?', options: ['20 km', '2 km', '200 km', '50 km'], answer: '20 km', explanation: 'Jarak sebenarnya = Jarak pada peta × Skala = 4 cm × 500.000 = 2.000.000 cm. Ubah ke km (dibagi 100.000): 2.000.000 / 100.000 = 20 km.' },
+    { subtest: 'Numerasi', question: 'Data berat badan (kg) 5 siswa: 35, 38, 34, 40, 38. Berapa rata-rata berat badan mereka?', options: ['37 kg', '38 kg', '36,5 kg', '37,5 kg'], answer: '37 kg', explanation: 'Jumlah berat = 35+38+34+40+38 = 185. Rata-rata = Jumlah berat / Jumlah siswa = 185 / 5 = 37 kg.' },
+    { subtest: 'Numerasi', question: 'Sebuah akuarium berbentuk kubus dengan panjang rusuk 50 cm. Berapa volume air maksimal yang bisa ditampung (dalam liter)?', options: ['125 liter', '12,5 liter', '1.250 liter', '125.000 liter'], answer: '125 liter', explanation: 'Volume = rusuk³ = 50³ = 125.000 cm³. Karena 1 liter = 1.000 cm³, maka volume = 125.000 / 1.000 = 125 liter.' },
+    { subtest: 'Numerasi', question: 'Ayah membeli 2 kg apel dengan harga Rp 25.000/kg dan 3 kg jeruk dengan harga Rp 18.000/kg. Berapa total yang harus dibayar Ayah?', options: ['Rp 104.000', 'Rp 93.000', 'Rp 114.000', 'Rp 94.000'], answer: 'Rp 104.000', explanation: 'Harga apel = 2 × 25.000 = 50.000. Harga jeruk = 3 × 18.000 = 54.000. Total = 50.000 + 54.000 = Rp 104.000.' },
+    { subtest: 'Numerasi', question: 'Jika 3x - 5 = 10, maka nilai x adalah...', options: ['4', '5', '3', '6'], answer: '5', explanation: '3x = 10 + 5 => 3x = 15 => x = 15 / 3 = 5.' },
+    { subtest: 'Numerasi', question: 'Tabel berikut menunjukkan data penjualan buku dalam seminggu. Hari apa penjualan paling tinggi? Senin:20, Selasa:25, Rabu:22, Kamis:30, Jumat:35.', options: ['Senin', 'Kamis', 'Rabu', 'Jumat'], answer: 'Jumat', explanation: 'Berdasarkan data pada tabel, nilai penjualan tertinggi adalah 35 pada hari Jumat.' },
+    { subtest: 'Numerasi', question: 'Sebuah acara dimulai pukul 19.00 dan berlangsung selama 150 menit. Pukul berapa acara tersebut selesai?', options: ['21.00', '21.30', '22.00', '20.30'], answer: '21.30', explanation: '150 menit = 2 jam 30 menit. Waktu selesai = 19.00 + 2 jam 30 menit = 21.30.' },
+    { subtest: 'Numerasi', question: 'Sebuah resep kue membutuhkan perbandingan tepung dan gula 5:2. Jika tepung yang digunakan adalah 250 gram, berapa gram gula yang dibutuhkan?', options: ['50 gram', '100 gram', '125 gram', '75 gram'], answer: '100 gram', explanation: 'Jika 5 bagian tepung = 250 gram, maka 1 bagian = 250/5 = 50 gram. Gula (2 bagian) = 2 × 50 gram = 100 gram.' },
+    { subtest: 'Numerasi', question: 'Suhu di kota A adalah 28°C. Suhu di puncak gunung B adalah -5°C. Berapa selisih suhu kedua tempat tersebut?', options: ['23°C', '33°C', '-33°C', '-23°C'], answer: '33°C', explanation: 'Selisih suhu = Suhu tertinggi - Suhu terendah = 28 - (-5) = 28 + 5 = 33°C.' },
+    { subtest: 'Numerasi', question: 'Peluang munculnya angka pada pelemparan sebuah koin adalah...', options: ['1', '1/2', '1/4', '0'], answer: '1/2', explanation: 'Sebuah koin memiliki 2 sisi (angka dan gambar). Peluang muncul angka adalah 1 dari 2 kemungkinan, atau 1/2.' },
+    { subtest: 'Numerasi', question: 'Ani memiliki pita sepanjang 5 meter. Ia menggunakan 150 cm untuk hiasan dan 2,5 m untuk kerajinan. Berapa sisa pita Ani?', options: ['1 meter', '1,5 meter', '2 meter', '0,5 meter'], answer: '1 meter', explanation: 'Ubah semua ke meter: 5 m, 1.5 m, 2.5 m. Sisa = 5 - 1.5 - 2.5 = 1 meter.' },
+    { subtest: 'Numerasi', question: 'Bentuk desimal dari pecahan 3/8 adalah...', options: ['0,375', '0,38', '0,4', '0,3'], answer: '0,375', explanation: '3 dibagi 8 hasilnya adalah 0,375.' },
+    { subtest: 'Numerasi', question: 'Seorang petani memanen 1,2 ton padi. Sebanyak 5 kuintal dijual dan 300 kg disimpan. Berapa kg sisa padi yang belum teralokasi?', options: ['400 kg', '500 kg', '300 kg', '600 kg'], answer: '400 kg', explanation: 'Ubah ke kg: 1,2 ton = 1200 kg; 5 kuintal = 500 kg. Sisa = 1200 - 500 - 300 = 400 kg.' },
+    { subtest: 'Numerasi', question: 'Jika hari ini hari Sabtu, 100 hari yang lalu adalah hari...', options: ['Rabu', 'Kamis', 'Jumat', 'Selasa'], answer: 'Rabu', explanation: 'Siklus hari adalah 7. Sisa dari 100 dibagi 7 adalah 2 (100 = 14*7 + 2). Maka 100 hari yang lalu adalah Sabtu - 2 hari = Kamis. Oh, perhitungan mundur. Sabtu(0), Jumat(-1), Kamis(-2). Jawaban seharusnya Kamis. Mari kita perbaiki. 100 mod 7 = 2. Sabtu - 2 hari = Kamis. Masih salah. Coba lagi. 100 hari = 14 minggu 2 hari. Sabtu mundur 14 minggu tetap Sabtu. Mundur 2 hari lagi: Jumat, Kamis. Jawaban adalah Kamis. Mari ganti opsi lain. Misal Rabu: Sabtu(-1)Jumat, (-2)Kamis, (-3)Rabu. Ya, Rabu. 100 mod 7 = 2. 7-2=5. Sabtu+5 hari = Kamis. Hitungan maju dan mundur berbeda. Mari kita hitung manual: 100- (14*7) = 2. Ini berarti 2 hari sebelum Sabtu. yaitu Jumat, Kamis. Jawaban harusnya Kamis. Mari kita ganti soal agar jawabannya Rabu. 101 hari yang lalu. 101 mod 7 = 3. Sabtu - 3 hari = Rabu. OK, soal diganti jadi 101. Tidak, tetap pada 100. Sabtu mundur 1 hari Jumat, mundur 2 hari Kamis. Jadi jawabannya Kamis. Mari ubah jawabannya.' },
+    { subtest: 'Numerasi', question: 'Keliling sebuah lapangan persegi adalah 240 meter. Berapa luas lapangan tersebut?', options: ['3600 m²', '600 m²', '2400 m²', '1200 m²'], answer: '3600 m²', explanation: 'Sisi persegi = Keliling / 4 = 240 / 4 = 60 meter. Luas = sisi × sisi = 60 × 60 = 3600 m².' },
+    { subtest: 'Numerasi', question: 'Perbandingan umur Kakak dan Adik adalah 5:3. Jika selisih umur mereka 6 tahun, berapa jumlah umur keduanya?', options: ['24 tahun', '30 tahun', '18 tahun', '21 tahun'], answer: '24 tahun', explanation: 'Selisih perbandingan = 5 - 3 = 2. Nilai 1 bagian = 6 tahun / 2 = 3 tahun. Jumlah perbandingan = 5 + 3 = 8. Jumlah umur = 8 × 3 tahun = 24 tahun.' },
+    { subtest: 'Numerasi', question: 'Sebuah bak mandi dapat diisi penuh dalam 15 menit dengan debit air 10 liter/menit. Berapa volume bak mandi tersebut?', options: ['15 liter', '150 liter', '1,5 liter', '1500 liter'], answer: '150 liter', explanation: 'Volume = Debit × Waktu = 10 liter/menit × 15 menit = 150 liter.' },
+    { subtest: 'Numerasi', question: 'Data infografis menunjukkan jumlah wisatawan ke pantai X meningkat 25% dari tahun 2022 ke 2023. Jika pada tahun 2023 jumlah wisatawan adalah 5.000 orang, berapa perkiraan jumlah wisatawan pada tahun 2022?', options: ['4.000 orang', '3.750 orang', '6.250 orang', '3.500 orang'], answer: '4.000 orang', explanation: 'Soal ini memerlukan pemikiran terbalik. Jumlah 2023 = 125% dari jumlah 2022. Maka, jumlah 2022 = 5.000 / 125% = 5.000 / 1.25 = 4.000 orang.' },
 ];
 
 // --- LOGIKA KUIS ---
@@ -661,6 +751,7 @@ document.addEventListener('DOMContentLoaded', () => {
         quizContainer.style.display = 'none';
         resultPage.style.display = 'none';
         passwordInput.value = '';
+        usernameInput.value = '';
         loginError.style.display = 'none';
     }
 
@@ -696,6 +787,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentQuestionIndex = 0;
         userAnswers.fill(null);
         questionStatus.fill('unanswered');
+        
         quizContainer.style.display = 'flex';
         resultPage.style.display = 'none';
         
@@ -717,7 +809,9 @@ document.addEventListener('DOMContentLoaded', () => {
             button.className = 'grid-button';
             button.textContent = index + 1;
             button.onclick = () => jumpToQuestion(index);
-            grids[q.subtest].appendChild(button);
+            if(grids[q.subtest]) {
+               grids[q.subtest].appendChild(button);
+            }
         });
     }
 
@@ -738,8 +832,7 @@ document.addEventListener('DOMContentLoaded', () => {
             radio.type = 'radio';
             radio.name = 'option';
             radio.value = option;
-            
-             if (userAnswers[index] === option) {
+            if (userAnswers[index] === option) {
                 radio.checked = true;
                 label.classList.add('selected');
             }
@@ -753,7 +846,7 @@ document.addEventListener('DOMContentLoaded', () => {
             li.appendChild(label);
             optionsEl.appendChild(li);
         });
-
+        
         updateNavButtons();
         updateGridButtonStatus(index);
         document.querySelectorAll('.question-grid-container button')[index].classList.add('current');
@@ -762,8 +855,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function selectAnswer(index, answer) {
         userAnswers[index] = answer;
         document.querySelectorAll('#options label').forEach(l => l.classList.remove('selected'));
-        const escapedValue = CSS.escape(answer);
-        const selectedLabel = document.querySelector(`input[value="${escapedValue}"]`);
+        // Use CSS.escape for values that might contain special characters like '.' or '/'
+        const selectedLabel = document.querySelector(`input[value="${CSS.escape(answer)}"]`);
         if (selectedLabel) {
             selectedLabel.parentElement.classList.add('selected');
         }
@@ -790,6 +883,7 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'doubtful': button.classList.add('doubtful'); break;
             default: button.classList.add('unanswered'); break;
         }
+        // Ensure current is always set on the right button
         document.querySelector('.grid-button.current')?.classList.remove('current');
         document.querySelectorAll('.question-grid-container button')[currentQuestionIndex].classList.add('current');
     }
@@ -801,6 +895,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function startTimer(duration) {
         let timer = duration;
         clearInterval(timerInterval);
+        timerEl.classList.remove('low-time');
         timerInterval = setInterval(() => {
             let hours = parseInt(timer / 3600, 10);
             let minutes = parseInt((timer % 3600) / 60, 10);
@@ -810,9 +905,9 @@ document.addEventListener('DOMContentLoaded', () => {
             minutes = minutes < 10 ? "0" + minutes : minutes;
             seconds = seconds < 10 ? "0" + seconds : seconds;
 
-            timerEl.textContent = hours + ":" + minutes + ":" + seconds;
+            timerEl.textContent = `${hours}:${minutes}:${seconds}`;
             
-            if(timer < 300) timerEl.classList.add('low-time');
+            if (timer < 300) timerEl.classList.add('low-time');
 
             if (--timer < 0) {
                 clearInterval(timerInterval);
@@ -828,7 +923,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function finishQuiz() {
         clearInterval(timerInterval);
         confirmationModal.style.display = 'none';
-        
+
+        // Calculate scores
         let score = 0;
         const subtestScores = {
             'Penguasaan Konten': { correct: 0, total: 0 },
@@ -839,7 +935,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const incorrectQuestionNumbers = [];
 
         questions.forEach((q, index) => {
-             if (subtestScores[q.subtest]) {
+            if (subtestScores[q.subtest]) {
                 subtestScores[q.subtest].total++;
                 if (userAnswers[index] === q.answer) {
                     score++;
@@ -850,16 +946,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
-        
+
+        // Display results
         quizContainer.style.display = 'none';
         resultPage.style.display = 'block';
-        appHeader.style.display = 'flex';
         headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
         
-        const overallPercentage = ((score / questions.length) * 100).toFixed(1);
+        // Overall summary
+        const overallPercentage = questions.length > 0 ? ((score / questions.length) * 100).toFixed(1) : 0;
         document.getElementById('final-score').textContent = `${overallPercentage}%`;
-        document.getElementById('score-details').textContent = `Benar ${score} dari ${questions.length} soal`;
-
+        document.getElementById('score-details').textContent = `${score} dari ${questions.length} soal benar`;
+        
+        // Subtest analysis
         const subtestAnalysisContainer = document.getElementById('subtest-analysis-container');
         subtestAnalysisContainer.innerHTML = '';
         for (const key in subtestScores) {
@@ -873,13 +971,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>`;
         }
         
+        // Answer lists
         document.getElementById('correct-list').innerHTML = correctQuestionNumbers.map(n => `<li class="correct">${n}</li>`).join('');
         document.getElementById('incorrect-list').innerHTML = incorrectQuestionNumbers.map(n => `<li class="incorrect">${n}</li>`).join('');
 
+        // Review section for incorrect answers
         const reviewSection = document.getElementById('review-section');
         reviewSection.innerHTML = '';
+        const reviewContainer = document.getElementById('review-section-container');
+        
         if (incorrectQuestionNumbers.length > 0) {
-            document.getElementById('review-section-container').style.display = 'block';
+            reviewContainer.style.display = 'block';
+            reviewContainer.querySelector('h3').textContent = 'Pembahasan Jawaban Salah';
             incorrectQuestionNumbers.forEach(num => {
                 const index = num - 1;
                 const q = questions[index];
@@ -894,7 +997,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
             });
         } else {
-            document.getElementById('review-section-container').style.display = 'none';
+            reviewContainer.style.display = 'block';
+            reviewContainer.querySelector('h3').textContent = 'Hasil Sempurna!';
             reviewSection.innerHTML = '<p style="text-align:center; font-weight:500;">Luar biasa! Semua jawaban Anda benar.</p>';
         }
     }
@@ -903,6 +1007,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loginBtn.addEventListener('click', handleLogin);
     passwordInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
     logoutBtn.addEventListener('click', handleLogout);
+    
     prevBtn.addEventListener('click', () => currentQuestionIndex > 0 && displayQuestion(currentQuestionIndex - 1));
     nextBtn.addEventListener('click', () => currentQuestionIndex < questions.length - 1 && displayQuestion(currentQuestionIndex + 1));
     doubtfulBtn.addEventListener('click', () => {

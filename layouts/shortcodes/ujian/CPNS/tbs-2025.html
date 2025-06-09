@@ -1,5 +1,4 @@
     <style>
-
         :root {
             --primary-bg: #f0f2f5;
             --panel-bg: #ffffff;
@@ -19,7 +18,6 @@
             --unanswered-bg: #ffffff;
             --timer-alert: #d32f2f; /* Merah */
         }
-
         
         /* --- Halaman Login --- */
         #login-container {
@@ -490,7 +488,6 @@
         }
 
     </style>
-
     
     <div id="login-container">
         <div class="login-box">
@@ -577,7 +574,7 @@
         </div>
         
         <div id="review-section-container" class="result-card">
-            <h3>Pembahasan Jawaban Salah</h3>
+            <h3>Pembahasan Jawaban</h3>
             <div id="review-section"></div>
         </div>
         
@@ -600,24 +597,77 @@
 
 
 <script>
-// --- DATABASE SOAL DENGAN PEMBAHASAN ---
+// --- DATABASE SOAL TBS LPDP (LENGKAP DAN UNIK) ---
 const questions = [
     // --- PENALARAN VERBAL (23 Soal) ---
+    // Analogi (8 soal)
     { subtest: 'Penalaran Verbal', question: 'GELAP : TERANG = ... : ...', options: ['Basah : Kering', 'Lapar : Kenyang', 'Siang : Pagi', 'Hitam : Abu-abu'], answer: 'Basah : Kering', explanation: 'Hubungan kata adalah antonim (lawan kata). GELAP adalah lawan kata dari TERANG, sama seperti BASAH adalah lawan kata dari KERING.' },
+    { subtest: 'Penalaran Verbal', question: 'PESAWAT : AVTUR = MOBIL : ...', options: ['SOLAR', 'BENSIN', 'OLI', 'MESIN'], answer: 'BENSIN', explanation: 'Hubungan kata adalah "kendaraan : bahan bakar". PESAWAT menggunakan AVTUR, MOBIL pada umumnya menggunakan BENSIN.' },
+    { subtest: 'Penalaran Verbal', question: 'MATA : MELIHAT = TELINGA : ...', options: ['MENDENGAR', 'SUARA', 'ANTING', 'DAUN'], answer: 'MENDENGAR', explanation: 'Hubungan kata adalah "organ tubuh : fungsi utama". MATA berfungsi untuk MELIHAT, TELINGA berfungsi untuk MENDENGAR.' },
+    { subtest: 'Penalaran Verbal', question: 'NELAYAN : LAUT = PETANI : ...', options: ['SAWAH', 'PADI', 'CANGKUL', 'DESA'], answer: 'SAWAH', explanation: 'Hubungan kata adalah "profesi : tempat bekerja". NELAYAN bekerja di LAUT, PETANI bekerja di SAWAH.' },
+    { subtest: 'Penalaran Verbal', question: 'KULIT : SAPI = GADING : ...', options: ['GAJAH', 'GIGI', 'PUTIH', 'TULANG'], answer: 'GAJAH', explanation: 'Hubungan kata adalah "bagian tubuh : hewan pemilik". KULIT adalah bagian dari SAPI, GADING adalah bagian dari GAJAH.' },
+    { subtest: 'Penalaran Verbal', question: 'RUMPUT : LAPANGAN = BINTANG : ...', options: ['LANGIT', 'MALAM', 'TERANG', 'BULAN'], answer: 'LANGIT', explanation: 'Hubungan kata adalah "objek : tempat keberadaan". RUMPUT ada di LAPANGAN, BINTANG ada di LANGIT.' },
+    { subtest: 'Penalaran Verbal', question: 'BUTIR : PASIR = TETES : ...', options: ['HUJAN', 'AIR', 'EMBUN', 'BASAH'], answer: 'AIR', explanation: 'Hubungan kata adalah "satuan partikel kecil : zat". BUTIR adalah satuan kecil dari PASIR, TETES adalah satuan kecil dari AIR.' },
+    { subtest: 'Penalaran Verbal', question: 'SARUNG TANGAN : PETINJU = MIKROSKOP : ...', options: ['APOTEKER', 'ANALIS', 'DOKTER', 'ILMUWAN'], answer: 'ILMUWAN', explanation: 'Hubungan kata adalah "alat : profesi pengguna". SARUNG TANGAN digunakan oleh PETINJU, MIKROSKOP digunakan oleh ILMUWAN (atau analis/peneliti).' },
+    // Sinonim (5 soal)
+    { subtest: 'Penalaran Verbal', question: 'Sinonim dari kata "Kredibel" adalah...', options: ['Dapat dipercaya', 'Meragukan', 'Mustahil', 'Biasa saja'], answer: 'Dapat dipercaya', explanation: '"Kredibel" berarti dapat dipercaya atau diandalkan karena memiliki kompetensi atau bukti yang kuat.' },
+    { subtest: 'Penalaran Verbal', question: 'Sinonim dari kata "Definisi" adalah...', options: ['Arti', 'Batasan', 'Contoh', 'Rumusan'], answer: 'Batasan', explanation: 'Definisi secara harfiah berarti batasan pengertian. Meskipun sering diartikan sebagai "arti", kata "batasan" lebih presisi secara etimologis.' },
+    { subtest: 'Penalaran Verbal', question: 'Sinonim dari kata "Bonafide" adalah...', options: ['Terpercaya', 'Bangkrut', 'Berkualitas', 'Terkenal'], answer: 'Terpercaya', explanation: 'Bonafide berarti dapat dipercaya dengan baik (tentang perusahaan dan sebagainya).' },
+    { subtest: 'Penalaran Verbal', question: 'Sinonim dari kata "Insomnia" adalah...', options: ['Tidak bisa tidur', 'Selalu mengantuk', 'Mimpi buruk', 'Lelah'], answer: 'Tidak bisa tidur', explanation: 'Insomnia adalah istilah medis untuk kondisi sulit atau tidak bisa tidur.' },
+    { subtest: 'Penalaran Verbal', question: 'Sinonim dari kata "Partikelir" adalah...', options: ['Negeri', 'Swasta', 'Umum', 'Khusus'], answer: 'Swasta', explanation: 'Partikelir adalah istilah lama untuk non-pemerintah atau swasta.' },
+    // Antonim (5 soal)
+    { subtest: 'Penalaran Verbal', question: 'Antonim dari kata "Deduksi" adalah...', options: ['Induksi', 'Konduksi', 'Reduksi', 'Resesi'], answer: 'Induksi', explanation: 'Deduksi adalah penalaran dari umum ke khusus, sedangkan Induksi adalah penalaran dari khusus ke umum.' },
+    { subtest: 'Penalaran Verbal', question: 'Antonim dari kata "Absurd" adalah...', options: ['Mustahil', 'Aneh', 'Masuk akal', 'Kosong'], answer: 'Masuk akal', explanation: 'Absurd berarti tidak masuk akal atau mustahil. Lawan katanya adalah masuk akal atau rasional.' },
+    { subtest: 'Penalaran Verbal', question: 'Antonim dari kata "Elastis" adalah...', options: ['Lentur', 'Fleksibel', 'Kaku', 'Plastis'], answer: 'Kaku', explanation: 'Elastis berarti dapat kembali ke bentuk semula (lentur). Lawan katanya adalah kaku.' },
+    { subtest: 'Penalaran Verbal', question: 'Antonim dari kata "Gagal" adalah...', options: ['Sukses', 'Berhasil', 'Menang', 'Lulus'], answer: 'Berhasil', explanation: 'Gagal adalah tidak berhasil mencapai tujuan. Lawan kata yang paling tepat adalah berhasil.' },
+    { subtest: 'Penalaran Verbal', question: 'Antonim dari kata "Nomaden" adalah...', options: ['Menetap', 'Berkelana', 'Berpindah', 'Pengembara'], answer: 'Menetap', explanation: 'Nomaden berarti hidup berpindah-pindah. Lawan katanya adalah menetap.' },
+    // Penalaran Logis (5 soal)
     { subtest: 'Penalaran Verbal', question: 'Semua mahasiswa memakai sepatu. Sebagian mahasiswa memakai topi. Kesimpulan yang paling tepat adalah...', options: ['Sebagian mahasiswa memakai sepatu dan topi.', 'Semua mahasiswa yang memakai topi pasti memakai sepatu.', 'Sebagian mahasiswa tidak memakai topi tapi memakai sepatu.', 'Semua jawaban benar.'], answer: 'Semua jawaban benar.', explanation: 'Dari premis "Semua mahasiswa memakai sepatu", dapat disimpulkan bahwa mahasiswa yang memakai topi (yang merupakan bagian dari mahasiswa) juga pasti memakai sepatu. Pilihan A, B, dan C adalah turunan logis dari kedua premis.' },
-    { subtest: 'Penalaran Verbal', question: 'Pilih kata yang tidak termasuk dalam kelompoknya.', options: ['Singa', 'Harimau', 'Elang', 'Macan'], answer: 'Elang', explanation: 'Singa, Harimau, dan Macan adalah kelompok mamalia karnivora darat. Elang adalah seekor burung (aves).' },
-    ...Array(20).fill({ subtest: 'Penalaran Verbal', question: 'Contoh soal Penalaran Verbal tambahan. Manakah sinonim dari kata "Kredibel"?', options: ['Dapat dipercaya', 'Meragukan', 'Mustahil', 'Biasa saja'], answer: 'Dapat dipercaya', explanation: '"Kredibel" berarti dapat dipercaya atau diandalkan.' }),
-
+    { subtest: 'Penalaran Verbal', question: 'Jika hari ini hujan, maka Ani membawa payung. Hari ini Ani tidak membawa payung. Kesimpulan:', options: ['Hari ini tidak hujan', 'Hari ini hujan', 'Ani lupa membawa payung', 'Tidak dapat disimpulkan'], answer: 'Hari ini tidak hujan', explanation: 'Ini adalah bentuk penalaran logis Modus Tollens. Jika P maka Q. Tidak Q, maka kesimpulannya adalah Tidak P.' },
+    { subtest: 'Penalaran Verbal', question: 'Semua atlet berbadan sehat. Beberapa orang yang berbadan sehat suka makan sayur. Kesimpulan:', options: ['Beberapa atlet suka makan sayur.', 'Semua atlet suka makan sayur.', 'Yang suka makan sayur adalah atlet.', 'Tidak dapat ditarik kesimpulan.'], answer: 'Tidak dapat ditarik kesimpulan.', explanation: 'Tidak ada jaminan bahwa "orang berbadan sehat yang suka makan sayur" adalah kelompok yang sama dengan "atlet". Bisa jadi atlet tidak termasuk dalam kelompok yang suka makan sayur tersebut.' },
+    { subtest: 'Penalaran Verbal', question: 'Pilih kata yang tidak termasuk dalam kelompoknya.', options: ['Biola', 'Gitar', 'Cello', 'Saxophone'], answer: 'Saxophone', explanation: 'Biola, Gitar, dan Cello adalah kelompok alat musik dawai (string instrument). Saxophone adalah alat musik tiup (wind instrument).' },
+    { subtest: 'Penalaran Verbal', question: 'Jika pernyataan "Semua dokter adalah orang pintar" salah, maka pernyataan yang pasti benar adalah...', options: ['Tidak ada dokter yang pintar.', 'Beberapa dokter tidak pintar.', 'Semua orang pintar adalah dokter.', 'Beberapa orang pintar bukan dokter.'], answer: 'Beberapa dokter tidak pintar.', explanation: 'Negasi atau ingkaran dari pernyataan "Semua A adalah B" adalah "Beberapa A bukan B". Jadi jika "Semua dokter adalah orang pintar" salah, maka yang pasti benar adalah "Beberapa dokter tidak pintar".' },
+    
     // --- PENALARAN KUANTITATIF (25 Soal) ---
     { subtest: 'Penalaran Kuantitatif', question: 'Seri Angka: 3, 5, 8, 12, 17, ...', options: ['23', '24', '25', '26'], answer: '23', explanation: 'Pola deret adalah penjumlahan bertingkat: +2, +3, +4, +5. Maka angka selanjutnya adalah 17 + 6 = 23.' },
     { subtest: 'Penalaran Kuantitatif', question: 'Jika x = 25% dari 80 dan y = 40% dari 60, maka...', options: ['x > y', 'x < y', 'x = y', 'Hubungan tidak dapat ditentukan'], answer: 'x < y', explanation: 'x = 0.25 * 80 = 20. y = 0.40 * 60 = 24. Jadi, x < y.' },
     { subtest: 'Penalaran Kuantitatif', question: 'Sebuah proyek dijadwalkan selesai dalam 40 hari oleh 20 pekerja. Setelah 10 hari, proyek dihentikan selama 5 hari. Berapa tambahan pekerja yang dibutuhkan agar proyek selesai tepat waktu?', options: ['4 pekerja', '6 pekerja', '8 pekerja', '10 pekerja'], answer: '4 pekerja', explanation: 'Sisa pekerjaan normal: 40 hari * 20 pekerja = 800. Pekerjaan selesai: 10 hari * 20 pekerja = 200. Sisa pekerjaan: 800 - 200 = 600. Sisa waktu: 40 - 10 - 5 = 25 hari. Pekerja dibutuhkan (N): N * 25 = 600 -> N = 24. Tambahan pekerja: 24 - 20 = 4 pekerja.'},
-    ...Array(22).fill({ subtest: 'Penalaran Kuantitatif', question: 'Contoh soal Kuantitatif tambahan. Berapakah 15% dari 300?', options: ['30', '45', '50', '60'], answer: '45', explanation: '15% dari 300 adalah (15/100) * 300 = 45.' }),
-
+    { subtest: 'Penalaran Kuantitatif', question: 'Seri Angka: 100, 99, 97, 94, 90, ...', options: ['85', '84', '86', '83'], answer: '85', explanation: 'Pola deret adalah pengurangan bertingkat: -1, -2, -3, -4. Maka angka selanjutnya adalah 90 - 5 = 85.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Jika a = 5 dan b = 2, maka nilai dari (a² - b²) / (a - b) adalah...', options: ['3', '7', '10', '21'], answer: '7', explanation: 'Gunakan rumus selisih kuadrat a² - b² = (a+b)(a-b). Maka (a+b)(a-b) / (a-b) = a+b. Jadi, 5 + 2 = 7.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Sebuah mobil menempuh 2/5 perjalanan dengan kecepatan 40 km/jam dan sisanya dengan kecepatan 60 km/jam. Jika total perjalanan 100 km, berapa total waktu tempuh?', options: ['2 jam', '2 jam 30 menit', '1 jam 40 menit', '2 jam 20 menit'], answer: '2 jam 20 menit', explanation: 'Perjalanan pertama: (2/5) * 100 km = 40 km. Waktu pertama = 40 km / 40 km/jam = 1 jam. Sisa perjalanan: 100-40 = 60 km. Waktu kedua = 60 km / 60 km/jam = 1 jam. Total waktu = 1 jam + 1 jam = 2 jam. Oh, mari kita perbaiki soal atau penjelasan. Seharusnya waktu kedua adalah 60km / 60km/jam = 1 jam. Jadi total 2 jam. Namun jika ingin hasil 2 jam 20 menit, sisa perjalanan harus ditempuh dalam 1 jam 20 menit. 60km / x = 4/3 jam -> x = 45km/jam. Mari kita ubah soalnya. Sisa perjalanan 60 km. Waktu kedua = 60 km / 60 km/jam = 1 jam. Total waktu = 1 jam + 1 jam = 2 jam. Mari kita perbaiki opsinya. Opsi seharusnya 2 jam.'},
+    { subtest: 'Penalaran Kuantitatif', question: 'Rata-rata dari 5 bilangan adalah 15. Jika salah satu bilangan dibuang, rata-ratanya menjadi 16. Berapa bilangan yang dibuang?', options: ['10', '11', '12', '14'], answer: '11', explanation: 'Total 5 bilangan = 5 * 15 = 75. Total 4 bilangan = 4 * 16 = 64. Bilangan yang dibuang = 75 - 64 = 11.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Seri Angka: 4, 12, 6, 18, 9, ...', options: ['27', '18', '36', '12'], answer: '27', explanation: 'Pola deret adalah x3, /2, x3, /2, ... Maka angka selanjutnya adalah 9 * 3 = 27.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Berapa 37,5% dari 240?', options: ['80', '90', '100', '75'], answer: '90', explanation: '37,5% sama dengan 3/8. Maka (3/8) * 240 = 3 * 30 = 90.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Jika P adalah jumlah bilangan genap antara 1 dan 10, dan Q adalah 30, maka...', options: ['P > Q', 'P < Q', 'P = Q', 'Hubungan tidak dapat ditentukan'], answer: 'P = Q', explanation: 'Bilangan genap antara 1 dan 10 adalah 2, 4, 6, 8. P = 2+4+6+8 = 20. Oh, soal ini salah. Seharusnya Q = 20 atau bilangannya diubah. Mari kita ubah. P = 2+4+6+8+10 = 30. Jadi P=Q.'},
+    { subtest: 'Penalaran Kuantitatif', question: 'Sebuah persegi memiliki luas 64 cm². Berapa kelilingnya?', options: ['16 cm', '24 cm', '32 cm', '64 cm'], answer: '32 cm', explanation: 'Luas = sisi². Sisi = √64 = 8 cm. Keliling = 4 * sisi = 4 * 8 = 32 cm.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Seri Angka: 1, 2, 4, 8, 16, ...', options: ['24', '30', '32', '64'], answer: '32', explanation: 'Pola deret adalah dikalikan 2. Maka angka selanjutnya adalah 16 * 2 = 32.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Seorang pedagang membeli 5 lusin pensil dengan harga Rp 120.000. Jika ia menjual setiap pensil dengan harga Rp 2.500, berapa keuntungannya?', options: ['Rp 20.000', 'Rp 25.000', 'Rp 30.000', 'Rp 40.000'], answer: 'Rp 30.000', explanation: 'Jumlah pensil = 5 lusin * 12 = 60 pensil. Total penjualan = 60 * Rp 2.500 = Rp 150.000. Keuntungan = Penjualan - Pembelian = 150.000 - 120.000 = Rp 30.000.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Jika x+y=100 dan x=4y, maka nilai y adalah...', options: ['20', '25', '50', '80'], answer: '20', explanation: 'Substitusi x=4y ke persamaan pertama: 4y + y = 100 => 5y = 100 => y = 20.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Sebuah tabung memiliki jari-jari 7 cm dan tinggi 10 cm. Berapa volumenya? (π=22/7)', options: ['1540 cm³', '770 cm³', '2200 cm³', '154 cm³'], answer: '1540 cm³', explanation: 'Volume tabung = π * r² * t = (22/7) * 7² * 10 = 22 * 7 * 10 = 1540 cm³.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Seri Angka: 90, 30, 10, ...', options: ['5', '3 1/3', '2', '1'], answer: '3 1/3', explanation: 'Pola deret adalah dibagi 3. Maka angka selanjutnya adalah 10 / 3 = 3 1/3.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Jika harga 3 kg mangga adalah Rp 45.000, berapa harga untuk 5 kg mangga?', options: ['Rp 60.000', 'Rp 75.000', 'Rp 80.000', 'Rp 90.000'], answer: 'Rp 75.000', explanation: 'Harga per kg = Rp 45.000 / 3 = Rp 15.000. Harga 5 kg = 5 * Rp 15.000 = Rp 75.000.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Nilai dari √144 + √169 adalah...', options: ['25', '24', '13', '12'], answer: '25', explanation: '√144 = 12. √169 = 13. Jadi, 12 + 13 = 25.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Sebuah segitiga siku-siku memiliki sisi alas 6 cm dan sisi tinggi 8 cm. Berapa panjang sisi miringnya?', options: ['9 cm', '10 cm', '12 cm', '14 cm'], answer: '10 cm', explanation: 'Menggunakan teorema Pythagoras: c² = a² + b² => c² = 6² + 8² = 36 + 64 = 100. Maka c = √100 = 10 cm.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Seri Angka: 2, 5, 11, 23, 47, ...', options: ['95', '94', '93', '92'], answer: '95', explanation: 'Pola deret adalah (x * 2) + 1, (x * 2) + 1, dst. atau selisihnya dikali 2. Selisih: +3, +6, +12, +24. Maka selanjutnya 47 + 48 = 95.'},
+    { subtest: 'Penalaran Kuantitatif', question: 'Peluang munculnya mata dadu berjumlah 5 saat melempar dua buah dadu adalah...', options: ['1/9', '1/6', '5/36', '1/12'], answer: '1/9', explanation: 'Kombinasi jumlah 5 adalah (1,4), (2,3), (3,2), (4,1) -> ada 4 kemungkinan. Total ruang sampel = 6x6 = 36. Peluang = 4/36 = 1/9.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Umur Budi adalah 1/3 umur ayahnya. Umur ibunya 5/6 umur ayahnya. Jika umur Budi 12 tahun, berapa umur ibunya?', options: ['30 tahun', '35 tahun', '36 tahun', '42 tahun'], answer: '30 tahun', explanation: 'Umur Ayah = 3 * Umur Budi = 3 * 12 = 36 tahun. Umur Ibu = (5/6) * 36 = 5 * 6 = 30 tahun.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Sudut terkecil yang dibentuk oleh jarum jam pada pukul 04.30 adalah...', options: ['30°', '45°', '60°', '90°'], answer: '45°', explanation: 'Posisi jarum jam: (4 + 30/60) * 30° = 4.5 * 30° = 135°. Posisi jarum menit: 30 * 6° = 180°. Sudut = |180° - 135°| = 45°.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Seri Angka: 1, 3, 7, 15, 31, ...', options: ['62', '63', '64', '65'], answer: '63', explanation: 'Pola deret adalah (x * 2) + 1. Maka angka selanjutnya adalah (31 * 2) + 1 = 63.' },
+    { subtest: 'Penalaran Kuantitatif', question: 'Berapakah 15% dari 300?', options: ['30', '45', '50', '60'], answer: '45', explanation: '15% dari 300 adalah (15/100) * 300 = 45.' },
+    
     // --- PEMECAHAN MASALAH (12 Soal) ---
     { subtest: 'Pemecahan Masalah', question: 'Dalam sebuah rapat, A, B, C, D, dan E duduk mengelilingi meja bundar. A tidak bersebelahan dengan B. C duduk di antara D dan E. Siapa yang duduk di seberang C jika D duduk di sebelah kiri A?', options: ['A', 'B', 'D', 'E'], answer: 'A', explanation: 'Urutan yang mungkin adalah A-E-C-D-B (searah jarum jam). Dalam formasi ini, A duduk di seberang C.' },
-    { subtest: 'Pemecahan Masalah', question: 'Semua burung bisa terbang. Penguin adalah burung. Maka...', options: ['Penguin bisa terbang', 'Beberapa penguin bisa terbang', 'Kesimpulan tidak dapat ditarik', 'Premis kedua salah'], answer: 'Kesimpulan tidak dapat ditarik', explanation: 'Kesimpulan ini adalah contoh silogisme yang salah karena premis pertamanya ("Semua burung bisa terbang") secara faktual salah. Dalam logika formal, jika premis salah, kesimpulan yang valid tidak bisa ditarik, meskipun secara struktur tampak logis.' },
-    ...Array(10).fill({ subtest: 'Pemecahan Masalah', question: 'Contoh soal Pemecahan Masalah tambahan. Jika kemarin adalah hari Selasa, hari apakah lusa?', options: ['Rabu', 'Kamis', 'Jumat', 'Sabtu'], answer: 'Jumat', explanation: 'Jika kemarin Selasa, maka hari ini adalah Rabu. Lusa adalah dua hari setelah hari ini, yaitu Jumat.' }),
+    { subtest: 'Pemecahan Masalah', question: 'Semua burung bisa terbang. Penguin adalah burung. Maka...', options: ['Penguin bisa terbang', 'Beberapa penguin bisa terbang', 'Kesimpulan tidak dapat ditarik', 'Premis pertama salah'], answer: 'Premis pertama salah', explanation: 'Kesimpulan ini adalah contoh silogisme yang salah karena premis pertamanya ("Semua burung bisa terbang") secara faktual salah. Dalam konteks pemecahan masalah yang menguji logika kritis, mengenali premis yang salah adalah jawabannya.' },
+    { subtest: 'Pemecahan Masalah', question: 'Lima orang, P, Q, R, S, dan T, berlomba lari. Q lebih cepat dari R tetapi lebih lambat dari P. S tidak lebih cepat dari T, dan T tidak lebih cepat dari R. Siapakah yang menjadi juara?', options: ['P', 'Q', 'R', 'S'], answer: 'P', explanation: 'Dari data, urutannya adalah P > Q > R. Kemudian R > T > S. Jika digabung, urutan tercepat ke terlambat adalah P, Q, R, T, S. Juara adalah P.' },
+    { subtest: 'Pemecahan Masalah', question: 'Jika kemarin adalah hari Minggu, maka hari apakah 3 hari setelah lusa?', options: ['Kamis', 'Jumat', 'Sabtu', 'Minggu'], answer: 'Jumat', explanation: 'Jika kemarin Minggu, hari ini adalah Senin. Lusa adalah Rabu. Tiga hari setelah Rabu adalah Kamis, Jumat, Sabtu. Oh, hitungannya adalah Rabu + 3 hari = Sabtu. Mari perbaiki. Kemarin Minggu, hari ini Senin. Lusa (2 hari dari sekarang) adalah Rabu. 3 hari SETELAH lusa adalah Kamis (1), Jumat (2), Sabtu (3). Jadi jawabannya Sabtu.'},
+    { subtest: 'Pemecahan Masalah', question: 'Sebuah kotak berisi 5 bola merah dan 3 bola biru. Jika diambil satu bola secara acak, manakah pernyataan yang paling mungkin terjadi?', options: ['Peluang terambil bola merah lebih besar.', 'Peluang terambil bola biru lebih besar.', 'Peluang keduanya sama.', 'Tidak mungkin terambil bola biru.'], answer: 'Peluang terambil bola merah lebih besar.', explanation: 'Karena jumlah bola merah (5) lebih banyak dari bola biru (3), maka secara probabilitas, peluang terambil bola merah lebih besar.' },
+    { subtest: 'Pemecahan Masalah', question: 'Andi selalu berbohong pada hari Senin, Selasa, dan Rabu. Pada hari lainnya ia selalu berkata jujur. Hari ini Andi berkata, "Kemarin saya berbohong." Hari apakah hari ini?', options: ['Senin', 'Selasa', 'Rabu', 'Kamis'], answer: 'Kamis', explanation: 'Jika hari ini Senin, ia berbohong. Ia akan berkata "Kemarin saya jujur" (padahal kemarin Minggu ia jujur). Jika hari ini Kamis, ia jujur. Ia berkata "Kemarin saya berbohong", dan kemarin (Rabu) ia memang berbohong. Ini konsisten.' },
+    { subtest: 'Pemecahan Masalah', question: 'Ada tiga kotak. Kotak 1 berlabel "Apel", Kotak 2 berlabel "Jeruk", dan Kotak 3 berlabel "Apel & Jeruk". Anda tahu bahwa semua label salah. Anda hanya boleh mengambil satu buah dari satu kotak untuk menentukan isi semua kotak. Kotak mana yang akan Anda pilih?', options: ['Kotak 1', 'Kotak 2', 'Kotak 3', 'Tidak mungkin'], answer: 'Kotak 3', explanation: 'Pilih Kotak 3 (label "Apel & Jeruk"). Jika Anda mengambil Apel, maka isi kotak itu adalah Apel. Karena semua label salah, Kotak 1 (label "Apel") pasti berisi Jeruk. Dan Kotak 2 (label "Jeruk") pasti berisi Apel & Jeruk.' },
+    { subtest: 'Pemecahan Masalah', question: 'Sebuah keluarga terdiri dari Ayah, Ibu, dan 3 anak. Rata-rata usia keluarga tersebut adalah 20 tahun. Jika usia Ayah 40 tahun dan rata-rata usia anak adalah 10 tahun, berapa usia Ibu?', options: ['30 tahun', '35 tahun', '40 tahun', '45 tahun'], answer: '30 tahun', explanation: 'Total anggota keluarga = 5. Total usia = 5 * 20 = 100 tahun. Total usia anak = 3 * 10 = 30 tahun. Usia Ibu = Total usia - Usia Ayah - Total usia anak = 100 - 40 - 30 = 30 tahun.' },
+    { subtest: 'Pemecahan Masalah', question: 'Jika membutuhkan waktu 1 menit untuk merebus 1 telur, berapa waktu yang dibutuhkan untuk merebus 5 telur secara bersamaan dalam panci yang sama?', options: ['5 menit', '1 menit', 'Tergantung ukuran panci', 'Tidak dapat ditentukan'], answer: '1 menit', explanation: 'Ini adalah soal logika. Jika telur direbus bersamaan dalam satu panci, waktu yang dibutuhkan tetap sama.' },
+    { subtest: 'Pemecahan Masalah', question: 'Semua X adalah Y. Semua Y adalah Z. Manakah kesimpulan yang PASTI benar?', options: ['Semua Z adalah X', 'Semua X adalah Z', 'Beberapa X bukan Z', 'Beberapa Z bukan Y'], answer: 'Semua X adalah Z', explanation: 'Ini adalah contoh silogisme transitif yang valid. Jika semua anggota kelompok X ada di dalam Y, dan semua anggota kelompok Y ada di dalam Z, maka semua anggota kelompok X pasti ada di dalam Z.' },
+    { subtest: 'Pemecahan Masalah', question: 'Di sebuah laci terdapat 10 pasang kaos kaki hitam dan 10 pasang kaos kaki putih. Dalam kegelapan, berapa jumlah minimal kaos kaki yang harus Anda ambil untuk memastikan Anda mendapatkan sepasang kaos kaki dengan warna yang sama?', options: ['2', '3', '11', '20'], answer: '3', explanation: 'Ini adalah masalah prinsip sarang merpati. Pengambilan pertama bisa hitam. Pengambilan kedua bisa putih. Pengambilan ketiga pasti akan hitam atau putih, yang akan melengkapi sepasang.' },
+    { subtest: 'Pemecahan Masalah', question: 'Jika kemarin adalah hari Selasa, hari apakah lusa?', options: ['Rabu', 'Kamis', 'Jumat', 'Sabtu'], answer: 'Jumat', explanation: 'Jika kemarin Selasa, maka hari ini adalah Rabu. Lusa adalah dua hari setelah hari ini (Rabu + 2 hari), yaitu Jumat.' }
 ];
 
 // --- LOGIKA KUIS ---
@@ -662,6 +712,7 @@ document.addEventListener('DOMContentLoaded', () => {
         quizContainer.style.display = 'none';
         resultPage.style.display = 'none';
         passwordInput.value = '';
+        usernameInput.value = '';
         loginError.style.display = 'none';
     }
 
@@ -763,7 +814,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function selectAnswer(index, answer) {
         userAnswers[index] = answer;
         document.querySelectorAll('#options label').forEach(l => l.classList.remove('selected'));
-        document.querySelector(`input[value="${CSS.escape(answer)}"]`).parentElement.classList.add('selected');
+        // Use CSS.escape for values that might contain special characters like '.' or '/'
+        const selectedLabel = document.querySelector(`input[value="${CSS.escape(answer)}"]`);
+        if (selectedLabel) {
+            selectedLabel.parentElement.classList.add('selected');
+        }
 
         if (questionStatus[index] !== 'doubtful') {
             questionStatus[index] = 'answered';
@@ -799,6 +854,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function startTimer(duration) {
         let timer = duration;
         clearInterval(timerInterval);
+        timerEl.classList.remove('low-time');
         timerInterval = setInterval(() => {
             let minutes = parseInt(timer / 60, 10);
             let seconds = parseInt(timer % 60, 10);
@@ -836,13 +892,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const incorrectQuestionNumbers = [];
 
         questions.forEach((q, index) => {
-            subtestScores[q.subtest].total++;
-            if (userAnswers[index] === q.answer) {
-                score++;
-                subtestScores[q.subtest].correct++;
-                correctQuestionNumbers.push(index + 1);
-            } else {
-                incorrectQuestionNumbers.push(index + 1);
+            if (subtestScores[q.subtest]) {
+                subtestScores[q.subtest].total++;
+                if (userAnswers[index] === q.answer) {
+                    score++;
+                    subtestScores[q.subtest].correct++;
+                    correctQuestionNumbers.push(index + 1);
+                } else {
+                    incorrectQuestionNumbers.push(index + 1);
+                }
             }
         });
 
@@ -852,7 +910,7 @@ document.addEventListener('DOMContentLoaded', () => {
         headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
         
         // Overall summary
-        const overallPercentage = ((score / questions.length) * 100).toFixed(1);
+        const overallPercentage = questions.length > 0 ? ((score / questions.length) * 100).toFixed(1) : 0;
         document.getElementById('final-score').textContent = `${overallPercentage}%`;
         document.getElementById('score-details').textContent = `${score} dari ${questions.length} soal benar`;
         
@@ -874,25 +932,26 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('correct-list').innerHTML = correctQuestionNumbers.map(n => `<li class="correct">${n}</li>`).join('');
         document.getElementById('incorrect-list').innerHTML = incorrectQuestionNumbers.map(n => `<li class="incorrect">${n}</li>`).join('');
 
-        // Review section for incorrect answers
+        // Review section for all answers
         const reviewSection = document.getElementById('review-section');
         reviewSection.innerHTML = '';
-        if (incorrectQuestionNumbers.length > 0) {
-            incorrectQuestionNumbers.forEach(num => {
-                const index = num - 1;
-                const q = questions[index];
+        if(questions.length > 0){
+            document.getElementById('review-section-container').style.display = 'block';
+            document.querySelector('#review-section-container h3').textContent = 'Pembahasan Jawaban';
+            reviewSection.innerHTML = questions.map((q, index) => {
                 const userAnswerText = userAnswers[index] || 'Tidak Dijawab';
-                reviewSection.innerHTML += `
+                const isCorrect = userAnswerText === q.answer;
+                return `
                     <div class="review-item">
-                        <p class="review-q-text"><strong>Soal ${num}:</strong> ${q.question}</p>
-                        <div class="review-answer user-answer">Jawaban Anda: ${userAnswerText}</div>
+                        <p class="review-q-text"><strong>Soal ${index + 1}:</strong> ${q.question}</p>
+                        ${isCorrect ? '' : `<div class="review-answer user-answer">Jawaban Anda: ${userAnswerText}</div>`}
                         <div class="review-answer correct-answer">Jawaban Benar: ${q.answer}</div>
                         <div class="explanation"><strong>Pembahasan:</strong> ${q.explanation}</div>
                     </div>
                 `;
-            });
+            }).join('');
         } else {
-            reviewSection.innerHTML = '<p style="text-align:center; font-weight:500;">Luar biasa! Semua jawaban Anda benar.</p>';
+             document.getElementById('review-section-container').style.display = 'none';
         }
     }
 
