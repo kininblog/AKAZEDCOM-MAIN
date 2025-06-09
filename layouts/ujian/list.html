@@ -1,0 +1,399 @@
+{{ define "main" }}
+
+{{ partial "herosection.html" . }}
+
+
+{{/* layouts/ujian/list.html
+    Template ini akan merender halaman daftar untuk section "ujian".
+    Secara otomatis mengelompokkan postingan berdasarkan kategori dan menampilkannya dalam slider.
+*/}}
+<style>
+    /* Variabel CSS untuk konsistensi desain */
+    :root {
+        --primary-orange: #112174;
+        --dark-blue: #0A092D;
+        --text-grey: #696871;
+        --bg-white: #FFFFFF;
+        --bg-light: #F8F9FA;
+        --border-light: #EAEAEA;
+    }
+
+
+    
+    /* Kontainer Utama Halaman */
+    .list-page-container {
+        max-width: 100%;
+        margin: auto;
+        padding: 20px;
+    }
+    
+    /* Header Halaman */
+    .list-page-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .list-page-header h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: var(--dark-blue);
+        line-height: 1.1;
+        letter-spacing: -2px;
+        margin-bottom: 16px;
+    }
+
+    .list-page-header .page-content {
+        font-size: 1.1rem;
+        color: var(--text-grey);
+        line-height: 1.7;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    /* Styling untuk setiap section kategori */
+    .category-section {
+        background-color: var(--primary-orange); /* Warna latar belakang lebih soft */
+        padding: 25px;
+        border-radius:15px;
+        margin-bottom: 40px;
+    }
+    
+    .category-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--bg-white);
+        margin-bottom: 24px;
+        border-bottom: 2px solid var(--primary-orange);
+        padding-bottom: 12px;
+        text-transform: uppercase;
+    }
+    
+    /* --- CSS SLIDER RESPONSIVE --- */
+    .css-slider-container {
+        position: relative;
+    }
+    
+    .slider-wrapper {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 20px; 
+        margin: 0 -12px; /* Menutupi padding dari slider-slide */
+    }
+    
+    /* Sembunyikan scrollbar untuk estetika */
+    .slider-wrapper::-webkit-scrollbar { display: none; }
+    .slider-wrapper { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .slider-slide {
+        flex: 0 0 50%; /* Default untuk mobile, 1 kartu per tampilan */
+        padding: 0 12px;
+        scroll-snap-align: start; 
+    }
+    
+    /* Kartu Ujian */
+    .exam-card {
+        background-color: var(--bg-white);
+        border: 1px solid var(--border-light);
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%; 
+        display: flex;
+        flex-direction: column;
+        overflow: hidden; /* Memastikan gambar sesuai radius */
+    }
+    
+    .exam-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .exam-thumbnail {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-body {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1; /* Agar body mengisi sisa ruang */
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .exam-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--dark-blue);
+    }
+
+    .tag-difficulty {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #fff;
+        flex-shrink: 0; /* Mencegah tag mengecil */
+    }
+    
+    .tag-Mudah { background-color: #28a745; }
+    .tag-Menengah { background-color: #ffc107; color: #212529;}
+    .tag-Sulit { background-color: #dc3545; }
+
+    .exam-description {
+        font-size: 1rem;
+        color: var(--text-grey);
+        line-height: 1.6;
+        margin-bottom: 24px;
+        flex-grow: 1;
+    }
+    
+    .exam-meta {
+        display: flex;
+        flex-wrap: wrap; /* Izinkan item turun ke baris baru jika perlu */
+        gap: 20px;
+        color: var(--text-grey);
+        font-size: 0.9rem;
+        border-top: 1px solid var(--border-light);
+        padding-top: 16px;
+        margin-top: auto; /* Mendorong meta info ke bawah */
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .meta-item svg {
+        width: 18px;
+        height: 18px;
+        stroke-width: 2;
+    }
+    
+    .exam-cta {
+        display: block;
+        text-align: center;
+        background-color: var(--primary-orange);
+        color: white;
+        padding: 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: opacity 0.3s ease;
+        margin-top: 24px;
+    }
+    
+    .exam-cta:hover {
+        opacity: 0.9;
+    }
+
+    /* Tombol Navigasi Slider */
+    .slide-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(255, 255, 255, 0.95);
+        border: 1px solid var(--border-light);
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        font-size: 24px;
+        color: var(--dark-blue);
+        cursor: pointer;
+        z-index: 10;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .slide-button:hover:not(:disabled) {
+        background-color: var(--bg-white);
+        border-color: var(--primary-orange);
+        color: var(--primary-orange);
+    }
+    
+    .slide-button:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+
+    .slide-button.prev { left: 0px; } /* Disesuaikan agar lebih terlihat di dalam kontainer */
+    .slide-button.next { right: 0px; }
+    
+    /* --- Desain Responsif untuk SLIDER --- */
+    /* Mobile (default): 1 kartu */
+    
+    /* Small Tablet: 2 kartu */
+    @media (min-width: 640px) {
+        .slider-slide { flex-basis: 50%; }
+    }
+    
+    /* Tablet & Desktop Kecil: 3 kartu */
+    @media (min-width: 992px) {
+        .slider-slide { flex-basis: calc(100% / 3); }
+    }
+    
+    /* Desktop besar: 4 kartu */
+    @media (min-width: 1280px) {
+        .slider-slide { flex-basis: 25%; }
+    }
+
+    /* Aturan untuk menyembunyikan tombol di mobile */
+    @media (max-width: 639px) {
+        .list-page-header h1 { font-size: 2.5rem; }
+        .category-title { font-size: 1.5rem; }
+        .slide-button { display: none; } 
+    }
+</style>
+
+<div class="list-page-container" >
+    <header class="list-page-header">
+        <h1>{{ .Title }}</h1>
+        {{/* Menampilkan konten dari file /content/ujian/_index.md */}}
+        <div class="page-content">{{ .Content }}</div>
+    </header>
+
+    <main>
+        {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+            {{ $pagesInCat := where $.Site.RegularPages "Params.categories" "intersect" (slice $name) }}
+            {{ $pagesInSection := where $pagesInCat "Section" "ujian" }}
+            
+            {{ if gt (len $pagesInSection) 0 }}
+                <section class="category-section" id="{{ $name | urlize }}">
+                    <h2 class="category-title">{{ $name }}</h2>
+                    
+                    <div class="css-slider-container">
+                        <div class="slider-wrapper">
+                            {{ range $pagesInSection }}
+                                <div class="slider-slide">
+                                    <div class="exam-card">
+                                        {{ with .Params.image }}
+                                            <img src="{{ . | relURL }}" alt="Thumbnail {{ $.Title }}" class="exam-thumbnail" onerror="this.onerror=null;this.src='https://placehold.co/600x400/112174/FFFFFF?text=Gambar';">
+                                        {{ else }}
+                                            <img src="https://placehold.co/600x400/EAEAEA/696871?text=Tanpa+Gambar" alt="Placeholder" class="exam-thumbnail">
+                                        {{ end }}
+                                        <div class="card-body">
+                                            <div class="card-header">
+                                                <h3 class="exam-title">{{ .Title }}</h3>
+                                                {{ with .Params.difficulty }}
+                                                    <span class="tag-difficulty tag-{{ . }}">{{ . }}</span>
+                                                {{ end }}
+                                            </div>
+                                            <p class="exam-description">
+  {{ with .Params.description }}
+    {{ . }}
+  {{ else }}
+    {{ .Summary | truncate 120 }}
+  {{ end }}
+</p>
+
+                                            
+                                            <div class="exam-meta">
+                                                {{ with .Params.waktu }}
+                                                <div class="meta-item">
+                                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                    <span>{{ . }}</span>
+                                                </div>
+                                                {{ end }}
+                                                {{ with .Params.jumlah }}
+                                                <div class="meta-item">
+                                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+                                                    <span>{{ . }} Soal</span>
+                                                </div>
+                                                {{ end }}
+                                            </div>
+
+                                            <a href="{{ .Permalink }}" class="exam-cta">Mulai Ujian</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{ end }}
+                        </div>
+                        {{/* Tombol navigasi akan diatur oleh JavaScript */}}
+                        <button class="slide-button prev">&#8249;</button>
+                        <button class="slide-button next">&#8250;</button>
+                    </div>
+                </section>
+            {{ end }}
+        {{ end }}
+    </main>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const sliderContainers = document.querySelectorAll('.css-slider-container');
+
+        sliderContainers.forEach(container => {
+            const sliderWrapper = container.querySelector('.slider-wrapper');
+            const prevButton = container.querySelector('.prev');
+            const nextButton = container.querySelector('.next');
+
+            if (!sliderWrapper || !prevButton || !nextButton) return;
+
+            // Fungsi untuk memperbarui status dan visibilitas tombol
+            const updateButtons = () => {
+                const isMobile = window.innerWidth < 640;
+                if (isMobile) {
+                    prevButton.style.display = 'none';
+                    nextButton.style.display = 'none';
+                    return; // Hentikan fungsi jika di mobile
+                }
+                
+                // Cek apakah slider bisa di-scroll
+                const isScrollable = sliderWrapper.scrollWidth > sliderWrapper.clientWidth;
+                
+                prevButton.style.display = isScrollable ? 'flex' : 'none';
+                nextButton.style.display = isScrollable ? 'flex' : 'none';
+
+                if (isScrollable) {
+                    // Nonaktifkan tombol 'prev' jika sudah di paling awal
+                    prevButton.disabled = sliderWrapper.scrollLeft < 1;
+                    // Nonaktifkan tombol 'next' jika sudah di paling akhir
+                    // Tambahkan buffer 1px untuk mengatasi masalah pembulatan desimal
+                    nextButton.disabled = (sliderWrapper.scrollWidth - sliderWrapper.clientWidth - sliderWrapper.scrollLeft) < 1;
+                }
+            };
+            
+            // Fungsi untuk melakukan scroll
+            const scroll = (direction) => {
+                // Scroll sejauh lebar kontainer yang terlihat
+                const scrollAmount = sliderWrapper.clientWidth * direction;
+                sliderWrapper.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            };
+
+            // Tambahkan event listener untuk klik
+            nextButton.addEventListener('click', () => scroll(1));
+            prevButton.addEventListener('click', () => scroll(-1));
+            
+            // Perbarui tombol saat slider di-scroll secara manual (misal: dengan swipe)
+            sliderWrapper.addEventListener('scroll', updateButtons);
+            
+            // Perbarui tombol saat ukuran jendela diubah
+            window.addEventListener('resize', updateButtons);
+            
+            // Panggil sekali saat inisialisasi untuk mengatur status awal
+            // Timeout kecil untuk memastikan semua elemen telah dirender dengan benar
+            setTimeout(updateButtons, 100); 
+        });
+    });
+</script>
+
+{{ partial "testimoni.html" . }}
+{{ partial "faq.html" . }}
+{{ partial "footer-ujian.html" . }}
+
+{{ end }}

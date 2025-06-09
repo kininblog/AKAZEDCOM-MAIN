@@ -213,7 +213,16 @@ menu:
               ### For demonstration purpose, the home link will be open in a new tab
               newTab: false
               icon: newspaper-regular
-        
+
+        - identifier: Ujian Online
+          name: Tryout Ujian
+          url: /ujian/
+          weight: -50
+          params:
+               ### For demonstration purpose, the home link will be open in a new tab
+              newTab: false
+              icon: train-subway-solid
+
         - identifier: Blogger
           name: Blogger
           url: /categories/blogger/

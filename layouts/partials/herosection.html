@@ -1,0 +1,264 @@
+    <style>
+        /* Kontainer Utama Hero Section */
+        .hero-container {
+            max-width: 100%;
+            margin: auto;
+            background-color: var(--bg-white);
+            border-radius: 24px;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+            padding: 24px;
+            overflow: hidden;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        /* Konten Utama (Teks Kiri, Gambar Kanan) */
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            padding: 40px 0;
+        }
+
+        .text-content {
+            flex: 1;
+            max-width: 50%;
+        }
+
+        .text-content h2 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            color: var(--dark-blue);
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 24px;
+        }
+        
+        .title-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-image: linear-gradient(90deg, #FFC837, #FF8008);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .text-content p {
+            font-size: 1.1rem;
+            color: var(--text-grey);
+            line-height: 1.7;
+            margin-bottom: 32px;
+            max-width: 480px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-orange);
+            color: var(--bg-white);
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.2);
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-white);
+            color: var(--dark-blue);
+            border: 1.5px solid var(--border-light);
+        }
+        .btn-secondary:hover {
+            border-color: var(--dark-blue);
+            background-color: #f0f3ff;
+        }
+        
+        .image-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Gaya untuk gambar baru */
+        .hero-image {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            object-fit: cover;
+            height: auto;
+        }
+
+        /* Bagian Statistik */
+        .hero-stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 30px 0;
+            border-top: 1px solid var(--border-light);
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+        .stat-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60%;
+            width: 1px;
+            background-color: var(--border-light);
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-grey);
+        }
+        
+        /* Banner Scroll di Bawah */
+        .scrolling-banner {
+            border-top: 1px solid var(--border-light);
+            padding: 20px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        .scrolling-text {
+            display: inline-flex;
+            align-items: center;
+            animation: scroll 25s linear infinite;
+        }
+        
+        .scrolling-text span {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--dark-blue);
+            margin: 0 16px;
+        }
+        
+        .scrolling-text .separator {
+            color: var(--border-light);
+            font-weight: 400;
+        }
+        
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Desain Responsif */
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .text-content { max-width: 100%; }
+            .text-content p { margin-left: auto; margin-right: auto; }
+            .cta-buttons { justify-content: center; }
+            .image-content { margin-top: 40px; }
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 0; }
+            .hero-container { margin: 20px; padding: 16px;}
+            .text-content h2 { font-size: 3rem; }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 30px;
+            }
+            .stat-item:not(:last-child)::after { display: none; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="hero-container">
+    <!-- Konten Utama -->
+    <main class="hero-content">
+        <div class="text-content">
+            <h2>
+                Platform Latihan Ujian Online
+                <div class="title-pill">
+                    <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.3 2.05c-.15-.4-.69-.4-.84 0l-1.35 4.12-4.33.3c-.42.03-.59.58-.29.86l3.24 2.87-1 4.2c-.08.34.36.61.66.44l3.88-2.34 3.88 2.34c.3.17.74-.1.66-.44l-1-4.2 3.24-2.87c.3-.28.13-.83-.29-.86l-4.33-.3-1.35-4.12z" clip-rule="evenodd"/></svg>
+                    Gratis
+                </div>
+            </h2>
+            <p>
+                Siapkan diri hadapi seleksi impianmu. Ribuan latihan soal dan tryout online untuk persiapan UTBK, CPNS, BUMN, PPG, dan seleksi karir lainnya.
+            </p>
+            <div class="cta-buttons">
+                <a href="#tryout-cpns" class="btn btn-primary">Tryout Gratis</a>
+            </div>
+        </div>
+        <div class="image-content">
+            <!-- VIDEO YOUTUBE DIGANTI DENGAN GAMBAR INI -->
+            <img src="/images/FREE.webp" alt="Platform Latihan Ujian Online" class="hero-image" 
+                 onerror="/images/FREE.webp;">
+        </div>
+    </main>
+
+    <!-- Statistik -->
+    <section class="hero-stats">
+        <div class="stat-item">
+            <span class="stat-number">10rb+</span>
+            <span class="stat-label">Bank Soal</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">50+</span>
+            <span class="stat-label">Jenis Ujian</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">98%</span>
+            <span class="stat-label">Tingkat Kepuasan</span>
+        </div>
+    </section>
+
+    <!-- Banner Scroll -->
+    <div class="scrolling-banner">
+        <div class="scrolling-text">
+            <span>+ Latihan Soal CPNS</span> <span class="separator">|</span>
+            <span>+ Tryout Online UTBK</span> <span class="separator">|</span>
+            <span>+ Simulasi CAT BUMN</span> <span class="separator">|</span>
+            <span>+ Persiapan PPG</span> <span class="separator">|</span>
+            <span>+ Bank Soal LPDP</span> <span class="separator">|</span>
+            <!-- Duplikasi untuk efek scroll tak terbatas -->
+            <span>+ Latihan Soal CPNS</span> <span class="separator">|</span>
+            <span>+ Tryout Online UTBK</span> <span class="separator">|</span>
+            <span>+ Simulasi CAT BUMN</span> <span class="separator">|</span>
+            <span>+ Persiapan PPG</span> <span class="separator">|</span>
+            <span>+ Bank Soal LPDP</span> <span class="separator">|</span>
+        </div>
+    </div>
+</div>

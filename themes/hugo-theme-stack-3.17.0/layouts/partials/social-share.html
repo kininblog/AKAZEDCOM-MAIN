@@ -1,123 +1,294 @@
+<!-- 
+  Tombol Share Sosial Responsif untuk Hugo
+  - Desain: Bar horizontal modern di bagian bawah layar.
+  - Fitur: Panel "lebih banyak" dengan animasi slide-up profesional.
+  - Tambahan: Ikon Pinterest, Reddit, LINE, Viber, dan Web Share API (jika didukung).
+  - UX: Notifikasi "Tersalin!" yang halus saat menyalin URL.
+-->
+
 <style>
-.floating-share {
-  position: fixed;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-  border-radius: 999px;
-  padding: 0.5rem 1rem;
-  display: flex;
-  gap: 0.75rem;
-  z-index: 9999;
-  align-items: center;
-  flex-wrap: wrap;
-  font-family: sans-serif;
-}
-
-.floating-share .label {
-  font-size: 0.9rem;
-  margin-right: 0.5rem;
-  font-weight: 600;
-  color: #333;
-}
-
-.floating-share a,
-.floating-share button {
-  all: unset;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  transition: background 0.2s;
-}
-
-.floating-share svg {
-  width: 20px;
-  height: 20px;
-  fill: currentColor;
-}
-
-.floating-share a:hover,
-.floating-share button:hover {
-  background: #f2f2f2;
-}
-
-.share-facebook { color: #3b5998; }
-.share-twitter  { color: #1da1f2; }
-.share-whatsapp { color: #25D366; }
-.share-copy     { color: #555; }
-.share-telegram { color: #0088cc; }
-.share-linkedin { color: #0077b5; }
-.share-email    { color: #d44638; }
-
-.more-share {
-  display: none;
-  gap: 0.5rem;
-}
-
-.floating-share.show-more .more-share {
-  display: flex;
-}
-
-@media (max-width: 480px) {
-  .floating-share {
-    bottom: 1rem;
-    padding: 0.5rem 0.75rem;
+  /* Variabel CSS untuk kustomisasi yang mudah */
+  :root {
+    --share-bar-bg: #ffffff;
+    --share-panel-bg: #ffffff;
+    --share-bar-shadow: 0 -6px 24px rgba(0, 0, 0, 0.08);
+    --share-panel-shadow: 0 -8px 28px rgba(0, 0, 0, 0.12);
+    --share-icon-hover-bg: #f0f2f5;
+    --share-text-color: #2c3e50;
+    --facebook-color: #1877f2;
+    --twitter-color: #1da1f2;
+    --whatsapp-color: #25d366;
+    --telegram-color: #0088cc;
+    --linkedin-color: #0077b5;
+    --email-color: #d44638;
+    --copy-color: #34495e;
+    --pinterest-color: #e60023;
+    --reddit-color: #ff4500;
+    --line-color: #00c300;
+    --viber-color: #7360f2;
+    --native-share-color: #555;
   }
-}
+
+  .floating-share-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  .floating-share-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .main-share-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--share-bar-bg);
+    box-shadow: var(--share-bar-shadow);
+    padding: 0.5rem 1rem;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+
+  .main-share-bar .share-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--share-text-color);
+    margin-right: 0.75rem;
+  }
+  
+  .main-share-bar .primary-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .share-button {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    position: relative;
+  }
+
+  .share-button:hover {
+    background-color: var(--share-icon-hover-bg);
+    transform: scale(1.1);
+  }
+
+  .share-button svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+  }
+
+  /* Warna ikon spesifik */
+  .share-facebook { color: var(--facebook-color); }
+  .share-twitter { color: var(--twitter-color); }
+  .share-whatsapp { color: var(--whatsapp-color); }
+  .share-telegram { color: var(--telegram-color); }
+  .share-linkedin { color: var(--linkedin-color); }
+  .share-email { color: var(--email-color); }
+  .share-copy { color: var(--copy-color); }
+  .share-pinterest { color: var(--pinterest-color); }
+  .share-reddit { color: var(--reddit-color); }
+  .share-line { color: var(--line-color); }
+  .share-viber { color: var(--viber-color); }
+  .share-native { color: var(--native-share-color); }
+
+  /* Tombol 'More' */
+  .more-toggle-button {
+    border-left: 1px solid #e0e0e0;
+    padding-left: 0.75rem;
+    margin-left: 0.25rem;
+  }
+  
+  .more-toggle-button svg {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .show-more .more-toggle-button svg {
+    transform: rotate(180deg);
+  }
+
+  /* Panel untuk tombol tambahan (ANIMASI SLIDE-UP) */
+  .extra-shares-panel {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    width: auto;
+    max-width: 90vw;
+    background-color: var(--share-panel-bg);
+    padding: 1rem;
+    border-radius: 16px;
+    box-shadow: var(--share-panel-shadow);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 10px;
+    
+    /* State Awal (tersembunyi) */
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, 20px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+  }
+
+  .floating-share-container.show-more .extra-shares-panel {
+    /* State Akhir (terlihat) */
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+  }
+
+  /* Notifikasi untuk tombol Salin */
+  .copy-feedback {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--copy-color);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s, top 0.3s;
+    white-space: nowrap;
+  }
+
+  .share-button.copied .copy-feedback {
+    opacity: 1;
+    visibility: visible;
+    top: -35px;
+  }
 </style>
 
-<div class="floating-share" id="shareBar">
-  <span class="label">Bagikan:</span>
-
-  <a class="share-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink }}" target="_blank" title="Facebook">
-    <svg viewBox="0 0 24 24"><path d="M22 12A10 10 0 1 0 10.6 21.9V14.9H8v-3h2.6V9.5c0-2.5 1.5-3.9 3.7-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.5v1.9H17l-.4 3h-2.6v7A10 10 0 0 0 22 12z"/></svg>
-  </a>
-
-  <a class="share-twitter" href="https://twitter.com/intent/tweet?url={{ .Permalink }}&text={{ .Title }}" target="_blank" title="Twitter">
-    <svg viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.69a4.2 4.2 0 001.83-2.3 8.4 8.4 0 01-2.67 1 4.2 4.2 0 00-7.17 3.83A12 12 0 013 5.6a4.2 4.2 0 001.3 5.6 4.2 4.2 0 01-1.9-.52v.05a4.2 4.2 0 003.3 4.1 4.2 4.2 0 01-1.89.07 4.2 4.2 0 003.92 2.9A8.5 8.5 0 012 19.54a12 12 0 006.29 1.84c7.54 0 11.67-6.26 11.67-11.68 0-.18 0-.36-.01-.54A8.3 8.3 0 0022.46 6z"/></svg>
-  </a>
-
-  <a class="share-whatsapp" href="https://api.whatsapp.com/send?text={{ .Title }}%20{{ .Permalink }}" target="_blank" title="WhatsApp">
-    <svg viewBox="0 0 24 24"><path d="M20 4a10 10 0 00-16 12l-1 4 4-1a10 10 0 0013-15zM12 21a9 9 0 01-4.5-1.2L6 20l.7-2.6A9 9 0 1112 21zm4.3-6.7c-.2-.1-1.2-.6-1.4-.7s-.3-.1-.5.1c-.1.2-.6.7-.8.8s-.3.1-.5 0a7.3 7.3 0 01-3-2.6c-.2-.3 0-.4.1-.6s.2-.3.3-.5 0-.3 0-.5 0-.4-.1-.5c-.1-.2-.5-1.3-.7-1.7s-.3-.4-.5-.4h-.5c-.2 0-.5.1-.7.3A3.4 3.4 0 006 9.7a6.9 6.9 0 001.5 5.2 8.2 8.2 0 005.5 3.3c.4 0 .8 0 1.2-.1a3 3 0 002-.9l.3-.5c.1-.2.2-.4.1-.5s-.3-.2-.4-.3z"/></svg>
-  </a>
-
-  <button onclick="toggleMore()" title="Lebih banyak">
-    <svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
-  </button>
-
-  <div class="more-share">
-    <a class="share-telegram" href="https://t.me/share/url?url={{ .Permalink }}&text={{ .Title }}" target="_blank" title="Telegram">
-      <svg viewBox="0 0 24 24"><path d="M9.6 12.3l-0.3 4.3c0.5 0 0.8-0.2 1.1-0.5l2.6-2.3 5.3 3.9c1 0.5 1.7 0.3 2-0.8l3.6-13c0.3-1-0.3-1.4-1.2-1.2L1.8 10.7c-1 0.3-1 0.9-0.2 1.1l5.1 1.6 11.8-7.5-9.9 8.4z"/></svg>
-    </a>
-
-    <a class="share-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url={{ .Permalink }}" target="_blank" title="LinkedIn">
-      <svg viewBox="0 0 24 24"><path d="M4.98 3.5A2.5 2.5 0 002.5 6 2.5 2.5 0 005 8.5 2.5 2.5 0 007.5 6 2.5 2.5 0 005 3.5zM3 9h4v12H3zM9 9h4v1.5h.1a4.4 4.4 0 014-2c3 0 5 2 5 6v6h-4v-5.5c0-1.3-.5-2.2-1.8-2.2-1 0-1.6.7-1.8 1.4v6.3H9z"/></svg>
-    </a>
-
-    <a class="share-email" href="mailto:?subject={{ .Title }}&body={{ .Permalink }}" target="_blank" title="Email">
-      <svg viewBox="0 0 24 24"><path d="M12 13l8-5H4l8 5zm0 2L4 9v9h16V9l-8 6z"/></svg>
-    </a>
-
-    <button class="share-copy" onclick="copyToClipboard('{{ .Permalink }}')" title="Salin URL">
-      <svg viewBox="0 0 24 24"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 18H8V7h11v16z"/></svg>
-    </button>
+<div class="floating-share-wrapper">
+  <div class="floating-share-container" id="shareContainer">
+    
+    <!-- PANEL TOMBOL TAMBAHAN (YANG MUNCUL DENGAN ANIMASI) -->
+    <div class="extra-shares-panel" id="extraShares">
+      <a class="share-button share-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url={{ .Permalink }}" target="_blank" rel="noopener noreferrer" aria-label="Bagikan ke LinkedIn" title="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M6.5 21.5h-5v-14h5v14zM4 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm15 15.5h5v-8.3c0-4.2-2.3-6.2-5-6.2-2.3 0-3.6 1.3-4.2 2.5h-.1V9.5h-5v14h5v-7.3c0-1.7.3-3.3 2.4-3.3 2 0 2.1 2 2.1 3.4V24h.5v-2.5z"/></svg>
+      </a>
+      <a class="share-button share-telegram" href="https://t.me/share/url?url={{ .Permalink }}&text={{ .Title }}" target="_blank" rel="noopener noreferrer" aria-label="Bagikan ke Telegram" title="Telegram">
+        <svg viewBox="0 0 24 24"><path d="M9.6 12.3l-0.3 4.3c0.5 0 0.8-0.2 1.1-0.5l2.6-2.3 5.3 3.9c1 0.5 1.7 0.3 2-0.8l3.6-13c0.3-1-0.3-1.4-1.2-1.2L1.8 10.7c-1 0.3-1 0.9-0.2 1.1l5.1 1.6 11.8-7.5-9.9 8.4z"/></svg>
+      </a>
+      <a class="share-button share-pinterest" href="https://pinterest.com/pin/create/button/?url={{ .Permalink }}&media={{ .Params.image | default .Site.Params.logo }}&description={{ .Title }}" target="_blank" rel="noopener noreferrer" aria-label="Bagikan ke Pinterest" title="Pinterest">
+         <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12c0 4.2 2.6 7.8 6.2 9.2.1.2.2.4.2.7 0 .2-.1.5-.1.7 0 0-.2 1.1.2 1.3.3.2.9-.5 1.1-.7 1.3-.8 2-2.4 2-2.4s.5-.2.5 1.2c0 1.5-1 2.9-1 2.9s-1.1 4.5 2.5 1.5c1.1-.9.7-2.9.7-2.9s.9-3.7-.8-6.1c-1.2-1.7-3.2-1.5-3.2-1.5S10 9.4 10.4 8c.2-.7.8-1.5 1.8-1.5 2.1 0 3.7 1.5 3.7 4.1 0 2.2-1.1 4.9-3.3 4.9-1.2 0-2.1-.9-1.8-2 .3-1.1.9-2.2.9-2.2s.2-.8-.2-1.5c-.5-.7-1-1-1-2.1 0-1.6 1.2-3.1 3.5-3.1 4.1 0 6.5 3 6.5 5.8 0 3.8-2.2 7-5.5 7-1.5 0-2.8-.8-2.8-.8s-1.1 4.3-.2 5.2c.9.9 2.5 1 2.5 1 .9 0 3.8-3.3 3.8-3.3C20.6 19.3 22 15.8 22 12 22 6.5 17.5 2 12 2z"/></svg>
+      </a>
+      <a class="share-button share-reddit" href="https://www.reddit.com/submit?url={{ .Permalink }}&title={{ .Title }}" target="_blank" rel="noopener noreferrer" aria-label="Bagikan ke Reddit" title="Reddit">
+         <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.17 2.55 7.72 6.1 9.14.4.07.55-.17.55-.38v-1.37c-2.48.54-3-.93-3.22-1.28-.1-.25-.54-.67-.9-.81-.3-.12-.72-.55-.07-.56.63-.01 1.08.58 1.23.82.7 1.2 1.84 1.7 2.8.65.07-.5.27-.93.5-1.14-2.14-.24-4.38-1.02-4.38-4.75 0-.94.34-1.8.9-2.52-.09-.24-.39-1.2.09-2.48 0 0 .8-.26 2.64 1 .77-.21 1.59-.32 2.4-.32s1.63.11 2.4.32c1.84-1.26 2.64-1 2.64-1 .48 1.28.18 2.24.09 2.48.56.72.9 1.58.9 2.52 0 3.74-2.24 4.5-4.39 4.74.28.24.54.73.54 1.48v2.18c0 .21.15.45.55.38C19.45 19.72 22 16.17 22 12c0-5.52-4.48-10-10-10z"/></svg>
+      </a>
+      <a class="share-button share-line" href="https://line.me/R/msg/text/?{{ .Title | urlquery }}%20{{ .Permalink }}" target="_blank" rel="noopener noreferrer" aria-label="Bagikan ke LINE" title="LINE">
+        <svg viewBox="0 0 24 24"><path d="M21.9 8.4c0-2.3-1.4-4.2-3.8-4.2h-12C3.4 4.2 2 6.1 2 8.4v7.2c0 2.3 1.4 4.2 3.8 4.2h.7v1.8c0 .3.2.4.4.2l2.7-2h8.5c2.3 0 3.8-1.9 3.8-4.2V8.4zm-6.2 3.2h-1.6v-3h-1.6v3h-1.6v-4.1h4.8V11.6zm-5.2-1.1c-.6 0-1.1-.5-1.1-1.1s.5-1.1 1.1-1.1 1.1.5 1.1 1.1-.5 1.1-1.1 1.1zm-3-1.1c-.6 0-1.1-.5-1.1-1.1s.5-1.1 1.1-1.1 1.1.5 1.1 1.1-.5 1.1-1.1 1.1zm9.6 1.1h-1.6v-3H17v3h-1.6v-4.1h4.8V11.6z"/></svg>
+      </a>
+       <a class="share-button share-viber" href="viber://forward?text={{ .Title | urlquery }}%20{{ .Permalink }}" target="_blank" rel="noopener noreferrer" aria-label="Bagikan ke Viber" title="Viber">
+        <svg viewBox="0 0 24 24"><path d="M18.4 3.7c-2.4-2.4-6.3-2.4-8.7 0-2.4 2.4-2.4 6.3 0 8.7l4.3 4.3 4.4-4.3c2.4-2.4 2.4-6.3 0-8.7zm-1.2 7.5L13 15.4l-4.2-4.2c-1.6-1.6-1.6-4.2 0-5.8 1.6-1.6 4.2-1.6 5.8 0 1.6 1.6 1.6 4.2 0 5.8zM8.2 17.5c-.7 0-1.3.6-1.3 1.3s.6 1.3 1.3 1.3h7.6c.7 0 1.3-.6 1.3-1.3s-.6-1.3-1.3-1.3H8.2z"/></svg>
+      </a>
+      <a class="share-button share-email" href="mailto:?subject={{ .Title | safeURL }}&body={{ .Permalink | safeURL }}" target="_blank" rel="noopener noreferrer" aria-label="Bagikan via Email" title="Email">
+        <svg viewBox="0 0 24 24"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
+      </a>
+      <button class="share-button share-copy" onclick="copyShareLink(this, '{{ .Permalink }}')" aria-label="Salin URL" title="Salin URL">
+        <svg viewBox="0 0 24 24"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 18H8V7h11v16z"/></svg>
+        <span class="copy-feedback">Tersalin!</span>
+      </button>
+      <!-- Tombol Web Share akan ditambahkan di sini oleh JavaScript jika didukung -->
+    </div>
+    
+    <!-- BAR UTAMA (SELALU TERLIHAT DI BAWAH) -->
+    <div class="main-share-bar">
+      <span class="share-label">Bagikan:</span>
+      <div class="primary-buttons">
+        <a class="share-button share-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink }}" target="_blank" rel="noopener noreferrer" aria-label="Bagikan ke Facebook" title="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M22 12A10 10 0 1 0 10.6 21.9V14.9H8v-3h2.6V9.5c0-2.5 1.5-3.9 3.7-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.5v1.9H17l-.4 3h-2.6v7A10 10 0 0 0 22 12z"/></svg>
+        </a>
+        <a class="share-button share-twitter" href="https://twitter.com/intent/tweet?url={{ .Permalink }}&text={{ .Title }}" target="_blank" rel="noopener noreferrer" aria-label="Bagikan ke Twitter" title="Twitter">
+          <svg viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.69a4.2 4.2 0 001.83-2.3 8.4 8.4 0 01-2.67 1 4.2 4.2 0 00-7.17 3.83A12 12 0 013 5.6a4.2 4.2 0 001.3 5.6 4.2 4.2 0 01-1.9-.52v.05a4.2 4.2 0 003.3 4.1 4.2 4.2 0 01-1.89.07 4.2 4.2 0 003.92 2.9A8.5 8.5 0 012 19.54a12 12 0 006.29 1.84c7.54 0 11.67-6.26 11.67-11.68 0-.18 0-.36-.01-.54A8.3 8.3 0 0022.46 6z"/></svg>
+        </a>
+        <a class="share-button share-whatsapp" href="https://api.whatsapp.com/send?text={{ .Title }}%20{{ .Permalink }}" target="_blank" rel="noopener noreferrer" aria-label="Bagikan ke WhatsApp" title="WhatsApp">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.67.43 3.23 1.2 4.6L2 22l5.4-1.2c1.37.77 2.93 1.2 4.6 1.2h.01c5.52 0 10-4.48 10-10S17.52 2 12.01 2h-.01zM12 20.01h-.01c-1.47 0-2.85-.38-4.06-1.05l-.29-.17-3 1.01 1.03-2.94-.19-.3C5.03 15.28 4.5 13.7 4.5 12c0-4.14 3.36-7.5 7.5-7.5s7.5 3.36 7.5 7.5-3.36 7.5-7.5 7.5zm3.3-8.9c-.19-.1-1.12-.55-1.29-.62s-.3-.1-.43.1-.49.62-.6.74-.22.14-.41.04c-.19-.1-.82-.3-1.56-.96-.58-.51-.97-1.14-1.08-1.34s-.01-.3.09-.4c.09-.09.2-.23.3-.34.09-.12.14-.19.2-.34.09-.15 0-.28-.05-.38s-.43-1.03-.59-1.42c-.15-.38-.31-.33-.43-.33h-.38c-.14 0-.35.05-.53.24-.18.19-.68.67-.68 1.62s.7 1.88.8 2.02c.1.14 1.39 2.13 3.36 2.96.47.2.83.31 1.12.4.45.12.85.11 1.15-.05.34-.18 1.12-.46 1.28-.9s.16-.8.11-.9z"/></svg>
+        </a>
+      </div>
+      <button class="share-button more-toggle-button" onclick="toggleExtraShares()" aria-label="Opsi lainnya" title="Lebih banyak">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+      </button>
+    </div>
   </div>
 </div>
 
 <script>
-function toggleMore() {
-  document.getElementById('shareBar').classList.toggle('show-more');
-}
+  function toggleExtraShares() {
+    document.getElementById('shareContainer').classList.toggle('show-more');
+  }
 
-function copyToClipboard(url) {
-  navigator.clipboard.writeText(url).then(() => {
-    alert('URL disalin ke clipboard!');
+  function copyShareLink(buttonElement, url) {
+    const textArea = document.createElement('textarea');
+    textArea.value = url;
+    textArea.style.position = 'fixed';
+    textArea.style.top = '-9999px';
+    textArea.style.left = '-9999px';
+    textArea.style.opacity = '0';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      const successful = document.execCommand('copy');
+      if (successful) {
+        showCopyFeedback(buttonElement);
+      }
+    } catch (err) {
+      console.error('Gagal menyalin URL:', err);
+    }
+    document.body.removeChild(textArea);
+  }
+
+  function showCopyFeedback(buttonElement) {
+    const existingFeedback = buttonElement.querySelector('.copy-feedback');
+    if (existingFeedback) {
+      existingFeedback.style.opacity = '1';
+      existingFeedback.style.visibility = 'visible';
+      setTimeout(() => {
+        existingFeedback.style.opacity = '0';
+        existingFeedback.style.visibility = 'hidden';
+      }, 2000);
+    }
+  }
+  
+  // Menambahkan tombol Web Share API jika didukung oleh browser
+  document.addEventListener('DOMContentLoaded', () => {
+    if (navigator.share) {
+      const extraSharesPanel = document.getElementById('extraShares');
+      const webShareButton = document.createElement('button');
+      webShareButton.className = 'share-button share-native';
+      webShareButton.title = 'Bagikan via aplikasi lain';
+      webShareButton.ariaLabel = 'Bagikan via aplikasi lain';
+      webShareButton.innerHTML = `<svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 8.81C7.5 8.31 6.79 8 6 8c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>`;
+      
+      webShareButton.onclick = () => {
+        navigator.share({
+          title: '{{ .Title }}',
+          text: '{{ .Title }}',
+          url: '{{ .Permalink }}',
+        }).catch((error) => console.error('Gagal menggunakan Web Share API:', error));
+      };
+      
+      extraSharesPanel.appendChild(webShareButton);
+    }
   });
-}
 </script>

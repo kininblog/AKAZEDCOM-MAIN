@@ -364,3 +364,138 @@ blockquote.quote {
 .iziToast-message.slideIn {
     margin-top: 5px !important;
 }
+
+
+
+
+
+/* ================================== */
+/* CSS untuk Landing Page Ujian       */
+/* ================================== */
+
+/* 1. Hero Section Styling */
+.hero-ujian {
+    background-size: cover;
+    background-position: center center;
+    color: #fff;
+    text-align: center;
+    padding: 100px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+}
+
+.hero-content {
+    max-width: 800px;
+}
+
+.hero-title {
+    font-size: 3.5rem; /* Ukuran font besar untuk judul */
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+.hero-tagline {
+    font-size: 1.25rem;
+    font-weight: 300;
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
+
+/* 2. Ujian Grid & Card Styling */
+.ujian-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.ujian-section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    font-weight: 600;
+}
+
+.ujian-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+a.ujian-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.ujian-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ujian-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.card-content {
+    padding: 25px;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    font-weight: 600;
+}
+
+.card-description {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #555;
+    flex-grow: 1; /* Membuat deskripsi mengisi ruang */
+}
+
+.card-footer {
+    padding: 20px 25px;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fafafa;
+}
+
+.card-cta {
+    font-weight: 600;
+    color: #007bff; /* Biru atau warna primer tema Anda */
+}
+
+/* Tag Styling (Kategori & Kesulitan) */
+.tag-category {
+    background-color: #e9ecef;
+    color: #495057;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.tag-difficulty {
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+/* Warna berbeda untuk tingkat kesulitan */
+.tag-mudah { background-color: #28a745; } /* Hijau */
+.tag-menengah { background-color: #ffc107; color: #212529;} /* Kuning */
+.tag-sulit { background-color: #dc3545; } /* Merah */

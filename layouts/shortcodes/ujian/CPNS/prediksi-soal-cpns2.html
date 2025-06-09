@@ -1,0 +1,923 @@
+    <style>
+        :root {
+            --primary-bg: #f0f2f5;
+            --panel-bg: #ffffff;
+            --header-bg: #0d47a1; /* Biru Tua */
+            --header-text: #ffffff;
+            --text-color: #333333;
+            --border-color: #dee2e6;
+            --primary-action-bg: #1976d2; /* Biru */
+            --primary-action-hover: #1565c0;
+            --answered-bg: #4caf50; /* Hijau */
+            --correct-bg: #e8f5e9;
+            --correct-text: #2e7d32;
+            --incorrect-bg: #ffebee;
+            --incorrect-text: #c62828;
+            --doubtful-bg: #ffc107; /* Kuning */
+            --current-bg: #ff9800; /* Oranye */
+            --unanswered-bg: #ffffff;
+            --timer-alert: #d32f2f; /* Merah */
+        }
+        /* --- Halaman Login --- */
+        #login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .login-box {
+            background-color: var(--panel-bg);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .login-box h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            color: var(--header-bg);
+        }
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        #login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-action-bg);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #login-btn:hover {
+            background-color: var(--primary-action-hover);
+        }
+        #login-error {
+            color: var(--timer-alert);
+            margin-top: 15px;
+            font-weight: 500;
+            display: none;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header h2 {
+            font-size: 1.2em;
+            margin: 0;
+        }
+        .user-info {
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        #logout-btn {
+            background: none;
+            border: 1px solid var(--header-text);
+            color: var(--header-text);
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #logout-btn:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+
+        /* Main Container */
+        .quiz-container {
+            display: flex;
+            flex: 1;
+            padding: 15px;
+            gap: 15px;
+            overflow: hidden;
+            height: calc(100vh - 58px); /* Adjusted for header height */
+        }
+
+        /* Question Panel (Left) */
+        .question-panel {
+            flex: 3;
+            background-color: var(--panel-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .question-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #f8f9fa;
+        }
+        .question-header #subtest-title {
+            font-weight: 700;
+            color: var(--header-bg);
+        }
+        .question-body {
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+        .question-text {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        .options-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .options-list li {
+            margin-bottom: 10px;
+        }
+        .options-list label {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .options-list label:hover {
+            background-color: #e3f2fd;
+        }
+        .options-list input[type="radio"] {
+            margin-right: 15px;
+            margin-top: 5px;
+        }
+        .options-list input[type="radio"]:checked + span {
+            font-weight: 700;
+        }
+        .options-list label.selected {
+            background-color: #bbdefb;
+            border-color: var(--primary-action-bg);
+        }
+
+        /* Navigation Panel (Right) */
+        .navigation-panel {
+            flex: 1.2;
+            background-color: var(--panel-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            min-width: 300px;
+        }
+        .timer-box {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        #timer {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--header-bg);
+            letter-spacing: 2px;
+        }
+        #timer.low-time {
+            color: var(--timer-alert);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .question-grid-container {
+            padding: 15px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        .subtest-group {
+            margin-bottom: 15px;
+        }
+        .subtest-group h3 {
+            font-size: 0.9em;
+            margin: 0 0 10px 0;
+            color: var(--text-color);
+            border-bottom: 2px solid var(--primary-action-bg);
+            padding-bottom: 5px;
+        }
+        .question-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            gap: 8px;
+        }
+        .grid-button {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border-color);
+            background-color: var(--unanswered-bg);
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .grid-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .grid-button.answered { background-color: var(--answered-bg); color: white; border-color: var(--answered-bg); }
+        .grid-button.doubtful { background-color: var(--doubtful-bg); border-color: var(--doubtful-bg); }
+        .grid-button.current { border: 2px solid var(--current-bg); }
+
+        /* Footer / Actions */
+        .quiz-actions {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+        }
+        .action-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.2s;
+        }
+        #prev-btn, #next-btn {
+            background-color: var(--primary-action-bg);
+            color: white;
+        }
+        #prev-btn:disabled, #next-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #doubtful-btn {
+            background-color: var(--doubtful-bg);
+            color: #333;
+        }
+        #finish-btn {
+            background-color: var(--timer-alert);
+            color: white;
+        }
+
+        /* Confirmation Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            animation: slide-down 0.3s ease-out;
+        }
+        @keyframes slide-down {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal-content h2 {
+            margin-top: 0;
+            color: var(--header-bg);
+        }
+        .modal-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        #confirm-yes {
+            background-color: var(--primary-action-bg);
+            color: white;
+        }
+        #confirm-no {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        /* --- Result Page Styles --- */
+        .result-container {
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .result-container h2, .result-container h3 {
+            color: var(--header-bg);
+        }
+        .result-card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .overall-summary {
+            text-align: center;
+        }
+        .overall-summary .score {
+            font-size: 3em;
+            font-weight: 700;
+            color: var(--answered-bg);
+        }
+        .overall-summary .score-details {
+            font-size: 1.1em;
+            color: var(--text-color);
+        }
+        .subtest-analysis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .subtest-card {
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            text-align: center;
+        }
+        .subtest-card h4 {
+            margin: 0 0 10px 0;
+        }
+        .subtest-card .subtest-score {
+            font-size: 1.5em;
+            font-weight: 500;
+        }
+
+        .answer-list {
+            padding: 0;
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .answer-list li {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-weight: 500;
+        }
+        .answer-list li.correct {
+            background-color: var(--correct-text);
+            color: white;
+        }
+        .answer-list li.incorrect {
+            background-color: var(--incorrect-text);
+            color: white;
+        }
+        
+        .review-item {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .review-item .review-q-text {
+            font-weight: 500;
+        }
+        .review-item .review-answer {
+            padding: 8px;
+            border-radius: 4px;
+            margin: 8px 0;
+        }
+        .review-item .user-answer {
+            background-color: var(--incorrect-bg);
+            border-left: 4px solid var(--incorrect-text);
+            color: var(--incorrect-text);
+        }
+        .review-item .correct-answer {
+            background-color: var(--correct-bg);
+            border-left: 4px solid var(--correct-text);
+            color: var(--correct-text);
+        }
+        .review-item .explanation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            font-style: italic;
+        }
+        #restart-btn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--primary-action-bg);
+            color: white;
+        }
+        
+        /* Hidden by default */
+        .header, .quiz-container, #result-page {
+            display: none;
+        }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .quiz-container {
+                flex-direction: column;
+                height: auto;
+                overflow: visible;
+            }
+            .navigation-panel {
+                min-width: unset;
+                flex: unset; /* Unset flex grow/shrink */
+                height: auto;
+            }
+            .question-panel {
+                min-height: 40vh;
+            }
+            .header h2 {
+                font-size: 1em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 20px;
+            }
+            .question-body, .quiz-actions {
+                padding: 15px;
+            }
+            .action-button {
+                padding: 8px 12px;
+                font-size: 0.9em;
+            }
+        }
+
+    </style>
+    
+    <div id="login-container">
+        <div class="login-box">
+            <h2>Login Peserta Ujian</h2>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan username Anda">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password">
+            </div>
+            <button id="login-btn">Masuk</button>
+            <p id="login-error">Password salah. Coba lagi.</p>
+        </div>
+    </div>
+
+    <header class="header">
+        <h2>Tryout Prediksi Soal Seleksi CPNS #3</h2>
+        <div class="user-info">
+            <span id="header-info"></span>
+            <button id="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <div class="quiz-container">
+        <!-- Panel Soal -->
+        <main class="question-panel">
+            <div class="question-header">
+                <span id="subtest-title">Subtes</span> | Soal No. <span id="question-number">1</span>
+            </div>
+            <div class="question-body">
+                <p id="question-text">Memuat soal...</p>
+                <ul id="options" class="options-list"></ul>
+            </div>
+            <div class="quiz-actions">
+                <button id="prev-btn" class="action-button">Sebelumnya</button>
+                <button id="doubtful-btn" class="action-button">Ragu-ragu</button>
+                <button id="next-btn" class="action-button">Selanjutnya</button>
+            </div>
+        </main>
+
+        <!-- Panel Navigasi -->
+        <aside class="navigation-panel">
+            <div class="timer-box">
+                Sisa Waktu
+                <div id="timer">120:00</div>
+            </div>
+            <div class="question-grid-container">
+                <div class="subtest-group">
+                    <h3>Tes Wawasan Kebangsaan (TWK) (1-30)</h3>
+                    <div id="grid-twk" class="question-grid"></div>
+                </div>
+                <div class="subtest-group">
+                    <h3>Tes Intelegensia Umum (TIU) (31-65)</h3>
+                    <div id="grid-tiu" class="question-grid"></div>
+                </div>
+                <div class="subtest-group">
+                    <h3>Tes Karakteristik Pribadi (TKP) (66-110)</h3>
+                    <div id="grid-tkp" class="question-grid"></div>
+                </div>
+            </div>
+            <div class="quiz-actions" style="justify-content: center;">
+                <button id="finish-btn" class="action-button">Selesaikan Ujian</button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Halaman Hasil Ujian -->
+    <div id="result-page" class="result-container">
+        <div class="result-card overall-summary">
+            <h2>Hasil Akhir Ujian</h2>
+            <div id="final-score" class="score">0%</div>
+            <div id="score-details" class="score-details"></div>
+            <div id="subtest-analysis-container" class="subtest-analysis"></div>
+        </div>
+        
+        <div class="result-card">
+            <h3>Rekap Jawaban</h3>
+            <h4>Jawaban Benar</h4>
+            <ul id="correct-list" class="answer-list"></ul>
+            <h4 style="margin-top: 20px;">Jawaban Salah / Kosong</h4>
+            <ul id="incorrect-list" class="answer-list"></ul>
+        </div>
+        
+        <div id="review-section-container" class="result-card">
+            <h3>Pembahasan Jawaban Salah</h3>
+            <div id="review-section"></div>
+        </div>
+         
+        <div style="text-align: center;">
+           <button id="restart-btn" class="action-button">Ulangi Ujian</button>
+        </div>
+    </div>
+    
+    <!-- Modal Konfirmasi Selesai -->
+    <div id="confirmation-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Selesaikan Ujian?</h2>
+            <p>Apakah Anda yakin ingin menyelesaikan dan mengakhiri sesi ujian ini?</p>
+            <div class="modal-actions">
+                <button id="confirm-no" class="action-button">Batal</button>
+                <button id="confirm-yes" class="action-button">Ya, Selesaikan</button>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+// --- DATABASE SOAL CPNS #3 ---
+const questions = [
+    // --- TES WAWASAN KEBANGSAAN (TWK) - 30 Soal ---
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Perwujudan nilai-nilai Pancasila dalam bidang pertahanan dan keamanan secara tegas dinyatakan dalam UUD 1945 pasal...', options: ['27 ayat (3)', '30 ayat (1)', '29 ayat (2)', '31 ayat (1)'], answer: '30 ayat (1)', explanation: 'Pasal 30 ayat (1) UUD 1945 menyatakan, "Tiap-tiap warga negara berhak dan wajib ikut serta dalam usaha pertahanan dan keamanan negara."' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Salah satu isi Dekrit Presiden 5 Juli 1959 adalah...', options: ['Pembubaran Konstituante', 'Pembentukan MPRS dan DPAS', 'Berlakunya kembali UUD 1945 dan tidak berlakunya UUDS 1950', 'Semua jawaban benar'], answer: 'Semua jawaban benar', explanation: 'Dekrit Presiden 5 Juli 1959 berisi tiga poin utama: pembubaran Konstituante, pemberlakuan kembali UUD 1945, serta pembentukan MPRS dan DPAS dalam waktu sesingkat-singkatnya.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Implementasi Bhinneka Tunggal Ika dalam kehidupan berbangsa dan bernegara adalah...', options: ['Mempelajari semua tarian daerah di Indonesia', 'Menghormati hari raya keagamaan umat lain', 'Menggunakan produk dalam negeri', 'Hanya berteman dengan yang satu suku'], answer: 'Menghormati hari raya keagamaan umat lain', explanation: 'Menghormati hari raya umat lain adalah wujud nyata dari toleransi dan penghargaan terhadap perbedaan (kebhinnekaan) dalam bingkai persatuan.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Kewenangan untuk menguji peraturan perundang-undangan di bawah undang-undang terhadap undang-undang adalah milik...', options: ['Mahkamah Konstitusi', 'Mahkamah Agung', 'Komisi Yudisial', 'Dewan Perwakilan Rakyat'], answer: 'Mahkamah Agung', explanation: 'Mahkamah Agung (MA) memiliki hak uji materiil, yaitu menguji apakah suatu peraturan di bawah UU (misalnya Perpres, Perda) bertentangan dengan UU yang lebih tinggi.' },
+    { subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Sikap yang menunjukkan pengamalan Sila Kelima Pancasila adalah...', options: ['Suka bekerja keras dan menghargai hasil karya orang lain', 'Mengembangkan sikap tenggang rasa', 'Mengutamakan musyawarah untuk mufakat', 'Tidak memaksakan suatu agama kepada orang lain'], answer: 'Suka bekerja keras dan menghargai hasil karya orang lain', explanation: 'Sila kelima, "Keadilan Sosial bagi Seluruh Rakyat Indonesia", mencakup nilai-nilai seperti suka bekerja keras, tidak boros, dan menghargai hasil karya orang lain untuk kemajuan bersama.' },
+    ...Array(25).fill({ subtest: 'Tes Wawasan Kebangsaan (TWK)', question: 'Contoh Soal TWK Tambahan: Konferensi Asia-Afrika (KAA) yang diselenggarakan di Bandung pada tahun 1955 menghasilkan...', options: ['Dasasila Bandung', 'Piagam PBB', 'Deklarasi Bangkok', 'Jakarta Accord'], answer: 'Dasasila Bandung', explanation: 'KAA 1955 menghasilkan Dasasila Bandung, yang berisi sepuluh prinsip dasar dalam usaha memajukan perdamaian dan kerja sama dunia.' }),
+
+    // --- TES INTELEGENSIA UMUM (TIU) - 35 Soal ---
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'VIRTUAL : ... = ... : NYATA', options: ['MAYA : FAKTA', 'KOMPUTER : REALITAS', 'ONLINE : ASLI', 'GAME : DUNIA'], answer: 'MAYA : FAKTA', explanation: 'Hubungan katanya adalah sinonim dan antonim. VIRTUAL bersinonim dengan MAYA, dan MAYA berantonim dengan FAKTA (yang bersinonim dengan NYATA).' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Antonim dari kata "APRIORI" adalah...', options: ['A Posteriori', 'Unggulan', 'Teoretis', 'Asumsi'], answer: 'A Posteriori', explanation: 'Apriori berarti pengetahuan yang didapat tanpa melalui pengalaman (berpangkal pada teori). A Posteriori adalah kebalikannya, yaitu pengetahuan yang didapat dari pengalaman atau fakta empiris.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Seri Angka: 5, 7, 10, 15, 22, ...', options: ['33', '31', '30', '29'], answer: '33', explanation: 'Pola deret adalah penjumlahan bertingkat: +2, +3, +5, +7, ... (bilangan prima berikutnya adalah 11). Maka angka selanjutnya adalah 22 + 11 = 33.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Sebuah pekerjaan dapat diselesaikan oleh 12 orang dalam 10 hari. Jika setelah 4 hari bekerja, 4 orang pekerja sakit dan tidak bisa melanjutkan, berapa hari tambahan yang dibutuhkan untuk menyelesaikan pekerjaan tersebut?', options: ['3 hari', '4 hari', '5 hari', '6 hari'], answer: '3 hari', explanation: 'Total beban kerja: 12 orang x 10 hari = 120. Pekerjaan yang sudah selesai: 12 orang x 4 hari = 48. Sisa beban kerja: 120 - 48 = 72. Sisa pekerja: 12 - 4 = 8 orang. Waktu yang dibutuhkan untuk menyelesaikan sisa pekerjaan: 72 / 8 = 9 hari. Sisa waktu sesuai jadwal awal: 10 - 4 = 6 hari. Jadi, waktu tambahan yang dibutuhkan adalah 9 - 6 = 3 hari.' },
+    { subtest: 'Tes Intelegensia Umum (TIU)', question: 'Jika semua A adalah B, dan beberapa C adalah A, maka...', options: ['Semua C adalah B', 'Beberapa B adalah C', 'Tidak ada C yang B', 'Tidak dapat disimpulkan'], answer: 'Beberapa B adalah C', explanation: 'Karena beberapa C adalah A, dan semua A adalah B, maka dapat disimpulkan bahwa beberapa C tersebut juga merupakan B. Ini berarti "Beberapa C adalah B" atau bisa dibalik menjadi "Beberapa B adalah C".' },
+    ...Array(30).fill({ subtest: 'Tes Intelegensia Umum (TIU)', question: 'Contoh Soal TIU Tambahan: Harga sebuah buku didiskon dua kali berturut-turut, yaitu 20% dan 10%. Berapa total diskon harga buku tersebut?', options: ['30%', '28%', '32%', '25%'], answer: '28%', explanation: 'Misal harga awal 100. Diskon pertama 20% -> 100 - 20 = 80. Diskon kedua 10% dari 80 -> 80 - 8 = 72. Harga akhir 72. Total diskon = 100 - 72 = 28. Jadi total diskonnya adalah 28%.' }),
+
+    // --- TES KARAKTERISTIK PRIBADI (TKP) - 45 Soal ---
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Anda diminta untuk mengerjakan tugas yang belum pernah Anda lakukan sebelumnya dan tidak ada panduan yang jelas. Sikap Anda:', options: ['Menolak tugas tersebut karena di luar kompetensi saya.', 'Meminta atasan untuk memberikan tugas kepada rekan yang lebih berpengalaman.', 'Mencoba mencari referensi dari berbagai sumber, belajar mandiri, dan bertanya pada senior untuk menyelesaikannya.', 'Mengerjakannya semampu saya, tidak masalah jika hasilnya tidak maksimal.', 'Menunda pekerjaan sambil menunggu arahan yang lebih jelas.'], answer: 'Mencoba mencari referensi dari berbagai sumber, belajar mandiri, dan bertanya pada senior untuk menyelesaikannya.', explanation: 'Jawaban ini mencerminkan inisiatif tinggi, kemauan belajar (pengembangan diri), dan profesionalisme dalam menghadapi tantangan baru untuk mencapai hasil terbaik. Skor tertinggi (5).' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Seorang teman mengajak Anda untuk berbisnis dengan potensi keuntungan yang sangat besar, namun bisnis tersebut berisiko melanggar etika profesi Anda sebagai ASN. Apa yang Anda lakukan?', options: ['Langsung menolaknya dengan tegas karena bertentangan dengan integritas.', 'Mencobanya secara diam-diam agar tidak diketahui orang lain.', 'Mempertimbangkannya jika tidak ada yang dirugikan secara langsung.', 'Melaporkan teman saya kepada pihak berwenang.', 'Meminta saran dari rekan kerja lain apakah sebaiknya ikut atau tidak.'], answer: 'Langsung menolaknya dengan tegas karena bertentangan dengan integritas.', explanation: 'Menolak dengan tegas menunjukkan tingkat integritas yang tidak bisa ditawar. Ini adalah cerminan utama dari seorang ASN yang berpegang teguh pada kode etik. Skor tertinggi (5).' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Di lingkungan kerja Anda, banyak rekan yang menggunakan bahasa daerah untuk berkomunikasi. Sementara Anda berasal dari daerah lain. Sikap Anda:', options: ['Merasa tidak nyaman dan menjaga jarak.', 'Meminta mereka untuk selalu menggunakan Bahasa Indonesia di lingkungan kerja.', 'Berusaha untuk sedikit demi sedikit mempelajari bahasa mereka agar lebih akrab sambil tetap menggunakan Bahasa Indonesia.', 'Hanya berkomunikasi seperlunya terkait pekerjaan.', 'Menganggapnya sebagai hal yang tidak penting.'], answer: 'Berusaha untuk sedikit demi sedikit mempelajari bahasa mereka agar lebih akrab sambil tetap menggunakan Bahasa Indonesia.', explanation: 'Sikap ini menunjukkan kemampuan adaptasi sosial-kultural yang sangat baik. Anda menunjukkan penghargaan pada budaya lain sambil tetap menjaga fungsi Bahasa Indonesia sebagai pemersatu. Skor tertinggi (5).' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Target pekerjaan tim Anda bulan ini sangat tinggi dan tampaknya sulit dicapai. Sebagai anggota tim, apa yang Anda lakukan?', options: ['Bekerja seperti biasa, karena pencapaian target adalah tanggung jawab ketua tim.', 'Mengeluh bahwa targetnya tidak realistis.', 'Mendorong diri sendiri dan rekan lain untuk lebih bersemangat, serta mencari cara-cara kerja yang lebih efisien.', 'Pasrah dengan keadaan dan siap menerima konsekuensi jika target tidak tercapai.', 'Bekerja lembur setiap hari tanpa memikirkan efektivitas.'], answer: 'Mendorong diri sendiri dan rekan lain untuk lebih bersemangat, serta mencari cara-cara kerja yang lebih efisien.', explanation: 'Jawaban ini menunjukkan semangat berprestasi, kemampuan bekerja sama, dan orientasi pada hasil. Anda tidak hanya fokus pada diri sendiri tetapi juga memotivasi tim. Skor tertinggi (5).' },
+    { subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Anda adalah seorang resepsionis. Seorang tamu datang dengan marah-marah karena merasa tidak mendapatkan pelayanan yang baik dari petugas sebelumnya. Tindakan Anda:', options: ['Memintanya untuk tenang terlebih dahulu baru menyampaikan keluhannya.', 'Mendengarkan keluhannya dengan penuh empati, meminta maaf atas ketidaknyamanannya, dan menawarkan solusi.', 'Menyalahkan rekan saya yang bertugas sebelumnya.', 'Memintanya untuk membuat laporan tertulis agar bisa diproses.', 'Mengatakan bahwa itu bukan giliran jaga saya.'], answer: 'Mendengarkan keluhannya dengan penuh empati, meminta maaf atas ketidaknyamanannya, dan menawarkan solusi.', explanation: 'Ini adalah standar emas dalam pelayanan publik. Menunjukkan empati, mengambil tanggung jawab atas nama instansi, dan berorientasi pada solusi adalah kunci untuk menangani keluhan pelanggan secara profesional. Skor tertinggi (5).' },
+    ...Array(40).fill({ subtest: 'Tes Karakteristik Pribadi (TKP)', question: 'Contoh Soal TKP Tambahan: Saat ada pemadaman listrik di kantor, apa yang Anda lakukan?', options: ['Ikut panik dan tidak melakukan apa-apa.', 'Menggunakannya sebagai alasan untuk bersantai dan mengobrol.', 'Mencari tahu penyebabnya dan kapan akan menyala kembali sambil mengerjakan tugas yang bisa dilakukan tanpa listrik.', 'Langsung pulang karena tidak bisa bekerja.', 'Menyalakan lilin di meja kerja.'], answer: 'Mencari tahu penyebabnya dan kapan akan menyala kembali sambil mengerjakan tugas yang bisa dilakukan tanpa listrik.', explanation: 'Sikap ini menunjukkan inisiatif, kemampuan mengelola diri, dan tetap berusaha produktif meskipun dalam kondisi yang tidak ideal. Skor tertinggi (5).' }),
+];
+// --- LOGIKA KUIS ---
+document.addEventListener('DOMContentLoaded', () => {
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let questionStatus = new Array(questions.length).fill('unanswered'); // unanswered, answered, doubtful
+    let timerInterval;
+    let currentUsername = '';
+
+    // Element Cache
+    const loginContainer = document.getElementById('login-container');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('login-btn');
+    const loginError = document.getElementById('login-error');
+
+    const appHeader = document.querySelector('.header');
+    const quizContainer = document.querySelector('.quiz-container');
+    const resultPage = document.getElementById('result-page');
+    
+    const subtestTitleEl = document.getElementById('subtest-title');
+    const questionNumberEl = document.getElementById('question-number');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsEl = document.getElementById('options');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const doubtfulBtn = document.getElementById('doubtful-btn');
+    const finishBtn = document.getElementById('finish-btn');
+    const timerEl = document.getElementById('timer');
+    const restartBtn = document.getElementById('restart-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmYesBtn = document.getElementById('confirm-yes');
+    const confirmNoBtn = document.getElementById('confirm-no');
+    const headerInfo = document.getElementById('header-info');
+
+    function showLoginPage() {
+        loginContainer.style.display = 'flex';
+        appHeader.style.display = 'none';
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'none';
+        passwordInput.value = '';
+        loginError.style.display = 'none';
+    }
+
+    function handleLogin() {
+        const password = passwordInput.value;
+        const username = usernameInput.value.trim();
+        
+        if (username === "") {
+            loginError.textContent = "Username tidak boleh kosong.";
+            loginError.style.display = 'block';
+            return;
+        }
+
+        if (password === "ujiandiakazed.com") {
+            currentUsername = username;
+            loginContainer.style.display = 'none';
+            appHeader.style.display = 'flex';
+            quizContainer.style.display = 'flex';
+            headerInfo.textContent = `Peserta: ${currentUsername}`;
+            startQuiz();
+        } else {
+            loginError.textContent = "Password salah. Coba lagi.";
+            loginError.style.display = 'block';
+        }
+    }
+    
+    function handleLogout() {
+        clearInterval(timerInterval);
+        showLoginPage();
+    }
+
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        userAnswers.fill(null);
+        questionStatus.fill('unanswered');
+        quizContainer.style.display = 'flex';
+        resultPage.style.display = 'none';
+        
+        setupQuestionGrids();
+        displayQuestion(currentQuestionIndex);
+        startTimer(120 * 60); // Waktu 120 Menit
+    }
+
+    function setupQuestionGrids() {
+        const grids = {
+            'Tes Wawasan Kebangsaan (TWK)': document.getElementById('grid-twk'),
+            'Tes Intelegensia Umum (TIU)': document.getElementById('grid-tiu'),
+            'Tes Karakteristik Pribadi (TKP)': document.getElementById('grid-tkp')
+        };
+        Object.values(grids).forEach(grid => grid.innerHTML = '');
+
+        questions.forEach((q, index) => {
+            const button = document.createElement('button');
+            button.className = 'grid-button';
+            button.textContent = index + 1;
+            button.onclick = () => jumpToQuestion(index);
+            grids[q.subtest].appendChild(button);
+        });
+    }
+
+    function displayQuestion(index) {
+        document.querySelector('.grid-button.current')?.classList.remove('current');
+        currentQuestionIndex = index;
+        const question = questions[index];
+
+        subtestTitleEl.textContent = question.subtest;
+        questionNumberEl.textContent = index + 1;
+        questionTextEl.innerHTML = question.question;
+        optionsEl.innerHTML = '';
+
+        question.options.forEach(option => {
+            const li = document.createElement('li');
+            const label = document.createElement('label');
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = 'option';
+            radio.value = option;
+            
+             if (userAnswers[index] === option) {
+                radio.checked = true;
+                label.classList.add('selected');
+            }
+            radio.onchange = () => selectAnswer(index, option);
+            
+            const span = document.createElement('span');
+            span.textContent = option;
+            
+            label.appendChild(radio);
+            label.appendChild(span);
+            li.appendChild(label);
+            optionsEl.appendChild(li);
+        });
+
+        updateNavButtons();
+        updateGridButtonStatus(index);
+        document.querySelectorAll('.question-grid-container button')[index].classList.add('current');
+    }
+
+    function selectAnswer(index, answer) {
+        userAnswers[index] = answer;
+        document.querySelectorAll('#options label').forEach(l => l.classList.remove('selected'));
+        const escapedValue = CSS.escape(answer);
+        const selectedLabel = document.querySelector(`input[value="${escapedValue}"]`);
+        if (selectedLabel) {
+            selectedLabel.parentElement.classList.add('selected');
+        }
+
+        if (questionStatus[index] !== 'doubtful') {
+            questionStatus[index] = 'answered';
+        }
+        updateGridButtonStatus(index);
+    }
+    
+    function updateNavButtons() {
+        prevBtn.disabled = currentQuestionIndex === 0;
+        nextBtn.disabled = currentQuestionIndex === questions.length - 1;
+    }
+    
+    function updateGridButtonStatus(index) {
+        const button = document.querySelectorAll('.question-grid-container button')[index];
+        if (!button) return;
+        
+        button.classList.remove('answered', 'doubtful', 'unanswered');
+
+        switch (questionStatus[index]) {
+            case 'answered': button.classList.add('answered'); break;
+            case 'doubtful': button.classList.add('doubtful'); break;
+            default: button.classList.add('unanswered'); break;
+        }
+        document.querySelector('.grid-button.current')?.classList.remove('current');
+        document.querySelectorAll('.question-grid-container button')[currentQuestionIndex].classList.add('current');
+    }
+
+    function jumpToQuestion(index) {
+        displayQuestion(index);
+    }
+
+    function startTimer(duration) {
+        let timer = duration;
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            let hours = parseInt(timer / 3600, 10);
+            let minutes = parseInt((timer % 3600) / 60, 10);
+            let seconds = parseInt(timer % 60, 10);
+
+            hours = hours < 10 ? "0" + hours : hours;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            // Display as HH:MM:SS format
+            timerEl.textContent = hours + ":" + minutes + ":" + seconds;
+            
+            if(timer < 300) timerEl.classList.add('low-time');
+
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                finishQuiz();
+            }
+        }, 1000);
+    }
+    
+    function showConfirmation() {
+        confirmationModal.style.display = 'flex';
+    }
+
+    function finishQuiz() {
+        clearInterval(timerInterval);
+        confirmationModal.style.display = 'none';
+        
+        let score = 0;
+        const subtestScores = {
+            'Tes Wawasan Kebangsaan (TWK)': { correct: 0, total: 0 },
+            'Tes Intelegensia Umum (TIU)': { correct: 0, total: 0 },
+            'Tes Karakteristik Pribadi (TKP)': { correct: 0, total: 0 },
+        };
+        const correctQuestionNumbers = [];
+        const incorrectQuestionNumbers = [];
+
+        questions.forEach((q, index) => {
+            if (subtestScores[q.subtest]) {
+                subtestScores[q.subtest].total++;
+                if (userAnswers[index] === q.answer) {
+                    score++;
+                    subtestScores[q.subtest].correct++;
+                    correctQuestionNumbers.push(index + 1);
+                } else {
+                    incorrectQuestionNumbers.push(index + 1);
+                }
+            }
+        });
+        
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'block';
+        appHeader.style.display = 'flex';
+        headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
+        
+        const overallPercentage = ((score / questions.length) * 100).toFixed(1);
+        document.getElementById('final-score').textContent = `${overallPercentage}%`;
+        document.getElementById('score-details').textContent = `${score} dari ${questions.length} soal benar`;
+
+        const subtestAnalysisContainer = document.getElementById('subtest-analysis-container');
+        subtestAnalysisContainer.innerHTML = '';
+        for (const key in subtestScores) {
+            const subtest = subtestScores[key];
+            const percentage = subtest.total > 0 ? ((subtest.correct / subtest.total) * 100).toFixed(1) : 0;
+            subtestAnalysisContainer.innerHTML += `
+                <div class="subtest-card">
+                    <h4>${key}</h4>
+                    <div class="subtest-score" style="color: ${percentage >= 50 ? 'var(--correct-text)' : 'var(--incorrect-text)'}">${percentage}%</div>
+                    <div>${subtest.correct}/${subtest.total} Benar</div>
+                </div>`;
+        }
+        
+        document.getElementById('correct-list').innerHTML = correctQuestionNumbers.map(n => `<li class="correct">${n}</li>`).join('');
+        document.getElementById('incorrect-list').innerHTML = incorrectQuestionNumbers.map(n => `<li class="incorrect">${n}</li>`).join('');
+
+        const reviewSection = document.getElementById('review-section');
+        reviewSection.innerHTML = '';
+        if (incorrectQuestionNumbers.length > 0) {
+            document.getElementById('review-section-container').style.display = 'block';
+            incorrectQuestionNumbers.forEach(num => {
+                const index = num - 1;
+                const q = questions[index];
+                const userAnswerText = userAnswers[index] || 'Tidak Dijawab';
+                reviewSection.innerHTML += `
+                    <div class="review-item">
+                        <p class="review-q-text"><strong>Soal ${num}:</strong> ${q.question}</p>
+                        <div class="review-answer user-answer">Jawaban Anda: ${userAnswerText}</div>
+                        <div class="review-answer correct-answer">Jawaban Benar: ${q.answer}</div>
+                        <div class="explanation"><strong>Pembahasan:</strong> ${q.explanation}</div>
+                    </div>
+                `;
+            });
+        } else {
+            reviewSection.innerHTML = '<p style="text-align:center; font-weight:500;">Luar biasa! Semua jawaban Anda benar.</p>';
+        }
+    }
+
+    // Event Listeners
+    loginBtn.addEventListener('click', handleLogin);
+    passwordInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
+    logoutBtn.addEventListener('click', handleLogout);
+    prevBtn.addEventListener('click', () => currentQuestionIndex > 0 && displayQuestion(currentQuestionIndex - 1));
+    nextBtn.addEventListener('click', () => currentQuestionIndex < questions.length - 1 && displayQuestion(currentQuestionIndex + 1));
+    doubtfulBtn.addEventListener('click', () => {
+        questionStatus[currentQuestionIndex] = questionStatus[currentQuestionIndex] === 'doubtful' ? (userAnswers[currentQuestionIndex] ? 'answered' : 'unanswered') : 'doubtful';
+        updateGridButtonStatus(currentQuestionIndex);
+    });
+    finishBtn.addEventListener('click', showConfirmation);
+    confirmYesBtn.addEventListener('click', finishQuiz);
+    confirmNoBtn.addEventListener('click', () => confirmationModal.style.display = 'none');
+    restartBtn.addEventListener('click', startQuiz);
+
+    // Initialize
+    showLoginPage();
+});
+</script>
