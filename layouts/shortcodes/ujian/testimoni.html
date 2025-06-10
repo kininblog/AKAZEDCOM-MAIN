@@ -1,0 +1,333 @@
+    <style>
+
+        /* Kontainer Utama Halaman Testimoni */
+        .testimonial-page-container {
+            max-width: 100%;
+        }
+        
+        /* Header Halaman */
+        .testimonial-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .testimonial-header h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--dark-blue);
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-header p {
+            font-size: 1.1rem;
+            color: var(--text-grey);
+            line-height: 1.7;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* --- CSS SLIDER (DENGAN TOMBOL NAVIGASI) --- */
+
+        .css-slider-container {
+            position: relative;
+        }
+        
+        .slider-wrapper {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 20px; 
+            margin: 0 -12px; /* Menetralkan padding slide */
+        }
+        
+        /* Sembunyikan scrollbar visual */
+        .slider-wrapper::-webkit-scrollbar { display: none; }
+        .slider-wrapper { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .slider-slide {
+            flex: 0 0 100%; 
+            padding: 0 12px;
+            scroll-snap-align: start; 
+        }
+        
+        .testimonial-card {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%; 
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .slider-slide:hover .testimonial-card {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .star-rating { color: var(--star-gold); margin-bottom: 16px; }
+
+        .testimonial-text {
+            font-size: 1rem;
+            color: var(--text-grey);
+            line-height: 1.6;
+            margin-bottom: 24px;
+            font-style: italic;
+            flex-grow: 1; 
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-top: 1px solid var(--border-light);
+            padding-top: 16px;
+        }
+        
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: var(--border-light);
+        }
+        
+        .author-info h4 { font-size: 1rem; font-weight: 600; color: var(--dark-blue); }
+        .author-info p { font-size: 0.9rem; color: var(--primary-orange); font-weight: 500; }
+
+        /* Tombol Navigasi Slider */
+        .slide-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border-light);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 24px;
+            color: var(--dark-blue);
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .slide-button:hover {
+            background-color: var(--bg-white);
+            border-color: var(--primary-orange);
+            color: var(--primary-orange);
+        }
+
+        .slide-button.prev { left: -22px; }
+        .slide-button.next { right: -22px; }
+
+        /* Desain Responsif */
+        @media (min-width: 768px) {
+            .slider-slide { flex-basis: 50%; }
+        }
+
+        @media (min-width: 1024px) {
+            .slider-slide { flex-basis: calc(100% / 3); }
+        }
+
+        @media (max-width: 768px) {
+            .testimonial-page-container {
+                padding: 20px;
+                margin: 20px auto;
+            }
+            .testimonial-header h2 { font-size: 2.8rem; }
+            .slide-button { display: none; } /* Sembunyikan tombol di mobile, andalkan swipe */
+        }
+    </style>
+<div class="testimonial-page-container">
+    <header class="testimonial-header">
+        <h2>Apa Kata Mereka Tentang Akazed?</h2>
+        <p>Kisah sukses dari ribuan pengguna yang telah meraih impian mereka bersama kami. Mereka telah membuktikannya, sekarang giliran Anda.</p>
+    </header>
+
+    <main class="css-slider-container">
+        <div class="slider-wrapper">
+            <!-- Slides -->
+            <div class="slider-slide">
+                <div class="testimonial-card">
+                    <div class="star-rating">★★★★★</div>
+                    <p class="testimonial-text">"Alhamdulillah, lolos CPNS Kemenkeu! Simulasi CAT di akazed.com mirip banget sama tes aslinya. Analisis skornya detail, jadi saya tahu persis mana yang harus diperbaiki. Sangat membantu!"</p>
+                    <div class="testimonial-author">
+                        <img src="https://placehold.co/48x48/FF7A59/FFFFFF?text=A" alt="Avatar" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Andi Pratama</h4>
+                            <p>Lolos CPNS 2024</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-slide">
+                <div class="testimonial-card">
+                    <div class="star-rating">★★★★★</div>
+                    <p class="testimonial-text">"Keterima di Fasilkom UI berkat tryout rutin di sini. Bank soal UTBK-nya lengkap dan selalu update. Pembahasan soalnya mudah dimengerti, bikin belajar jadi lebih efektif. Terima kasih, Akazed!"</p>
+                    <div class="testimonial-author">
+                        <img src="https://placehold.co/48x48/3B82F6/FFFFFF?text=S" alt="Avatar" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Siti Nurhaliza</h4>
+                            <p>Diterima di Universitas Indonesia</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-slide">
+                <div class="testimonial-card">
+                    <div class="star-rating">★★★★★</div>
+                    <p class="testimonial-text">"Sebagai pejuang BUMN, platform ini adalah penyelamat. Materi TKD dan Core Values AKHLAK-nya sangat terstruktur. Saya jadi lebih percaya diri saat menghadapi tes Rekrutmen Bersama BUMN."</p>
+                    <div class="testimonial-author">
+                        <img src="https://placehold.co/48x48/10B981/FFFFFF?text=R" alt="Avatar" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Rian Hidayat</h4>
+                            <p>Lolos Rekrutmen Bersama BUMN</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-slide">
+                <div class="testimonial-card">
+                    <div class="star-rating">★★★★★</div>
+                    <p class="testimonial-text">"Awalnya ragu, tapi setelah coba paket PPG, saya ketagihan. Soal-soal pretest-nya sangat relevan dengan kisi-kisi terbaru. Fitur manajemen waktunya juga melatih saya mengerjakan soal di bawah tekanan."</p>
+                    <div class="testimonial-author">
+                        <img src="https://placehold.co/48x48/F59E0B/FFFFFF?text=D" alt="Avatar" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Dewi Lestari</h4>
+                            <p>Lulus Pretest PPG 2025</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-slide">
+                <div class="testimonial-card">
+                    <div class="star-rating">★★★★★</div>
+                    <p class="testimonial-text">"Materi skolastik dan TPA untuk beasiswa LPDP di Akazed.com juara! Saya bisa belajar di mana saja dan kapan saja lewat HP. Investasi yang sangat sepadan untuk meraih S2 di luar negeri."</p>
+                    <div class="testimonial-author">
+                        <img src="https://placehold.co/48x48/8B5CF6/FFFFFF?text=F" alt="Avatar" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Fahmi Azhar</h4>
+                            <p>Awardee LPDP 2024</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-slide">
+                <div class="testimonial-card">
+                    <div class="star-rating">★★★★★</div>
+                    <p class="testimonial-text">"Dari sekian banyak platform, Akazed paling user-friendly. Gak ribet, langsung to the point ke latihan soal. Peringkat nasional di setiap tryout bikin semangat bersaing jadi makin tinggi!"</p>
+                    <div class="testimonial-author">
+                        <img src="https://placehold.co/48x48/EF4444/FFFFFF?text=M" alt="Avatar" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Mega Wulandari</h4>
+                            <p>Pejuang UTBK 2025</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-slide">
+                <div class="testimonial-card">
+                    <div class="star-rating">★★★★★</div>
+                    <p class="testimonial-text">"TWK, TIU, TKP, semuanya ada di sini. Latihan soal CPNS-nya ribuan, dan gak pernah kehabisan. Saya bisa melacak progres belajar saya dengan mudah. Recommended!"</p>
+                    <div class="testimonial-author">
+                        <img src="https://placehold.co/48x48/22C55E/FFFFFF?text=B" alt="Avatar" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Budi Santoso</h4>
+                            <p>Lolos SKD CPNS</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-slide">
+                <div class="testimonial-card">
+                    <div class="star-rating">★★★★★</div>
+                    <p class="testimonial-text">"Fitur 'analisis jawaban' adalah game-changer. Saya jadi tahu kenapa jawaban saya salah dan bagaimana cara berpikir yang benar. Bukan cuma ngasih kunci, tapi beneran ngajarin konsep."</p>
+                    <div class="testimonial-author">
+                        <img src="https://placehold.co/48x48/6366F1/FFFFFF?text=I" alt="Avatar" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Indah Permatasari</h4>
+                            <p>Diterima di UGM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-slide">
+                <div class="testimonial-card">
+                    <div class="star-rating">★★★★★</div>
+                    <p class="testimonial-text">"Sangat membantu untuk persiapan tes masuk perusahaan swasta. Tes psikotes dan TPA-nya beragam. Membuat saya lebih siap menghadapi berbagai jenis soal yang tidak terduga."</p>
+                    <div class="testimonial-author">
+                        <img src="https://placehold.co/48x48/EC4899/FFFFFF?text=K" alt="Avatar" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Kartika Chandra</h4>
+                            <p>Diterima Management Trainee</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-slide">
+                <div class="testimonial-card">
+                    <div class="star-rating">★★★★★</div>
+                    <p class="testimonial-text">"Saya pakai Akazed untuk persiapan PPG Daljab, dan hasilnya memuaskan. Soal-soalnya sangat update dan sesuai dengan FR (Field Report) tahun-tahun sebelumnya. Wajib dicoba untuk para guru!"</p>
+                    <div class="testimonial-author">
+                        <img src="https://placehold.co/48x48/F97316/FFFFFF?text=E" alt="Avatar" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Eko Prasetyo</h4>
+                            <p>Peserta PPG Dalam Jabatan</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Tombol Navigasi Slider -->
+        <button class="slide-button prev" id="prev-slide">&#8249;</button>
+        <button class="slide-button next" id="next-slide">&#8250;</button>
+    </main>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const sliderWrapper = document.querySelector('.slider-wrapper');
+        const prevButton = document.getElementById('prev-slide');
+        const nextButton = document.getElementById('next-slide');
+
+        if (sliderWrapper && prevButton && nextButton) {
+            const scrollAmount = () => {
+                const firstSlide = sliderWrapper.querySelector('.slider-slide');
+                if (firstSlide) {
+                    // Menggunakan getBoundingClientRect().width untuk lebar yang lebih akurat
+                    return firstSlide.getBoundingClientRect().width;
+                }
+                return 300; // Lebar fallback jika slide tidak ditemukan
+            };
+
+            nextButton.addEventListener('click', () => {
+                sliderWrapper.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+            });
+
+            prevButton.addEventListener('click', () => {
+                sliderWrapper.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+            });
+        }
+    });
+</script>

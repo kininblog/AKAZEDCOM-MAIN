@@ -1,0 +1,298 @@
+    <style>
+        /* CSS Variables untuk konsistensi desain */
+        /* Reset dan Pengaturan Dasar */
+    
+
+
+        /* Kontainer Utama Halaman FAQ dengan Layout Dua Kolom */
+        .faq-page-container {
+            display: flex;
+            max-width: 100%;
+            gap: 60px;
+        }
+        
+        /* Kolom Kiri - Informasi */
+        .faq-info-column {
+            flex: 0 0 300px; /* Lebar tetap untuk kolom info */
+        }
+        
+        .faq-info-column h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--dark-blue);
+            line-height: 1.2;
+            letter-spacing: -1.5px;
+            margin-bottom: 16px;
+        }
+
+        .faq-info-column p {
+            font-size: 1rem;
+            color: var(--text-grey);
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .cta-box {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .cta-box h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-blue);
+            margin-bottom: 8px;
+        }
+
+        .cta-box p {
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        .cta-button {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background-color: var(--primary-orange);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            opacity: 0.9;
+        }
+        
+        /* Kolom Kanan - Akordeon */
+        .faq-accordion-column {
+            flex: 1; /* Mengisi sisa ruang */
+        }
+
+        /* Kontainer Akordeon */
+        .faq-accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        /* Item Akordeon menggunakan <details> & <summary> */
+        .faq-item {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+             border-color: #D1D5DB;
+        }
+
+        .faq-item[open] {
+            border-color: var(--primary-orange);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .faq-question {
+            padding: 20px 24px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-blue);
+            list-style: none; /* Menghilangkan marker default */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question::-webkit-details-marker {
+            display: none; /* Menghilangkan marker di Chrome/Safari */
+        }
+        
+        /* Ikon Plus/Minus Kustom */
+        .faq-icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            margin-left: 16px;
+            transition: transform 0.3s ease;
+            color: var(--primary-orange);
+        }
+        
+        .faq-item[open] .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        /* PERBAIKAN: Menggunakan CSS Grid untuk animasi yang mulus */
+        .faq-answer {
+            display: grid;
+            grid-template-rows: 0fr; /* Konten disembunyikan */
+            transition: grid-template-rows 0.4s ease-out;
+        }
+
+        .faq-item[open] .faq-answer {
+            grid-template-rows: 1fr; /* Konten ditampilkan */
+        }
+        
+        .faq-answer-content {
+            overflow: hidden; /* Wajib untuk animasi grid */
+            padding: 0 24px;
+        }
+        
+        .faq-item[open] .faq-answer-content {
+            padding-bottom: 24px;
+        }
+
+        .faq-answer-content p, .faq-answer-content ul {
+            font-size: 1rem;
+            color: var(--text-grey);
+            line-height: 1.7;
+        }
+        
+        .faq-answer-content ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+        .faq-answer-content li {
+            margin-bottom: 8px;
+        }
+
+        /* Desain Responsif */
+        @media (max-width: 992px) {
+            .faq-page-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+            .faq-info-column {
+                text-align: center;
+            }
+            .faq-info-column h2 {
+                font-size: 2.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .faq-page-container {
+                padding: 20px;
+                margin: 20px auto;
+            }
+        }
+    </style>
+
+<div class="faq-page-container">
+    <aside class="faq-info-column">
+        <h2>Butuh Bantuan?</h2>
+        <p>Kami telah merangkum beberapa pertanyaan yang paling sering diajukan untuk membantu Anda.</p>
+        <div class="cta-box">
+            <h4>Tidak menemukan jawaban?</h4>
+            <p>Tim kami siap membantu Anda lebih lanjut.</p>
+        </div>
+    </aside>
+
+    <main class="faq-accordion-column">
+        <div class="faq-accordion">
+            <!-- FAQ 1 -->
+            <details class="faq-item">
+                <summary class="faq-question">
+                    <span>Apa itu Akazed.com?</span>
+                    <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                </summary>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Akazed.com adalah platform latihan ujian online terdepan di Indonesia yang dirancang untuk membantu siswa, mahasiswa, dan profesional mempersiapkan diri menghadapi berbagai jenis ujian seleksi. Kami menyediakan ribuan latihan soal, tryout online, dan simulasi CAT yang akurat untuk membantu Anda meraih sukses.</p>
+                    </div>
+                </div>
+            </details>
+            
+            <!-- FAQ 2 -->
+            <details class="faq-item">
+                <summary class="faq-question">
+                    <span>Ujian apa saja yang tersedia?</span>
+                    <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                </summary>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Kami menyediakan bank soal dan tryout untuk berbagai seleksi, termasuk:</p>
+                        <ul>
+                            <li>UTBK-SNBT untuk masuk perguruan tinggi negeri</li>
+                            <li>Seleksi CPNS (SKD & SKB)</li>
+                            <li>Rekrutmen Bersama BUMN (TKD & AKHLAK)</li>
+                            <li>Tes Pretest PPG (Pendidikan Profesi Guru)</li>
+                            <li>Beasiswa LPDP (Tes Bakat Skolastik)</li>
+                            <li>Tes Potensi Akademik (TPA) dan Psikotes untuk seleksi karir</li>
+                        </ul>
+                    </div>
+                </div>
+            </details>
+
+            <!-- FAQ 3 -->
+            <details class="faq-item">
+                <summary class="faq-question">
+                    <span>Apakah soal di Akazed.com akurat?</span>
+                    <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                </summary>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Ya. Tim kami secara rutin memperbarui bank soal berdasarkan kisi-kisi resmi dan <em>field report</em> (FR) dari peserta tahun-tahun sebelumnya. Kami berkomitmen menyediakan latihan soal yang paling relevan dan akurat untuk memaksimalkan peluang Anda lolos seleksi.</p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- FAQ 4 -->
+            <details class="faq-item">
+                <summary class="faq-question">
+                    <span>Bagaimana cara kerja simulasi tryout?</span>
+                    <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                </summary>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Simulasi tryout online kami dirancang semirip mungkin dengan ujian aslinya, mulai dari tampilan antarmuka, alokasi waktu per subtes, hingga sistem penilaian (misalnya, IRT untuk UTBK). Setelah selesai, Anda akan mendapatkan skor instan, analisis jawaban, dan perbandingan peringkat nasional untuk mengukur kesiapan Anda.</p>
+                    </div>
+                </div>
+            </details>
+            
+            <!-- FAQ 5 -->
+            <details class="faq-item">
+                <summary class="faq-question">
+                    <span>Apa yang membedakan Akazed dari yang lain?</span>
+                    <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                </summary>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Keunggulan kami terletak pada tiga hal: <strong>akurasi soal</strong> yang selalu diperbarui, <strong>analisis skor mendalam</strong> yang membantu Anda memahami kelemahan, dan <strong>antarmuka yang user-friendly</strong>. Kami tidak hanya memberikan soal, tapi juga alat untuk strategi belajar yang efektif.</p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- FAQ 6 -->
+            <details class="faq-item">
+                <summary class="faq-question">
+                    <span>Apakah ada paket gratis untuk dicoba?</span>
+                    <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                </summary>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Ya, kami menyediakan beberapa paket latihan soal dan tryout gratis untuk setiap jenis ujian. Anda bisa mendaftar dan langsung mencoba fitur-fitur unggulan kami sebelum memutuskan untuk berlangganan paket premium yang lebih lengkap.</p>
+                    </div>
+                </div>
+            </details>
+            
+            <!-- FAQ 7 -->
+            <details class="faq-item">
+                <summary class="faq-question">
+                    <span>Bagaimana cara mendaftar di Akazed.com?</span>
+                    <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                </summary>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Pendaftaran sangat mudah! Cukup klik tombol "Mulai Latihan" atau "Daftar" di halaman utama, isi data diri Anda, dan akun Anda akan langsung aktif. Anda bisa segera memulai latihan dengan paket gratis yang tersedia.</p>
+                    </div>
+                </div>
+            </details>
+        </div>
+    </main>
+</div>
