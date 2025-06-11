@@ -1,0 +1,1256 @@
+    <style>
+        :root {
+            --primary-bg: #f0f2f5;
+            --panel-bg: #ffffff;
+            --header-bg: #0d47a1; /* Biru Tua */
+            --header-text: #ffffff;
+            --text-color: #333333;
+            --border-color: #dee2e6;
+            --primary-action-bg: #1976d2; /* Biru */
+            --primary-action-hover: #1565c0;
+            --answered-bg: #4caf50; /* Hijau */
+            --correct-bg: #e8f5e9;
+            --correct-text: #2e7d32;
+            --incorrect-bg: #ffebee;
+            --incorrect-text: #c62828;
+            --doubtful-bg: #ffc107; /* Kuning */
+            --current-bg: #ff9800;
+            /* Oranye */
+            --unanswered-bg: #ffffff;
+            --timer-alert: #d32f2f;
+            /* Merah */
+        }
+        /* --- Halaman Login --- */
+        #login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .login-box {
+            background-color: var(--panel-bg);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .login-box h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            color: var(--header-bg);
+        }
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        #login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-action-bg);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #login-btn:hover {
+            background-color: var(--primary-action-hover);
+        }
+        #login-error {
+            color: var(--timer-alert);
+            margin-top: 15px;
+            font-weight: 500;
+            display: none;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header h2 {
+            font-size: 1.2em;
+            margin: 0;
+        }
+        .user-info {
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        #logout-btn {
+            background: none;
+            border: 1px solid var(--header-text);
+            color: var(--header-text);
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #logout-btn:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+
+        /* Main Container */
+        .quiz-container {
+            display: flex;
+            flex: 1;
+            padding: 15px;
+            gap: 15px;
+            overflow: hidden;
+            height: calc(100vh - 58px);
+        }
+
+        /* Question Panel (Left) */
+        .question-panel {
+            flex: 3;
+            background-color: var(--panel-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .question-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #f8f9fa;
+        }
+        .question-header #subtest-title {
+            font-weight: 700;
+            color: var(--header-bg);
+        }
+        .question-body {
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+        .question-text {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        .options-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .options-list li {
+            margin-bottom: 10px;
+        }
+        .options-list label {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .options-list label:hover {
+            background-color: #e3f2fd;
+        }
+        .options-list input[type="radio"] {
+            margin-right: 15px;
+            margin-top: 5px;
+        }
+        .options-list input[type="radio"]:checked + span {
+            font-weight: 700;
+        }
+        .options-list label.selected {
+            background-color: #bbdefb;
+            border-color: var(--primary-action-bg);
+        }
+
+        /* Navigation Panel (Right) */
+        .navigation-panel {
+            flex: 1.2;
+            background-color: var(--panel-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            min-width: 300px;
+        }
+        .timer-box {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        #timer {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--header-bg);
+            letter-spacing: 2px;
+        }
+        #timer.low-time {
+            color: var(--timer-alert);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .question-grid-container {
+            padding: 15px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        .subtest-group {
+            margin-bottom: 15px;
+        }
+        .subtest-group h3 {
+            font-size: 0.9em;
+            margin: 0 0 10px 0;
+            color: var(--text-color);
+            border-bottom: 2px solid var(--primary-action-bg);
+            padding-bottom: 5px;
+        }
+        .question-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            gap: 8px;
+        }
+        .grid-button {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border-color);
+            background-color: var(--unanswered-bg);
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .grid-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .grid-button.answered { background-color: var(--answered-bg); color: white; border-color: var(--answered-bg); }
+        .grid-button.doubtful { background-color: var(--doubtful-bg); border-color: var(--doubtful-bg); }
+        .grid-button.current { border: 2px solid var(--current-bg); }
+
+        /* Footer / Actions */
+        .quiz-actions {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+        }
+        .action-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.2s;
+        }
+        #prev-btn, #next-btn {
+            background-color: var(--primary-action-bg);
+            color: white;
+        }
+        #prev-btn:disabled, #next-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #doubtful-btn {
+            background-color: var(--doubtful-bg);
+            color: #333;
+        }
+        #finish-btn {
+            background-color: var(--timer-alert);
+            color: white;
+        }
+
+        /* Confirmation Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            animation: slide-down 0.3s ease-out;
+        }
+        @keyframes slide-down {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal-content h2 {
+            margin-top: 0;
+            color: var(--header-bg);
+        }
+        .modal-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        #confirm-yes {
+            background-color: var(--primary-action-bg);
+            color: white;
+        }
+        #confirm-no {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        /* --- Result Page Styles --- */
+        .result-container {
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .result-container h2, .result-container h3 {
+            color: var(--header-bg);
+        }
+        .result-card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .overall-summary {
+            text-align: center;
+        }
+        .overall-summary .score {
+            font-size: 3em;
+            font-weight: 700;
+            color: var(--answered-bg);
+        }
+        .overall-summary .score-details {
+            font-size: 1.1em;
+            color: var(--text-color);
+        }
+        .subtest-analysis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .subtest-card {
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            text-align: center;
+        }
+        .subtest-card h4 {
+            margin: 0 0 10px 0;
+        }
+        .subtest-card .subtest-score {
+            font-size: 1.5em;
+            font-weight: 500;
+        }
+
+        .answer-list {
+            padding: 0;
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .answer-list li {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-weight: 500;
+        }
+        .answer-list li.correct {
+            background-color: var(--correct-text);
+            color: white;
+        }
+        .answer-list li.incorrect {
+            background-color: var(--incorrect-text);
+            color: white;
+        }
+        
+        .review-item {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .review-item .review-q-text {
+            font-weight: 500;
+        }
+        .review-item .review-answer {
+            padding: 8px;
+            border-radius: 4px;
+            margin: 8px 0;
+        }
+        .review-item .user-answer {
+            background-color: var(--incorrect-bg);
+            border-left: 4px solid var(--incorrect-text);
+            color: var(--incorrect-text);
+        }
+        .review-item .correct-answer {
+            background-color: var(--correct-bg);
+            border-left: 4px solid var(--correct-text);
+            color: var(--correct-text);
+        }
+        .review-item .explanation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            font-style: italic;
+        }
+        #restart-btn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--primary-action-bg);
+            color: white;
+        }
+        
+        /* Hidden by default */
+        .header, .quiz-container, #result-page {
+            display: none;
+        }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .quiz-container {
+                flex-direction: column;
+                height: auto;
+                overflow: visible;
+            }
+            .navigation-panel {
+                min-width: unset;
+                flex: unset; /* Unset flex grow/shrink */
+                height: auto;
+            }
+            .question-panel {
+                min-height: 40vh;
+            }
+            .header h2 {
+                font-size: 1em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 20px;
+            }
+            .question-body, .quiz-actions {
+                padding: 15px;
+            }
+            .action-button {
+                padding: 8px 12px;
+                font-size: 0.9em;
+            }
+        }
+
+    </style>
+
+    
+    <div id="login-container">
+        <div class="login-box">
+            <h2>Login Peserta Ujian</h2>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan username Anda">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password">
+            </div>
+            <button id="login-btn">Masuk</button>
+            <p id="login-error">Password salah. Coba lagi.</p>
+        </div>
+    </div>
+
+    <header class="header">
+        <h2>Simulasi Tes Wawasan Kebangsaan (TWK) CPNS</h2>
+        <div class="user-info">
+            <span id="header-info"></span>
+            <button id="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <div class="quiz-container">
+        <main class="question-panel">
+            <div class="question-header">
+                <span id="subtest-title">TWK</span> | Soal No. <span id="question-number">1</span>
+            </div>
+            <div class="question-body">
+                <p id="question-text">Memuat soal...</p>
+                <ul id="options" class="options-list"></ul>
+            </div>
+            <div class="quiz-actions">
+                <button id="prev-btn" class="action-button">Sebelumnya</button>
+                <button id="doubtful-btn" class="action-button">Ragu-ragu</button>
+                <button id="next-btn" class="action-button">Selanjutnya</button>
+            </div>
+        </main>
+
+        <aside class="navigation-panel">
+            <div class="timer-box">
+                Sisa Waktu
+                <div id="timer">20:00</div>
+            </div>
+            <div class="question-grid-container">
+                <div class="subtest-group">
+                    <h3>TWK (1-30)</h3>
+                    <div id="grid-twk" class="question-grid"></div>
+                </div>
+            </div>
+            <div class="quiz-actions" style="justify-content: center;">
+                <button id="finish-btn" class="action-button">Selesaikan Ujian</button>
+            </div>
+        </aside>
+    </div>
+
+    <div id="result-page" class="result-container">
+        <div class="result-card overall-summary">
+            <h2>Hasil Akhir Ujian</h2>
+            <div id="final-score" class="score">0%</div>
+            <div id="score-details" class="score-details"></div>
+            <div id="subtest-analysis-container" class="subtest-analysis"></div>
+        </div>
+        
+        <div class="result-card">
+            <h3>Rekap Jawaban</h3>
+            <h4>Jawaban Benar</h4>
+            <ul id="correct-list" class="answer-list"></ul>
+            <h4 style="margin-top: 20px;">Jawaban Salah / Kosong</h4>
+            <ul id="incorrect-list" class="answer-list"></ul>
+        </div>
+        
+        <div id="review-section-container" class="result-card">
+            <h3>Pembahasan Jawaban Salah</h3>
+            <div id="review-section"></div>
+        </div>
+       
+        <div style="text-align: center;">
+           <button id="restart-btn" class="action-button">Ulangi Ujian</button>
+        </div>
+    </div>
+    
+    <div id="confirmation-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Selesaikan Ujian?</h2>
+            <p>Apakah Anda yakin ingin menyelesaikan dan mengakhiri sesi ujian ini?</p>
+            <div class="modal-actions">
+                <button id="confirm-no" class="action-button">Batal</button>
+                <button id="confirm-yes" class="action-button">Ya, Selesaikan</button>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+// --- DATABASE SOAL DENGAN PEMBAHASAN ---
+const questions = [
+    { 
+        subtest: 'TWK', 
+        question: 'Dalam konteks Ketahanan Nasional, konsep "Asta Gatra" memiliki peran sentral. Aspek manakah dari Asta Gatra yang paling mencerminkan potensi konflik internal yang bersumber dari disparitas sosial dan ekonomi?', 
+        options: [
+            'Geografi dan Demografi', 
+            'Sumber Daya Alam dan Kekayaan Alam', 
+            'Ideologi dan Politik', 
+            'Sosial Budaya dan Ekonomi'
+        ], 
+        answer: 'Sosial Budaya dan Ekonomi', 
+        explanation: 'Disparitas sosial dan ekonomi secara langsung berkaitan dengan aspek sosial budaya dan ekonomi dalam Asta Gatra. Ketidakseimbangan pada kedua gatra ini seringkali menjadi pemicu konflik internal dan mengancam ketahanan nasional.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Pembukaan UUD 1945 alinea keempat mencantumkan tujuan negara Indonesia. Jika dikaitkan dengan upaya mewujudkan perdamaian dunia, peran aktif Indonesia sebagai "Pelaksana ketertiban dunia yang berdasarkan kemerdekaan, perdamaian abadi, dan keadilan sosial" paling relevan dengan prinsip politik luar negeri bebas aktif yang diwujudkan melalui...', 
+        options: [
+            'Pembentukan aliansi militer regional', 
+            'Keterlibatan dalam blok kekuatan tertentu', 
+            'Partisipasi aktif dalam misi perdamaian PBB dan organisasi internasional lainnya', 
+            'Peningkatan kerjasama ekonomi bilateral saja'
+        ], 
+        answer: 'Partisipasi aktif dalam misi perdamaian PBB dan organisasi internasional lainnya', 
+        explanation: 'Politik luar negeri bebas aktif Indonesia menekankan pada non-blok dan kontribusi nyata terhadap perdamaian dunia. Partisipasi dalam misi perdamaian PBB dan organisasi internasional adalah wujud konkret dari prinsip ini.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Nilai-nilai Pancasila bersifat universal, namun tetap memiliki kekhasan Indonesia. Kekhasan ini tercermin dari kemampuan Pancasila untuk menjadi perekat berbagai keberagaman. Prinsip ini secara inheren berkaitan dengan semangat...', 
+        options: [
+            'Nasionalisme sempit', 
+            'Chauvinisme', 
+            'Bhinneka Tunggal Ika', 
+            'Etnosentrisme'
+        ], 
+        answer: 'Bhinneka Tunggal Ika', 
+        explanation: 'Bhinneka Tunggal Ika adalah semboyan yang menegaskan persatuan dalam keberagaman, yang sangat sesuai dengan peran Pancasila sebagai perekat bangsa di tengah pluralitas masyarakat Indonesia. Nasionalisme sempit, chauvinisme, dan etnosentrisme justru bertentangan dengan semangat ini.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Dalam sejarah perumusan Pancasila, salah satu poin krusial adalah perdebatan mengenai rumusan dasar negara pada Sidang BPUPKI. Tokoh yang mengusulkan lima dasar negara yang kemudian dikenal sebagai Pancasila pada 1 Juni 1945 adalah...', 
+        options: [
+            'Mohammad Hatta', 
+            'Soepomo', 
+            'Ir. Soekarno', 
+            'Muhammad Yamin'
+        ], 
+        answer: 'Ir. Soekarno', 
+        explanation: 'Ir. Soekarno adalah tokoh yang menyampaikan pidato pada tanggal 1 Juni 1945, mengemukakan lima dasar negara yang kemudian dikenal sebagai Pancasila.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Undang-Undang Dasar Negara Republik Indonesia Tahun 1945 telah mengalami beberapa kali amandemen. Salah satu tujuan utama amandemen tersebut adalah untuk...', 
+        options: [
+            'Memperkuat kekuasaan presiden', 
+            'Mengurangi peran lembaga legislatif', 
+            'Mewujudkan sistem pemerintahan yang lebih demokratis dan konstitusional', 
+            'Menjadikan Indonesia negara federal'
+        ], 
+        answer: 'Mewujudkan sistem pemerintahan yang lebih demokratis dan konstitusional', 
+        explanation: 'Amandemen UUD 1945 bertujuan untuk memperbaiki kelemahan konstitusi sebelumnya, memperkuat checks and balances antar lembaga negara, serta lebih menjamin hak asasi manusia, yang semuanya berkontribusi pada sistem yang lebih demokratis dan konstitusional.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Prinsip negara hukum Indonesia sebagaimana diatur dalam UUD 1945 mengamanatkan bahwa segala tindakan penyelenggaraan negara harus berdasarkan hukum. Salah satu implikasi dari prinsip ini adalah...', 
+        options: [
+            'Kekuasaan eksekutif bersifat mutlak', 
+            'Tidak ada lembaga yang dapat menguji produk legislatif', 
+            'Adanya jaminan perlindungan Hak Asasi Manusia (HAM)', 
+            'Hukum dibuat tanpa partisipasi rakyat'
+        ], 
+        answer: 'Adanya jaminan perlindungan Hak Asasi Manusia (HAM)', 
+        explanation: 'Negara hukum yang demokratis menjamin perlindungan HAM sebagai bagian integral dari penegakan hukum dan keadilan. Kekuasaan mutlak, ketiadaan pengujian legislatif, dan pembuatan hukum tanpa partisipasi rakyat justru bertentangan dengan prinsip negara hukum.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Wawasan Nusantara sebagai konsepsi geopolitik Indonesia memiliki cakupan yang luas. Aspek yang paling menekankan pada keutuhan wilayah dan kesatuan bangsa Indonesia yang terintegrasi secara politik, ekonomi, sosial, dan budaya adalah...', 
+        options: [
+            'Kedudukan Geografi Indonesia', 
+            'Kondisi Alamiah Indonesia', 
+            'Asas Kekeluargaan', 
+            'Kesatuan Wilayah dan Persatuan Bangsa'
+        ], 
+        answer: 'Kesatuan Wilayah dan Persatuan Bangsa', 
+        explanation: 'Wawasan Nusantara mengedepankan kesatuan wilayah dan persatuan bangsa sebagai satu kesatuan utuh. Aspek lain seperti geografi dan kondisi alamiah adalah faktor pendukung, tetapi inti dari Wawasan Nusantara adalah integrasi dan kesatuan bangsa.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Dalam konteks bela negara, setiap warga negara memiliki hak dan kewajiban untuk ikut serta dalam usaha pertahanan dan keamanan negara. Manakah pernyataan berikut yang paling tepat mencerminkan semangat bela negara di era modern, yang tidak selalu identik dengan angkat senjata?', 
+        options: [
+            'Hanya militer yang bertanggung jawab atas pertahanan negara', 
+            'Meningkatkan partisipasi aktif dalam pembangunan ekonomi dan sosial', 
+            'Membentuk kelompok bersenjata mandiri di setiap daerah', 
+            'Mengabaikan perkembangan teknologi dalam sistem pertahanan'
+        ], 
+        answer: 'Meningkatkan partisipasi aktif dalam pembangunan ekonomi dan sosial', 
+        explanation: 'Bela negara di era modern tidak hanya berwujud fisik, tetapi juga non-fisik. Peningkatan partisipasi aktif dalam pembangunan ekonomi dan sosial, menjaga persatuan, serta berperan dalam menciptakan stabilitas adalah bentuk-bentuk bela negara yang krusial. Tanggung jawab bela negara adalah seluruh warga negara, bukan hanya militer.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Salah satu tantangan terbesar dalam menjaga Bhinneka Tunggal Ika adalah munculnya paham radikalisme dan intoleransi. Upaya pemerintah yang paling efektif dalam menangkal paham tersebut adalah...', 
+        options: [
+            'Melarang semua bentuk organisasi kemasyarakatan', 
+            'Memperketat pengawasan terhadap media sosial', 
+            'Mengedukasi masyarakat tentang pentingnya toleransi dan moderasi beragama sejak dini', 
+            'Menggunakan pendekatan represif secara eksklusif'
+        ], 
+        answer: 'Mengedukasi masyarakat tentang pentingnya toleransi dan moderasi beragama sejak dini', 
+        explanation: 'Pendekatan edukatif dan preventif dengan menanamkan nilai-nilai toleransi dan moderasi beragama sejak dini lebih efektif dalam jangka panjang untuk menangkal radikalisme dan intoleransi. Pelarangan total atau pendekatan represif semata cenderung kurang efektif dan dapat menimbulkan masalah baru.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Pasal 28J ayat (2) UUD 1945 menyatakan, "Dalam menjalankan hak dan kebebasannya, setiap orang wajib tunduk kepada pembatasan yang ditetapkan dengan undang-undang dengan maksud semata-mata untuk menjamin pengakuan serta penghormatan atas hak dan kebebasan orang lain dan untuk memenuhi tuntutan yang adil sesuai dengan pertimbangan moral, nilai-nilai agama, keamanan, dan ketertiban umum dalam suatu masyarakat demokratis." Pasal ini merefleksikan prinsip...', 
+        options: [
+            'Hak asasi manusia bersifat absolut', 
+            'Kewajiban asasi manusia', 
+            'Kebebasan tanpa batas', 
+            'Negara memiliki kekuasaan tak terbatas atas warga negara'
+        ], 
+        answer: 'Kewajiban asasi manusia', 
+        explanation: 'Pasal ini secara eksplisit menjelaskan bahwa hak asasi manusia tidak bersifat absolut dan dibatasi oleh kewajiban untuk menghormati hak orang lain serta memenuhi tuntutan masyarakat demokratis. Ini menegaskan adanya keseimbangan antara hak dan kewajiban.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Integrasi nasional adalah proses penyatuan berbagai kelompok sosial budaya ke dalam satu kesatuan wilayah dan pembentukan suatu identitas nasional. Faktor penghambat integrasi nasional yang paling dominan di era globalisasi adalah...', 
+        options: [
+            'Perkembangan teknologi informasi', 
+            'Adanya kesamaan ideologi Pancasila', 
+            'Munculnya kesenjangan ekonomi antar daerah', 
+            'Tingginya semangat gotong royong'
+        ], 
+        answer: 'Munculnya kesenjangan ekonomi antar daerah', 
+        explanation: 'Meskipun teknologi informasi dapat menjadi tantangan (penyebaran hoax), kesenjangan ekonomi antar daerah seringkali menjadi pemicu utama ketidakpuasan dan disintegrasi di era globalisasi, karena menyebabkan ketidakadilan dan kecemburuan sosial.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Sistem pemerintahan presidensial yang dianut Indonesia memiliki ciri khas. Salah satu karakteristik utamanya adalah...', 
+        options: [
+            'Kepala negara dan kepala pemerintahan dipegang oleh orang yang berbeda', 
+            'Kabinet bertanggung jawab kepada parlemen', 
+            'Presiden dipilih langsung oleh rakyat', 
+            'Parlemen dapat menjatuhkan presiden dengan mosi tidak percaya'
+        ], 
+        answer: 'Presiden dipilih langsung oleh rakyat', 
+        explanation: 'Ciri utama sistem presidensial di Indonesia adalah Presiden sebagai kepala negara dan kepala pemerintahan dipilih langsung oleh rakyat dan tidak bertanggung jawab kepada parlemen (legislatif). Parlemen juga tidak dapat menjatuhkan presiden dengan mosi tidak percaya.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Berdasarkan Pasal 33 ayat (3) UUD 1945, "Bumi, air dan kekayaan alam yang terkandung di dalamnya dikuasai oleh negara dan dipergunakan untuk sebesar-besar kemakmuran rakyat." Implementasi pasal ini dalam konteks pembangunan ekonomi yang berkelanjutan menuntut...', 
+        options: [
+            'Eksploitasi sumber daya alam tanpa batas', 
+            'Privatisasi total sektor sumber daya alam', 
+            'Pengelolaan sumber daya alam dengan memperhatikan aspek lingkungan dan keberlanjutan bagi generasi mendatang', 
+            'Prioritas keuntungan korporasi di atas kepentingan rakyat'
+        ], 
+        answer: 'Pengelolaan sumber daya alam dengan memperhatikan aspek lingkungan dan keberlanjutan bagi generasi mendatang', 
+        explanation: 'Makna "dipergunakan untuk sebesar-besar kemakmuran rakyat" dalam konteks modern harus mencakup keberlanjutan, yang berarti pengelolaan sumber daya alam harus mempertimbangkan dampak lingkungan dan ketersediaan bagi generasi mendatang.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Dalam konteks Pancasila sebagai ideologi terbuka, Pancasila mampu berinteraksi dengan perkembangan zaman tanpa kehilangan nilai dasarnya. Hal ini disebabkan karena...', 
+        options: [
+            'Pancasila tidak memiliki nilai-nilai yang tetap', 
+            'Pancasila hanya mengikuti arus globalisasi', 
+            'Nilai dasar Pancasila bersifat universal dan dapat dijabarkan sesuai dinamika masyarakat', 
+            'Pancasila hanya relevan pada masa Orde Lama'
+        ], 
+        answer: 'Nilai dasar Pancasila bersifat universal dan dapat dijabarkan sesuai dinamika masyarakat', 
+        explanation: 'Pancasila sebagai ideologi terbuka berarti nilai-nilai dasarnya bersifat tetap, namun nilai instrumental dan praksisnya dapat disesuaikan dengan perkembangan zaman dan kebutuhan masyarakat tanpa mengubah esensi nilai-nilai luhur Pancasila itu sendiri.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Pembukaan UUD 1945 merupakan Staatsfundamentalnorm bagi Negara Kesatuan Republik Indonesia. Kedudukannya sebagai Staatsfundamentalnorm mengandung arti...', 
+        options: [
+            'Dapat diubah melalui amandemen', 
+            'Merupakan norma tertinggi dan menjadi dasar bagi pembentukan peraturan perundang-undangan di bawahnya', 
+            'Hanya berlaku pada masa darurat', 
+            'Tidak memiliki kekuatan hukum mengikat'
+        ], 
+        answer: 'Merupakan norma tertinggi dan menjadi dasar bagi pembentukan peraturan perundang-undangan di bawahnya', 
+        explanation: 'Staatsfundamentalnorm berarti norma dasar negara yang tidak dapat diubah dan menjadi sumber dari segala sumber hukum. Pembukaan UUD 1945 memenuhi kriteria ini sebagai kaidah fundamental negara.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Konsep "gotong royong" sebagai salah satu ciri khas bangsa Indonesia, memiliki implikasi yang mendalam terhadap pembangunan nasional. Bentuk gotong royong yang paling relevan untuk mengatasi masalah kemiskinan dan kesenjangan sosial di era digital adalah...', 
+        options: [
+            'Hanya mengandalkan bantuan pemerintah', 
+            'Meningkatkan individualisme dalam bekerja', 
+            'Kolaborasi lintas sektor (pemerintah, swasta, masyarakat) dalam inovasi sosial dan pemberdayaan ekonomi berbasis komunitas', 
+            'Menerapkan sistem bantuan sosial secara pasif'
+        ], 
+        answer: 'Kolaborasi lintas sektor (pemerintah, swasta, masyarakat) dalam inovasi sosial dan pemberdayaan ekonomi berbasis komunitas', 
+        explanation: 'Gotong royong di era digital diwujudkan melalui kolaborasi dan pemberdayaan yang memanfaatkan teknologi untuk menciptakan solusi inovatif dalam mengatasi masalah sosial dan ekonomi, bukan hanya mengandalkan pemerintah atau individualisme.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Dalam upaya menjaga kedaulatan negara, Indonesia menganut konsep pertahanan semesta (Sishankamrata). Konsep ini mengimplikasikan bahwa...', 
+        options: [
+            'Hanya TNI yang bertugas menjaga pertahanan dan keamanan', 
+            'Seluruh sumber daya nasional digunakan untuk kepentingan pertahanan', 
+            'Setiap warga negara wajib menjadi anggota militer', 
+            'Pertahanan negara hanya melibatkan kekuatan militer profesional'
+        ], 
+        answer: 'Seluruh sumber daya nasional digunakan untuk kepentingan pertahanan', 
+        explanation: 'Sishankamrata melibatkan seluruh rakyat, wilayah, dan sumber daya nasional serta sarana dan prasarana nasional sebagai satu kesatuan pertahanan. Ini bukan hanya tugas TNI, tetapi seluruh komponen bangsa.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Pengawasan terhadap pelaksanaan pemerintahan di Indonesia dilakukan oleh berbagai lembaga. Lembaga negara yang memiliki wewenang untuk menguji undang-undang terhadap UUD 1945 adalah...', 
+        options: [
+            'Dewan Perwakilan Rakyat (DPR)', 
+            'Mahkamah Agung (MA)', 
+            'Mahkamah Konstitusi (MK)', 
+            'Komisi Yudisial (KY)'
+        ], 
+        answer: 'Mahkamah Konstitusi (MK)', 
+        explanation: 'Mahkamah Konstitusi memiliki kewenangan untuk menguji undang-undang terhadap Undang-Undang Dasar Negara Republik Indonesia Tahun 1945 (judicial review).' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Sumpah Pemuda 1928 memiliki makna historis dan filosofis yang mendalam bagi bangsa Indonesia. Esensi dari Sumpah Pemuda yang paling relevan dengan tantangan disintegrasi bangsa saat ini adalah...', 
+        options: [
+            'Penekanan pada perbedaan suku dan agama', 
+            'Pentingnya bahasa daerah sebagai bahasa nasional', 
+            'Pengakuan akan satu tanah air, satu bangsa, dan satu bahasa persatuan', 
+            'Pembentukan negara yang terpisah-pisah'
+        ], 
+        answer: 'Pengakuan akan satu tanah air, satu bangsa, dan satu bahasa persatuan', 
+        explanation: 'Sumpah Pemuda adalah manifestasi persatuan dan kesatuan bangsa Indonesia yang melampaui perbedaan suku, agama, dan bahasa daerah. Pengakuan akan satu tanah air, bangsa, dan bahasa adalah esensi untuk melawan disintegrasi.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Pancasila sebagai dasar negara memiliki fungsi sebagai pandangan hidup bangsa. Implikasi dari fungsi ini dalam kehidupan sehari-hari bagi Aparatur Sipil Negara (ASN) adalah...', 
+        options: [
+            'Mengutamakan kepentingan pribadi di atas kepentingan umum', 
+            'Melayani masyarakat dengan diskriminatif', 
+            'Menjadi teladan dalam mengamalkan nilai-nilai Pancasila dalam setiap tindakan dan kebijakan', 
+            'Tidak perlu mengikuti aturan yang berlaku jika tidak sesuai dengan keinginan pribadi'
+        ], 
+        answer: 'Menjadi teladan dalam mengamalkan nilai-nilai Pancasila dalam setiap tindakan dan kebijakan', 
+        explanation: 'Sebagai pandangan hidup, Pancasila harus menjadi pedoman bagi setiap warga negara, terutama ASN dalam menjalankan tugasnya. ASN harus mengutamakan kepentingan umum, melayani tanpa diskriminasi, dan menjunjung tinggi nilai-nilai Pancasila.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Menurut UUD 1945, kedaulatan berada di tangan rakyat dan dilaksanakan menurut Undang-Undang Dasar. Hal ini berarti...', 
+        options: [
+            'Rakyat dapat melakukan apa saja tanpa batasan', 
+            'Kekuasaan tertinggi ada pada presiden', 
+            'Setiap kebijakan negara harus didasarkan pada kehendak rakyat yang diatur oleh konstitusi', 
+            'Hanya lembaga perwakilan rakyat yang berhak membuat hukum'
+        ], 
+        answer: 'Setiap kebijakan negara harus didasarkan pada kehendak rakyat yang diatur oleh konstitusi', 
+        explanation: 'Kedaulatan rakyat yang dilaksanakan menurut UUD 1945 berarti bahwa kekuasaan tertinggi ada pada rakyat, namun pelaksanaannya harus sesuai dengan mekanisme dan batasan yang diatur dalam konstitusi, termasuk melalui lembaga-lembaga negara yang sah.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Ancaman terhadap keutuhan NKRI dapat datang dari berbagai dimensi. Salah satu ancaman non-militer yang paling memerlukan perhatian serius dan penanganan komprehensif adalah...', 
+        options: [
+            'Agresi militer negara lain', 
+            'Terorisme dan radikalisme transnasional', 
+            'Spionase asing', 
+            'Perang siber terhadap infrastruktur vital negara'
+        ], 
+        answer: 'Terorisme dan radikalisme transnasional', 
+        explanation: 'Meskipun semua opsi merupakan ancaman, terorisme dan radikalisme transnasional adalah ancaman non-militer yang kompleks, seringkali berakar pada ideologi ekstrem, dan memerlukan penanganan komprehensif mulai dari deradikalisasi, pencegahan, hingga penegakan hukum.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Pasal 27 ayat (3) UUD 1945 menyatakan, "Setiap warga negara berhak dan wajib ikut serta dalam upaya pembelaan negara." Pernyataan ini menunjukkan bahwa...', 
+        options: [
+            'Bela negara adalah pilihan, bukan kewajiban', 
+            'Hanya warga negara tertentu yang dapat melakukan bela negara', 
+            'Bela negara adalah hak sekaligus kewajiban konstitusional setiap warga negara', 
+            'Pemerintah dapat memaksa warga negara untuk menjadi tentara'
+        ], 
+        answer: 'Bela negara adalah hak sekaligus kewajiban konstitusional setiap warga negara', 
+        explanation: 'Frasa "berhak dan wajib" secara jelas menunjukkan bahwa bela negara adalah hak yang dapat digunakan dan kewajiban yang harus dipenuhi oleh setiap warga negara sesuai dengan undang-undang.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Dalam sistem hukum nasional Indonesia, hierarki peraturan perundang-undangan diatur secara jelas. Manakah urutan peraturan perundang-undangan dari yang tertinggi ke terendah yang paling tepat?', 
+        options: [
+            'UUD 1945, Perpu, UU, Peraturan Pemerintah, Peraturan Presiden, Peraturan Daerah', 
+            'UUD 1945, UU, Perpu, Peraturan Pemerintah, Peraturan Presiden, Peraturan Daerah', 
+            'UUD 1945, UU, Peraturan Pemerintah, Peraturan Presiden, Perpu, Peraturan Daerah', 
+            'UUD 1945, Peraturan Pemerintah, UU, Perpu, Peraturan Presiden, Peraturan Daerah'
+        ], 
+        answer: 'UUD 1945, UU, Perpu, Peraturan Pemerintah, Peraturan Presiden, Peraturan Daerah', 
+        explanation: 'Berdasarkan UU Nomor 12 Tahun 2011 tentang Pembentukan Peraturan Perundang-undangan (sebagaimana telah diubah dengan UU Nomor 15 Tahun 2019), urutannya adalah: UUD 1945, Ketetapan MPR (saat ini tidak ada lagi yang bersifat mengatur), UU/Perpu, Peraturan Pemerintah, Peraturan Presiden, Peraturan Daerah Provinsi, dan Peraturan Daerah Kabupaten/Kota.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Nilai kerakyatan yang terkandung dalam sila keempat Pancasila menekankan pada prinsip musyawarah untuk mencapai mufakat. Dalam implementasi modern, prinsip ini dapat dilihat dalam...', 
+        options: [
+            'Pengambilan keputusan oleh satu orang pemimpin', 
+            'Pemungutan suara tanpa diskusi', 
+            'Dialog publik, partisipasi masyarakat dalam perumusan kebijakan, dan fungsi legislasi DPR', 
+            'Dominasi kepentingan kelompok mayoritas'
+        ], 
+        answer: 'Dialog publik, partisipasi masyarakat dalam perumusan kebijakan, dan fungsi legislasi DPR', 
+        explanation: 'Prinsip musyawarah mufakat di era modern diwujudkan melalui mekanisme demokratis yang melibatkan partisipasi aktif masyarakat dan lembaga perwakilan (DPR) dalam proses pengambilan keputusan dan perumusan kebijakan publik.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Pentingnya menjaga persatuan dan kesatuan bangsa Indonesia di tengah keberagaman sering dianalogikan dengan "benang merah" yang mengikat berbagai elemen. Dalam konteks ini, "benang merah" yang paling tepat adalah...', 
+        options: [
+            'Keberadaan organisasi daerah', 
+            'Perbedaan adat istiadat', 
+            'Ideologi Pancasila dan UUD 1945', 
+            'Penggunaan mata uang yang berbeda'
+        ], 
+        answer: 'Ideologi Pancasila dan UUD 1945', 
+        explanation: 'Pancasila sebagai dasar negara dan UUD 1945 sebagai konstitusi adalah pilar utama yang mengikat seluruh elemen bangsa Indonesia, terlepas dari perbedaan suku, agama, ras, dan antar golongan.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Salah satu tujuan negara Indonesia yang tercantum dalam Pembukaan UUD 1945 adalah "memajukan kesejahteraan umum". Perwujudan tujuan ini dalam kebijakan publik yang paling berpihak pada keadilan sosial adalah...', 
+        options: [
+            'Pemberian subsidi kepada semua lapisan masyarakat tanpa seleksi', 
+            'Fokus pembangunan hanya pada sektor industri padat modal', 
+            'Pemerataan akses pendidikan dan kesehatan yang berkualitas bagi seluruh rakyat', 
+            'Pengurangan pajak bagi konglomerat saja'
+        ], 
+        answer: 'Pemerataan akses pendidikan dan kesehatan yang berkualitas bagi seluruh rakyat', 
+        explanation: 'Memajukan kesejahteraan umum dan keadilan sosial berarti memastikan bahwa semua warga negara memiliki akses yang sama terhadap kebutuhan dasar dan peluang untuk berkembang, termasuk pendidikan dan kesehatan yang berkualitas, bukan hanya berpihak pada kelompok tertentu.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Amandemen UUD 1945 mengubah kedudukan MPR yang sebelumnya sebagai lembaga tertinggi negara menjadi lembaga setara dengan lembaga tinggi negara lainnya. Implikasi dari perubahan ini adalah...', 
+        options: [
+            'MPR tidak lagi memiliki peran penting dalam sistem ketatanegaraan', 
+            'Kekuasaan MPR menjadi lebih besar dari sebelumnya', 
+            'Sistem ketatanegaraan menjadi lebih seimbang dengan adanya checks and balances antar lembaga', 
+            'Presiden dapat membubarkan MPR'
+        ], 
+        answer: 'Sistem ketatanegaraan menjadi lebih seimbang dengan adanya checks and balances antar lembaga', 
+        explanation: 'Perubahan kedudukan MPR menjadi setara dengan lembaga tinggi negara lainnya bertujuan untuk menciptakan keseimbangan kekuasaan (checks and balances) dalam sistem pemerintahan, sehingga tidak ada satu lembaga pun yang memiliki kekuasaan mutlak.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Dalam sejarah perjuangan bangsa Indonesia, peran pemuda sangatlah sentral. Peristiwa yang paling tepat menunjukkan kontribusi signifikan pemuda dalam menegaskan identitas dan persatuan bangsa Indonesia adalah...', 
+        options: [
+            'Konferensi Meja Bundar', 
+            'Peristiwa Rengasdengklok', 
+            'Sumpah Pemuda', 
+            'Proklamasi Kemerdekaan'
+        ], 
+        answer: 'Sumpah Pemuda', 
+        explanation: 'Sumpah Pemuda adalah momentum di mana para pemuda dari berbagai daerah dan latar belakang mengucapkan ikrar untuk bertanah air satu, berbangsa satu, dan berbahasa satu, yaitu Indonesia, jauh sebelum Proklamasi Kemerdekaan.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Pasal 29 ayat (2) UUD 1945 menyatakan, "Negara menjamin kemerdekaan tiap-tiap penduduk untuk memeluk agamanya masing-masing dan untuk beribadat menurut agamanya dan kepercayaannya itu." Pasal ini mengandung makna...', 
+        options: [
+            'Negara hanya mengakui satu agama resmi', 
+            'Setiap warga negara bebas tidak beragama', 
+            'Negara melindungi kebebasan beragama dan beribadat sesuai keyakinan tanpa intervensi', 
+            'Mayoritas agama berhak mengatur minoritas'
+        ], 
+        answer: 'Negara melindungi kebebasan beragama dan beribadat sesuai keyakinan tanpa intervensi', 
+        explanation: 'Pasal ini secara eksplisit menegaskan peran negara sebagai penjamin kebebasan beragama dan beribadat bagi setiap penduduk, mengindikasikan adanya toleransi dan perlindungan terhadap pluralitas agama dan kepercayaan di Indonesia.' 
+    },
+    { 
+        subtest: 'TWK', 
+        question: 'Pancasila sebagai sumber dari segala sumber hukum di Indonesia berarti...', 
+        options: [
+            'Semua peraturan perundang-undangan harus berasal dari Pancasila', 
+            'Hanya Pancasila yang boleh dijadikan dasar hukum', 
+            'Setiap peraturan perundang-undangan tidak boleh bertentangan dengan nilai-nilai Pancasila', 
+            'Pancasila dapat diubah oleh DPR'
+        ], 
+        answer: 'Setiap peraturan perundang-undangan tidak boleh bertentangan dengan nilai-nilai Pancasila', 
+        explanation: 'Pancasila sebagai sumber dari segala sumber hukum berarti bahwa setiap produk hukum di Indonesia, dari undang-undang hingga peraturan daerah, harus selaras dan tidak boleh bertentangan dengan nilai-nilai fundamental yang terkandung dalam Pancasila. Pancasila tidak dapat diubah oleh DPR.' 
+    }
+];
+
+// --- LOGIKA KUIS ---
+document.addEventListener('DOMContentLoaded', () => {
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let questionStatus = new Array(questions.length).fill('unanswered'); // unanswered, answered, doubtful
+    let timerInterval;
+    let currentUsername = '';
+
+    // Element Cache
+    const loginContainer = document.getElementById('login-container');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('login-btn');
+    const loginError = document.getElementById('login-error');
+
+    const appHeader = document.querySelector('.header');
+    const quizContainer = document.querySelector('.quiz-container');
+    const resultPage = document.getElementById('result-page');
+    
+    const subtestTitleEl = document.getElementById('subtest-title');
+    const questionNumberEl = document.getElementById('question-number');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsEl = document.getElementById('options');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const doubtfulBtn = document.getElementById('doubtful-btn');
+    const finishBtn = document.getElementById('finish-btn');
+    const timerEl = document.getElementById('timer');
+    const restartBtn = document.getElementById('restart-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmYesBtn = document.getElementById('confirm-yes');
+    const confirmNoBtn = document.getElementById('confirm-no');
+    const headerInfo = document.getElementById('header-info');
+
+    function showLoginPage() {
+        loginContainer.style.display = 'flex';
+        appHeader.style.display = 'none';
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'none';
+        passwordInput.value = '';
+        loginError.style.display = 'none';
+    }
+
+    function handleLogin() {
+        const password = passwordInput.value;
+        const username = usernameInput.value.trim();
+        
+        if (username === "") {
+            loginError.textContent = "Username tidak boleh kosong.";
+            loginError.style.display = 'block';
+            return;
+        }
+
+        if (password === "ujiandiakazed.com") { // Password sesuai contoh yang diberikan
+            currentUsername = username;
+            loginContainer.style.display = 'none';
+            appHeader.style.display = 'flex';
+            quizContainer.style.display = 'flex';
+            headerInfo.textContent = `Peserta: ${currentUsername}`;
+            startQuiz();
+        } else {
+            loginError.textContent = "Password salah. Coba lagi.";
+            loginError.style.display = 'block';
+        }
+    }
+    
+    function handleLogout() {
+        clearInterval(timerInterval);
+        showLoginPage();
+    }
+
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        userAnswers.fill(null);
+        questionStatus.fill('unanswered');
+        quizContainer.style.display = 'flex';
+        resultPage.style.display = 'none';
+        
+        setupQuestionGrids();
+        displayQuestion(currentQuestionIndex);
+        startTimer(20 * 60); // 20 menit * 60 detik
+    }
+
+    function setupQuestionGrids() {
+        const grids = {
+            'TWK': document.getElementById('grid-twk')
+        };
+        Object.values(grids).forEach(grid => grid.innerHTML = '');
+
+        questions.forEach((q, index) => {
+            const button = document.createElement('button');
+            button.className = 'grid-button';
+            button.textContent = index + 1;
+            button.onclick = () => jumpToQuestion(index);
+            grids[q.subtest].appendChild(button);
+        });
+    }
+
+    function displayQuestion(index) {
+        document.querySelector('.grid-button.current')?.classList.remove('current');
+        currentQuestionIndex = index;
+        const question = questions[index];
+
+        subtestTitleEl.textContent = question.subtest;
+        questionNumberEl.textContent = index + 1;
+        questionTextEl.innerHTML = question.question;
+        optionsEl.innerHTML = '';
+        question.options.forEach(option => {
+            const li = document.createElement('li');
+            const label = document.createElement('label');
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = 'option';
+            radio.value = option;
+            
+            if (userAnswers[index] === option) {
+                radio.checked = true;
+                label.classList.add('selected');
+            }
+            radio.onchange = () => selectAnswer(index, option);
+            
+            const span = document.createElement('span');
+            span.textContent = option;
+            
+            label.appendChild(radio);
+            label.appendChild(span);
+            li.appendChild(label);
+            optionsEl.appendChild(li);
+        });
+        updateNavButtons();
+        updateGridButtonStatus(index);
+        document.querySelectorAll('.question-grid-container button')[index].classList.add('current');
+    }
+
+    function selectAnswer(index, answer) {
+        userAnswers[index] = answer;
+        document.querySelectorAll('#options label').forEach(l => l.classList.remove('selected'));
+        // Escape characters in the answer for CSS selector if necessary
+        const escapedAnswer = CSS.escape(answer);
+        const selectedLabel = document.querySelector(`input[value="${escapedAnswer}"]`)?.parentElement;
+        if (selectedLabel) {
+            selectedLabel.classList.add('selected');
+        }
+
+        if (questionStatus[index] !== 'doubtful') {
+            questionStatus[index] = 'answered';
+        }
+        updateGridButtonStatus(index);
+    }
+    
+    function updateNavButtons() {
+        prevBtn.disabled = currentQuestionIndex === 0;
+        nextBtn.disabled = currentQuestionIndex === questions.length - 1;
+    }
+    
+    function updateGridButtonStatus(index) {
+        const button = document.querySelectorAll('.question-grid-container button')[index];
+        if (!button) return;
+        
+        button.classList.remove('answered', 'doubtful', 'unanswered');
+
+        switch (questionStatus[index]) {
+            case 'answered': button.classList.add('answered'); break;
+            case 'doubtful': button.classList.add('doubtful'); break;
+            default: button.classList.add('unanswered'); break;
+        }
+        // Ensure current is always set on the right button
+        document.querySelector('.grid-button.current')?.classList.remove('current');
+        document.querySelectorAll('.question-grid-container button')[currentQuestionIndex].classList.add('current');
+    }
+
+    function jumpToQuestion(index) {
+        displayQuestion(index);
+    }
+
+    function startTimer(duration) {
+        let timer = duration;
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            let minutes = parseInt(timer / 60, 10);
+            let seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            timerEl.textContent = minutes + ":" + seconds;
+            
+            if (timer < 300) timerEl.classList.add('low-time');
+
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                finishQuiz();
+            }
+        }, 1000);
+    }
+    
+    function showConfirmation() {
+        confirmationModal.style.display = 'flex';
+    }
+
+    function finishQuiz() {
+        clearInterval(timerInterval);
+        confirmationModal.style.display = 'none';
+        // Calculate scores
+        let score = 0;
+        const subtestScores = {
+            'TWK': { correct: 0, total: 0 },
+        };
+        const correctQuestionNumbers = [];
+        const incorrectQuestionNumbers = [];
+
+        questions.forEach((q, index) => {
+            subtestScores[q.subtest].total++;
+            if (userAnswers[index] === q.answer) {
+                score++;
+                subtestScores[q.subtest].correct++;
+                correctQuestionNumbers.push(index + 1);
+            } else {
+                incorrectQuestionNumbers.push(index + 1);
+            }
+        });
+        // Display results
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'block';
+        headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
+        
+        // Overall summary
+        const overallPercentage = ((score / questions.length) * 100).toFixed(1);
+        document.getElementById('final-score').textContent = `${overallPercentage}%`;
+        document.getElementById('score-details').textContent = `${score} dari ${questions.length} soal benar`;
+        // Subtest analysis
+        const subtestAnalysisContainer = document.getElementById('subtest-analysis-container');
+        subtestAnalysisContainer.innerHTML = '';
+        for (const key in subtestScores) {
+            const subtest = subtestScores[key];
+            const percentage = subtest.total > 0 ? ((subtest.correct / subtest.total) * 100).toFixed(1) : 0;
+            subtestAnalysisContainer.innerHTML += `
+                <div class="subtest-card">
+                    <h4>${key}</h4>
+                    <div class="subtest-score" style="color: ${percentage >= 50 ? 'var(--correct-text)' : 'var(--incorrect-text)'}">${percentage}%</div>
+                    <div>${subtest.correct}/${subtest.total} Benar</div>
+                </div>`;
+        }
+        
+        // Answer lists
+        document.getElementById('correct-list').innerHTML = correctQuestionNumbers.map(n => `<li class="correct">${n}</li>`).join('');
+        document.getElementById('incorrect-list').innerHTML = incorrectQuestionNumbers.map(n => `<li class="incorrect">${n}</li>`).join('');
+
+        // Review section for incorrect answers
+        const reviewSection = document.getElementById('review-section');
+        reviewSection.innerHTML = '';
+        if (incorrectQuestionNumbers.length > 0) {
+            incorrectQuestionNumbers.forEach(num => {
+                const index = num - 1;
+                const q = questions[index];
+                const userAnswerText = userAnswers[index] || 'Tidak Dijawab';
+                reviewSection.innerHTML += `
+                    <div class="review-item">
+                        <p class="review-q-text"><strong>Soal ${num}:</strong> ${q.question}</p>
+                        <div class="review-answer user-answer">Jawaban Anda: ${userAnswerText}</div>
+                        <div class="review-answer correct-answer">Jawaban Benar: ${q.answer}</div>
+                        <div class="explanation"><strong>Pembahasan:</strong> ${q.explanation}</div>
+                    </div>
+                `;
+            });
+        } else {
+            reviewSection.innerHTML = '<p style="text-align:center; font-weight:500;">Luar biasa! Semua jawaban Anda benar.</p>';
+        }
+    }
+
+    // Event Listeners
+    loginBtn.addEventListener('click', handleLogin);
+    passwordInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
+    logoutBtn.addEventListener('click', handleLogout);
+    prevBtn.addEventListener('click', () => currentQuestionIndex > 0 && displayQuestion(currentQuestionIndex - 1));
+    nextBtn.addEventListener('click', () => currentQuestionIndex < questions.length - 1 && displayQuestion(currentQuestionIndex + 1));
+    doubtfulBtn.addEventListener('click', () => {
+        questionStatus[currentQuestionIndex] = questionStatus[currentQuestionIndex] === 'doubtful' ? (userAnswers[currentQuestionIndex] ? 'answered' : 'unanswered') : 'doubtful';
+        updateGridButtonStatus(currentQuestionIndex);
+    });
+    finishBtn.addEventListener('click', showConfirmation);
+    confirmYesBtn.addEventListener('click', finishQuiz);
+    confirmNoBtn.addEventListener('click', () => confirmationModal.style.display = 'none');
+    restartBtn.addEventListener('click', startQuiz);
+
+    // Initialize
+    showLoginPage();
+});
+</script>
