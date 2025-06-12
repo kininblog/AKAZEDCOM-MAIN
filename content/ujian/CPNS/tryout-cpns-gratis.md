@@ -37,7 +37,7 @@ jumlah: 110
 
 Pendaftaran Seleksi CPNS 2025 semakin dekat! Persaingan untuk menjadi Aparatur Sipil Negara (ASN) dipastikan akan sangat ketat. Salah satu kunci utama untuk menaklukkan Seleksi Kompetensi Dasar (SKD) adalah dengan berlatih secara konsisten. Untuk itu, kami menyediakan **[Tryout Seleksi CPNS 1 Gratis](/ujian/cpns/tryout-cpns-gratis/)** ini untuk Anda!
 
-Halaman ini bukan hanya artikel, tapi ini adalah sesi latihan Anda. Di sini Anda bisa langsung mengerjakan soal-soal simulasi SKD yang dirancang semirip mungkin dengan *[ujian CAT BKN](/ujian/)* yang sebenarnya. Jangan lewatkan kesempatan emas ini untuk mengukur kemampuan awal Anda.
+Halaman ini bukan hanya artikel, tapi ini adalah sesi latihan Anda. Di sini Anda bisa langsung mengerjakan soal-soal *[simulasi SKD](/ujian/cpns/try-out-skd-cpns-gratis/)* yang dirancang semirip mungkin dengan *[ujian CAT BKN](/ujian/)* yang sebenarnya. Jangan lewatkan kesempatan emas ini untuk mengukur kemampuan awal Anda.
 
 ## Mengapa Tryout CPNS Begitu Penting?
 

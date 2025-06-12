@@ -32,7 +32,7 @@ jumlah: 35
 
 {{< ujian/CPNS/tiu-mudah >}}
 
-Tes Intelegensia Umum (TIU) seringkali menjadi "momok" yang paling menentukan dalam Seleksi Kompetensi Dasar (SKD) CPNS. Bukan hanya karena materinya yang luas, tetapi juga karena tuntutan kecepatan, ketelitian, dan kemampuan penalaran yang tinggi. Banyak peserta dengan wawasan kebangsaan (TWK) yang baik justru gagal karena tidak mampu memenuhi nilai ambang batas TIU.
+Tes Intelegensia Umum (TIU) seringkali menjadi "momok" yang paling menentukan dalam *[Seleksi Kompetensi Dasar (SKD) CPNS](/ujian/cpns/try-out-skd-cpns-gratis/)*. Bukan hanya karena materinya yang luas, tetapi juga karena tuntutan kecepatan, ketelitian, dan kemampuan penalaran yang tinggi. Banyak peserta dengan wawasan kebangsaan (TWK) yang baik justru gagal karena tidak mampu memenuhi nilai ambang batas TIU.
 
 Apakah Anda salah satunya yang merasa khawatir? Tenang, Anda tidak sendirian. Kunci untuk menaklukkan TIU adalah dengan latihan yang fokus dan terarah. Untuk itu, kami secara khusus menyediakan **[Tryout TIU CPNS Gratis](/ujian/cpns/tryout-tiu-cpns/)** di halaman ini untuk mengasah kemampuan Anda hingga tajam.
 

@@ -46,7 +46,7 @@ Berlatih ribuan soal secara acak tentu ada gunanya. Namun, di tengah waktu yang 
 
 Kami tidak menyusun soal-soal ini secara asal. "Prediksi" di sini didasarkan pada metodologi yang cermat untuk memastikan relevansinya:
 
-1.  **Analisis Kisi-Kisi Resmi BKN:** Setiap soal dibuat dengan merujuk pada PermenPAN-RB terbaru mengenai materi SKD CPNS.
+1.  **Analisis Kisi-Kisi Resmi BKN:** Setiap soal dibuat dengan merujuk pada PermenPAN-RB terbaru mengenai *[materi SKD CPNS](/ujian/cpns/try-out-skd-cpns-gratis/)*.
 2.  **Kajian Tren Soal (Field Report):** Kami menganalisis soal-soal yang keluar pada seleksi tahun-tahun sebelumnya untuk mengidentifikasi pola dan materi yang sering muncul.
 3.  **Isu-Isu Aktual:** Khusus untuk soal TWK, kami memasukkan materi yang berkaitan dengan isu-isu kebangsaan terkini yang relevan, seperti implementasi nilai Pancasila dalam konteks digital atau kebijakan strategis nasional.
 
