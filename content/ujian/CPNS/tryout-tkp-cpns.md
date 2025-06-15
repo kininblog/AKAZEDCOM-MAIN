@@ -41,7 +41,7 @@ Tujuan utama TKP adalah untuk menyaring calon ASN yang memiliki integritas, prof
 
 Kunci utamanya adalah: **Posisikan diri Anda sebagai ASN profesional yang solutif, berintegritas, dan selalu mengutamakan kepentingan publik.** Saat membaca soal, tanyakan pada diri sendiri, "Apa yang akan dilakukan oleh seorang abdi negara yang ideal dalam situasi ini?"
 
-> Selain mempersiapkan soal-soal TKP, kamu juga harus mempersiapkan diri dengan latihan *[soal SKD CPNS](/ujian/cpns/try-out-skd-cpns-gratis/)* agar persiapan lebih matang
+> Selain mempersiapkan *[soal-soal TKP](/ujian/cpns/try-out-tkp-gratis/)*, kamu juga harus mempersiapkan diri dengan latihan *[soal SKD CPNS](/ujian/cpns/try-out-skd-cpns-gratis/)* agar persiapan lebih matang
 
 ## Aspek-Aspek Kunci yang Diuji dalam TKP
 

@@ -62,7 +62,7 @@ TWK singkatan dari **Tes Wawasan Kebangsaan**, yaitu salah satu jenis tes dalam 
 * Nasionalisme, integritas, bela negara, pilar negara, bahasa negara, dan pengetahuan tentang NKRI 
 ### Jumlah Soal:
 - 30 soal pilihan ganda. 
-* Waktu: 100 menit untuk mengerjakan TWK, *[TIU (Tes Intelegensi Umum)](/ujian/cpns/tryout-tiu-cpns/)*, dan TKP (Tes Karakteristik Pribadi). 
+* Waktu: 100 menit untuk mengerjakan TWK, *[TIU (Tes Intelegensi Umum)](/ujian/cpns/tryout-tiu-cpns/)*, dan *[try out TKP](/ujian/cpns/try-out-tkp-gratis/)* (Tes Karakteristik Pribadi). 
 - Passing Grade: Pada *[try out SKD CPNS](/ujian/cpns/try-out-skd-cpns-gratis/)*, passing grade untuk TWK adalah 65. Peserta harus benar minimal 13 soal (setara dengan 65 poin) untuk dinyatakan lulus. 
 - TWK dalam Seleksi BUMN: Tes TWK juga diterapkan dalam seleksi penerimaan karyawan di Badan Usaha Milik Negara (BUMN). Materi TWK BUMN mencakup pemahaman tentang Pancasila, UUD 1945, Bhinneka Tunggal Ika, dan Negara Kesatuan Republik Indonesia. 
 

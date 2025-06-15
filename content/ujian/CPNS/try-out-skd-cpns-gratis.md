@@ -57,7 +57,7 @@ Banyak calon peserta CPNS mungkin bertanya-tanya, seberapa efektifkah try out gr
 
 1.  **Tes Wawasan Kebangsaan (TWK):** Menguji penguasaan Anda terhadap nilai-nilai kebangsaan, seperti Pancasila, UUD 1945, Bhinneka Tunggal Ika, dan Negara Kesatuan Republik Indonesia. Soal-soal **[try out TWK](/ujian/cpns/try-out-tes-wawasan-bebangsaan/)** dirancang untuk mengukur integritas dan pemahaman Anda sebagai calon abdi negara.
 2.  **Tes Inteligensi Umum (TIU):** Mengukur kemampuan verbal, numerik, dan figural Anda. Ini mencakup penalaran logis, kemampuan berhitung, hingga pemahaman pola gambar. **[try out TIU](/ujian/cpns/tryout-tiu-cpns/)** adalah bagian yang membutuhkan ketelitian dan kecepatan berpikir.
-3.  **Tes Karakteristik Pribadi (TKP):** Menilai aspek kepribadian Anda yang relevan dengan pekerjaan sebagai PNS, seperti pelayanan publik, jejaring kerja, sosial budaya, teknologi informasi, profesionalisme, dan anti-radikalisme. Di bagian ini, tidak ada jawaban benar atau salah mutlak, melainkan skala nilai dari yang paling sesuai hingga paling tidak sesuai.
+3.  **Tes Karakteristik Pribadi (TKP):** Menilai aspek kepribadian Anda yang relevan dengan pekerjaan sebagai PNS, seperti pelayanan publik, jejaring kerja, sosial budaya, teknologi informasi, profesionalisme, dan anti-radikalisme. Di bagian ini, tidak ada jawaban benar atau salah mutlak, melainkan skala nilai dari yang paling sesuai hingga paling tidak sesuai. Kamu bisa coba *[try out tkp](ujian/cpns/try-out-tkp-gratis/)* ini gratis di akazed ujian
 
 Untuk pendalaman lebih lanjut mengenai masing-masing materi, Anda bisa membaca panduan materi SKD CPNS lengkap.
 

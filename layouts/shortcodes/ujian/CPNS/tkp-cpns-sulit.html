@@ -1,0 +1,1624 @@
+    <style>
+        /* Variabel CSS untuk tema */
+        :root {
+            --primary-bg: #f0f2f5;
+            --panel-bg: #ffffff;
+            --header-bg: #0d47a1; /* Biru Tua */
+            --header-text: #ffffff;
+            --text-color: #333333;
+            --border-color: #dee2e6;
+            --primary-action-bg: #1976d2; /* Biru */
+            --primary-action-hover: #1565c0;
+            --answered-bg: #4caf50; /* Hijau */
+            --correct-bg: #e8f5e9;
+            --correct-text: #2e7d32;
+            --incorrect-bg: #ffebee;
+            --incorrect-text: #c62828;
+            --doubtful-bg: #ffc107; /* Kuning */
+            --current-bg: #ff9800; /* Oranye */
+            --unanswered-bg: #ffffff;
+            --timer-alert: #d32f2f; /* Merah */
+        }
+        /* --- Halaman Login --- */
+        #login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .login-box {
+            background-color: var(--panel-bg);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .login-box h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            color: var(--header-bg);
+        }
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        #login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-action-bg);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #login-btn:hover {
+            background-color: var(--primary-action-hover);
+        }
+        #login-error {
+            color: var(--timer-alert);
+            margin-top: 15px;
+            font-weight: 500;
+            display: none;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header h2 {
+            font-size: 1.2em;
+            margin: 0;
+        }
+        .user-info {
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        #logout-btn {
+            background: none;
+            border: 1px solid var(--header-text);
+            color: var(--header-text);
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #logout-btn:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+
+        /* Main Container */
+        .quiz-container {
+            display: flex;
+            flex: 1;
+            padding: 15px;
+            gap: 15px;
+            overflow: hidden;
+            height: calc(100vh - 58px); /* Tinggi disesuaikan dengan header */
+        }
+
+        /* Question Panel (Left) */
+        .question-panel {
+            flex: 3;
+            background-color: var(--panel-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .question-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #f8f9fa;
+        }
+        .question-header #subtest-title {
+            font-weight: 700;
+            color: var(--header-bg);
+        }
+        .question-body {
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+        .question-text {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        .options-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .options-list li {
+            margin-bottom: 10px;
+        }
+        .options-list label {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .options-list label:hover {
+            background-color: #e3f2fd;
+        }
+        .options-list input[type="radio"] {
+            margin-right: 15px;
+            margin-top: 5px;
+        }
+        .options-list input[type="radio"]:checked + span {
+            font-weight: 700;
+        }
+        .options-list label.selected {
+            background-color: #bbdefb;
+            border-color: var(--primary-action-bg);
+        }
+
+        /* Navigation Panel (Right) */
+        .navigation-panel {
+            flex: 1.2;
+            background-color: var(--panel-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            min-width: 300px;
+        }
+        .timer-box {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        #timer {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--header-bg);
+            letter-spacing: 2px;
+        }
+        #timer.low-time {
+            color: var(--timer-alert);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .question-grid-container {
+            padding: 15px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        .subtest-group {
+            margin-bottom: 15px;
+        }
+        .subtest-group h3 {
+            font-size: 0.9em;
+            margin: 0 0 10px 0;
+            color: var(--text-color);
+            border-bottom: 2px solid var(--primary-action-bg);
+            padding-bottom: 5px;
+        }
+        .question-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            gap: 8px;
+        }
+        .grid-button {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border-color);
+            background-color: var(--unanswered-bg);
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .grid-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .grid-button.answered { background-color: var(--answered-bg); color: white; border-color: var(--answered-bg); }
+        .grid-button.doubtful { background-color: var(--doubtful-bg); border-color: var(--doubtful-bg); }
+        .grid-button.current { border: 2px solid var(--current-bg); }
+
+        /* Footer / Actions */
+        .quiz-actions {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+        }
+        .action-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.2s;
+        }
+        #prev-btn, #next-btn {
+            background-color: var(--primary-action-bg);
+            color: white;
+        }
+        #prev-btn:disabled, #next-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #doubtful-btn {
+            background-color: var(--doubtful-bg);
+            color: #333;
+        }
+        #finish-btn {
+            background-color: var(--timer-alert);
+            color: white;
+        }
+
+        /* Confirmation Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            animation: slide-down 0.3s ease-out;
+        }
+        @keyframes slide-down {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal-content h2 {
+            margin-top: 0;
+            color: var(--header-bg);
+        }
+        .modal-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        #confirm-yes {
+            background-color: var(--primary-action-bg);
+            color: white;
+        }
+        #confirm-no {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        /* --- Result Page Styles --- */
+        .result-container {
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .result-container h2, .result-container h3 {
+            color: var(--header-bg);
+        }
+        .result-card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .overall-summary {
+            text-align: center;
+        }
+        .overall-summary .score {
+            font-size: 3em;
+            font-weight: 700;
+            color: var(--answered-bg);
+        }
+        .overall-summary .score-details {
+            font-size: 1.1em;
+            color: var(--text-color);
+        }
+        .subtest-analysis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .subtest-card {
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            text-align: center;
+        }
+        .subtest-card h4 {
+            margin: 0 0 10px 0;
+        }
+        .subtest-card .subtest-score {
+            font-size: 1.5em;
+            font-weight: 500;
+        }
+
+        .answer-list {
+            padding: 0;
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .answer-list li {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-weight: 500;
+        }
+        .answer-list li.correct {
+            background-color: var(--correct-text);
+            color: white;
+        }
+        .answer-list li.incorrect {
+            background-color: var(--incorrect-text);
+            color: white;
+        }
+        
+        .review-item {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .review-item .review-q-text {
+            font-weight: 500;
+        }
+        .review-item .review-answer {
+            padding: 8px;
+            border-radius: 4px;
+            margin: 8px 0;
+        }
+        .review-item .user-answer {
+            background-color: var(--incorrect-bg);
+            border-left: 4px solid var(--incorrect-text);
+            color: var(--incorrect-text);
+        }
+        .review-item .correct-answer {
+            background-color: var(--correct-bg);
+            border-left: 4px solid var(--correct-text);
+            color: var(--correct-text);
+        }
+        .review-item .explanation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            font-style: italic;
+        }
+        #restart-btn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--primary-action-bg);
+            color: white;
+        }
+        
+        /* Hidden by default */
+        .header, .quiz-container, #result-page {
+            display: none;
+        }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .quiz-container {
+                flex-direction: column;
+                height: auto;
+                overflow: visible;
+            }
+            .navigation-panel {
+                min-width: unset;
+                flex: unset; /* Unset flex grow/shrink */
+                height: auto;
+            }
+            .question-panel {
+                min-height: 40vh;
+            }
+            .header h2 {
+                font-size: 1em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 20px;
+            }
+            .question-body, .quiz-actions {
+                padding: 15px;
+            }
+            .action-button {
+                padding: 8px 12px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+    <div id="login-container">
+        <div class="login-box">
+            <h2>Login Peserta Ujian</h2>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan username Anda">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password">
+            </div>
+            <button id="login-btn">Masuk</button>
+            <p id="login-error">Password salah. Coba lagi.</p>
+        </div>
+    </div>
+
+    <header class="header">
+        <h2>Try Out TKP CPNS HOTS</h2>
+        <div class="user-info">
+            <span id="header-info"></span>
+            <button id="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <div class="quiz-container">
+        <!-- Panel Soal -->
+        <main class="question-panel">
+            <div class="question-header">
+                <span id="subtest-title">Materi</span> | Soal No. <span id="question-number">1</span>
+            </div>
+            <div class="question-body">
+                <p id="question-text">Memuat soal...</p>
+                <ul id="options" class="options-list"></ul>
+            </div>
+            <div class="quiz-actions">
+                <button id="prev-btn" class="action-button">Sebelumnya</button>
+                <button id="doubtful-btn" class="action-button">Ragu-ragu</button>
+                <button id="next-btn" class="action-button">Selanjutnya</button>
+            </div>
+        </main>
+
+        <!-- Panel Navigasi -->
+        <aside class="navigation-panel">
+            <div class="timer-box">
+                Sisa Waktu
+                <div id="timer">25:00</div>
+            </div>
+            <div class="question-grid-container">
+                <div class="subtest-group">
+                    <h3>Pelayanan Publik (1-7)</h3>
+                    <div id="grid-pelayanan-publik" class="question-grid"></div>
+                </div>
+                <div class="subtest-group">
+                    <h3>Jejaring Kerja (8-14)</h3>
+                    <div id="grid-jejaring-kerja" class="question-grid"></div>
+                </div>
+                <div class="subtest-group">
+                    <h3>Sosial Budaya (15-21)</h3>
+                    <div id="grid-sosial-budaya" class="question-grid"></div>
+                </div>
+                <div class="subtest-group">
+                    <h3>Teknologi Informasi dan Komunikasi (22-28)</h3>
+                    <div id="grid-tik" class="question-grid"></div>
+                </div>
+                <div class="subtest-group">
+                    <h3>Profesionalisme (29-36)</h3>
+                    <div id="grid-profesionalisme" class="question-grid"></div>
+                </div>
+                 <div class="subtest-group">
+                    <h3>Anti Radikalisme (37-45)</h3>
+                    <div id="grid-anti-radikalisme" class="question-grid"></div>
+                </div>
+            </div>
+            <div class="quiz-actions" style="justify-content: center;">
+                <button id="finish-btn" class="action-button">Selesaikan Ujian</button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Halaman Hasil Ujian -->
+    <div id="result-page" class="result-container">
+        <div class="result-card overall-summary">
+            <h2>Hasil Akhir Ujian</h2>
+            <div id="final-score" class="score">0%</div>
+            <div id="score-details" class="score-details"></div>
+            <div id="subtest-analysis-container" class="subtest-analysis"></div>
+        </div>
+        
+        <div class="result-card">
+            <h3>Rekap Jawaban</h3>
+            <h4>Jawaban Benar</h4>
+            <ul id="correct-list" class="answer-list"></ul>
+            <h4 style="margin-top: 20px;">Jawaban Salah / Kosong</h4>
+            <ul id="incorrect-list" class="answer-list"></ul>
+        </div>
+        
+        <div id="review-section-container" class="result-card">
+            <h3>Pembahasan Jawaban Salah</h3>
+            <div id="review-section"></div>
+        </div>
+        
+        <div style="text-align: center;">
+           <button id="restart-btn" class="action-button">Ulangi Ujian</button>
+        </div>
+    </div>
+    
+    <!-- Modal Konfirmasi Selesai -->
+    <div id="confirmation-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Selesaikan Ujian?</h2>
+            <p>Apakah Anda yakin ingin menyelesaikan dan mengakhiri sesi ujian ini?</p>
+            <div class="modal-actions">
+                <button id="confirm-no" class="action-button">Batal</button>
+                <button id="confirm-yes" class="action-button">Ya, Selesaikan</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATABASE SOAL DENGAN PEMBAHASAN ---
+        const questions = [
+            // --- PELAYANAN PUBLIK (7 Soal) ---
+            { 
+                subtest: 'Pelayanan Publik', 
+                question: 'Anda adalah seorang petugas pelayanan publik di kantor pemerintahan. Suatu hari, seorang warga datang dengan wajah kesal dan nada bicara tinggi karena merasa pelayanannya lambat. Padahal, sistem sedang mengalami kendala teknis yang di luar kendali Anda. Apa tindakan pertama yang Anda lakukan?', 
+                options: [
+                    'Menjelaskan secara detail kendala teknis yang terjadi agar warga memahami situasinya.', 
+                    'Meminta warga untuk tenang dan berbicara dengan sopan sebelum Anda dapat melayani.', 
+                    'Mendengarkan keluhan warga dengan empati, mengakui perasaannya, kemudian mencari solusi yang paling cepat.', 
+                    'Mengarahkan warga ke bagian lain yang mungkin bisa membantu lebih cepat, meskipun bukan wewenang Anda.',
+                    'Meminta maaf atas ketidaknyamanan, tetapi menegaskan bahwa ini adalah masalah sistem dan bukan kesalahan Anda.'
+                ], 
+                answer: 'Mendengarkan keluhan warga dengan empati, mengakui perasaannya, kemudian mencari solusi yang paling cepat.', 
+                explanation: 'Dalam pelayanan publik, empati dan kecepatan penanganan adalah kunci. Mendengarkan keluhan dengan tenang dan berusaha mencari solusi adalah tindakan yang paling tepat untuk meredakan emosi warga dan menunjukkan profesionalisme.' 
+            },
+            { 
+                subtest: 'Pelayanan Publik', 
+                question: 'Anda menerima keluhan dari seorang lansia yang kesulitan mengisi formulir digital karena kurang familiar dengan teknologi. Apa yang akan Anda lakukan?', 
+                options: [
+                    'Memberikan panduan singkat dan membiarkan lansia tersebut mencoba sendiri agar belajar mandiri.', 
+                    'Menyediakan formulir fisik sebagai alternatif untuk semua lansia yang datang.', 
+                    'Membantu mengisi formulir sambil menjelaskan setiap langkahnya secara perlahan dan jelas.', 
+                    'Meminta anggota keluarga lansia untuk membantu jika mereka ikut serta.',
+                    'Menyatakan bahwa semua pelayanan sekarang berbasis digital dan beliau harus belajar menggunakannya.'
+                ], 
+                answer: 'Membantu mengisi formulir sambil menjelaskan setiap langkahnya secara perlahan dan jelas.', 
+                explanation: 'Prinsip pelayanan publik adalah melayani semua lapisan masyarakat. Memberikan bantuan langsung dengan sabar adalah bentuk pelayanan yang responsif dan inklusif.' 
+            },
+            { 
+                subtest: 'Pelayanan Publik', 
+                question: 'Seorang teman kerja mengeluhkan bahwa Anda terlalu banyak membantu pelanggan yang "rewel" sehingga memperlambat pekerjaan Anda. Bagaimana Anda menanggapi hal ini?', 
+                options: [
+                    'Mengiyakan dan mulai membatasi bantuan kepada pelanggan yang dianggap "rewel".', 
+                    'Menjelaskan bahwa setiap pelanggan berhak mendapatkan pelayanan terbaik, tanpa memandang "rewel" atau tidak.', 
+                    'Mengabaikan komentar teman dan tetap melayani seperti biasa.', 
+                    'Meminta atasan untuk membuat standar pelayanan yang lebih ketat agar tidak ada lagi pelanggan "rewel".',
+                    'Menyarankan teman tersebut untuk mencoba melayani pelanggan "rewel" agar tahu rasanya.'
+                ], 
+                answer: 'Menjelaskan bahwa setiap pelanggan berhak mendapatkan pelayanan terbaik, tanpa memandang "rewel" atau tidak.', 
+                explanation: 'Profesionalisme dalam pelayanan publik berarti melayani semua pelanggan dengan standar yang sama, tanpa diskriminasi atau penilaian pribadi. Menjelaskan prinsip ini kepada rekan kerja menunjukkan komitmen Anda.' 
+            },
+            { 
+                subtest: 'Pelayanan Publik', 
+                question: 'Anda menemukan bahwa salah satu prosedur pelayanan yang Anda tangani memiliki banyak tahapan yang tidak efisien dan menyebabkan antrean panjang. Apa yang akan Anda lakukan?', 
+                options: [
+                    'Melaporkan masalah tersebut kepada atasan dan menunggu arahan lebih lanjut.', 
+                    'Mencoba menyederhanakan beberapa tahapan secara mandiri untuk melihat efeknya.', 
+                    'Mengumpulkan data dan bukti ketidakefisienan, lalu mengajukan usulan perbaikan prosedur secara formal.', 
+                    'Menerima kondisi tersebut karena itu adalah standar yang berlaku dan sulit diubah.',
+                    'Menyampaikan keluhan kepada rekan kerja lainnya dan berharap ada yang mengambil inisiatif.'
+                ], 
+                answer: 'Mengumpulkan data dan bukti ketidakefisienan, lalu mengajukan usulan perbaikan prosedur secara formal.', 
+                explanation: 'Inisiatif untuk perbaikan pelayanan sangat dihargai. Mengumpulkan data dan mengajukan usulan secara terstruktur menunjukkan kemampuan analisis dan inisiatif yang profesional.' 
+            },
+            { 
+                subtest: 'Pelayanan Publik', 
+                question: 'Pada jam istirahat, Anda melihat seorang kolega menolak melayani seorang warga yang baru datang karena sudah masuk waktu istirahat. Warga tersebut terlihat sangat membutuhkan bantuan dan hanya Anda satu-satunya yang tersisa di ruangan. Apa yang Anda lakukan?', 
+                options: [
+                    'Menyuruh warga menunggu kolega Anda kembali dari istirahat.', 
+                    'Menyapa warga tersebut dan menawarkan bantuan meskipun itu adalah jam istirahat Anda.', 
+                    'Memberitahu kolega Anda bahwa tindakannya tidak pantas dan meminta dia melayani warga.', 
+                    'Mencatat identitas warga tersebut dan memintanya datang lagi setelah jam istirahat.',
+                    'Pura-pura tidak melihat dan melanjutkan aktivitas istirahat Anda.'
+                ], 
+                answer: 'Menyapa warga tersebut dan menawarkan bantuan meskipun itu adalah jam istirahat Anda.', 
+                explanation: 'Inisiatif untuk memberikan pelayanan di luar jam kerja (dalam situasi mendesak dan wajar) menunjukkan dedikasi dan empati tinggi terhadap kebutuhan masyarakat.' 
+            },
+            { 
+                subtest: 'Pelayanan Publik', 
+                question: 'Anda sedang melayani antrean panjang, dan seorang warga di barisan paling belakang mulai berteriak-teriak meminta dilayani duluan karena alasan "darurat" yang tidak jelas. Apa yang Anda lakukan?', 
+                options: [
+                    'Melayani warga tersebut duluan untuk meredakan keributan.', 
+                    'Meminta satpam untuk menenangkan warga tersebut.', 
+                    'Dengan tenang menjelaskan bahwa ada prosedur antrean yang harus dipatuhi semua orang.', 
+                    'Menawarkan solusi alternatif jika memang ada, setelah jam layanan normal.',
+                    'Mengabaikannya dan terus melayani warga yang di depan sesuai antrean.'
+                ], 
+                answer: 'Dengan tenang menjelaskan bahwa ada prosedur antrean yang harus dipatuhi semua orang.', 
+                explanation: 'Menjaga ketertiban dan keadilan dalam pelayanan adalah penting. Menjelaskan prosedur secara tenang namun tegas menunjukkan profesionalisme dan konsistensi.' 
+            },
+            { 
+                subtest: 'Pelayanan Publik', 
+                question: 'Kantor Anda baru saja menerapkan sistem pengaduan online yang baru. Namun, Anda masih sering menerima keluhan secara langsung dari warga yang kesulitan menggunakan sistem baru tersebut. Bagaimana Anda menyikapinya?', 
+                options: [
+                    'Menganjurkan warga untuk mencoba lagi menggunakan sistem online, karena itu adalah kebijakan baru.', 
+                    'Tetap menerima pengaduan secara manual sambil memberikan panduan penggunaan sistem online.', 
+                    'Membuat panduan singkat berupa infografis yang mudah dipahami tentang penggunaan sistem online.', 
+                    'Melaporkan kepada atasan bahwa sistem online terlalu rumit dan harus disederhanakan.',
+                    'Mengumpulkan data keluhan langsung untuk menunjukkan bahwa sistem baru tidak efektif.'
+                ], 
+                answer: 'Tetap menerima pengaduan secara manual sambil memberikan panduan penggunaan sistem online.', 
+                explanation: 'Adaptasi terhadap sistem baru membutuhkan waktu. Melayani kebutuhan warga saat ini sambil membantu mereka beradaptasi dengan sistem baru adalah pendekatan yang baik.' 
+            },
+
+            // --- JEJARING KERJA (7 Soal) ---
+            { 
+                subtest: 'Jejaring Kerja', 
+                question: 'Tim Anda sedang menghadapi proyek yang sangat kompleks, dan ada bagian pekerjaan yang membutuhkan keahlian di luar bidang Anda maupun anggota tim inti. Apa yang akan Anda lakukan?', 
+                options: [
+                    'Mencoba mempelajari keahlian tersebut sendiri agar tidak merepotkan orang lain.', 
+                    'Membagi tugas tersebut kepada anggota tim yang paling mampu, meskipun bukan keahlian utamanya.', 
+                    'Mencari tahu siapa di departemen lain yang memiliki keahlian tersebut dan mengajaknya berkolaborasi.', 
+                    'Melaporkan kepada atasan bahwa tim tidak memiliki keahlian yang cukup untuk menyelesaikan proyek tersebut.',
+                    'Mengurangi target proyek agar dapat diselesaikan dengan keahlian yang ada di tim.'
+                ], 
+                answer: 'Mencari tahu siapa di departemen lain yang memiliki keahlian tersebut dan mengajaknya berkolaborasi.', 
+                explanation: 'Jejaring kerja adalah tentang memanfaatkan koneksi dan kolaborasi untuk mencapai tujuan bersama. Mencari ahli di luar tim menunjukkan inisiatif dan kemampuan berkolaborasi.' 
+            },
+            { 
+                subtest: 'Jejaring Kerja', 
+                question: 'Anda diundang ke acara antar-instansi untuk membangun jejaring. Banyak peserta dari instansi yang berbeda. Bagaimana Anda memaksimalkan kesempatan ini?', 
+                options: [
+                    'Berinteraksi hanya dengan orang-orang yang berasal dari instansi yang sudah Anda kenal.', 
+                    'Mencari orang yang memiliki jabatan setinggi mungkin untuk diajak bicara.', 
+                    'Mengenalkan diri kepada sebanyak mungkin orang dari berbagai instansi, bertukar kontak, dan mendiskusikan potensi kolaborasi.', 
+                    'Hanya datang untuk mendengarkan presentasi dan tidak terlalu aktif berinteraksi.',
+                    'Fokus pada menikmati hidangan dan suasana acara.'
+                ], 
+                answer: 'Mengenalkan diri kepada sebanyak mungkin orang dari berbagai instansi, bertukar kontak, dan mendiskusikan potensi kolaborasi.', 
+                explanation: 'Tujuan utama acara jejaring adalah membangun koneksi. Aktif berinteraksi dan mencari potensi kolaborasi menunjukkan kemampuan berjejaring yang efektif.' 
+            },
+            { 
+                subtest: 'Jejaring Kerja', 
+                question: 'Seorang rekan kerja dari divisi lain meminta bantuan Anda untuk menyelesaikan tugasnya yang mendesak, padahal Anda juga sedang sibuk dengan pekerjaan Anda sendiri. Apa yang Anda lakukan?', 
+                options: [
+                    'Menolak dengan halus karena Anda juga sibuk.', 
+                    'Mengambil alih tugasnya dan menyelesaikannya sendiri, meskipun Anda harus lembur.', 
+                    'Menawarkan bantuan sebatas yang Anda bisa tanpa mengganggu pekerjaan utama Anda, atau menyarankan solusi lain.', 
+                    'Meminta rekan kerja tersebut untuk meminta bantuan kepada atasannya.',
+                    'Menyalahkan rekan kerja tersebut karena tidak merencanakan pekerjaannya dengan baik.'
+                ], 
+                answer: 'Menawarkan bantuan sebatas yang Anda bisa tanpa mengganggu pekerjaan utama Anda, atau menyarankan solusi lain.', 
+                explanation: 'Kolaborasi yang baik adalah saling membantu tanpa mengorbankan tanggung jawab utama. Menawarkan bantuan yang realistis atau memberikan saran menunjukkan sikap kooperatif.' 
+            },
+            { 
+                subtest: 'Jejaring Kerja', 
+                question: 'Anda ditugaskan untuk memimpin sebuah tim gabungan lintas departemen. Beberapa anggota tim tampak enggan berbagi informasi karena merasa informasinya adalah "rahasia divisi". Bagaimana Anda menghadapi situasi ini?', 
+                options: [
+                    'Memaksa mereka untuk berbagi informasi demi kelancaran proyek.', 
+                    'Melaporkan perilaku mereka kepada atasan masing-masing.', 
+                    'Membangun suasana kepercayaan, menjelaskan pentingnya kolaborasi dan manfaat berbagi informasi untuk kesuksesan bersama.', 
+                    'Mencoba mencari informasi tersebut dari sumber lain yang tersedia.',
+                    'Menganggap hal tersebut wajar dan melanjutkan proyek tanpa informasi lengkap.'
+                ], 
+                answer: 'Membangun suasana kepercayaan, menjelaskan pentingnya kolaborasi dan manfaat berbagi informasi untuk kesuksesan bersama.', 
+                explanation: 'Membangun kepercayaan adalah fundamental dalam jejaring kerja. Komunikasi yang efektif dan penjelasan tentang tujuan bersama akan mendorong kolaborasi.' 
+            },
+            { 
+                subtest: 'Jejaring Kerja', 
+                question: 'Kantor Anda berencana mengadakan kegiatan sosial yang melibatkan berbagai komunitas di luar instansi. Anda ditunjuk sebagai koordinator. Langkah awal apa yang paling tepat Anda lakukan?', 
+                options: [
+                    'Langsung membuat proposal kegiatan dan menyebarkannya ke berbagai komunitas.', 
+                    'Mencari data kontak komunitas-komunitas yang ada dan mulai menghubungi satu per satu.', 
+                    'Membentuk tim kecil, berdiskusi tentang tujuan kegiatan, dan mengidentifikasi komunitas potensial yang relevan.', 
+                    'Menunggu arahan lebih lanjut dari atasan mengenai komunitas mana yang harus dijangkau.',
+                    'Mengandalkan kenalan pribadi untuk menghubungi komunitas yang dikenal.'
+                ], 
+                answer: 'Membentuk tim kecil, berdiskusi tentang tujuan kegiatan, dan mengidentifikasi komunitas potensial yang relevan.', 
+                explanation: 'Perencanaan yang matang dengan melibatkan tim dan mengidentifikasi target jejaring yang tepat adalah langkah awal yang efektif dalam membangun kolaborasi.' 
+            },
+            { 
+                subtest: 'Jejaring Kerja', 
+                question: 'Anda mendengar ada rumor negatif tentang salah satu kolega Anda yang disebarkan oleh pihak luar. Rekan Anda tersebut adalah sosok yang sangat kooperatif dan sering membantu tim. Apa yang Anda lakukan?', 
+                options: [
+                    'Membiarkan saja karena itu bukan urusan Anda.', 
+                    'Menanyakan langsung kepada kolega Anda apakah rumor tersebut benar.', 
+                    'Mencoba mengklarifikasi dan membela kolega Anda jika Anda tahu rumor tersebut tidak benar.', 
+                    'Menghindari kolega tersebut agar tidak ikut terbawa masalah.',
+                    'Menyebarkan rumor balik untuk membela kolega Anda.'
+                ], 
+                answer: 'Mencoba mengklarifikasi dan membela kolega Anda jika Anda tahu rumor tersebut tidak benar.', 
+                explanation: 'Mendukung dan melindungi reputasi rekan kerja, terutama jika Anda tahu informasi tersebut salah, adalah bagian penting dari membangun jejaring kerja yang solid dan saling percaya.' 
+            },
+            { 
+                subtest: 'Jejaring Kerja', 
+                question: 'Anda adalah bagian dari tim proyek yang baru saja menyelesaikan sebuah laporan penting. Atasan meminta Anda untuk mempresentasikan laporan tersebut kepada pimpinan instansi lain. Bagaimana Anda mempersiapkannya?', 
+                options: [
+                    'Membuat presentasi hanya berfokus pada bagian yang menjadi kontribusi Anda.', 
+                    'Mempersiapkan presentasi yang komprehensif, mencakup seluruh hasil kerja tim, dan berdiskusi dengan anggota tim untuk memastikan semua perspektif terwakili.', 
+                    'Meminta salah satu anggota tim lain untuk ikut presentasi.', 
+                    'Fokus hanya pada data dan angka, tanpa banyak narasi.',
+                    'Menyerahkan tugas presentasi kepada atasan Anda.'
+                ], 
+                answer: 'Mempersiapkan presentasi yang komprehensif, mencakup seluruh hasil kerja tim, dan berdiskusi dengan anggota tim untuk memastikan semua perspektif terwakili.', 
+                explanation: 'Mempresentasikan hasil kerja tim secara menyeluruh dan melibatkan masukan dari anggota tim menunjukkan penghargaan terhadap kontribusi kolektif dan memperkuat jejaring tim.' 
+            },
+
+            // --- SOSIAL BUDAYA (7 Soal) ---
+            { 
+                subtest: 'Sosial Budaya', 
+                question: 'Anda ditugaskan di daerah yang memiliki adat istiadat dan kebiasaan yang sangat berbeda dengan tempat asal Anda. Bagaimana Anda bersikap agar diterima oleh masyarakat setempat?', 
+                options: [
+                    'Bersikap biasa saja dan menunggu masyarakat menyesuaikan diri dengan Anda.', 
+                    'Berusaha mempelajari dan menghormati adat istiadat serta kebiasaan masyarakat setempat, meskipun tidak sepenuhnya mengerti.', 
+                    'Hanya berinteraksi dengan orang-orang yang memiliki latar belakang yang sama dengan Anda.', 
+                    'Mencoba mengubah beberapa kebiasaan masyarakat yang menurut Anda kurang efisien.',
+                    'Menjaga jarak agar tidak terjadi kesalahpahaman budaya.'
+                ], 
+                answer: 'Berusaha mempelajari dan menghormati adat istiadat serta kebiasaan masyarakat setempat, meskipun tidak sepenuhnya mengerti.', 
+                explanation: 'Kemampuan beradaptasi dan menghormati perbedaan budaya adalah kunci dalam lingkungan majemuk. Inisiatif untuk belajar menunjukkan keterbukaan dan keinginan untuk diterima.' 
+            },
+            { 
+                subtest: 'Sosial Budaya', 
+                question: 'Dalam sebuah rapat, seorang kolega dari suku lain mengungkapkan pendapatnya dengan gaya komunikasi yang Anda anggap terlalu blak-blakan dan kurang sopan. Bagaimana Anda menanggapi situasi ini?', 
+                options: [
+                    'Menegurnya langsung agar ia berbicara lebih sopan.', 
+                    'Mengabaikan perkataannya karena Anda tidak suka dengan gayanya.', 
+                    'Berusaha memahami maksud di balik perkataannya, menyadari mungkin ada perbedaan gaya komunikasi budaya.', 
+                    'Melaporkan perilakunya kepada atasan sebagai tindakan tidak profesional.',
+                    'Ikut berbicara blak-blakan agar ia tahu bagaimana rasanya.'
+                ], 
+                answer: 'Berusaha memahami maksud di balik perkataannya, menyadari mungkin ada perbedaan gaya komunikasi budaya.', 
+                explanation: 'Mengakui dan memahami perbedaan gaya komunikasi antarbudaya adalah bentuk toleransi dan adaptasi sosial. Ini memungkinkan Anda fokus pada substansi daripada bentuk komunikasi.' 
+            },
+            { 
+                subtest: 'Sosial Budaya', 
+                question: 'Di lingkungan kerja Anda, ada beberapa rekan yang sering menggunakan bahasa daerah asal mereka saat berkomunikasi, membuat sebagian kecil rekan lain merasa tidak termasuk. Apa yang akan Anda lakukan?', 
+                options: [
+                    'Ikut menggunakan bahasa daerah Anda sendiri agar suasananya meriah.', 
+                    'Mendiamkan saja, karena itu hak mereka.', 
+                    'Mengajak mereka untuk lebih sering menggunakan Bahasa Indonesia agar semua orang dapat berpartisipasi dalam komunikasi.', 
+                    'Menjauhi kelompok tersebut karena merasa tidak nyaman.',
+                    'Meminta atasan untuk melarang penggunaan bahasa daerah di kantor.'
+                ], 
+                answer: 'Mengajak mereka untuk lebih sering menggunakan Bahasa Indonesia agar semua orang dapat berpartisipasi dalam komunikasi.', 
+                explanation: 'Mendorong inklusivitas dalam komunikasi adalah penting untuk menciptakan lingkungan kerja yang harmonis dan kooperatif bagi semua orang.' 
+            },
+            { 
+                subtest: 'Sosial Budaya', 
+                question: 'Anda diminta untuk mengoordinasi kegiatan bakti sosial di lingkungan yang sangat heterogen, terdiri dari berbagai agama dan kepercayaan. Bagaimana Anda memastikan kegiatan tersebut dapat diikuti oleh semua lapisan masyarakat?', 
+                options: [
+                    'Fokus pada kegiatan yang bersifat umum dan tidak menyentuh isu sensitif agama atau kepercayaan.', 
+                    'Hanya melibatkan perwakilan dari agama mayoritas untuk mempermudah koordinasi.', 
+                    'Merencanakan kegiatan yang mengakomodasi nilai-nilai universal kemanusiaan dan melibatkan perwakilan dari setiap kelompok agama/kepercayaan dalam perencanaan.', 
+                    'Mengecualikan kelompok tertentu yang dianggap memiliki pandangan ekstrem.',
+                    'Melakukan kegiatan secara terpisah untuk setiap kelompok agama/kepercayaan.'
+                ], 
+                answer: 'Merencanakan kegiatan yang mengakomodasi nilai-nilai universal kemanusiaan dan melibatkan perwakilan dari setiap kelompok agama/kepercayaan dalam perencanaan.', 
+                explanation: 'Pendekatan inklusif dengan melibatkan semua pihak dalam perencanaan dan fokus pada nilai-nilai bersama adalah cara terbaik untuk memastikan partisipasi dari masyarakat majemuk.' 
+            },
+            { 
+                subtest: 'Sosial Budaya', 
+                question: 'Seorang rekan kerja sering membuat lelucon yang bernuansa suku/agama, meskipun ia tidak bermaksud jahat. Namun, Anda merasa itu kurang etis dan bisa menyinggung orang lain. Apa yang Anda lakukan?', 
+                options: [
+                    'Ikut tertawa saja agar tidak dianggap terlalu kaku.', 
+                    'Menegurnya secara terbuka di depan rekan-rekan lain.', 
+                    'Berbicara secara pribadi kepadanya, menjelaskan mengapa lelucon tersebut bisa menyinggung dan dampaknya terhadap lingkungan kerja.', 
+                    'Melaporkannya ke bagian SDM tanpa berbicara langsung dengannya.',
+                    'Menjauhi rekan tersebut agar tidak mendengar leluconnya lagi.'
+                ], 
+                answer: 'Berbicara secara pribadi kepadanya, menjelaskan mengapa lelucon tersebut bisa menyinggung dan dampaknya terhadap lingkungan kerja.', 
+                explanation: 'Memberikan umpan balik secara konstruktif dan pribadi adalah cara yang efektif untuk mengatasi masalah sensitif tanpa memperkeruh suasana, menunjukkan kemampuan Anda dalam mengelola keberagaman.' 
+            },
+            { 
+                subtest: 'Sosial Budaya', 
+                question: 'Anda melihat ada kesalahpahaman yang terjadi antara dua kolega dari latar belakang budaya yang berbeda akibat perbedaan interpretasi terhadap suatu isyarat non-verbal. Apa yang Anda lakukan?', 
+                options: [
+                    'Membiarkan mereka menyelesaikan masalahnya sendiri.', 
+                    'Mendekati salah satu pihak dan memihaknya.', 
+                    'Berusaha menjadi penengah, menjelaskan kemungkinan perbedaan interpretasi budaya, dan membantu mereka berkomunikasi lebih jelas.', 
+                    'Menganggap itu hal biasa dalam lingkungan kerja yang beragam.',
+                    'Melaporkan kepada atasan tentang masalah komunikasi antar rekan kerja.'
+                ], 
+                answer: 'Berusaha menjadi penengah, menjelaskan kemungkinan perbedaan interpretasi budaya, dan membantu mereka berkomunikasi lebih jelas.', 
+                explanation: 'Intervensi konstruktif untuk menjembatani kesalahpahaman budaya menunjukkan kemampuan Anda dalam menjaga harmoni dan memfasilitasi komunikasi yang efektif dalam lingkungan majemuk.' 
+            },
+            { 
+                subtest: 'Sosial Budaya', 
+                question: 'Kantor Anda akan mengadakan acara perayaan Hari Kemerdekaan. Anda diminta untuk mengusulkan ide yang dapat menyatukan keberagaman budaya di kantor. Apa usulan Anda?', 
+                options: [
+                    'Mengadakan lomba masak makanan daerah dari setiap suku.', 
+                    'Menyelenggarakan pagelaran seni yang menampilkan berbagai tarian dan musik tradisional dari seluruh Indonesia.', 
+                    'Mengadakan seminar tentang pentingnya persatuan dan kesatuan bangsa.', 
+                    'Menganjurkan semua karyawan memakai baju adat masing-masing.',
+                    'Menampilkan hanya budaya mayoritas agar lebih mudah dikelola.'
+                ], 
+                answer: 'Menyelenggarakan pagelaran seni yang menampilkan berbagai tarian dan musik tradisional dari seluruh Indonesia.', 
+                explanation: 'Pagelaran seni yang melibatkan berbagai elemen budaya adalah cara yang sangat inklusif dan positif untuk merayakan keberagaman serta mempererat persatuan.' 
+            },
+
+            // --- TEKNOLOGI INFORMASI DAN KOMUNIKASI (7 Soal) ---
+            { 
+                subtest: 'Teknologi Informasi dan Komunikasi', 
+                question: 'Instansi Anda baru saja mengimplementasikan sistem aplikasi baru untuk pelaporan harian yang diharapkan meningkatkan efisiensi. Namun, banyak rekan kerja yang mengeluh karena merasa kesulitan menggunakannya. Bagaimana sikap Anda?', 
+                options: [
+                    'Menggunakan sistem lama saja karena lebih mudah dan Anda tidak ingin direpotkan.', 
+                    'Mengeluh bersama rekan-rekan lain tentang rumitnya sistem baru.', 
+                    'Mempelajari sistem baru dengan sungguh-sungguh, bahkan menawarkan diri untuk membantu rekan lain yang kesulitan.', 
+                    'Menunggu sampai ada pelatihan resmi dari instansi.',
+                    'Mengajukan petisi agar sistem baru dibatalkan.'
+                ], 
+                answer: 'Mempelajari sistem baru dengan sungguh-sungguh, bahkan menawarkan diri untuk membantu rekan lain yang kesulitan.', 
+                explanation: 'Proaktif dalam mengadopsi teknologi baru dan bersedia membantu rekan kerja menunjukkan kemampuan adaptasi, inisiatif, dan semangat kolaborasi yang positif terhadap perubahan.' 
+            },
+            { 
+                subtest: 'Teknologi Informasi dan Komunikasi', 
+                question: 'Anda mendapatkan tugas untuk menganalisis data besar untuk sebuah proyek penting, namun Anda tidak terlalu mahir menggunakan software analisis data yang canggih. Apa yang Anda lakukan?', 
+                options: [
+                    'Mengerjakan secara manual meskipun membutuhkan waktu sangat lama.', 
+                    'Meminta bantuan rekan kerja yang lebih mahir untuk mengerjakan seluruh tugas tersebut.', 
+                    'Berusaha mempelajari software tersebut melalui tutorial online atau bertanya kepada ahli, sambil mencari solusi sementara.', 
+                    'Mengajukan permohonan agar tugas tersebut dialihkan kepada orang lain.',
+                    'Melaporkan kepada atasan bahwa Anda tidak mampu mengerjakan tugas tersebut.'
+                ], 
+                answer: 'Berusaha mempelajari software tersebut melalui tutorial online atau bertanya kepada ahli, sambil mencari solusi sementara.', 
+                explanation: 'Kemauan untuk belajar dan mengembangkan diri, terutama dalam pemanfaatan TIK, sangat penting. Mencari solusi dan bantuan secara proaktif menunjukkan profesionalisme dan komitmen.' 
+            },
+            { 
+                subtest: 'Teknologi Informasi dan Komunikasi', 
+                question: 'Seorang senior di kantor Anda yang kurang familiar dengan teknologi meminta bantuan Anda untuk mengirim email penting dengan lampiran. Apa yang Anda lakukan?', 
+                options: [
+                    'Mengirimkan email tersebut untuknya tanpa banyak penjelasan.', 
+                    'Menyuruhnya untuk mencoba sendiri agar ia belajar.', 
+                    'Membantunya mengirim email sambil membimbingnya langkah demi langkah agar ia memahami prosesnya di kemudian hari.', 
+                    'Menyarankannya untuk meminta bantuan kepada bagian IT.',
+                    'Menertawakan ketidakmampuannya menggunakan email.'
+                ], 
+                answer: 'Membantunya mengirim email sambil membimbingnya langkah demi langkah agar ia memahami prosesnya di kemudian hari.', 
+                explanation: 'Memberikan bantuan yang mendidik adalah pendekatan terbaik. Ini tidak hanya menyelesaikan masalah saat itu, tetapi juga meningkatkan kompetensi TIK rekan kerja.' 
+            },
+            { 
+                subtest: 'Teknologi Informasi dan Komunikasi', 
+                question: 'Anda menemukan sebuah aplikasi atau fitur baru yang sangat berguna dan berpotensi meningkatkan efisiensi kerja tim Anda. Apa yang Anda lakukan?', 
+                options: [
+                    'Menggunakan aplikasi tersebut sendiri untuk meningkatkan kinerja pribadi.', 
+                    'Langsung merekomendasikan aplikasi tersebut kepada atasan tanpa banyak penjelasan.', 
+                    'Mempelajari lebih dalam aplikasi tersebut, membuat simulasi manfaatnya, dan menyajikannya kepada tim atau atasan untuk dipertimbangkan.', 
+                    'Menunggu orang lain yang menemukan dan merekomendasikannya.',
+                    'Merahasiakan penemuan tersebut agar Anda terlihat lebih unggul.'
+                ], 
+                answer: 'Mempelajari lebih dalam aplikasi tersebut, membuat simulasi manfaatnya, dan menyajikannya kepada tim atau atasan untuk dipertimbangkan.', 
+                explanation: 'Inisiatif untuk mencari, mengevaluasi, dan merekomendasikan solusi TIK yang inovatif menunjukkan pemahaman Anda akan pemanfaatan teknologi untuk peningkatan kinerja organisasi.' 
+            },
+            { 
+                subtest: 'Teknologi Informasi dan Komunikasi', 
+                question: 'Kantor Anda berencana beralih ke sistem cloud storage untuk berbagi dokumen, namun ada kekhawatiran dari beberapa rekan mengenai keamanan data. Bagaimana Anda menyikapi kekhawatiran ini?', 
+                options: [
+                    'Mengabaikan kekhawatiran tersebut karena cloud storage sudah umum digunakan.', 
+                    'Menjelaskan bahwa keamanan data sepenuhnya tanggung jawab penyedia layanan cloud.', 
+                    'Mempelajari lebih lanjut tentang fitur keamanan cloud storage, menjelaskan risiko dan mitigasinya kepada rekan-rekan, serta mencari best practice penggunaannya.', 
+                    'Menyarankan untuk tetap menggunakan metode penyimpanan lokal yang lebih familiar.',
+                    'Meminta atasan untuk menunda implementasi cloud storage sampai semua orang yakin.'
+                ], 
+                answer: 'Mempelajari lebih lanjut tentang fitur keamanan cloud storage, menjelaskan risiko dan mitigasinya kepada rekan-rekan, serta mencari best practice penggunaannya.', 
+                explanation: 'Memberikan informasi yang akurat dan edukasi yang relevan adalah cara terbaik untuk mengatasi kekhawatiran dan memfasilitasi transisi teknologi secara efektif.' 
+            },
+            { 
+                subtest: 'Teknologi Informasi dan Komunikasi', 
+                question: 'Anda sedang membuat laporan penting dan tiba-tiba komputer Anda mengalami hang. Data yang belum tersimpan berisiko hilang. Apa tindakan pertama Anda?', 
+                options: [
+                    'Langsung mematikan komputer untuk merestartnya.', 
+                    'Panik dan menunggu sampai komputer kembali normal dengan sendirinya.', 
+                    'Mencoba semua cara yang mungkin untuk menyimpan data (misal: menggunakan shortcut keyboard, menunggu sesaat), baru kemudian restart jika tidak ada pilihan lain.', 
+                    'Menyalahkan sistem komputer yang sudah tua.',
+                    'Memanggil teknisi IT tanpa mencoba solusi apa pun.'
+                ], 
+                answer: 'Mencoba semua cara yang mungkin untuk menyimpan data (misal: menggunakan shortcut keyboard, menunggu sesaat), baru kemudian restart jika tidak ada pilihan lain.', 
+                explanation: 'Kemampuan untuk bereaksi cepat dan mencoba solusi teknis dasar dalam situasi darurat menunjukkan pemanfaatan TIK yang cerdas dan upaya untuk meminimalkan kerugian.' 
+            },
+            { 
+                subtest: 'Teknologi Informasi dan Komunikasi', 
+                question: 'Anda menyadari bahwa banyak informasi penting di kantor Anda masih disimpan dalam bentuk fisik dan menyulitkan akses serta pencarian. Apa yang Anda lakukan?', 
+                options: [
+                    'Mengajukan usulan untuk digitalisasi dokumen dan menawarkan diri untuk membantu prosesnya.', 
+                    'Membiarkan saja karena itu bukan tugas utama Anda.', 
+                    'Mengeluh tentang sulitnya mencari dokumen fisik.', 
+                    'Menyuruh rekan kerja lain untuk mendigitalisasi dokumen jika mereka punya waktu luang.',
+                    'Hanya mendigitalisasi dokumen yang terkait langsung dengan pekerjaan Anda.'
+                ], 
+                answer: 'Mengajukan usulan untuk digitalisasi dokumen dan menawarkan diri untuk membantu prosesnya.', 
+                explanation: 'Inisiatif untuk memanfaatkan TIK dalam manajemen informasi dan kearsipan menunjukkan visi Anda dalam meningkatkan efisiensi dan aksesibilitas data di lingkungan kerja.' 
+            },
+
+            // --- PROFESIONALISME (8 Soal) ---
+            { 
+                subtest: 'Profesionalisme', 
+                question: 'Anda diberi tugas baru yang kompleks dan membutuhkan waktu pengerjaan lebih dari yang biasa Anda lakukan. Atasan menekankan pentingnya ketepatan waktu. Bagaimana Anda menyikapinya?', 
+                options: [
+                    'Mengerjakan sebisanya dan jika tidak selesai tepat waktu, Anda akan jujur kepada atasan.', 
+                    'Menerima tugas tersebut, namun meminta rekan kerja untuk membantu sebagian besar pengerjaannya.', 
+                    'Menerima tugas, membuat perencanaan yang matang, mengidentifikasi potensi kendala, dan segera berdiskusi dengan atasan jika proyek tersebut realistis atau membutuhkan penyesuaian waktu/sumber daya.', 
+                    'Menolak tugas tersebut karena Anda yakin tidak bisa menyelesaikannya tepat waktu.',
+                    'Mengerjakan dengan terburu-buru agar selesai tepat waktu meskipun hasilnya kurang maksimal.'
+                ], 
+                answer: 'Menerima tugas, membuat perencanaan yang matang, mengidentifikasi potensi kendala, dan segera berdiskusi dengan atasan jika proyek tersebut realistis atau membutuhkan penyesuaian waktu/sumber daya.', 
+                explanation: 'Profesionalisme berarti bertanggung jawab, realistis dalam perencanaan, dan komunikatif. Mengidentifikasi kendala dan berdiskusi dengan atasan adalah tindakan yang proaktif dan bertanggung jawab.' 
+            },
+            { 
+                subtest: 'Profesionalisme', 
+                question: 'Seorang rekan kerja sering datang terlambat dan meninggalkan pekerjaan lebih awal, yang berdampak pada beban kerja Anda. Apa yang Anda lakukan?', 
+                options: [
+                    'Mendiamkan saja karena tidak ingin ada konflik.', 
+                    'Menegurnya secara langsung di depan rekan-rekan lain agar ia malu.', 
+                    'Berbicara secara pribadi kepadanya, menjelaskan dampak perilakunya terhadap tim dan pekerjaan, serta menyarankan untuk lebih disiplin.', 
+                    'Melaporkannya langsung kepada atasan tanpa berbicara dengannya terlebih dahulu.',
+                    'Mengikuti perilakunya agar beban kerja Anda juga berkurang.'
+                ], 
+                answer: 'Berbicara secara pribadi kepadanya, menjelaskan dampak perilakunya terhadap tim dan pekerjaan, serta menyarankan untuk lebih disiplin.', 
+                explanation: 'Memberikan umpan balik yang konstruktif dan pribadi adalah cara yang profesional untuk mengatasi masalah kinerja yang memengaruhi tim, sambil menjaga hubungan baik.' 
+            },
+            { 
+                subtest: 'Profesionalisme', 
+                question: 'Anda menemukan kesalahan dalam laporan penting yang baru saja Anda serahkan kepada atasan. Kesalahan itu cukup fatal dan bisa berdampak buruk. Apa yang Anda lakukan?', 
+                options: [
+                    'Berharap atasan tidak menyadarinya dan diam saja.', 
+                    'Meminta rekan kerja untuk memperbaiki laporan tersebut tanpa sepengetahuan atasan.', 
+                    'Segera memberitahu atasan, mengakui kesalahan, dan menawarkan diri untuk segera memperbaikinya.', 
+                    'Mencoba menyalahkan orang lain atas kesalahan tersebut.',
+                    'Menunggu sampai atasan menemukan kesalahan tersebut.'
+                ], 
+                answer: 'Segera memberitahu atasan, mengakui kesalahan, dan menawarkan diri untuk segera memperbaikinya.', 
+                explanation: 'Integritas dan tanggung jawab adalah inti dari profesionalisme. Mengakui kesalahan dan proaktif memperbaikinya menunjukkan kematangan dan dedikasi.' 
+            },
+            { 
+                subtest: 'Profesionalisme', 
+                question: 'Anda sedang dalam perjalanan dinas dan terjebak macet parah, yang membuat Anda hampir pasti terlambat menghadiri rapat penting. Apa tindakan Anda?', 
+                options: [
+                    'Mengirim pesan singkat kepada panitia bahwa Anda akan terlambat dan menunggu.', 
+                    'Mencari rute alternatif meskipun tidak yakin akan berhasil.', 
+                    'Segera menginformasikan pihak penyelenggara/atasan mengenai keterlambatan, perkiraan waktu tiba, dan menanyakan apakah ada cara untuk tetap berpartisipasi (misal: via daring).', 
+                    'Memaksakan diri untuk menerobos kemacetan dengan cara yang berbahaya.',
+                    'Memutuskan untuk tidak hadir rapat karena sudah pasti terlambat.'
+                ], 
+                answer: 'Segera menginformasikan pihak penyelenggara/atasan mengenai keterlambatan, perkiraan waktu tiba, dan menanyakan apakah ada cara untuk tetap berpartisipasi (misal: via daring).', 
+                explanation: 'Komunikasi yang proaktif dan mencari solusi alternatif dalam menghadapi kendala menunjukkan profesionalisme dan komitmen terhadap tugas.' 
+            },
+            { 
+                subtest: 'Profesionalisme', 
+                question: 'Anda adalah seorang ASN yang memiliki keahlian khusus di bidang tertentu. Rekan-rekan dari instansi lain sering meminta bantuan atau konsultasi kepada Anda di luar jam kerja resmi. Bagaimana Anda menanggapinya?', 
+                options: [
+                    'Menolak karena itu sudah di luar jam kerja Anda.', 
+                    'Menerima semua permintaan dan bekerja lembur tanpa dibayar.', 
+                    'Memberikan bantuan sebatas yang Anda bisa, namun tetap menjaga keseimbangan antara pekerjaan dan kehidupan pribadi, serta mengarahkan mereka ke jalur resmi jika perlu.', 
+                    'Meminta bayaran tambahan atas konsultasi tersebut.',
+                    'Hanya membantu teman dekat saja.'
+                ], 
+                answer: 'Memberikan bantuan sebatas yang Anda bisa, namun tetap menjaga keseimbangan antara pekerjaan dan kehidupan pribadi, serta mengarahkan mereka ke jalur resmi jika perlu.', 
+                explanation: 'Profesionalisme juga berarti menjaga keseimbangan hidup dan mengelola ekspektasi. Memberikan bantuan namun tetap pada batas yang wajar menunjukkan Anda profesional dan bertanggung jawab.' 
+            },
+            { 
+                subtest: 'Profesionalisme', 
+                question: 'Kantor Anda sedang melakukan efisiensi anggaran, sehingga fasilitas pendukung kerja seperti alat tulis dan printer tidak selalu tersedia lengkap. Apa yang Anda lakukan?', 
+                options: [
+                    'Mengeluh tentang kurangnya fasilitas dan tidak maksimal dalam bekerja.', 
+                    'Membeli sendiri semua kebutuhan kerja agar pekerjaan tidak terhambat.', 
+                    'Mencari cara-cara kreatif untuk tetap menyelesaikan pekerjaan dengan sumber daya terbatas, dan mengusulkan solusi efisiensi yang mungkin.', 
+                    'Menuntut atasan untuk menyediakan semua fasilitas yang dibutuhkan.',
+                    'Berhenti bekerja sementara sampai fasilitas tersedia lengkap.'
+                ], 
+                answer: 'Mencari cara-cara kreatif untuk tetap menyelesaikan pekerjaan dengan sumber daya terbatas, dan mengusulkan solusi efisiensi yang mungkin.', 
+                explanation: 'Profesionalisme ditunjukkan dengan kemampuan beradaptasi dan tetap produktif di bawah keterbatasan, serta berinisiatif mencari solusi inovatif.' 
+            },
+            { 
+                subtest: 'Profesionalisme', 
+                question: 'Anda ditawari promosi jabatan yang sangat menarik, namun posisi tersebut menuntut Anda untuk sering ditempatkan di daerah terpencil dengan fasilitas yang minim. Bagaimana Anda menimbang tawaran ini?', 
+                options: [
+                    'Langsung menolak karena tidak sesuai dengan kenyamanan Anda.', 
+                    'Menerima tanpa ragu karena promosinya sangat bagus.', 
+                    'Mempertimbangkan dengan matang tantangan dan kesempatan yang ada, termasuk potensi kontribusi Anda di daerah tersebut, sebelum memutuskan.', 
+                    'Mencoba negosiasi agar ditempatkan di lokasi yang lebih strategis.',
+                    'Bertanya kepada teman-teman apakah mereka mau menemani Anda.'
+                ], 
+                answer: 'Mempertimbangkan dengan matang tantangan dan kesempatan yang ada, termasuk potensi kontribusi Anda di daerah tersebut, sebelum memutuskan.', 
+                explanation: 'Seorang profesional mempertimbangkan semua aspek sebelum mengambil keputusan penting, termasuk komitmen terhadap pengabdian di mana pun penempatan yang dibutuhkan.' 
+            },
+            { 
+                subtest: 'Profesionalisme', 
+                question: 'Anda menerima teguran dari atasan karena kinerja Anda sedikit menurun dalam beberapa minggu terakhir. Anda tahu penyebabnya adalah masalah pribadi yang sedang Anda hadapi. Bagaimana Anda merespons teguran tersebut?', 
+                options: [
+                    'Menjelaskan secara detail masalah pribadi Anda kepada atasan sebagai alasan.', 
+                    'Mengatakan bahwa Anda tidak terima dengan teguran tersebut.', 
+                    'Menerima teguran dengan lapang dada, mengakui penurunan kinerja, dan berjanji akan segera meningkatkan performa tanpa harus menjelaskan masalah pribadi secara detail.', 
+                    'Meminta atasan untuk memahami kondisi Anda.',
+                    'Mencari alasan lain untuk membenarkan penurunan kinerja.'
+                ], 
+                answer: 'Menerima teguran dengan lapang dada, mengakui penurunan kinerja, dan berjanji akan segera meningkatkan performa tanpa harus menjelaskan masalah pribadi secara detail.', 
+                explanation: 'Profesionalisme berarti memisahkan masalah pribadi dari pekerjaan. Mengakui kesalahan dan berkomitmen untuk perbaikan tanpa mengemukakan masalah pribadi menunjukkan kematangan dan fokus pada tanggung jawab.' 
+            },
+
+            // --- ANTI RADIKALISME (9 Soal) ---
+            { 
+                subtest: 'Anti Radikalisme', 
+                question: 'Di lingkungan kerja Anda, ada kelompok kecil yang sering mendiskusikan pandangan-pandangan yang mengarah pada intoleransi terhadap kelompok agama/suku tertentu. Bagaimana sikap Anda?', 
+                options: [
+                    'Mendengarkan saja karena itu hak setiap orang untuk berpendapat.', 
+                    'Menjauhi kelompok tersebut dan tidak berinteraksi dengan mereka.', 
+                    'Mencoba secara persuasif untuk mengklarifikasi pandangan-pandangan tersebut dan mengingatkan tentang nilai-nilai kebangsaan dan toleransi.', 
+                    'Melaporkan langsung kepada pihak berwajib tanpa peringatan.',
+                    'Ikut bergabung dalam diskusi untuk mengetahui pandangan mereka lebih jauh.'
+                ], 
+                answer: 'Mencoba secara persuasif untuk mengklarifikasi pandangan-pandangan tersebut dan mengingatkan tentang nilai-nilai kebangsaan dan toleransi.', 
+                explanation: 'Penting untuk aktif memerangi intoleransi. Pendekatan persuasif adalah langkah awal yang tepat untuk mengubah pandangan tanpa memicu konflik, sambil tetap menegakkan nilai-nilai kebangsaan.' 
+            },
+            { 
+                subtest: 'Anti Radikalisme', 
+                question: 'Anda melihat ada konten di media sosial yang jelas-jelas berisi ujaran kebencian dan ajakan untuk memusuhi kelompok tertentu. Apa yang Anda lakukan?', 
+                options: [
+                    'Membagikan konten tersebut kepada teman-teman untuk didiskusikan.', 
+                    'Mengabaikannya karena Anda tidak ingin terlibat.', 
+                    'Melaporkan konten tersebut ke platform media sosial dan tidak menyebarkannya.', 
+                    'Membalas komentar dengan argumen tandingan yang keras.',
+                    'Mencari tahu siapa pembuat konten dan mencoba menghubunginya.'
+                ], 
+                answer: 'Melaporkan konten tersebut ke platform media sosial dan tidak menyebarkannya.', 
+                explanation: 'Melaporkan konten negatif dan tidak menyebarkannya adalah tindakan yang bertanggung jawab untuk mencegah penyebaran radikalisme dan ujaran kebencian di ranah digital.' 
+            },
+            { 
+                subtest: 'Anti Radikalisme', 
+                question: 'Sebagai seorang ASN, Anda memiliki kewajiban untuk menjaga persatuan bangsa. Suatu hari, Anda mendengar ada pihak yang berupaya memecah belah masyarakat dengan isu SARA. Apa yang Anda lakukan?', 
+                options: [
+                    'Tidak peduli karena bukan urusan pribadi Anda.', 
+                    'Mengamati situasi tersebut dan menunggu arahan dari atasan.', 
+                    'Menyebarkan informasi yang benar dan menenangkan masyarakat, serta melaporkan kepada pihak berwenang jika situasi memburuk.', 
+                    'Ikut dalam perdebatan di media sosial untuk membela pandangan Anda.',
+                    'Menyalahkan pemerintah karena tidak mampu mengatasi masalah ini.'
+                ], 
+                answer: 'Menyebarkan informasi yang benar dan menenangkan masyarakat, serta melaporkan kepada pihak berwenang jika situasi memburuk.', 
+                explanation: 'Aktif menyebarkan narasi positif, melawan hoaks, dan melaporkan potensi ancaman adalah bentuk konkret dari peran ASN dalam menjaga persatuan dan melawan radikalisme.' 
+            },
+            { 
+                subtest: 'Anti Radikalisme', 
+                question: 'Seorang teman lama Anda mulai menunjukkan perubahan sikap drastis dan sering menyuarakan pandangan yang cenderung ekstrem, mengkritik pemerintah secara berlebihan, dan menganggap semua yang berbeda sebagai musuh. Bagaimana Anda menyikapinya?', 
+                options: [
+                    'Langsung memutuskan pertemanan dengannya.', 
+                    'Mendebatnya secara terbuka di media sosial agar ia sadar.', 
+                    'Mencoba mengajaknya berdiskusi secara pribadi, dengan tenang menyuarakan perspektif yang berimbang dan mengingatkan tentang pentingnya toleransi.', 
+                    'Melaporkan teman tersebut kepada aparat keamanan.',
+                    'Ikut mendukung pandangannya agar Anda tidak dimusuhi.'
+                ], 
+                answer: 'Mencoba mengajaknya berdiskusi secara pribadi, dengan tenang menyuarakan perspektif yang berimbang dan mengingatkan tentang pentingnya toleransi.', 
+                explanation: 'Pendekatan personal dan persuasif adalah salah satu cara untuk mencoba mencegah penyebaran paham radikal, terutama jika dilakukan dengan niat baik dan argumen yang kuat.' 
+            },
+            { 
+                subtest: 'Anti Radikalisme', 
+                question: 'Dalam sebuah pelatihan, instruktur menyampaikan materi tentang pentingnya Pancasila sebagai ideologi negara dan bagaimana menjaga kebhinekaan. Namun, beberapa peserta terlihat tidak antusias dan bahkan mencemooh. Apa yang Anda lakukan?', 
+                options: [
+                    'Mengabaikan mereka dan fokus pada materi.', 
+                    'Menegur mereka secara langsung di depan umum.', 
+                    'Mencoba mengajak peserta lain untuk lebih aktif berpartisipasi dan menunjukkan antusiasme pada materi Pancasila dan kebhinekaan.', 
+                    'Melaporkan perilaku mereka kepada panitia penyelenggara.',
+                    'Ikut-ikutan tidak antusias agar tidak terlihat berbeda.'
+                ], 
+                answer: 'Mencoba mengajak peserta lain untuk lebih aktif berpartisipasi dan menunjukkan antusiasme pada materi Pancasila dan kebhinekaan.', 
+                explanation: 'Mendorong partisipasi positif dan menguatkan narasi kebangsaan adalah bentuk dukungan terhadap nilai-nilai Pancasila dan anti-radikalisme di lingkungan formal.' 
+            },
+            { 
+                subtest: 'Anti Radikalisme', 
+                question: 'Anda menemukan sebuah diskusi online di grup internal kantor yang mulai mengarah pada generalisasi negatif dan stereotip terhadap suku/ras tertentu. Apa yang Anda lakukan?', 
+                options: [
+                    'Keluar dari grup diskusi tersebut.', 
+                    'Menuliskan komentar yang marah untuk menyanggah stereotip tersebut.', 
+                    'Menegur anggota grup secara umum untuk kembali pada topik yang produktif dan mengingatkan tentang etika komunikasi di lingkungan kerja.', 
+                    'Melaporkan admin grup karena membiarkan diskusi seperti itu.',
+                    'Mengirimkan meme lucu untuk mengalihkan perhatian.'
+                ], 
+                answer: 'Menegur anggota grup secara umum untuk kembali pada topik yang produktif dan mengingatkan tentang etika komunikasi di lingkungan kerja.', 
+                explanation: 'Intervensi yang tegas namun konstruktif dalam diskusi online dapat menghentikan penyebaran pandangan negatif dan menjaga lingkungan komunikasi yang sehat.' 
+            },
+            { 
+                subtest: 'Anti Radikalisme', 
+                question: 'Sebagai ASN, Anda wajib setia pada NKRI dan Pancasila. Ada ajakan dari pihak luar untuk bergabung dalam gerakan yang mengklaim ingin "membersihkan" negara dengan cara-cara yang bertentangan dengan konstitusi. Apa sikap Anda?', 
+                options: [
+                    'Mempelajari lebih lanjut gerakan tersebut sebelum memutuskan.', 
+                    'Menolak dengan tegas ajakan tersebut dan melaporkannya kepada pihak berwenang.', 
+                    'Berpura-pura tertarik agar tidak dimusuhi.', 
+                    'Membagikan informasi tentang gerakan tersebut kepada teman-teman untuk mendapatkan opini.',
+                    'Menanyakan apakah ada keuntungan pribadi jika bergabung dengan gerakan tersebut.'
+                ], 
+                answer: 'Menolak dengan tegas ajakan tersebut dan melaporkannya kepada pihak berwenang.', 
+                explanation: 'Menjaga integritas dan kesetiaan pada negara adalah mutlak bagi ASN. Menolak dan melaporkan gerakan yang bertentangan dengan konstitusi adalah tindakan profesional dan patriotik.' 
+            },
+            { 
+                subtest: 'Anti Radikalisme', 
+                question: 'Kantor Anda berencana mengadakan kegiatan keagamaan yang spesifik untuk satu agama. Bagaimana Anda memastikan kegiatan tersebut tidak menimbulkan kesan eksklusif atau intoleransi bagi rekan kerja beragama lain?', 
+                options: [
+                    'Menyarankan agar kegiatan keagamaan tidak perlu diadakan di kantor.', 
+                    'Memastikan kegiatan tersebut hanya untuk internal umat beragama yang bersangkutan, dan tidak mempublikasikannya secara luas.', 
+                    'Mendorong agar ada juga kegiatan yang bersifat umum atau mengakomodasi berbagai agama, atau memastikan kegiatan tersebut bersifat inklusif dengan mengajak partisipasi atau kehadiran non-muslim untuk saling mengenal.', 
+                    'Tidak melakukan apa-apa, karena itu urusan panitia.',
+                    'Hanya fokus pada pelaksanaan kegiatan tersebut.'
+                ], 
+                answer: 'Mendorong agar ada juga kegiatan yang bersifat umum atau mengakomodasi berbagai agama, atau memastikan kegiatan tersebut bersifat inklusif dengan mengajak partisipasi atau kehadiran non-muslim untuk saling mengenal.', 
+                explanation: 'Mempromosikan inklusivitas dan pemahaman antaragama adalah cara efektif untuk mencegah intoleransi, bahkan dalam konteks kegiatan keagamaan yang spesifik.' 
+            },
+            { 
+                subtest: 'Anti Radikalisme', 
+                question: 'Anda diminta untuk memberikan contoh konkret tentang nilai-nilai Pancasila dalam kehidupan sehari-hari di lingkungan kerja. Contoh apa yang paling tepat Anda sampaikan?', 
+                options: [
+                    'Disiplin dalam bekerja untuk mencapai target individu.', 
+                    'Berdiskusi untuk mencari mufakat dalam setiap pengambilan keputusan tim.', 
+                    'Mendahulukan kepentingan pribadi di atas kepentingan kelompok.', 
+                    'Menggunakan fasilitas kantor untuk keperluan pribadi.',
+                    'Menghindari interaksi dengan rekan kerja yang berbeda suku.'
+                ], 
+                answer: 'Berdiskusi untuk mencari mufakat dalam setiap pengambilan keputusan tim.', 
+                explanation: 'Musyawarah untuk mufakat adalah implementasi nyata dari sila keempat Pancasila, yang sangat relevan dalam lingkungan kerja untuk mencapai kesepakatan yang adil dan mengakomodasi semua pihak.' 
+            },
+        ];
+
+        // Ensure we have exactly 45 questions by duplicating some if needed, and adjusting totals
+        const targetQuestionCount = 45;
+        while (questions.length < targetQuestionCount) {
+            // Duplicate some questions to reach the target, prioritizing categories
+            // This is a simple duplication. For a real exam, you'd generate unique questions.
+            questions.push(
+                { 
+                    subtest: 'Profesionalisme', 
+                    question: 'Sebagai seorang ASN, integritas adalah hal yang utama. Bagaimana Anda menunjukkan integritas dalam pekerjaan sehari-hari?', 
+                    options: [
+                        'Melakukan pekerjaan sesuai standar, meskipun tidak diawasi.', 
+                        'Selalu jujur dalam pelaporan keuangan.', 
+                        'Menghindari konflik kepentingan.', 
+                        'Semua jawaban benar.'
+                    ], 
+                    answer: 'Semua jawaban benar.', 
+                    explanation: 'Integritas mencakup semua aspek perilaku yang jujur, etis, dan konsisten dengan nilai-nilai yang baik, baik saat diawasi maupun tidak.' 
+                },
+                { 
+                    subtest: 'Pelayanan Publik', 
+                    question: 'Seorang warga mengeluhkan lamanya waktu penyelesaian dokumen. Sebagai petugas, apa yang Anda sampaikan?', 
+                    options: [
+                        'Mohon maaf, ini sudah sesuai prosedur standar.', 
+                        'Baik Bapak/Ibu, akan segera saya cek progresnya dan informasikan.', 
+                        'Seharusnya Bapak/Ibu datang lebih awal.', 
+                        'Ini bukan bagian saya, silakan tanya ke bagian lain.'
+                    ], 
+                    answer: 'Baik Bapak/Ibu, akan segera saya cek progresnya dan informasikan.', 
+                    explanation: 'Memberikan respons yang proaktif dan informatif adalah bentuk pelayanan prima.' 
+                },
+                { 
+                    subtest: 'Jejaring Kerja', 
+                    question: 'Tim Anda sedang kekurangan anggota untuk proyek mendesak. Apa yang Anda lakukan untuk mendapatkan bantuan?', 
+                    options: [
+                        'Mengerjakan semua sendiri hingga lembur.', 
+                        'Meminta atasan untuk merekrut karyawan baru.', 
+                        'Menghubungi kolega di departemen lain yang mungkin bisa membantu.', 
+                        'Menunda proyek sampai ada cukup anggota.'
+                    ], 
+                    answer: 'Menghubungi kolega di departemen lain yang mungkin bisa membantu.', 
+                    explanation: 'Memanfaatkan jejaring kerja untuk mencari sumber daya tambahan adalah tindakan yang efektif.' 
+                },
+                { 
+                    subtest: 'Sosial Budaya', 
+                    question: 'Dalam sebuah acara kantor, Anda melihat seorang rekan merasa tersingkir karena perbedaan budaya. Apa yang Anda lakukan?', 
+                    options: [
+                        'Membiarkannya saja, itu urusannya.', 
+                        'Mencoba mengajaknya berinteraksi dan mengenalkannya pada rekan lain.', 
+                        'Menceritakan masalah tersebut kepada teman lain.', 
+                        'Meminta panitia untuk memisahkan kelompok.'
+                    ], 
+                    answer: 'Mencoba mengajaknya berinteraksi dan mengenalkannya pada rekan lain.', 
+                    explanation: 'Inisiatif untuk membuat orang lain merasa nyaman dan inklusif adalah bagian dari kemampuan sosial budaya.' 
+                },
+                { 
+                    subtest: 'Teknologi Informasi dan Komunikasi', 
+                    question: 'Anda diminta menggunakan aplikasi baru untuk absensi. Anda merasa aplikasi itu rumit. Apa yang Anda lakukan?', 
+                    options: [
+                        'Tetap menggunakan absensi manual yang lama.', 
+                        'Mengeluh kepada rekan kerja.', 
+                        'Mempelajari aplikasi tersebut dan mencari tahu cara kerjanya.', 
+                        'Meminta orang lain untuk mengabsenkan Anda.'
+                    ], 
+                    answer: 'Mempelajari aplikasi tersebut dan mencari tahu cara kerjanya.', 
+                    explanation: 'Proaktif dalam belajar teknologi baru adalah sikap yang baik.' 
+                },
+                { 
+                    subtest: 'Anti Radikalisme', 
+                    question: 'Anda mendengar rekan kerja menyebarkan informasi hoaks yang memecah belah. Apa yang Anda lakukan?', 
+                    options: [
+                        'Membiarkannya saja.', 
+                        'Mengajaknya berdiskusi secara pribadi untuk mengklarifikasi informasi yang benar.', 
+                        'Ikut menyebarkan informasi tersebut.', 
+                        'Menyalahkan sumber berita.'
+                    ], 
+                    answer: 'Mengajaknya berdiskusi secara pribadi untuk mengklarifikasi informasi yang benar.', 
+                    explanation: 'Melawan hoaks dengan edukasi dan klarifikasi adalah tindakan anti-radikalisme yang efektif.' 
+                }
+            );
+            if (questions.length > targetQuestionCount) {
+                questions.splice(targetQuestionCount); // Trim if overshot
+            }
+        }
+
+
+        // --- LOGIKA KUIS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentQuestionIndex = 0;
+            let userAnswers = new Array(questions.length).fill(null);
+            let questionStatus = new Array(questions.length).fill('unanswered'); // unanswered, answered, doubtful
+            let timerInterval;
+            let currentUsername = '';
+            const quizDuration = 25 * 60; // 25 menit dalam detik
+
+            // Element Cache
+            const loginContainer = document.getElementById('login-container');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const loginBtn = document.getElementById('login-btn');
+            const loginError = document.getElementById('login-error');
+
+            const appHeader = document.querySelector('.header');
+            const quizContainer = document.querySelector('.quiz-container');
+            const resultPage = document.getElementById('result-page');
+            
+            const subtestTitleEl = document.getElementById('subtest-title');
+            const questionNumberEl = document.getElementById('question-number');
+            const questionTextEl = document.getElementById('question-text');
+            const optionsEl = document.getElementById('options');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const doubtfulBtn = document.getElementById('doubtful-btn');
+            const finishBtn = document.getElementById('finish-btn');
+            const timerEl = document.getElementById('timer');
+            const restartBtn = document.getElementById('restart-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            
+            const confirmationModal = document.getElementById('confirmation-modal');
+            const confirmYesBtn = document.getElementById('confirm-yes');
+            const confirmNoBtn = document.getElementById('confirm-no');
+            const headerInfo = document.getElementById('header-info');
+
+            function showLoginPage() {
+                loginContainer.style.display = 'flex';
+                appHeader.style.display = 'none';
+                quizContainer.style.display = 'none';
+                resultPage.style.display = 'none';
+                passwordInput.value = '';
+                usernameInput.value = ''; // Clear username on logout/init
+                loginError.style.display = 'none';
+            }
+
+            function handleLogin() {
+                const password = passwordInput.value;
+                const username = usernameInput.value.trim();
+                
+                if (username === "") {
+                    loginError.textContent = "Username tidak boleh kosong.";
+                    loginError.style.display = 'block';
+                    return;
+                }
+
+                if (password === "akazed.com/ujian") { // Password sesuai contoh
+                    currentUsername = username;
+                    loginContainer.style.display = 'none';
+                    appHeader.style.display = 'flex';
+                    quizContainer.style.display = 'flex';
+                    headerInfo.textContent = `Peserta: ${currentUsername}`;
+                    startQuiz();
+                } else {
+                    loginError.textContent = "Password salah. Coba lagi.";
+                    loginError.style.display = 'block';
+                }
+            }
+            
+            function handleLogout() {
+                clearInterval(timerInterval);
+                showLoginPage();
+            }
+
+            function startQuiz() {
+                currentQuestionIndex = 0;
+                userAnswers.fill(null);
+                questionStatus.fill('unanswered');
+                
+                quizContainer.style.display = 'flex';
+                appHeader.style.display = 'flex'; // Pastikan header terlihat
+                resultPage.style.display = 'none';
+                confirmationModal.style.display = 'none'; // Sembunyikan modal jika muncul
+
+                setupQuestionGrids();
+                displayQuestion(currentQuestionIndex);
+                startTimer(quizDuration);
+            }
+
+            function setupQuestionGrids() {
+                const grids = {
+                    'Pelayanan Publik': document.getElementById('grid-pelayanan-publik'),
+                    'Jejaring Kerja': document.getElementById('grid-jejaring-kerja'),
+                    'Sosial Budaya': document.getElementById('grid-sosial-budaya'),
+                    'Teknologi Informasi dan Komunikasi': document.getElementById('grid-tik'),
+                    'Profesionalisme': document.getElementById('grid-profesionalisme'),
+                    'Anti Radikalisme': document.getElementById('grid-anti-radikalisme')
+                };
+
+                // Clear all grids first
+                Object.values(grids).forEach(grid => {
+                    if (grid) grid.innerHTML = '';
+                });
+
+                questions.forEach((q, index) => {
+                    const button = document.createElement('button');
+                    button.className = 'grid-button';
+                    button.textContent = index + 1;
+                    button.onclick = () => jumpToQuestion(index);
+                    if (grids[q.subtest]) { // Pastikan grid untuk subtest ada
+                        grids[q.subtest].appendChild(button);
+                    }
+                });
+            }
+
+            function displayQuestion(index) {
+                // Hapus kelas 'current' dari tombol grid sebelumnya
+                document.querySelector('.grid-button.current')?.classList.remove('current');
+                currentQuestionIndex = index;
+                const question = questions[index];
+
+                subtestTitleEl.textContent = question.subtest;
+                questionNumberEl.textContent = index + 1;
+                questionTextEl.innerHTML = question.question;
+                optionsEl.innerHTML = '';
+
+                question.options.forEach(option => {
+                    const li = document.createElement('li');
+                    const label = document.createElement('label');
+                    const radio = document.createElement('input');
+                    radio.type = 'radio';
+                    radio.name = 'option';
+                    radio.value = option;
+                    if (userAnswers[index] === option) {
+                        radio.checked = true;
+                        label.classList.add('selected');
+                    }
+                    radio.onchange = () => selectAnswer(index, option);
+                    
+                    const span = document.createElement('span');
+                    span.textContent = option;
+                    
+                    label.appendChild(radio);
+                    label.appendChild(span);
+                    li.appendChild(label);
+                    optionsEl.appendChild(li);
+                });
+                
+                updateNavButtons();
+                updateGridButtonStatus(index);
+                // Tambahkan kelas 'current' ke tombol grid yang sedang aktif
+                const currentGridButton = document.querySelectorAll('.question-grid-container button')[index];
+                if (currentGridButton) {
+                    currentGridButton.classList.add('current');
+                }
+            }
+
+            function selectAnswer(index, answer) {
+                userAnswers[index] = answer;
+                // Hapus kelas 'selected' dari semua opsi lain
+                document.querySelectorAll('#options label').forEach(l => l.classList.remove('selected'));
+                // Tambahkan kelas 'selected' ke opsi yang dipilih
+                const selectedOptionLabel = document.querySelector(`input[value="${CSS.escape(answer)}"]`);
+                if (selectedOptionLabel) {
+                    selectedOptionLabel.parentElement.classList.add('selected');
+                }
+
+                if (questionStatus[index] !== 'doubtful') {
+                    questionStatus[index] = 'answered';
+                }
+                updateGridButtonStatus(index);
+            }
+            
+            function updateNavButtons() {
+                prevBtn.disabled = currentQuestionIndex === 0;
+                nextBtn.disabled = currentQuestionIndex === questions.length - 1;
+            }
+            
+            function updateGridButtonStatus(index) {
+                const button = document.querySelectorAll('.question-grid-container button')[index];
+                if (!button) return;
+                
+                button.classList.remove('answered', 'doubtful', 'unanswered');
+
+                switch (questionStatus[index]) {
+                    case 'answered': button.classList.add('answered'); break;
+                    case 'doubtful': button.classList.add('doubtful'); break;
+                    default: button.classList.add('unanswered'); break;
+                }
+                // Pastikan kelas 'current' selalu diatur pada tombol yang benar
+                document.querySelector('.grid-button.current')?.classList.remove('current');
+                const currentGridButton = document.querySelectorAll('.question-grid-container button')[currentQuestionIndex];
+                if (currentGridButton) {
+                    currentGridButton.classList.add('current');
+                }
+            }
+
+            function jumpToQuestion(index) {
+                displayQuestion(index);
+            }
+
+            function startTimer(duration) {
+                let timer = duration;
+                clearInterval(timerInterval);
+                timerInterval = setInterval(() => {
+                    let minutes = parseInt(timer / 60, 10);
+                    let seconds = parseInt(timer % 60, 10);
+
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                    timerEl.textContent = minutes + ":" + seconds;
+                    
+                    if (timer < 300) { // Kurang dari 5 menit
+                        timerEl.classList.add('low-time');
+                    } else {
+                        timerEl.classList.remove('low-time');
+                    }
+
+                    if (--timer < 0) {
+                        clearInterval(timerInterval);
+                        finishQuiz();
+                    }
+                }, 1000);
+            }
+            
+            function showConfirmation() {
+                confirmationModal.style.display = 'flex';
+            }
+
+            function finishQuiz() {
+                clearInterval(timerInterval);
+                confirmationModal.style.display = 'none';
+
+                // Hitung skor
+                let score = 0;
+                const subtestScores = {}; // Untuk melacak skor per subtest
+                questions.forEach(q => {
+                    if (!subtestScores[q.subtest]) {
+                        subtestScores[q.subtest] = { correct: 0, total: 0 };
+                    }
+                });
+
+                const correctQuestionNumbers = [];
+                const incorrectQuestionNumbers = [];
+
+                questions.forEach((q, index) => {
+                    subtestScores[q.subtest].total++;
+                    // Jawaban benar jika pilihan pengguna sama dengan jawaban yang benar
+                    // Dalam konteks TKP, jawaban "benar" adalah yang paling sesuai dengan kriteria, 
+                    // namun di sini kita asumsikan ada satu jawaban ideal.
+                    if (userAnswers[index] === q.answer) {
+                        score++;
+                        subtestScores[q.subtest].correct++;
+                        correctQuestionNumbers.push(index + 1);
+                    } else {
+                        incorrectQuestionNumbers.push(index + 1);
+                    }
+                });
+
+                // Tampilkan hasil
+                quizContainer.style.display = 'none';
+                resultPage.style.display = 'block';
+                headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
+                
+                // Ringkasan keseluruhan
+                const overallPercentage = ((score / questions.length) * 100).toFixed(1);
+                document.getElementById('final-score').textContent = `${overallPercentage}%`;
+                document.getElementById('score-details').textContent = `${score} dari ${questions.length} soal benar`;
+                
+                // Analisis per subtest
+                const subtestAnalysisContainer = document.getElementById('subtest-analysis-container');
+                subtestAnalysisContainer.innerHTML = '';
+                for (const key in subtestScores) {
+                    const subtest = subtestScores[key];
+                    const percentage = subtest.total > 0 ? ((subtest.correct / subtest.total) * 100).toFixed(1) : 0;
+                    subtestAnalysisContainer.innerHTML += `
+                        <div class="subtest-card">
+                            <h4>${key}</h4>
+                            <div class="subtest-score" style="color: ${percentage >= 50 ? 'var(--correct-text)' : 'var(--incorrect-text)'}">${percentage}%</div>
+                            <div>${subtest.correct}/${subtest.total} Benar</div>
+                        </div>`;
+                }
+                
+                // Daftar jawaban
+                document.getElementById('correct-list').innerHTML = correctQuestionNumbers.map(n => `<li class="correct">${n}</li>`).join('');
+                document.getElementById('incorrect-list').innerHTML = incorrectQuestionNumbers.map(n => `<li class="incorrect">${n}</li>`).join('');
+
+                // Bagian pembahasan untuk jawaban salah
+                const reviewSection = document.getElementById('review-section');
+                reviewSection.innerHTML = '';
+                if (incorrectQuestionNumbers.length > 0) {
+                    incorrectQuestionNumbers.forEach(num => {
+                        const index = num - 1;
+                        const q = questions[index];
+                        const userAnswerText = userAnswers[index] || 'Tidak Dijawab';
+                        reviewSection.innerHTML += `
+                            <div class="review-item">
+                                <p class="review-q-text"><strong>Soal ${num}:</strong> ${q.question}</p>
+                                <div class="review-answer user-answer">Jawaban Anda: ${userAnswerText}</div>
+                                <div class="review-answer correct-answer">Jawaban Benar: ${q.answer}</div>
+                                <div class="explanation"><strong>Pembahasan:</strong> ${q.explanation}</div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    reviewSection.innerHTML = '<p style="text-align:center; font-weight:500;">Luar biasa! Semua jawaban Anda benar.</p>';
+                }
+            }
+
+            // Event Listeners
+            loginBtn.addEventListener('click', handleLogin);
+            passwordInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
+            logoutBtn.addEventListener('click', handleLogout);
+            
+            prevBtn.addEventListener('click', () => currentQuestionIndex > 0 && displayQuestion(currentQuestionIndex - 1));
+            nextBtn.addEventListener('click', () => currentQuestionIndex < questions.length - 1 && displayQuestion(currentQuestionIndex + 1));
+            doubtfulBtn.addEventListener('click', () => {
+                questionStatus[currentQuestionIndex] = questionStatus[currentQuestionIndex] === 'doubtful' ? (userAnswers[currentQuestionIndex] ? 'answered' : 'unanswered') : 'doubtful';
+                updateGridButtonStatus(currentQuestionIndex);
+            });
+            finishBtn.addEventListener('click', showConfirmation);
+            confirmYesBtn.addEventListener('click', finishQuiz);
+            confirmNoBtn.addEventListener('click', () => confirmationModal.style.display = 'none');
+            restartBtn.addEventListener('click', startQuiz);
+
+            // Inisialisasi
+            showLoginPage();
+        });
+    </script>

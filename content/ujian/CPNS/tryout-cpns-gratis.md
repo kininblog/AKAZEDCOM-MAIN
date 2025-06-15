@@ -43,7 +43,7 @@ Halaman ini bukan hanya artikel, tapi ini adalah sesi latihan Anda. Di sini Anda
 
 Banyak pejuang CPNS yang gagal bukan karena tidak pintar, tetapi karena kurang persiapan dan tidak terbiasa dengan format ujian. Inilah mengapa **[simulasi CAT CPNS gratis](/ujian/cpns/tryout-cat-cpns-gratis/)** sangat krusial:
 
-1.  **Manajemen Waktu:** Anda akan belajar mengalokasikan waktu secara efektif untuk tiga materi SKD: Tes Wawasan Kebangsaan (TWK), Tes Intelegensia Umum (TIU), dan Tes Karakteristik Pribadi (TKP).
+1.  **Manajemen Waktu:** Anda akan belajar mengalokasikan waktu secara efektif untuk tiga materi SKD: Tes Wawasan Kebangsaan (TWK), Tes Intelegensia Umum (TIU), dan *[Tes Karakteristik Pribadi (TKP)](/ujian/cpns/try-out-tkp-gratis/)*.
 2.  **Familiarisasi Soal:** Terbiasa dengan tipe dan tingkat kesulitan soal akan mengurangi rasa gugup saat hari-H.
 3.  **Identifikasi Kelemahan:** Anda akan tahu di materi mana Anda masih lemah (misalnya di soal numerik TIU atau soal pengamalan Pancasila TWK) dan bisa fokus memperbaikinya.
 4.  **Simulasi Sistem CAT:** Latihan ini membantu Anda merasakan pengalaman ujian dengan sistem Computer Assisted Test (CAT) yang serba cepat.
