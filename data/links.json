@@ -1,9 +1,104 @@
 [
-    {
-        "title": "山茶花舍",
-        "website": "https://irithys.com/",
-        "image": "irithys.png",
-        "description": "吕楪在记录自己的生活."
-    }
-    
+  {
+    "title": "Akazed.com - Edu & Tech",
+    "website": "https://akazed.com/",
+    "image": "akazed.png",
+    "description": "Panduan blogger, SEO, teknologi, game, internet, dan berita pendidikan dan try out."
+  },
+  {
+    "title": "Pediaku ID - Bloging & Tech Info",
+    "website": "https://pediaku.id/",
+    "image": "pediaku.png",
+    "description": "Pediaku adalah blog personal yang membahas hal-hal menarik seputar blogger, tutorial jekyll, teknologi dan tips bermain game."
+  },
+  {
+    "title": "Rekomendasi Niche Blog untuk Blogger Pemula",
+    "website": "https://medium.com/@bloggerpemula/rekomendasi-niche-blog-untuk-blogger-pemula-e4bebc379b31",
+    "image": "profil.png",
+    "description": "Artikel ini membahas cara memilih niche blog, khususnya untuk blogger pemula. Ini menekankan pentingnya memilih topik tertentu untuk difokuskan guna menarik audiens yang loyal dan meningkatkan peluang keberhasilan."
+  },
+  {
+    "title": "andresuryade Profile",
+    "website": "https://www.colegiodelabici.edu.co/profile/andresuryade57751/profile",
+    "image": "profil.png",
+    "description": "Profil ini membahas situs pendidikan populer di Indonesia dengan tryout online gratis untuk PPG, CPNS, LPDP, dan BUMN, serta tutorial blogger, teknologi, berita, dan tips game."
+  },
+  {
+    "title": "andresuryade Profile",
+    "website": "https://www.ictae.edu.mx/profile/andresuryade94649/profile",
+    "image": "profil.png",
+    "description": "Profil ini antusias membahas ulasan dan inovasi gadget terbaru, termasuk smartphone, perangkat wearable, integrasi AI, laptop, smartwatch, desain, dan daya tahan baterai."
+  },
+  {
+    "title": "tryoutgratis Profile",
+    "website": "https://www.lanubedocente.21.edu.ar/profile/tryoutgratis71732/profile",
+    "image": "profil.png",
+    "description": "Platform ini menyediakan tryout SKD gratis dengan fitur interaktif, hasil instan, dan penjelasan untuk membantu pengguna berhasil."
+  },
+  {
+    "title": "tryoutgratis Profile",
+    "website": "https://www.nhat.thanhdong.edu.vn/profile/tryoutgratis7155/profile",
+    "image": "profil.png",
+    "description": "Platform ini menyediakan tryout gratis untuk berbagai bidang dan seleksi, termasuk ujian masuk perguruan tinggi, CPNS, dan olimpiade, dengan soal berkualitas tinggi, simulasi interaktif, dan pembahasan komprehensif."
+  },
+  {
+    "title": "tryoutgratis Profile",
+    "website": "https://www.cimurc.ba.gov.br/profile/tryoutgratis64364/profile",
+    "image": "profil.png",
+    "description": "Platform ini menyediakan berbagai tryout gratis yang dirancang untuk membantu Anda mencapai hasil terbaik dalam setiap ujian atau kompetisi, dengan antarmuka yang ramah pengguna dan materi yang terus diperbarui."
+  },
+  {
+    "title": "tryoutgratis Profile",
+    "website": "https://www.centrotecnologico.edu.mx/profile/tryoutgratis61127/profile",
+    "image": "profil.png",
+    "description": "Memahami Pendidikan Profesi Guru (PPG) adalah langkah awal untuk meraih karir pendidikan yang profesional dan berkualitas, membekali calon guru dengan kompetensi pedagogik, profesional, sosial, dan kepribadian."
+  },
+  {
+    "title": "tryoutgratis Profile",
+    "website": "https://www.woorips.vic.edu.au/profile/tryoutgratis56413/profile",
+    "image": "profil.png",
+    "description": "Platform ini menyediakan try out SKD CPNS gratis dan berkualitas tinggi, dirancang berdasarkan kisi-kisi terbaru CAT BKN, dilengkapi dengan pembahasan mendalam dan simulasi ujian yang akurat."
+  },
+  {
+    "title": "tryoutgratis Profile",
+    "website": "https://www.colegioenlinea.edu.co/profile/tryoutgratis85817/profile",
+    "image": "profil.png",
+    "description": "Platform ini menyediakan try out TKP yang dirancang khusus untuk mengasah kemampuan Anda dalam memahami nilai-nilai integritas, profesionalisme, pelayanan publik, sosial budaya, dan teknologi informasi."
+  },
+  {
+    "title": "tryoutgratis Profile",
+    "website": "https://www.greenland.edu.hk/profile/tryoutgratis24653/profile",
+    "image": "profil.png",
+    "description": "Platform ini menyediakan try out TKP komprehensif yang tidak hanya berisi soal-soal latihan, tetapi juga strategi jitu untuk mengidentifikasi pilihan jawaban dengan nilai tertinggi, dilengkapi pembahasan detail."
+  },
+  {
+    "title": "tryoutgratis Profile",
+    "website": "https://www.stories.qct.edu.au/profile/tryoutgratis74114/profile",
+    "image": "profil.png",
+    "description": "Platform ini menyediakan try out SKD CPNS gratis dan berkualitas tinggi, dirancang sesuai kisi-kisi terbaru dan sistem CAT BKN terkini, dengan akses eksklusif ke ribuan soal TWK, TIU, dan TKP."
+  },
+  {
+    "title": "tryoutgratis Profile",
+    "website": "https://www.orkhonschool.edu.mn/profile/tryoutgratis93737/profile",
+    "image": "profil.png",
+    "description": "Akazed Tryout menawarkan solusi tryout komprehensif dengan pertanyaan yang dirancang oleh tim ahli, analisis kinerja pribadi, grafik kemajuan belajar, dan diskusi video, disesuaikan dengan berbagai jenis tes."
+  },
+  {
+    "title": "tryoutgratis Profile",
+    "website": "https://www.medicineazhar.edu.eg/profile/tryoutgratis77859/profile",
+    "image": "profil.png",
+    "description": "Sumber terpercaya yang berkomitmen untuk menyajikan pembaruan lengkap mengenai Pendidikan Profesi Guru (PPG) Prajabatan maupun Dalam Jabatan, termasuk jadwal PPG 2025."
+  },
+  {
+    "title": "Try out gratis Profile",
+    "website": "https://www.ceacuautla.edu.mx/profile/tryoutgratis62307/profile",
+    "image": "profil.png",
+    "description": "Tes Intelegensi Umum (TIU) adalah salah satu komponen krusial dalam seleksi SKD CPNS dan seleksi lainnya, yang menguji kemampuan verbal, numerik, dan figural Anda."
+  },
+  {
+    "title": "tryoutgratis Profile",
+    "website": "https://www.agastyaacademy.edu.in/profile/tryoutgratis54376/profile",
+    "image": "profil.png",
+    "description": "Tryoutgratis mencari sumber terpercaya untuk persiapan karir dan pendidikan, menemukan Akazed sebagai tujuan utama informasi blogger, SEO, teknologi, dan pendidikan, khususnya simulasi online efektif untuk seleksi akademik PPG."
+  }
 ]

@@ -16,6 +16,6 @@ menu:
             icon: user-group-solid
 
 ---
-## 朋友页面
+## Daftar Teman dan Koneksi Akazed.com
 
-这里展示的是我的好朋友们！
+Yuk jadi teman kami.
