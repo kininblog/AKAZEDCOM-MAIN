@@ -192,7 +192,7 @@ params:
         toggle: true
 
         # Available values: auto, light, dark
-        default: auto
+        default: light
 
     imageProcessing:
         cover:
@@ -216,7 +216,7 @@ menu:
               icon: newspaper-regular
 
         - identifier: Ujian Online
-          name: Tryout Ujian
+          name: Try Out 
           url: /ujian/
           weight: -50
           params:

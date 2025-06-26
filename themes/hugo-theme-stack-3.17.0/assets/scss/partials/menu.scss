@@ -1,11 +1,6 @@
-/*!
- * Hamburgers
- * @description Tasty CSS-animated hamburgers
- * @author Jonathan Suh @jonsuh
- * @site https://jonsuh.com/hamburgers
- * @link https://github.com/jonsuh/hamburgers
- */
-
+/* --- */
+/* Perbaikan untuk Hamburger Menu Button */
+/* --- */
 .hamburger {
     padding-top: 10px;
     display: inline-block;
@@ -20,6 +15,13 @@
     border: 0;
     margin: 0;
     overflow: visible;
+    /* Tambahan untuk positioning di sidebar jika hamburger ada di dalam flex container sidebar */
+    position: relative; /* Atau absolute jika ingin di pojok atas sidebar secara independen */
+    /* Pastikan z-index cukup tinggi jika ada elemen lain yang menumpuk */
+    z-index: 2;
+    /* Jika ingin posisi statis di dalam aliran flexbox sidebar: */
+    /* align-self: flex-start; */ /* Untuk menempatkannya di awal baris flex container */
+    /* margin-bottom: var(--sidebar-element-separation); */ /* Memberi jarak ke elemen di bawahnya */
 }
 .hamburger:hover {
     opacity: 0.7;
@@ -30,7 +32,7 @@
 .hamburger.is-active .hamburger-inner,
 .hamburger.is-active .hamburger-inner::before,
 .hamburger.is-active .hamburger-inner::after {
-    background-color: #000;
+    background-color: #000; /* Atau var(--accent-color) untuk konsistensi */
 }
 
 .hamburger-box {
@@ -100,11 +102,14 @@
 #toggle-menu {
     background: none;
     border: none;
-    position: absolute;
-    right: 0;
-    top: 0;
+    /* Posisi absolute ini mungkin penyebab hamburger di luar alur normal */
+    /* right: 0;
+    top: 0; */
+    /* Coba hilangkan atau sesuaikan jika Anda ingin hamburger mengikuti alur flexbox */
+    
     z-index: 2;
     cursor: pointer;
+    outline: none; /* Lebih baik menggunakan outline: 2px solid var(--accent-color) untuk aksesibilitas */
 
     [dir="rtl"] & {
         left: 0;
@@ -112,10 +117,8 @@
     }
 
     @include respond(md) {
-        display: none;
+        display: none; /* Sembunyikan di desktop */
     }
-
-    outline: none;
 
     &.is-active {
         .hamburger-inner,
@@ -126,7 +129,9 @@
     }
 }
 
-/* Menu style */
+/* --- */
+/* Perbaikan untuk Menu Style (main menu) */
+/* --- */
 .menu {
     padding-left: 0;
     list-style: none;
@@ -135,31 +140,31 @@
     flex-grow: 1;
     font-size: 1.4rem;
     background-color: var(--card-background);
-
     box-shadow: var(--shadow-l1);
-    display: none;
-    margin: 0 calc(var(--container-padding) * -1);
+    display: none; /* Ini akan diubah jadi 'flex' oleh .show class saat aktif */
+    margin: 0 calc(var(--container-padding) * -1); /* Menyesuaikan margin */
+    padding: 30px 30px; /* Padding menu secara keseluruhan */
 
-    padding: 30px 30px;
     @include respond(xl) {
-        padding: 15px 0;
+        padding: 15px 0; /* Padding di layar lebih besar */
     }
 
+    /* Penyesuaian gap untuk menu dan menu-bottom-section */
     &,
     .menu-bottom-section {
-        gap: 30px;
+        gap: 20px; /* Saya ubah sedikit agar lebih konsisten dan rapi, sesuaikan jika perlu */
         @include respond(xl) {
-            gap: 25px;
+            gap: 15px; /* Atau 20px, sesuaikan preferensi Anda */
         }
     }
 
     &.show {
-        display: flex;
+        display: flex; /* Ketika menu aktif */
     }
 
     @include respond(md) {
-        align-items: flex-end;
-        display: flex;
+        align-items: flex-start; /* Untuk mensejajarkan menu ke kiri di desktop */
+        display: flex; /* Selalu tampil di desktop */
         background-color: transparent;
         padding: 0;
         box-shadow: none;
@@ -168,36 +173,54 @@
 
     li {
         position: relative;
-        vertical-align: middle;
+        /* Hapus vertical-align: middle; karena kita pakai flexbox pada 'a' */
         padding: 0;
+        margin: 0; /* Pastikan tidak ada margin default dari li */
 
         @include respond(md) {
             width: 100%;
         }
 
+        /* Styling SVG ikon di dalam item menu */
         svg {
             stroke-width: 1.33;
-
             width: 20px;
             height: 20px;
+            flex-shrink: 0; /* Pastikan ikon tidak menyusut */
+            /* Pastikan warna stroke sesuai tema */
+            stroke: var(--body-text-color); 
         }
 
         a {
             height: 100%;
-            display: inline-flex;
-            align-items: center;
+            display: flex;          /* Ubah dari inline-flex menjadi flex */
+            align-items: center; 
+            text-align: left;   /* Kunci untuk penjajaran vertikal ikon dan teks */
             color: var(--body-text-color);
-            gap: var(--menu-icon-separation);
+            gap: var(--menu-icon-separation, 10px); /* Tambahkan fallback 10px jika variabel belum didefinisikan */
+            padding: 8px 0; /* Tambahkan padding vertikal untuk area klik item menu */
+            width: 100%; /* Pastikan link mengisi lebar penuh li */
+            text-decoration: none; /* Hilangkan underline default */
+            transition: color 0.2s ease, background-color 0.2s ease; /* Efek transisi halus */
+            
+            &:hover {
+                color: var(--accent-color); /* Warna teks saat hover */
+                background-color: var(--card-hover-background, rgba(0,0,0,0.05)); /* Warna latar belakang saat hover, dengan fallback */
+            }
         }
 
         span {
-            flex: 1;
+            flex: 1; /* Memberikan ruang yang fleksibel untuk teks */
+            white-space: nowrap; /* Mencegah teks wrapping */
+            overflow: hidden; /* Sembunyikan overflow */
+            text-overflow: ellipsis; /* Tambahkan elipsis jika teks terpotong */
         }
 
         &.current {
             a {
                 color: var(--accent-color);
                 font-weight: bold;
+                background-color: var(--card-background-active, rgba(0,0,0,0.08)); /* Latar belakang untuk item aktif */
             }
         }
     }
@@ -210,18 +233,55 @@
     }
 }
 
+/* --- */
+/* Perbaikan untuk Social Menu */
+/* --- */
 .social-menu {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 15px; /* Sesuaikan jarak antar ikon sosial */
+    justify-content: center; /* Rata tengah ikon sosial jika diinginkan */
+
+    li {
+        margin: 0; /* Pastikan tidak ada margin tambahan pada li */
+    }
+
+    a {
+        display: flex; /* Gunakan flexbox */
+        align-items: center; /* Rata tengah ikon vertikal */
+        justify-content: center; /* Rata tengah ikon horizontal jika a adalah kotaknya */
+        text-decoration: none;
+        color: var(--body-text-color); /* Warna default ikon sosial */
+        transition: color 0.2s ease; /* Transisi saat hover */
+
+        &:hover {
+            color: var(--accent-color); /* Warna ikon saat hover */
+        }
+    }
 
     svg {
         width: 24px;
         height: 24px;
-        stroke: var(--body-text-color);
+        stroke: currentColor; /* Gunakan currentColor agar warna ikon mengikuti warna teks 'a' */
         stroke-width: 1.33;
     }
+}
+
+/* --- */
+/* Definisi Variabel yang Direkomendasikan (Tambahkan jika belum ada di file _variables.scss atau sejenisnya) */
+/* --- */
+:root {
+    --menu-icon-separation: 10px; /* Jarak antara ikon dan teks menu */
+    --card-hover-background: rgba(0,0,0,0.05); /* Latar belakang item menu saat hover */
+    --card-background-active: rgba(0,0,0,0.08); /* Latar belakang item menu yang aktif */
+    /* Pastikan juga variabel warna dasar seperti --accent-color, --body-text-color, --card-background, --card-text-color-main sudah terdefinisi */
+}
+
+/* Untuk mode gelap */
+[data-scheme="dark"] {
+    --card-hover-background: rgba(255,255,255,0.05);
+    --card-background-active: rgba(255,255,255,0.08);
 }

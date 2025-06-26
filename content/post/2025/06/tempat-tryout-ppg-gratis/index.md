@@ -52,6 +52,8 @@ Bingung cara ikut tryout ppg gratis di Akazed? Berikut panduannya
 3. Masukkan Username (Gunakan nama sendiri) dan password akses ujiannya `ujiandiakazed.com` 
 4. Lalu ikuti tryout
 
+>lebih lengkapnya kamu juga bisa baca panduan try out gratis ***[di sini](/ujian/cara-ikut-tryout-online-gratis/)***
+
 ### Fitur Tryout PPG
 ![dasboard ujian ppg gratis](images/dashboard.webp)
 
@@ -68,10 +70,3 @@ Di atas bentuk halaman ujian dan tryout latihan soal ppg dan CPNS gratis di akaz
 Akazed bercita-cita menjadi platform ujian dan tryout berbasis online yang benar-benar gratis yang dapat dinikmati dan diakses oleh seluh orang tanpa harus membayar. 
 
 Saya yakin, kamu sering punya niat untuk ikut belajar materi ppg dan ikut tryout, tapi  harus diurungkan karena melihat harga tryout yang lumayan. Jadi, bisa saya katakan ***[akazed ujian](/ujian/)*** akan menjadi situs tryout gratis terbaik untuk semua orang.
-
-
-
-
-
-
-

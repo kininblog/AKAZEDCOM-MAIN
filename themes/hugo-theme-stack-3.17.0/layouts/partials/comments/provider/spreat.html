@@ -1,0 +1,91 @@
+<!-- ======================================================== -->
+<!-- KODE BARU UNTUK FORM.HTML (DENGAN TEXT EDITOR PELL.JS)   -->
+<!-- ======================================================== -->
+
+<!-- Memuat CSS untuk editor Pell -->
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/pell/dist/pell.min.css">
+
+<div class="disqus-comment-form-container" id="comment-form-wrapper">
+  <div class="comment-form-header">
+    <div class="comment-avatar" data-initial="T"></div>
+    <form id="comment-form" class="comment-form-main">
+      
+      <!-- INI ADALAH EDITOR KITA. Pell akan mengubah div ini. -->
+      <div id="pell-editor" class="pell"></div>
+
+      <!-- Textarea tersembunyi untuk menyimpan output HTML dari editor -->
+      <textarea id="comment-output" name="Komentar" style="display: none;"></textarea>
+      
+      <!-- Input tersembunyi yang sudah ada sebelumnya -->
+      <input type="hidden" name="parent_id" id="parent-id-input">
+      <input type="hidden" name="post_slug" value="{{ .RelPermalink }}">
+
+      <div class="comment-form-meta">
+        <div class="meta-fields">
+          <input type="text" id="comment-name" name="name" placeholder="Nama (wajib)" required>
+          <input type="email" id="comment-email" name="email" placeholder="Email (wajib, tidak dipublikasikan)">
+        </div>
+        <div class="meta-submit">
+          <div id="form-response"></div>
+          <button type="button" id="cancel-reply-button" style="display: none;">Batal</button>
+          <button type="submit" id="submit-button">Kirim</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Memuat JavaScript untuk editor Pell -->
+<script src="https://unpkg.com/pell"></script>
+
+<script>
+  // Menunggu semua elemen halaman dimuat sebelum menjalankan skrip editor
+  document.addEventListener('DOMContentLoaded', function() {
+    const editorElement = document.getElementById('pell-editor');
+    const commentOutput = document.getElementById('comment-output');
+
+    // Pastikan elemen editor ada sebelum inisialisasi
+    if (editorElement && commentOutput) {
+      // Inisialisasi editor Pell
+      const editor = pell.init({
+        element: editorElement,
+        
+        // Setiap kali ada perubahan di editor, update textarea tersembunyi kita
+        onChange: html => {
+          commentOutput.value = html;
+        },
+        
+        // Menentukan tombol apa saja yang akan ditampilkan di toolbar
+        actions: [
+          'bold',
+          'italic',
+          'strikethrough',
+          'link',
+          'image'
+        ],
+
+        // Memberi nama kelas agar sesuai dengan CSS kita nanti
+        classes: {
+          actionbar: 'pell-actionbar',
+          button: 'pell-button',
+          content: 'pell-content',
+          selected: 'pell-button-selected'
+        }
+      });
+      
+      // Mengatur placeholder awal untuk editor
+      const pellContent = editor.content;
+      pellContent.innerHTML = 'Ikut dalam diskusi...';
+      pellContent.addEventListener('focus', function() {
+        if (pellContent.innerHTML === 'Ikut dalam diskusi...') {
+          pellContent.innerHTML = '';
+        }
+      });
+      pellContent.addEventListener('blur', function() {
+        if (pellContent.innerHTML.trim() === '') {
+          pellContent.innerHTML = 'Ikut dalam diskusi...';
+        }
+      });
+    }
+  });
+</script>

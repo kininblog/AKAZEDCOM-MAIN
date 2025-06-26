@@ -1,0 +1,407 @@
+<!-- ======================================================== -->
+<!-- KODE BARU UNTUK DISPLAY.HTML (DENGAN DOMPURIFY)          -->
+<!-- ======================================================== -->
+
+<div class="disqus-comments-section">
+  <div class="comments-header-bar">
+    <span id="comment-count">Memuat komentar...</span>
+  </div>
+  <div id="comments-list">
+    <!-- Komentar akan dimuat di sini -->
+  </div>
+</div>
+
+<!-- Memuat library DOMPurify untuk keamanan -->
+<script src="https://unpkg.com/dompurify@latest/dist/purify.min.js"></script>
+
+<!-- Kode script utama kita -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzL-uPitleZdzRFJSDquWNhAhI3537pWVtiaqtnv7Rdrwvr9vctqe8RTucOjKd3eRe4BQ/exec';
+  const postSlug = '{{ .RelPermalink }}';
+
+  const commentsList = document.getElementById('comments-list');
+  const commentCount = document.getElementById('comment-count');
+  // ... (semua referensi elemen lain tetap sama seperti sebelumnya) ...
+  const commentFormWrapper = document.getElementById('comment-form-wrapper');
+  const commentForm = document.getElementById('comment-form');
+  const parentIdInput = document.getElementById('parent-id-input');
+  const cancelReplyButton = document.getElementById('cancel-reply-button');
+  const formResponse = document.getElementById('form-response');
+  const submitButton = document.getElementById('submit-button');
+  const nameInput = document.getElementById('comment-name');
+  const emailInput = document.getElementById('comment-email');
+  const commentOutput = document.getElementById('comment-output'); // Kita butuh referensi ini
+  const mainFormContainer = commentFormWrapper.parentElement;
+
+  /**
+   * Fungsi render komentar. Perubahan utama ada di sini.
+   */
+  function renderComments(comments, container) {
+    comments.forEach(comment => {
+      const initial = (comment.name || 'A').charAt(0).toUpperCase();
+      const commentWrapper = document.createElement('div');
+      commentWrapper.className = 'comment-thread';
+      const commentDate = new Date(comment.timestamp).toLocaleString('id-ID', {day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'});
+      
+      // --- PERUBAHAN KRUSIAL UNTUK KEAMANAN ---
+      // Kita tidak lagi menggunakan escapeHTML. Kita gunakan DOMPurify.sanitize
+      // Ini akan mengizinkan tag aman (<b>, <i>, <a>, <img>) tapi menghapus tag berbahaya (<script>, onclick, dll)
+      const sanitizedCommentHTML = DOMPurify.sanitize(comment.Komentar || '', {
+        // Izinkan link dan gambar, tapi pastikan mereka aman
+        ADD_TAGS: ['a', 'img'],
+        ADD_ATTR: ['href', 'target', 'src', 'alt']
+      });
+
+      commentWrapper.innerHTML = `
+        <div class="comment-item" id="comment-${comment.id}">
+          <div class="comment-avatar" data-initial="${initial}"></div>
+          <div class="comment-content">
+            <div class="comment-header">
+              <strong class="comment-author">${DOMPurify.sanitize(comment.name || '')}</strong>
+              <small class="comment-timestamp">${commentDate}</small>
+            </div>
+            <div class="comment-body">${sanitizedCommentHTML}</div>
+            <div class="comment-actions">
+              <button class="action-reply" data-comment-id="${comment.id}">Balas</button>
+            </div>
+          </div>
+        </div>
+        <div class="comment-replies"></div>
+      `;
+      container.appendChild(commentWrapper);
+
+      if (comment.children && comment.children.length > 0) {
+        const repliesContainer = commentWrapper.querySelector('.comment-replies');
+        renderComments(comment.children, repliesContainer);
+      }
+    });
+  }
+  
+  // Fungsi loadComments dan semua event listener lainnya tetap sama persis
+  // seperti versi fungsional terakhir Anda.
+  // ... (salin dan tempel sisa kode script dari versi Anda yang sudah berfungsi) ...
+  // Untuk kepastian, saya akan sertakan kode lengkapnya di bawah.
+
+  function loadComments() { fetch(`${WEB_APP_URL}?slug=${postSlug}`).then(r => r.json()).then(data => { if (data.result === 'error') throw new Error(data.message); let total = 0; function count(c) { total += c.length; c.forEach(r => count(r.children)); } count(data); commentCount.textContent = `${total} Komentar`; commentsList.innerHTML = ''; renderComments(data, commentsList); }).catch(e => console.error(e)); }
+  commentsList.addEventListener('click', function(e) { if(e.target.classList.contains('action-reply')) { const id = e.target.dataset.commentId; const item = document.getElementById(`comment-${id}`); parentIdInput.value = id; item.parentElement.querySelector('.comment-replies').prepend(commentFormWrapper); cancelReplyButton.style.display = 'inline-block'; document.querySelector('#pell-editor .pell-content').focus(); } });
+  cancelReplyButton.addEventListener('click', function() { parentIdInput.value = ''; mainFormContainer.prepend(commentFormWrapper); cancelReplyButton.style.display = 'none'; });
+  commentForm.addEventListener('submit', function(e) { e.preventDefault(); submitButton.disabled = true; submitButton.innerHTML = 'Mengirim...'; formResponse.textContent = ''; const fd = new FormData(); fd.append('name', nameInput.value); fd.append('email', emailInput.value); fd.append('Komentar', commentOutput.value); fd.append('post_slug', postSlug); fd.append('parent_id', parentIdInput.value); fetch(WEB_APP_URL, { method: 'POST', body: fd }).then(r => r.json()).then(data => { if(data.result === 'success') { formResponse.style.color = '#27ae60'; formResponse.textContent = 'Komentar terkirim!'; commentForm.reset(); parentIdInput.value = ''; mainFormContainer.prepend(commentFormWrapper); cancelReplyButton.style.display = 'none'; setTimeout(loadComments, 2000); } else { throw new Error(data.message); } }).catch(e => { formResponse.style.color = '#c0392b'; formResponse.textContent = 'Gagal mengirim.'; console.error(e); }).finally(() => { submitButton.disabled = false; submitButton.innerHTML = 'Kirim'; }); });
+  
+  loadComments();
+
+});
+</script>
+
+<style>
+/* ================================================================== */
+/* CSS FINAL SISTEM KOMENTAR (GAYA DISQUS + EDITOR + RESPONSIVE)      */
+/* ================================================================== */
+
+/* --- 1. Variabel dan Pengaturan Dasar --- */
+:root {
+  --disqus-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --disqus-code-font: 'Courier New', Courier, monospace;
+  --disqus-text-primary: #2a2e2e;
+  --disqus-text-secondary: #65778b;
+  --disqus-accent-blue: #2e9fff;
+  --disqus-border-color: #e1e8ed;
+  --disqus-background-light: #f5f8fa;
+  --disqus-background-quote: #f9f9f9;
+  --disqus-background-code: #f4f4f4;
+}
+
+/* Mengatur box-sizing agar padding dan border tidak menambah ukuran elemen */
+.disqus-comments-section *, .disqus-comments-section *::before, .disqus-comments-section *::after {
+  box-sizing: border-box;
+}
+
+/* --- 2. Kontainer Utama --- */
+.disqus-comments-section {
+  font-family: var(--disqus-font);
+  margin-top: 40px;
+  color: var(--disqus-text-primary);
+}
+
+/* --- 3. Header Komentar --- */
+.comments-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--disqus-border-color);
+  margin-bottom: 20px;
+  flex-wrap: wrap; /* Agar tidak rusak di layar kecil */
+  gap: 10px;
+}
+
+#comment-count {
+  font-weight: bold;
+}
+
+.sort-options span {
+  font-size: 0.9em;
+  color: var(--disqus-text-secondary);
+}
+
+/* --- 4. Daftar Komentar --- */
+.comment-item {
+  display: flex;
+  gap: 15px;
+  padding: 20px 0;
+  border-top: 1px solid var(--disqus-border-color);
+}
+
+#comments-list > .comment-thread:first-child > .comment-item {
+  border-top: none;
+}
+
+.comment-content {
+  width: 100%;
+  overflow-wrap: break-word; /* Memastikan teks panjang tidak merusak layout */
+}
+
+/* --- 5. Avatar Pengguna --- */
+.comment-avatar {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 4px;
+  background-color: #65778b;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.4em;
+  overflow: hidden;
+}
+.comment-avatar::before {
+  content: attr(data-initial);
+}
+
+/* --- 6. Konten Komentar (Header, Body, Actions) --- */
+.comment-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.comment-author {
+  font-weight: bold;
+  font-size: 1em;
+  text-decoration: none;
+  color: var(--disqus-text-primary);
+}
+.comment-author:hover {
+  text-decoration: underline;
+}
+.comment-timestamp {
+  font-size: 0.85em;
+  color: var(--disqus-text-secondary);
+}
+.comment-body {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+.comment-actions {
+  margin-top: 10px;
+}
+.comment-actions button {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 0.9em;
+  font-weight: bold;
+  color: var(--disqus-text-secondary);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.comment-actions button:hover {
+  color: var(--disqus-text-primary);
+}
+
+/* --- 7. Balasan & Indentasi --- */
+.comment-replies {
+  padding-left: 63px; /* Jarak indentasi = lebar avatar + gap */
+  border-left: 2px solid var(--disqus-border-color);
+  margin-left: 24px;
+  margin-top: 15px;
+}
+
+/* --- 8. Styling untuk Konten yang Diformat --- */
+.comment-body blockquote {
+  border-left: 3px solid #ccc;
+  margin: 1.5em 0;
+  padding: 0.5em 15px;
+  color: #666;
+  background-color: var(--disqus-background-quote);
+}
+.comment-body pre {
+  background-color: var(--disqus-background-code);
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1em;
+  overflow-x: auto;
+  font-family: var(--disqus-code-font);
+  font-size: 0.9em;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.comment-body pre code { background: none; padding: 0; }
+.comment-body u { text-decoration: underline; }
+.comment-body img { max-width: 100%; height: auto; border-radius: 4px; }
+
+
+/* --- 9. Form Komentar & Editor Teks (Pell) --- */
+.disqus-comment-form-container {
+  padding: 15px 0;
+}
+.comment-form-header {
+  display: flex;
+  gap: 15px;
+}
+.comment-form-main {
+  width: 100%;
+}
+.pell-actionbar {
+  background-color: var(--disqus-background-light);
+  border: 1px solid var(--disqus-border-color);
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap; /* Agar toolbar responsif */
+}
+.pell-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px 8px;
+  color: var(--disqus-text-secondary);
+  border-radius: 3px;
+}
+.pell-button:hover { background-color: #e1e8ed; }
+.pell-button-selected { background-color: #d1d8dd; color: var(--disqus-text-primary); }
+.pell-content {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px;
+  font-size: 1em;
+  line-height: 1.5;
+  border: 1px solid var(--disqus-border-color);
+  border-radius: 0 0 4px 4px;
+  background: white;
+  outline: none;
+}
+.pell-content:focus {
+  border-color: var(--disqus-accent-blue);
+  box-shadow: 0 0 0 1px var(--disqus-accent-blue);
+}
+.comment-form-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.meta-fields {
+  display: flex;
+  gap: 10px;
+  flex-grow: 1;
+  flex-wrap: wrap;
+}
+.meta-fields input {
+  flex: 1 1 180px; /* Lebar dasar input, bisa membesar dan mengecil */
+  padding: 8px 10px;
+  border: 1px solid var(--disqus-border-color);
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+.meta-fields input:focus {
+  outline: none;
+  border-color: var(--disqus-accent-blue);
+}
+.meta-submit {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+#form-response {
+  font-size: 0.9em;
+  font-weight: bold;
+}
+#submit-button, #cancel-reply-button {
+  background-color: var(--disqus-accent-blue);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+#submit-button:hover { background-color: #1a8ae6; }
+#submit-button:disabled { background-color: #a0b4c3; cursor: not-allowed; }
+#cancel-reply-button { background-color: var(--disqus-text-secondary); }
+#cancel-reply-button:hover { background-color: #555; }
+
+
+/* ================================================================== */
+/* --- 10. DESAIN RESPONSIVE (MEDIA QUERIES) ---                      */
+/* ================================================================== */
+
+/* --- Untuk Layar Kecil (Ponsel, di bawah 600px) --- */
+@media (max-width: 600px) {
+  /* Perkecil avatar untuk menghemat ruang */
+  .comment-avatar {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    font-size: 1.2em;
+  }
+
+  /* Susun nama dan waktu secara vertikal */
+  .comment-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+  .comment-timestamp {
+    margin-left: 0;
+  }
+
+  /* Kurangi indentasi balasan */
+  .comment-replies {
+    padding-left: 20px;
+    margin-left: 10px;
+  }
+
+  /* Buat input nama & email memenuhi lebar layar */
+  .meta-fields {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  /* PERBAIKAN: Atur ulang flex property agar tinggi input normal */
+  .meta-fields input {
+    flex: none;
+  }
+
+  /* Posisikan tombol Kirim di bawah, memenuhi lebar */
+  .meta-submit {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  #submit-button, #cancel-reply-button {
+    flex-grow: 1;
+    text-align: center;
+  }
+}
+
+</style>
