@@ -1,5 +1,5 @@
 ---
-title: Peringkat Peserta Try Out TIUS
+title: Peringkat Peserta Try Out TIU
 description: Ingin tahu posisimu di antara para pesaing? Cek peringkat hasil try out TIU dan evaluasi kemampuanmu. Persiapkan diri untuk sukses dalam tes sesungguhnya bersama Akazed.
 date: 2025-06-24T15:31:20+07:00
 lastmod: 2025-06-24T15:31:20+07:00
