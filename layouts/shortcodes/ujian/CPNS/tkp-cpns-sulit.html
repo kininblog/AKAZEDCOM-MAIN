@@ -1,492 +1,5 @@
-    <style>
-        /* Variabel CSS untuk tema */
-        :root {
-            --primary-bg: #f0f2f5;
-            --panel-bg: #ffffff;
-            --header-bg: #0d47a1; /* Biru Tua */
-            --header-text: #ffffff;
-            --text-color: #333333;
-            --border-color: #dee2e6;
-            --primary-action-bg: #1976d2; /* Biru */
-            --primary-action-hover: #1565c0;
-            --answered-bg: #4caf50; /* Hijau */
-            --correct-bg: #e8f5e9;
-            --correct-text: #2e7d32;
-            --incorrect-bg: #ffebee;
-            --incorrect-text: #c62828;
-            --doubtful-bg: #ffc107; /* Kuning */
-            --current-bg: #ff9800; /* Oranye */
-            --unanswered-bg: #ffffff;
-            --timer-alert: #d32f2f; /* Merah */
-        }
-        /* --- Halaman Login --- */
-        #login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-grow: 1;
-            padding: 20px;
-        }
-        .login-box {
-            background-color: var(--panel-bg);
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-        .login-box h2 {
-            margin-top: 0;
-            margin-bottom: 25px;
-            color: var(--header-bg);
-        }
-        .input-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--text-color);
-        }
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            font-size: 1em;
-            box-sizing: border-box;
-        }
-        #login-btn {
-            width: 100%;
-            padding: 12px;
-            background-color: var(--primary-action-bg);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.1em;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        #login-btn:hover {
-            background-color: var(--primary-action-hover);
-        }
-        #login-error {
-            color: var(--timer-alert);
-            margin-top: 15px;
-            font-weight: 500;
-            display: none;
-        }
 
-        /* Header */
-        .header {
-            background-color: var(--header-bg);
-            color: var(--header-text);
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .header h2 {
-            font-size: 1.2em;
-            margin: 0;
-        }
-        .user-info {
-            font-size: 0.9em;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        #logout-btn {
-            background: none;
-            border: 1px solid var(--header-text);
-            color: var(--header-text);
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        #logout-btn:hover {
-            background-color: rgba(255,255,255,0.1);
-        }
-
-
-        /* Main Container */
-        .quiz-container {
-            display: flex;
-            flex: 1;
-            padding: 15px;
-            gap: 15px;
-            overflow: hidden;
-            height: calc(100vh - 58px); /* Tinggi disesuaikan dengan header */
-        }
-
-        /* Question Panel (Left) */
-        .question-panel {
-            flex: 3;
-            background-color: var(--panel-bg);
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        .question-header {
-            padding: 15px;
-            border-bottom: 1px solid var(--border-color);
-            background-color: #f8f9fa;
-        }
-        .question-header #subtest-title {
-            font-weight: 700;
-            color: var(--header-bg);
-        }
-        .question-body {
-            padding: 20px;
-            flex: 1;
-            overflow-y: auto;
-            line-height: 1.6;
-        }
-        .question-text {
-            margin-bottom: 20px;
-            font-size: 1.1em;
-        }
-        .options-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .options-list li {
-            margin-bottom: 10px;
-        }
-        .options-list label {
-            display: flex;
-            align-items: flex-start;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s, border-color 0.2s;
-        }
-        .options-list label:hover {
-            background-color: #e3f2fd;
-        }
-        .options-list input[type="radio"] {
-            margin-right: 15px;
-            margin-top: 5px;
-        }
-        .options-list input[type="radio"]:checked + span {
-            font-weight: 700;
-        }
-        .options-list label.selected {
-            background-color: #bbdefb;
-            border-color: var(--primary-action-bg);
-        }
-
-        /* Navigation Panel (Right) */
-        .navigation-panel {
-            flex: 1.2;
-            background-color: var(--panel-bg);
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            min-width: 300px;
-        }
-        .timer-box {
-            padding: 15px;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-        }
-        #timer {
-            font-size: 1.8em;
-            font-weight: 700;
-            color: var(--header-bg);
-            letter-spacing: 2px;
-        }
-        #timer.low-time {
-            color: var(--timer-alert);
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .question-grid-container {
-            padding: 15px;
-            flex: 1;
-            overflow-y: auto;
-        }
-        .subtest-group {
-            margin-bottom: 15px;
-        }
-        .subtest-group h3 {
-            font-size: 0.9em;
-            margin: 0 0 10px 0;
-            color: var(--text-color);
-            border-bottom: 2px solid var(--primary-action-bg);
-            padding-bottom: 5px;
-        }
-        .question-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-            gap: 8px;
-        }
-        .grid-button {
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--border-color);
-            background-color: var(--unanswered-bg);
-            cursor: pointer;
-            border-radius: 5px;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        .grid-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .grid-button.answered { background-color: var(--answered-bg); color: white; border-color: var(--answered-bg); }
-        .grid-button.doubtful { background-color: var(--doubtful-bg); border-color: var(--doubtful-bg); }
-        .grid-button.current { border: 2px solid var(--current-bg); }
-
-        /* Footer / Actions */
-        .quiz-actions {
-            padding: 15px 20px;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #f8f9fa;
-        }
-        .action-button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: background-color 0.2s;
-        }
-        #prev-btn, #next-btn {
-            background-color: var(--primary-action-bg);
-            color: white;
-        }
-        #prev-btn:disabled, #next-btn:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-        #doubtful-btn {
-            background-color: var(--doubtful-bg);
-            color: #333;
-        }
-        #finish-btn {
-            background-color: var(--timer-alert);
-            color: white;
-        }
-
-        /* Confirmation Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.6);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal-content {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            animation: slide-down 0.3s ease-out;
-        }
-        @keyframes slide-down {
-            from { transform: translateY(-30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        .modal-content h2 {
-            margin-top: 0;
-            color: var(--header-bg);
-        }
-        .modal-actions {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-        #confirm-yes {
-            background-color: var(--primary-action-bg);
-            color: white;
-        }
-        #confirm-no {
-            background-color: #6c757d;
-            color: white;
-        }
-        
-        /* --- Result Page Styles --- */
-        .result-container {
-            padding: 20px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .result-container h2, .result-container h3 {
-            color: var(--header-bg);
-        }
-        .result-card {
-            background-color: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .overall-summary {
-            text-align: center;
-        }
-        .overall-summary .score {
-            font-size: 3em;
-            font-weight: 700;
-            color: var(--answered-bg);
-        }
-        .overall-summary .score-details {
-            font-size: 1.1em;
-            color: var(--text-color);
-        }
-        .subtest-analysis {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .subtest-card {
-            padding: 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            text-align: center;
-        }
-        .subtest-card h4 {
-            margin: 0 0 10px 0;
-        }
-        .subtest-card .subtest-score {
-            font-size: 1.5em;
-            font-weight: 500;
-        }
-
-        .answer-list {
-            padding: 0;
-            list-style: none;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .answer-list li {
-            width: 35px;
-            height: 35px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
-            font-weight: 500;
-        }
-        .answer-list li.correct {
-            background-color: var(--correct-text);
-            color: white;
-        }
-        .answer-list li.incorrect {
-            background-color: var(--incorrect-text);
-            color: white;
-        }
-        
-        .review-item {
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .review-item .review-q-text {
-            font-weight: 500;
-        }
-        .review-item .review-answer {
-            padding: 8px;
-            border-radius: 4px;
-            margin: 8px 0;
-        }
-        .review-item .user-answer {
-            background-color: var(--incorrect-bg);
-            border-left: 4px solid var(--incorrect-text);
-            color: var(--incorrect-text);
-        }
-        .review-item .correct-answer {
-            background-color: var(--correct-bg);
-            border-left: 4px solid var(--correct-text);
-            color: var(--correct-text);
-        }
-        .review-item .explanation {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #f8f9fa;
-            border-radius: 4px;
-            font-style: italic;
-        }
-        #restart-btn {
-            margin-top: 20px;
-            padding: 12px 25px;
-            font-size: 1em;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background-color: var(--primary-action-bg);
-            color: white;
-        }
-        
-        /* Hidden by default */
-        .header, .quiz-container, #result-page {
-            display: none;
-        }
-        
-        /* --- Responsive Design --- */
-        @media (max-width: 768px) {
-            .quiz-container {
-                flex-direction: column;
-                height: auto;
-                overflow: visible;
-            }
-            .navigation-panel {
-                min-width: unset;
-                flex: unset; /* Unset flex grow/shrink */
-                height: auto;
-            }
-            .question-panel {
-                min-height: 40vh;
-            }
-            .header h2 {
-                font-size: 1em;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .login-box {
-                padding: 20px;
-            }
-            .question-body, .quiz-actions {
-                padding: 15px;
-            }
-            .action-button {
-                padding: 8px 12px;
-                font-size: 0.9em;
-            }
-        }
-    </style>
+    <!-- SELURUH KONTEN HTML ANDA DARI SINI -->
     <div id="login-container">
         <div class="login-box">
             <h2>Login Peserta Ujian</h2>
@@ -500,22 +13,24 @@
             </div>
             <button id="login-btn">Masuk</button>
             <p id="login-error">Password salah. Coba lagi.</p>
+            <a href="/ujian/cara-ikut-tryout-online-gratis" style="text-decoration: none;">
+                <button id="cara-btn" type="button">Cara Ikut Try Out</button>
+            </a>
         </div>
     </div>
 
-    <header class="header">
-        <h2>Try Out TKP CPNS HOTS</h2>
+    <header class="header" style="display: none;">
+        <h2>Simulasi Ujian</h2>
         <div class="user-info">
             <span id="header-info"></span>
             <button id="logout-btn">Logout</button>
         </div>
     </header>
 
-    <div class="quiz-container">
-        <!-- Panel Soal -->
+    <div class="quiz-container" style="display: none;">
         <main class="question-panel">
             <div class="question-header">
-                <span id="subtest-title">Materi</span> | Soal No. <span id="question-number">1</span>
+                <span id="subtest-title">Subtes</span> | Soal No. <span id="question-number">1</span>
             </div>
             <div class="question-body">
                 <p id="question-text">Memuat soal...</p>
@@ -527,74 +42,36 @@
                 <button id="next-btn" class="action-button">Selanjutnya</button>
             </div>
         </main>
-
-        <!-- Panel Navigasi -->
         <aside class="navigation-panel">
             <div class="timer-box">
                 Sisa Waktu
-                <div id="timer">25:00</div>
+                <div id="timer">30:00</div>
             </div>
-            <div class="question-grid-container">
-                <div class="subtest-group">
-                    <h3>Pelayanan Publik (1-7)</h3>
-                    <div id="grid-pelayanan-publik" class="question-grid"></div>
-                </div>
-                <div class="subtest-group">
-                    <h3>Jejaring Kerja (8-14)</h3>
-                    <div id="grid-jejaring-kerja" class="question-grid"></div>
-                </div>
-                <div class="subtest-group">
-                    <h3>Sosial Budaya (15-21)</h3>
-                    <div id="grid-sosial-budaya" class="question-grid"></div>
-                </div>
-                <div class="subtest-group">
-                    <h3>Teknologi Informasi dan Komunikasi (22-28)</h3>
-                    <div id="grid-tik" class="question-grid"></div>
-                </div>
-                <div class="subtest-group">
-                    <h3>Profesionalisme (29-36)</h3>
-                    <div id="grid-profesionalisme" class="question-grid"></div>
-                </div>
-                 <div class="subtest-group">
-                    <h3>Anti Radikalisme (37-45)</h3>
-                    <div id="grid-anti-radikalisme" class="question-grid"></div>
-                </div>
-            </div>
+            <div id="grid-container" class="question-grid-container"></div>
             <div class="quiz-actions" style="justify-content: center;">
                 <button id="finish-btn" class="action-button">Selesaikan Ujian</button>
             </div>
         </aside>
     </div>
 
-    <!-- Halaman Hasil Ujian -->
-    <div id="result-page" class="result-container">
+    <div id="result-page" class="result-container" style="display: none;">
         <div class="result-card overall-summary">
+            <div id="status-lulus" class="status"></div>
             <h2>Hasil Akhir Ujian</h2>
-            <div id="final-score" class="score">0%</div>
+            <div id="final-score" class="score">0</div>
             <div id="score-details" class="score-details"></div>
-            <div id="subtest-analysis-container" class="subtest-analysis"></div>
+            <div id="submission-status"></div>
         </div>
-        
         <div class="result-card">
-            <h3>Rekap Jawaban</h3>
-            <h4>Jawaban Benar</h4>
-            <ul id="correct-list" class="answer-list"></ul>
-            <h4 style="margin-top: 20px;">Jawaban Salah / Kosong</h4>
-            <ul id="incorrect-list" class="answer-list"></ul>
-        </div>
-        
-        <div id="review-section-container" class="result-card">
-            <h3>Pembahasan Jawaban Salah</h3>
+            <h3>Tinjauan Jawaban</h3>
             <div id="review-section"></div>
         </div>
-        
         <div style="text-align: center;">
            <button id="restart-btn" class="action-button">Ulangi Ujian</button>
         </div>
     </div>
     
-    <!-- Modal Konfirmasi Selesai -->
-    <div id="confirmation-modal" class="modal-overlay">
+    <div id="confirmation-modal" class="modal-overlay" style="display: none;">
         <div class="modal-content">
             <h2>Selesaikan Ujian?</h2>
             <p>Apakah Anda yakin ingin menyelesaikan dan mengakhiri sesi ujian ini?</p>
@@ -604,11 +81,30 @@
             </div>
         </div>
     </div>
+    <!-- HINGGA AKHIR KONTEN HTML ANDA -->
 
-    <script>
-        // --- DATABASE SOAL DENGAN PEMBAHASAN ---
-        const questions = [
-            // --- PELAYANAN PUBLIK (7 Soal) ---
+<script>
+// ===================================================================================
+// --- KONFIGURASI UJIAN (HANYA UBAH BAGIAN INI UNTUK UJIAN BARU) ---
+// ===================================================================================
+const EXAM_CONFIG = {
+    // 1. Ganti nama kategori ini sesuai nama sheet di Google Sheets (cth: "TWK", "TKP")
+    kategori: "TKP",
+    
+    // 2. Ganti URL ini dengan URL Web App dari Google Script Anda yang sudah di-deploy ulang.
+    scriptURL: 'https://script.google.com/macros/s/AKfycbxNJ9pOsCPSPAPRQKfoq43AwmVMSIScq6AIa33Q0dxnMI-jb1xuxi1aK3bUBFDstinDiQ/exec',
+    
+    // 3. Ganti link peringkat ini ke halaman peringkat yang sesuai.
+    linkPeringkat: "/ujian/ranking-peserta-tryout/",
+    
+    // 4. Sesuaikan pengaturan ujian jika perlu.
+    durasiMenit: 30,
+    passingGrade: 65,
+    password: "ujian",
+    
+    // 5. Ganti seluruh isi bank soal di bawah ini dengan soal yang sesuai.
+    bankSoal: [
+                    // --- PELAYANAN PUBLIK (7 Soal) ---
             { 
                 subtest: 'Pelayanan Publik', 
                 question: 'Anda adalah seorang petugas pelayanan publik di kantor pemerintahan. Suatu hari, seorang warga datang dengan wajah kesal dan nada bicara tinggi karena merasa pelayanannya lambat. Padahal, sistem sedang mengalami kendala teknis yang di luar kendali Anda. Apa tindakan pertama yang Anda lakukan?', 
@@ -1204,421 +700,345 @@
                 answer: 'Berdiskusi untuk mencari mufakat dalam setiap pengambilan keputusan tim.', 
                 explanation: 'Musyawarah untuk mufakat adalah implementasi nyata dari sila keempat Pancasila, yang sangat relevan dalam lingkungan kerja untuk mencapai kesepakatan yang adil dan mengakomodasi semua pihak.' 
             },
-        ];
+    ],
 
-        // Ensure we have exactly 45 questions by duplicating some if needed, and adjusting totals
-        const targetQuestionCount = 45;
-        while (questions.length < targetQuestionCount) {
-            // Duplicate some questions to reach the target, prioritizing categories
-            // This is a simple duplication. For a real exam, you'd generate unique questions.
-            questions.push(
-                { 
-                    subtest: 'Profesionalisme', 
-                    question: 'Sebagai seorang ASN, integritas adalah hal yang utama. Bagaimana Anda menunjukkan integritas dalam pekerjaan sehari-hari?', 
-                    options: [
-                        'Melakukan pekerjaan sesuai standar, meskipun tidak diawasi.', 
-                        'Selalu jujur dalam pelaporan keuangan.', 
-                        'Menghindari konflik kepentingan.', 
-                        'Semua jawaban benar.'
-                    ], 
-                    answer: 'Semua jawaban benar.', 
-                    explanation: 'Integritas mencakup semua aspek perilaku yang jujur, etis, dan konsisten dengan nilai-nilai yang baik, baik saat diawasi maupun tidak.' 
-                },
-                { 
-                    subtest: 'Pelayanan Publik', 
-                    question: 'Seorang warga mengeluhkan lamanya waktu penyelesaian dokumen. Sebagai petugas, apa yang Anda sampaikan?', 
-                    options: [
-                        'Mohon maaf, ini sudah sesuai prosedur standar.', 
-                        'Baik Bapak/Ibu, akan segera saya cek progresnya dan informasikan.', 
-                        'Seharusnya Bapak/Ibu datang lebih awal.', 
-                        'Ini bukan bagian saya, silakan tanya ke bagian lain.'
-                    ], 
-                    answer: 'Baik Bapak/Ibu, akan segera saya cek progresnya dan informasikan.', 
-                    explanation: 'Memberikan respons yang proaktif dan informatif adalah bentuk pelayanan prima.' 
-                },
-                { 
-                    subtest: 'Jejaring Kerja', 
-                    question: 'Tim Anda sedang kekurangan anggota untuk proyek mendesak. Apa yang Anda lakukan untuk mendapatkan bantuan?', 
-                    options: [
-                        'Mengerjakan semua sendiri hingga lembur.', 
-                        'Meminta atasan untuk merekrut karyawan baru.', 
-                        'Menghubungi kolega di departemen lain yang mungkin bisa membantu.', 
-                        'Menunda proyek sampai ada cukup anggota.'
-                    ], 
-                    answer: 'Menghubungi kolega di departemen lain yang mungkin bisa membantu.', 
-                    explanation: 'Memanfaatkan jejaring kerja untuk mencari sumber daya tambahan adalah tindakan yang efektif.' 
-                },
-                { 
-                    subtest: 'Sosial Budaya', 
-                    question: 'Dalam sebuah acara kantor, Anda melihat seorang rekan merasa tersingkir karena perbedaan budaya. Apa yang Anda lakukan?', 
-                    options: [
-                        'Membiarkannya saja, itu urusannya.', 
-                        'Mencoba mengajaknya berinteraksi dan mengenalkannya pada rekan lain.', 
-                        'Menceritakan masalah tersebut kepada teman lain.', 
-                        'Meminta panitia untuk memisahkan kelompok.'
-                    ], 
-                    answer: 'Mencoba mengajaknya berinteraksi dan mengenalkannya pada rekan lain.', 
-                    explanation: 'Inisiatif untuk membuat orang lain merasa nyaman dan inklusif adalah bagian dari kemampuan sosial budaya.' 
-                },
-                { 
-                    subtest: 'Teknologi Informasi dan Komunikasi', 
-                    question: 'Anda diminta menggunakan aplikasi baru untuk absensi. Anda merasa aplikasi itu rumit. Apa yang Anda lakukan?', 
-                    options: [
-                        'Tetap menggunakan absensi manual yang lama.', 
-                        'Mengeluh kepada rekan kerja.', 
-                        'Mempelajari aplikasi tersebut dan mencari tahu cara kerjanya.', 
-                        'Meminta orang lain untuk mengabsenkan Anda.'
-                    ], 
-                    answer: 'Mempelajari aplikasi tersebut dan mencari tahu cara kerjanya.', 
-                    explanation: 'Proaktif dalam belajar teknologi baru adalah sikap yang baik.' 
-                },
-                { 
-                    subtest: 'Anti Radikalisme', 
-                    question: 'Anda mendengar rekan kerja menyebarkan informasi hoaks yang memecah belah. Apa yang Anda lakukan?', 
-                    options: [
-                        'Membiarkannya saja.', 
-                        'Mengajaknya berdiskusi secara pribadi untuk mengklarifikasi informasi yang benar.', 
-                        'Ikut menyebarkan informasi tersebut.', 
-                        'Menyalahkan sumber berita.'
-                    ], 
-                    answer: 'Mengajaknya berdiskusi secara pribadi untuk mengklarifikasi informasi yang benar.', 
-                    explanation: 'Melawan hoaks dengan edukasi dan klarifikasi adalah tindakan anti-radikalisme yang efektif.' 
-                }
-            );
-            if (questions.length > targetQuestionCount) {
-                questions.splice(targetQuestionCount); // Trim if overshot
-            }
+    // --- Data dinamis ini tidak perlu diubah ---
+    judulHalaman: document.title,
+    url: window.location.href
+};
+
+// ===================================================================================
+// --- FUNGSI PENGIRIMAN DATA KE GOOGLE SHEET (DIPERBARUI) ---
+// ===================================================================================
+async function kirimKeGoogleSheet(data) {
+    const statusEl = document.getElementById('submission-status');
+    statusEl.textContent = 'Mengirim hasil ujian...';
+    
+    const formData = new FormData();
+    // Menambahkan semua data ke dalam objek FormData.
+    formData.append('kategori', data.kategori);
+    formData.append('url', data.url);
+    formData.append('judulHalaman', data.judulHalaman);
+    formData.append('Nama', data.Nama);
+    formData.append('JumlahSoal', data.JumlahSoal);
+    formData.append('JawabanBenar', data.JawabanBenar);
+    formData.append('JawabanSalah', data.JawabanSalah);
+    formData.append('TidakDijawab', data.TidakDijawab);
+    formData.append('Durasi', data.Durasi);
+    formData.append('Nilai', data.Nilai);
+    formData.append('StatusKelulusan', data.StatusKelulusan);
+
+    try {
+        const response = await fetch(EXAM_CONFIG.scriptURL, {
+            method: 'POST',
+            body: formData
+        });
+        
+        // Membaca respons sebagai JSON untuk mendapatkan pesan sukses/error dari server
+        const result = await response.json();
+        
+        if (result.result === "success") {
+            statusEl.innerHTML = `Hasil ujian berhasil disimpan. <b><a href="${EXAM_CONFIG.linkPeringkat}">Cek Peringkat kamu di sini</a></b>`;
+            statusEl.style.color = 'green';
+        } else {
+            // Menampilkan pesan error yang lebih spesifik dari server
+            throw new Error(result.message || 'Terjadi kesalahan dari server.');
         }
+    } catch (error) {
+        console.error('Error saat mengirim ke Google Sheet:', error);
+        statusEl.textContent = `Gagal menyimpan hasil. Coba lagi nanti. Error: ${error.message}`;
+        statusEl.style.color = 'red';
+    }
+}
 
+// ===================================================================================
+// --- LOGIKA UTAMA UJIAN (DISESUAIKAN, TIDAK PERLU DIUBAH LAGI) ---
+// ===================================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Menggunakan bank soal dari EXAM_CONFIG
+    const questions = EXAM_CONFIG.bankSoal;
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let questionStatus = new Array(questions.length).fill('unanswered');
+    let timerInterval;
+    let startTime;
+    let currentUsername = '';
 
-        // --- LOGIKA KUIS ---
-        document.addEventListener('DOMContentLoaded', () => {
-            let currentQuestionIndex = 0;
-            let userAnswers = new Array(questions.length).fill(null);
-            let questionStatus = new Array(questions.length).fill('unanswered'); // unanswered, answered, doubtful
-            let timerInterval;
-            let currentUsername = '';
-            const quizDuration = 25 * 60; // 25 menit dalam detik
+    const loginContainer = document.getElementById('login-container');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('login-btn');
+    const loginError = document.getElementById('login-error');
+    const appHeader = document.querySelector('.header');
+    const quizContainer = document.querySelector('.quiz-container');
+    const resultPage = document.getElementById('result-page');
+    const subtestTitleEl = document.getElementById('subtest-title');
+    const questionNumberEl = document.getElementById('question-number');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsEl = document.getElementById('options');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const doubtfulBtn = document.getElementById('doubtful-btn');
+    const finishBtn = document.getElementById('finish-btn');
+    const timerEl = document.getElementById('timer');
+    const restartBtn = document.getElementById('restart-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const headerInfo = document.getElementById('header-info');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmYesBtn = document.getElementById('confirm-yes');
+    const confirmNoBtn = document.getElementById('confirm-no');
+    
+    function showLoginPage() {
+        loginContainer.style.display = 'block'; // Diubah dari 'flex' agar sesuai skrip asli
+        appHeader.style.display = 'none';
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'none';
+        passwordInput.value = '';
+        loginError.style.display = 'none';
+    }
 
-            // Element Cache
-            const loginContainer = document.getElementById('login-container');
-            const usernameInput = document.getElementById('username');
-            const passwordInput = document.getElementById('password');
-            const loginBtn = document.getElementById('login-btn');
-            const loginError = document.getElementById('login-error');
+    function handleLogin() {
+        const password = passwordInput.value;
+        const username = usernameInput.value.trim();
+        if (username === "") {
+            loginError.textContent = "Username tidak boleh kosong.";
+            loginError.style.display = 'block';
+            return;
+        }
+        // Menggunakan password dari EXAM_CONFIG
+        if (password === EXAM_CONFIG.password) {
+            currentUsername = username;
+            loginContainer.style.display = 'none';
+            appHeader.style.display = 'flex';
+            quizContainer.style.display = 'flex';
+            resultPage.style.display = 'none';
+            headerInfo.textContent = `Peserta: ${currentUsername}`;
+            startQuiz();
+        } else {
+            loginError.textContent = "Password salah. Coba lagi.";
+            loginError.style.display = 'block';
+        }
+    }
+    
+    function handleLogout() {
+        clearInterval(timerInterval);
+        showLoginPage();
+    }
 
-            const appHeader = document.querySelector('.header');
-            const quizContainer = document.querySelector('.quiz-container');
-            const resultPage = document.getElementById('result-page');
-            
-            const subtestTitleEl = document.getElementById('subtest-title');
-            const questionNumberEl = document.getElementById('question-number');
-            const questionTextEl = document.getElementById('question-text');
-            const optionsEl = document.getElementById('options');
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-            const doubtfulBtn = document.getElementById('doubtful-btn');
-            const finishBtn = document.getElementById('finish-btn');
-            const timerEl = document.getElementById('timer');
-            const restartBtn = document.getElementById('restart-btn');
-            const logoutBtn = document.getElementById('logout-btn');
-            
-            const confirmationModal = document.getElementById('confirmation-modal');
-            const confirmYesBtn = document.getElementById('confirm-yes');
-            const confirmNoBtn = document.getElementById('confirm-no');
-            const headerInfo = document.getElementById('header-info');
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        userAnswers.fill(null);
+        questionStatus.fill('unanswered');
+        quizContainer.style.display = 'flex';
+        resultPage.style.display = 'none';
+        setupQuestionGrids();
+        displayQuestion(currentQuestionIndex);
+        // Menggunakan durasi dari EXAM_CONFIG
+        startTimer(EXAM_CONFIG.durasiMenit * 60);
+        startTime = new Date();
+    }
 
-            function showLoginPage() {
-                loginContainer.style.display = 'flex';
-                appHeader.style.display = 'none';
-                quizContainer.style.display = 'none';
-                resultPage.style.display = 'none';
-                passwordInput.value = '';
-                usernameInput.value = ''; // Clear username on logout/init
-                loginError.style.display = 'none';
-            }
-
-            function handleLogin() {
-                const password = passwordInput.value;
-                const username = usernameInput.value.trim();
-                
-                if (username === "") {
-                    loginError.textContent = "Username tidak boleh kosong.";
-                    loginError.style.display = 'block';
-                    return;
-                }
-
-                if (password === "akazed.com/ujian") { // Password sesuai contoh
-                    currentUsername = username;
-                    loginContainer.style.display = 'none';
-                    appHeader.style.display = 'flex';
-                    quizContainer.style.display = 'flex';
-                    headerInfo.textContent = `Peserta: ${currentUsername}`;
-                    startQuiz();
-                } else {
-                    loginError.textContent = "Password salah. Coba lagi.";
-                    loginError.style.display = 'block';
-                }
-            }
-            
-            function handleLogout() {
-                clearInterval(timerInterval);
-                showLoginPage();
-            }
-
-            function startQuiz() {
-                currentQuestionIndex = 0;
-                userAnswers.fill(null);
-                questionStatus.fill('unanswered');
-                
-                quizContainer.style.display = 'flex';
-                appHeader.style.display = 'flex'; // Pastikan header terlihat
-                resultPage.style.display = 'none';
-                confirmationModal.style.display = 'none'; // Sembunyikan modal jika muncul
-
-                setupQuestionGrids();
-                displayQuestion(currentQuestionIndex);
-                startTimer(quizDuration);
-            }
-
-            function setupQuestionGrids() {
-                const grids = {
-                    'Pelayanan Publik': document.getElementById('grid-pelayanan-publik'),
-                    'Jejaring Kerja': document.getElementById('grid-jejaring-kerja'),
-                    'Sosial Budaya': document.getElementById('grid-sosial-budaya'),
-                    'Teknologi Informasi dan Komunikasi': document.getElementById('grid-tik'),
-                    'Profesionalisme': document.getElementById('grid-profesionalisme'),
-                    'Anti Radikalisme': document.getElementById('grid-anti-radikalisme')
-                };
-
-                // Clear all grids first
-                Object.values(grids).forEach(grid => {
-                    if (grid) grid.innerHTML = '';
-                });
-
-                questions.forEach((q, index) => {
+    function setupQuestionGrids() {
+        const gridContainer = document.getElementById('grid-container');
+        gridContainer.innerHTML = '';
+        const subtests = [...new Set(questions.map(q => q.subtest))];
+        subtests.forEach(subtest => {
+            const group = document.createElement('div');
+            group.className = 'subtest-group';
+            const title = document.createElement('h3');
+            title.textContent = subtest;
+            const grid = document.createElement('div');
+            grid.className = 'question-grid';
+            group.appendChild(title);
+            group.appendChild(grid);
+            gridContainer.appendChild(group);
+            questions.forEach((q, index) => {
+                if (q.subtest === subtest) {
                     const button = document.createElement('button');
                     button.className = 'grid-button';
                     button.textContent = index + 1;
                     button.onclick = () => jumpToQuestion(index);
-                    if (grids[q.subtest]) { // Pastikan grid untuk subtest ada
-                        grids[q.subtest].appendChild(button);
-                    }
-                });
-            }
-
-            function displayQuestion(index) {
-                // Hapus kelas 'current' dari tombol grid sebelumnya
-                document.querySelector('.grid-button.current')?.classList.remove('current');
-                currentQuestionIndex = index;
-                const question = questions[index];
-
-                subtestTitleEl.textContent = question.subtest;
-                questionNumberEl.textContent = index + 1;
-                questionTextEl.innerHTML = question.question;
-                optionsEl.innerHTML = '';
-
-                question.options.forEach(option => {
-                    const li = document.createElement('li');
-                    const label = document.createElement('label');
-                    const radio = document.createElement('input');
-                    radio.type = 'radio';
-                    radio.name = 'option';
-                    radio.value = option;
-                    if (userAnswers[index] === option) {
-                        radio.checked = true;
-                        label.classList.add('selected');
-                    }
-                    radio.onchange = () => selectAnswer(index, option);
-                    
-                    const span = document.createElement('span');
-                    span.textContent = option;
-                    
-                    label.appendChild(radio);
-                    label.appendChild(span);
-                    li.appendChild(label);
-                    optionsEl.appendChild(li);
-                });
-                
-                updateNavButtons();
-                updateGridButtonStatus(index);
-                // Tambahkan kelas 'current' ke tombol grid yang sedang aktif
-                const currentGridButton = document.querySelectorAll('.question-grid-container button')[index];
-                if (currentGridButton) {
-                    currentGridButton.classList.add('current');
+                    grid.appendChild(button);
                 }
-            }
-
-            function selectAnswer(index, answer) {
-                userAnswers[index] = answer;
-                // Hapus kelas 'selected' dari semua opsi lain
-                document.querySelectorAll('#options label').forEach(l => l.classList.remove('selected'));
-                // Tambahkan kelas 'selected' ke opsi yang dipilih
-                const selectedOptionLabel = document.querySelector(`input[value="${CSS.escape(answer)}"]`);
-                if (selectedOptionLabel) {
-                    selectedOptionLabel.parentElement.classList.add('selected');
-                }
-
-                if (questionStatus[index] !== 'doubtful') {
-                    questionStatus[index] = 'answered';
-                }
-                updateGridButtonStatus(index);
-            }
-            
-            function updateNavButtons() {
-                prevBtn.disabled = currentQuestionIndex === 0;
-                nextBtn.disabled = currentQuestionIndex === questions.length - 1;
-            }
-            
-            function updateGridButtonStatus(index) {
-                const button = document.querySelectorAll('.question-grid-container button')[index];
-                if (!button) return;
-                
-                button.classList.remove('answered', 'doubtful', 'unanswered');
-
-                switch (questionStatus[index]) {
-                    case 'answered': button.classList.add('answered'); break;
-                    case 'doubtful': button.classList.add('doubtful'); break;
-                    default: button.classList.add('unanswered'); break;
-                }
-                // Pastikan kelas 'current' selalu diatur pada tombol yang benar
-                document.querySelector('.grid-button.current')?.classList.remove('current');
-                const currentGridButton = document.querySelectorAll('.question-grid-container button')[currentQuestionIndex];
-                if (currentGridButton) {
-                    currentGridButton.classList.add('current');
-                }
-            }
-
-            function jumpToQuestion(index) {
-                displayQuestion(index);
-            }
-
-            function startTimer(duration) {
-                let timer = duration;
-                clearInterval(timerInterval);
-                timerInterval = setInterval(() => {
-                    let minutes = parseInt(timer / 60, 10);
-                    let seconds = parseInt(timer % 60, 10);
-
-                    minutes = minutes < 10 ? "0" + minutes : minutes;
-                    seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                    timerEl.textContent = minutes + ":" + seconds;
-                    
-                    if (timer < 300) { // Kurang dari 5 menit
-                        timerEl.classList.add('low-time');
-                    } else {
-                        timerEl.classList.remove('low-time');
-                    }
-
-                    if (--timer < 0) {
-                        clearInterval(timerInterval);
-                        finishQuiz();
-                    }
-                }, 1000);
-            }
-            
-            function showConfirmation() {
-                confirmationModal.style.display = 'flex';
-            }
-
-            function finishQuiz() {
-                clearInterval(timerInterval);
-                confirmationModal.style.display = 'none';
-
-                // Hitung skor
-                let score = 0;
-                const subtestScores = {}; // Untuk melacak skor per subtest
-                questions.forEach(q => {
-                    if (!subtestScores[q.subtest]) {
-                        subtestScores[q.subtest] = { correct: 0, total: 0 };
-                    }
-                });
-
-                const correctQuestionNumbers = [];
-                const incorrectQuestionNumbers = [];
-
-                questions.forEach((q, index) => {
-                    subtestScores[q.subtest].total++;
-                    // Jawaban benar jika pilihan pengguna sama dengan jawaban yang benar
-                    // Dalam konteks TKP, jawaban "benar" adalah yang paling sesuai dengan kriteria, 
-                    // namun di sini kita asumsikan ada satu jawaban ideal.
-                    if (userAnswers[index] === q.answer) {
-                        score++;
-                        subtestScores[q.subtest].correct++;
-                        correctQuestionNumbers.push(index + 1);
-                    } else {
-                        incorrectQuestionNumbers.push(index + 1);
-                    }
-                });
-
-                // Tampilkan hasil
-                quizContainer.style.display = 'none';
-                resultPage.style.display = 'block';
-                headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
-                
-                // Ringkasan keseluruhan
-                const overallPercentage = ((score / questions.length) * 100).toFixed(1);
-                document.getElementById('final-score').textContent = `${overallPercentage}%`;
-                document.getElementById('score-details').textContent = `${score} dari ${questions.length} soal benar`;
-                
-                // Analisis per subtest
-                const subtestAnalysisContainer = document.getElementById('subtest-analysis-container');
-                subtestAnalysisContainer.innerHTML = '';
-                for (const key in subtestScores) {
-                    const subtest = subtestScores[key];
-                    const percentage = subtest.total > 0 ? ((subtest.correct / subtest.total) * 100).toFixed(1) : 0;
-                    subtestAnalysisContainer.innerHTML += `
-                        <div class="subtest-card">
-                            <h4>${key}</h4>
-                            <div class="subtest-score" style="color: ${percentage >= 50 ? 'var(--correct-text)' : 'var(--incorrect-text)'}">${percentage}%</div>
-                            <div>${subtest.correct}/${subtest.total} Benar</div>
-                        </div>`;
-                }
-                
-                // Daftar jawaban
-                document.getElementById('correct-list').innerHTML = correctQuestionNumbers.map(n => `<li class="correct">${n}</li>`).join('');
-                document.getElementById('incorrect-list').innerHTML = incorrectQuestionNumbers.map(n => `<li class="incorrect">${n}</li>`).join('');
-
-                // Bagian pembahasan untuk jawaban salah
-                const reviewSection = document.getElementById('review-section');
-                reviewSection.innerHTML = '';
-                if (incorrectQuestionNumbers.length > 0) {
-                    incorrectQuestionNumbers.forEach(num => {
-                        const index = num - 1;
-                        const q = questions[index];
-                        const userAnswerText = userAnswers[index] || 'Tidak Dijawab';
-                        reviewSection.innerHTML += `
-                            <div class="review-item">
-                                <p class="review-q-text"><strong>Soal ${num}:</strong> ${q.question}</p>
-                                <div class="review-answer user-answer">Jawaban Anda: ${userAnswerText}</div>
-                                <div class="review-answer correct-answer">Jawaban Benar: ${q.answer}</div>
-                                <div class="explanation"><strong>Pembahasan:</strong> ${q.explanation}</div>
-                            </div>
-                        `;
-                    });
-                } else {
-                    reviewSection.innerHTML = '<p style="text-align:center; font-weight:500;">Luar biasa! Semua jawaban Anda benar.</p>';
-                }
-            }
-
-            // Event Listeners
-            loginBtn.addEventListener('click', handleLogin);
-            passwordInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
-            logoutBtn.addEventListener('click', handleLogout);
-            
-            prevBtn.addEventListener('click', () => currentQuestionIndex > 0 && displayQuestion(currentQuestionIndex - 1));
-            nextBtn.addEventListener('click', () => currentQuestionIndex < questions.length - 1 && displayQuestion(currentQuestionIndex + 1));
-            doubtfulBtn.addEventListener('click', () => {
-                questionStatus[currentQuestionIndex] = questionStatus[currentQuestionIndex] === 'doubtful' ? (userAnswers[currentQuestionIndex] ? 'answered' : 'unanswered') : 'doubtful';
-                updateGridButtonStatus(currentQuestionIndex);
             });
-            finishBtn.addEventListener('click', showConfirmation);
-            confirmYesBtn.addEventListener('click', finishQuiz);
-            confirmNoBtn.addEventListener('click', () => confirmationModal.style.display = 'none');
-            restartBtn.addEventListener('click', startQuiz);
-
-            // Inisialisasi
-            showLoginPage();
         });
-    </script>
+    }
+
+    function displayQuestion(index) {
+        document.querySelector('.grid-button.current')?.classList.remove('current');
+        currentQuestionIndex = index;
+        const question = questions[index];
+        subtestTitleEl.textContent = question.subtest;
+        questionNumberEl.textContent = index + 1;
+        questionTextEl.innerHTML = question.question;
+        optionsEl.innerHTML = '';
+        question.options.forEach(option => {
+            const li = document.createElement('li');
+            const label = document.createElement('label');
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = `option-${index}`;
+            radio.value = option;
+            if (userAnswers[index] === option) {
+                radio.checked = true;
+                label.classList.add('selected');
+            }
+            radio.onchange = () => selectAnswer(index, option, label);
+            const span = document.createElement('span');
+            span.innerHTML = option; // Menggunakan innerHTML untuk render jika ada format
+            label.appendChild(radio);
+            label.appendChild(span);
+            li.appendChild(label);
+            optionsEl.appendChild(li);
+        });
+        updateNavButtons();
+        updateGridButtonStatus(index, true);
+    }
+
+    function selectAnswer(index, answer, label) {
+        userAnswers[index] = answer;
+        document.querySelectorAll(`#options li label`).forEach(l => l.classList.remove('selected'));
+        label.classList.add('selected');
+        if (questionStatus[index] !== 'doubtful') {
+            questionStatus[index] = 'answered';
+        }
+        updateGridButtonStatus(index);
+    }
+    
+    function updateNavButtons() {
+        prevBtn.disabled = currentQuestionIndex === 0;
+        nextBtn.disabled = currentQuestionIndex === questions.length - 1;
+    }
+    
+    function updateGridButtonStatus(index, isCurrent = false) {
+        const allGridButtons = document.querySelectorAll('.grid-button');
+        if (isCurrent) {
+            const currentBtn = document.querySelector('.grid-button.current');
+            if (currentBtn) currentBtn.classList.remove('current');
+        }
+        const button = Array.from(allGridButtons).find(btn => parseInt(btn.textContent) === index + 1);
+        if (!button) return;
+        if(isCurrent) button.classList.add('current');
+        button.classList.remove('answered', 'doubtful');
+        switch (questionStatus[index]) {
+            case 'answered': button.classList.add('answered'); break;
+            case 'doubtful': button.classList.add('doubtful'); break;
+        }
+    }
+
+    function jumpToQuestion(index) {
+        displayQuestion(index);
+    }
+
+    function startTimer(duration) {
+        let timer = duration;
+        clearInterval(timerInterval);
+        timerEl.parentElement.classList.remove('low-time');
+        timerInterval = setInterval(() => {
+            let minutes = parseInt(timer / 60, 10);
+            let seconds = parseInt(timer % 60, 10);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            timerEl.textContent = `${minutes}:${seconds}`;
+            if (timer < 300 && !timerEl.parentElement.classList.contains('low-time')) { 
+                timerEl.parentElement.classList.add('low-time'); 
+            }
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                finishQuiz();
+            }
+        }, 1000);
+    }
+    
+    function showConfirmation() {
+        confirmationModal.style.display = 'flex';
+    }
+
+    function formatDuration(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes} menit ${seconds.toString().padStart(2, '0')} detik`;
+}
+
+
+    function finishQuiz() {
+        clearInterval(timerInterval);
+        confirmationModal.style.display = 'none';
+        const endTime = new Date();
+        const durationMs = endTime - startTime;
+        let correctCount = 0;
+        questions.forEach((q, index) => {
+            if (userAnswers[index] === q.answer) correctCount++;
+        });
+        const totalQuestions = questions.length;
+        const answeredCount = userAnswers.filter(a => a !== null).length;
+        const incorrectCount = answeredCount - correctCount;
+        const unansweredCount = totalQuestions - answeredCount;
+        const finalScore = totalQuestions > 0 ? parseFloat(((correctCount / totalQuestions) * 100).toFixed(2)) : 0;
+        const isPassed = finalScore >= EXAM_CONFIG.passingGrade;
+        
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'block';
+        headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
+        
+        const statusEl = document.getElementById('status-lulus');
+        statusEl.textContent = isPassed ? 'SELAMAT, ANDA LULUS!' : 'MAAF, ANDA BELUM LULUS';
+        statusEl.className = `status ${isPassed ? 'lulus' : 'gagal'}`;
+        document.getElementById('final-score').textContent = finalScore;
+        document.getElementById('score-details').textContent = `${correctCount} dari ${totalQuestions} soal benar`;
+        
+        const reviewSection = document.getElementById('review-section');
+        reviewSection.innerHTML = '';
+        questions.forEach((q, index) => {
+            const userAnswer = userAnswers[index];
+            const isCorrect = userAnswer === q.answer;
+            reviewSection.innerHTML += `
+                <div class="review-item">
+                    <p><strong>Soal ${index + 1}:</strong> ${q.question}</p>
+                    <div class="review-answer user-answer ${isCorrect ? '' : 'is-incorrect'}">Jawaban Anda: ${userAnswer || 'Tidak Dijawab'}</div>
+                    ${!isCorrect ? `<div class="review-answer correct-answer">Jawaban Benar: ${q.answer}</div>` : ''}
+                    <div class="explanation"><strong>Pembahasan:</strong> ${q.explanation}</div>
+                </div>
+            `;
+        });
+        
+        const dataForSheet = {
+            kategori: EXAM_CONFIG.kategori,
+            url: EXAM_CONFIG.url,
+            judulHalaman: EXAM_CONFIG.judulHalaman,
+            Nama: currentUsername,
+            JumlahSoal: totalQuestions,
+            JawabanBenar: correctCount,
+            JawabanSalah: incorrectCount,
+            TidakDijawab: unansweredCount,
+            Durasi: formatDuration(durationMs),
+            Nilai: finalScore,
+            StatusKelulusan: isPassed ? 'Lulus' : 'Tidak Lulus'
+        };
+        kirimKeGoogleSheet(dataForSheet);
+    }
+
+    // Event Listeners
+    loginBtn.addEventListener('click', handleLogin);
+    passwordInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
+    logoutBtn.addEventListener('click', handleLogout);
+    prevBtn.addEventListener('click', () => { if (currentQuestionIndex > 0) displayQuestion(currentQuestionIndex - 1) });
+    nextBtn.addEventListener('click', () => { if (currentQuestionIndex < questions.length - 1) displayQuestion(currentQuestionIndex + 1) });
+    doubtfulBtn.addEventListener('click', () => {
+        const currentStatus = questionStatus[currentQuestionIndex];
+        if (currentStatus === 'doubtful') {
+            questionStatus[currentQuestionIndex] = userAnswers[currentQuestionIndex] ? 'answered' : 'unanswered';
+        } else {
+            questionStatus[currentQuestionIndex] = 'doubtful';
+        }
+        updateGridButtonStatus(currentQuestionIndex);
+    });
+    finishBtn.addEventListener('click', showConfirmation);
+    confirmYesBtn.addEventListener('click', finishQuiz);
+    confirmNoBtn.addEventListener('click', () => confirmationModal.style.display = 'none');
+    restartBtn.addEventListener('click', handleLogout);
+
+    showLoginPage();
+});
+</script>

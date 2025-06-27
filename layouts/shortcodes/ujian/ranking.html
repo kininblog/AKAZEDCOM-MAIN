@@ -1,0 +1,319 @@
+<style>
+    /* Variabel CSS dari skrip asli Anda */
+    :root {
+        --pr-panel-bg: rgba(255, 255, 255, 0.6);
+        --pr-header-bg: #1e3a8a;
+        --pr-text-color: #1e293b;
+        --pr-text-light: #475569;
+        --pr-border-color: rgba(226, 232, 240, 0.7);
+        --pr-gold: #ffbf00;
+        --pr-silver: #c0c0c0;
+        --pr-bronze: #cd7f32;
+        --pr-lulus-bg: rgba(34, 197, 94, 0.1);
+        --pr-lulus-text: #166534;
+        --pr-gagal-bg: rgba(239, 68, 68, 0.1);
+        --pr-gagal-text: #991b1b;
+        --pr-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --pr-backdrop-blur: blur(10px);
+    }
+    @keyframes pr-fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pr-slideIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    .pr-container { max-width: 1200px; margin: 0 auto; animation: pr-fadeIn 0.6s ease-out forwards; background: linear-gradient(125deg, #e0c3fc 0%, #8ec5fc 100%);}
+    .pr-container h2 { color: white; text-align: center; margin-bottom: 10px; font-weight: 800; font-size: 2.5em; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    .pr-subtitle { text-align: center; color: rgba(255,255,255,0.9); margin-bottom: 25px; }
+    .pr-category-selector { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+    .pr-category-btn { padding: 10px 20px; font-size: 0.9em; font-weight: 600; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.5); background-color: transparent; color: white; cursor: pointer; transition: all 0.3s ease; }
+    .pr-category-btn:hover { background-color: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+    .pr-category-btn.active { background-color: white; color: var(--pr-header-bg); border-color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    #pr-loading-indicator { text-align: center; padding: 50px; font-size: 1.2em; color: var(--pr-text-color); }
+    .pr-podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 1.5%; margin-bottom: 40px; flex-wrap: nowrap; min-height: 220px; }
+    .pr-podium-card { background: var(--pr-panel-bg); backdrop-filter: var(--pr-backdrop-blur); -webkit-backdrop-filter: var(--pr-backdrop-blur); padding: 20px; border-radius: 12px; text-align: center; box-shadow: var(--pr-shadow); border: 1px solid rgba(255,255,255,0.3); width: 28%; transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); animation: pr-slideIn 0.5s ease-out forwards; opacity: 0; }
+    .pr-podium-card:hover { transform: translateY(-10px) scale(1.03); }
+    .pr-podium-1 { order: 2; min-height: 180px; transform: scale(1.1); animation-delay: 0.2s; }
+    .pr-podium-2 { order: 1; min-height: 150px; animation-delay: 0s; }
+    .pr-podium-3 { order: 3; min-height: 150px; animation-delay: 0.4s; }
+    .pr-podium-rank-icon { margin-bottom: 10px; }
+    .pr-ranking-page {background: linear-gradient(125deg, #e0c3fc 0%, #8ec5fc 100%);}
+    .pr-podium-rank-icon svg { width: 50px; height: 50px; }
+    .pr-podium-name { font-weight: 700; font-size: 1.2em; margin: 5px 0; color: var(--pr-header-bg); }
+    .pr-podium-score { font-size: 1.8em; font-weight: 800; color: var(--pr-text-color); }
+    .pr-main-content { background: var(--pr-panel-bg); backdrop-filter: var(--pr-backdrop-blur); -webkit-backdrop-filter: var(--pr-backdrop-blur); border: 1px solid rgba(255,255,255,0.3); border-radius: 16px; padding: 20px; box-shadow: var(--pr-shadow); }
+    .pr-search-container { margin-bottom: 20px; }
+    #pr-search-input { width: 100%; padding: 12px 15px; border: 1px solid var(--pr-border-color); border-radius: 8px; font-size: 1em; box-sizing: border-box; background-color: rgba(255, 255, 255, 0.8); }
+    .pr-table-wrapper { overflow-x: auto; }
+    .pr-ranking-table { width: 100%; min-width: 800px; border-collapse: collapse; }
+    .pr-ranking-table th, .pr-ranking-table td { padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--pr-border-color); white-space: nowrap; }
+    .pr-ranking-table thead th { background-color: rgba(248, 250, 252, 0.5); font-weight: 600; color: #475569; position: sticky; top: 0; z-index: 10; }
+    .pr-ranking-table tbody tr { transition: background-color 0.2s ease; }
+    .pr-ranking-table tbody tr:last-child td { border-bottom: none; }
+    .pr-ranking-table tbody tr:hover { background-color: rgba(241, 245, 249, 0.8); }
+    .pr-name-cell { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+    .pr-name-cell .pr-icon { width: 22px; height: 22px; flex-shrink: 0; }
+    .pr-score-cell { font-weight: 700; color: var(--pr-header-bg); }
+    .pr-status-cell span { padding: 4px 10px; border-radius: 999px; font-size: 0.85em; font-weight: 500; }
+    .pr-status-lulus { background-color: var(--pr-lulus-bg); color: var(--pr-lulus-text); }
+    .pr-status-gagal { background-color: var(--pr-gagal-bg); color: var(--pr-gagal-text); }
+    .pr-accordion { margin-top: 30px; text-align: center; }
+    #pr-toggle-view-btn { background-color: var(--pr-header-bg); color: white; border: none; padding: 12px 25px; font-size: 1em; border-radius: 8px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    #pr-toggle-view-btn:hover { transform: translateY(-2px); box-shadow: 0 7px 10px rgba(0,0,0,0.1); }
+    @media (max-width: 768px) { .pr-container h2 { font-size: 2em; } .pr-podium-container { flex-direction: column; align-items: center; gap: 20px; } .pr-podium-card { width: 80%; max-width: 300px; animation-duration: 0.3s; } .pr-podium-1, .pr-podium-2, .pr-podium-3 { order: unset; min-height: unset; padding-top: 20px; transform: scale(1); } .pr-main-content { padding: 15px; } }
+</style>
+
+<div id="pr-ranking-page">
+    <div class="pr-container">
+        <h2 id="pr-main-title">Papan Peringkat Try Out</h2>
+        <p class="pr-subtitle">Pilih kategori ujian untuk melihat peringkat peserta berdasarkan skor tertinggi.</p>
+        
+        <div id="pr-category-selector" class="pr-category-selector"></div>
+        
+        <div id="pr-podium-container" class="pr-podium-container"></div>
+
+        <div class="pr-main-content">
+            <div class="pr-search-container">
+                <input type="text" id="pr-search-input" placeholder="Cari nama peserta...">
+            </div>
+            
+            <div id="pr-loading-indicator">
+                <p>Memuat data peringkat...</p>
+            </div>
+
+            <div class="pr-table-wrapper" style="display:none;">
+                <table class="pr-ranking-table">
+                    <thead>
+                        <tr>
+                            <th>Peringkat</th>
+                            <th>Nama</th>
+                            <th>Nilai</th>
+                            <th>Status</th>
+                            <th>Benar</th>
+                            <th>Salah</th>
+                            <th>Kosong</th>
+                            <th>Durasi</th>
+                            <th>Tanggal</th>
+                            <th>URL Ujian</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pr-ranking-body"></tbody>
+                </table>
+            </div>
+            <div id="pr-no-results" style="text-align:center; padding: 20px; display:none;">
+                <p>Tidak ada data untuk ditampilkan.</p>
+            </div>
+        </div>
+
+        <div id="pr-accordion-container" class="pr-accordion" style="display:none;">
+            <button id="pr-toggle-view-btn">Lihat Semua Peringkat</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const RANKING_CONFIG = {
+        scriptURL: 'https://script.google.com/macros/s/AKfycbxtVJ_zHkRp-0UzvS4t3U7R_wgBxbuZh1MwB2cMOKugp4bEVq5j1tthA59f0jzOVGLBsg/exec',
+        defaultCategory: 'TIU',
+        categories: [
+            { name: 'TIU', sheetName: 'TIU' }, { name: 'TWK', sheetName: 'TWK' }, { name: 'TKP', sheetName: 'TKP' },
+            { name: 'SKD CPNS', sheetName: 'SKDCPNS' }, { name: 'UTBK SNBT', sheetName: 'UTBKSNBT' },
+            { name: 'PPG', sheetName: 'PPG' }, { name: 'PPPK', sheetName: 'PPPK' },
+        ]
+    };
+
+    const mainTitle = document.getElementById('pr-main-title');
+    const categorySelector = document.getElementById('pr-category-selector');
+    const loadingIndicator = document.getElementById('pr-loading-indicator');
+    const tableWrapper = document.querySelector('.pr-table-wrapper');
+    const rankingBody = document.getElementById('pr-ranking-body');
+    const accordionContainer = document.getElementById('pr-accordion-container');
+    const toggleBtn = document.getElementById('pr-toggle-view-btn');
+    const podiumContainer = document.getElementById('pr-podium-container');
+    const searchInput = document.getElementById('pr-search-input');
+    const noResultsDiv = document.getElementById('pr-no-results');
+
+    let allParticipants = [];
+    let isShowingAll = false;
+    const initialViewCount = 20;
+
+    const icons = {
+        gold: `<svg class="pr-icon" viewBox="0 0 24 24" fill="var(--pr-gold)" xmlns="http://www.w3.org/2000/svg"><path d="M18 2H6c-1.1 0-2 .9-2 2v6c0 3.31 2.69 6 6 6v4H8v2h8v-2h-2v-4c3.31 0 6-2.69 6-6V4c0-1.1-.9-2-2-2zM6 4h12v6c0 2.21-1.79 4-4 4s-4-1.79-4-4V4z"/></svg>`,
+        silver: `<svg class="pr-icon" viewBox="0 0 24 24" fill="var(--pr-silver)" xmlns="http://www.w3.org/2000/svg"><path d="M18 2H6c-1.1 0-2 .9-2 2v6c0 3.31 2.69 6 6 6v4H8v2h8v-2h-2v-4c3.31 0 6-2.69 6-6V4c0-1.1-.9-2-2-2zM6 4h12v6c0 2.21-1.79 4-4 4s-4-1.79-4-4V4z"/></svg>`,
+        bronze: `<svg class="pr-icon" viewBox="0 0 24 24" fill="var(--pr-bronze)" xmlns="http://www.w3.org/2000/svg"><path d="M18 2H6c-1.1 0-2 .9-2 2v6c0 3.31 2.69 6 6 6v4H8v2h8v-2h-2v-4c3.31 0 6-2.69 6-6V4c0-1.1-.9-2-2-2zM6 4h12v6c0 2.21-1.79 4-4 4s-4-1.79-4-4V4z"/></svg>`,
+    };
+
+    function processRankings(data) {
+        if (data.length === 0) return [];
+
+        data.sort((a, b) => parseFloat(b.nilai) - parseFloat(a.nilai));
+        
+        let processedData = [...data];
+        let rank = 1;
+        
+        if (processedData.length > 0) {
+            processedData[0].peringkat = rank;
+        }
+
+        for (let i = 1; i < processedData.length; i++) {
+            if (parseFloat(processedData[i].nilai) < parseFloat(processedData[i-1].nilai)) {
+                rank++;
+            }
+            processedData[i].peringkat = rank;
+        }
+        return processedData;
+    }
+
+    async function fetchRankingData(sheetName) {
+        if (RANKING_CONFIG.scriptURL.includes('ISI_DENGAN_URL')) {
+            loadingIndicator.innerHTML = `<p style="color:red;">Kesalahan Konfigurasi: Harap isi scriptURL di dalam RANKING_CONFIG.</p>`;
+            return;
+        }
+        const url = `${RANKING_CONFIG.scriptURL}?kategori=${sheetName}`;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
+            const result = await response.json();
+            if (result.result !== 'success') throw new Error(result.message || 'Gagal memuat data dari skrip.');
+            
+            allParticipants = processRankings(result.data);
+            
+            renderPage();
+        } catch (error) {
+            loadingIndicator.innerHTML = `<p style="color:red;">Terjadi kesalahan: ${error.message}</p>`;
+            podiumContainer.style.display = 'none';
+        }
+    }
+    
+    function renderPage() {
+        loadingIndicator.style.display = 'none';
+        accordionContainer.style.display = 'none';
+        
+        if (allParticipants.length > 0) {
+            renderPodium();
+            renderTable();
+            podiumContainer.style.display = 'flex';
+            tableWrapper.style.display = 'block';
+            noResultsDiv.style.display = 'none';
+            if (allParticipants.length > initialViewCount) {
+                accordionContainer.style.display = 'block';
+            }
+        } else {
+            podiumContainer.style.display = 'none';
+            tableWrapper.style.display = 'none';
+            noResultsDiv.style.display = 'block';
+            noResultsDiv.innerHTML = '<p>Belum ada data peserta untuk kategori ini.</p>';
+        }
+    }
+
+    function renderTable() {
+        rankingBody.innerHTML = '';
+        const searchTerm = searchInput.value.toLowerCase();
+        
+        const filteredParticipants = allParticipants.filter(p => p.nama.toLowerCase().includes(searchTerm));
+        const participantsToDisplay = isShowingAll ? filteredParticipants : filteredParticipants.slice(0, initialViewCount);
+
+        if (filteredParticipants.length === 0 && allParticipants.length > 0) {
+             noResultsDiv.style.display = 'block';
+             noResultsDiv.innerHTML = '<p>Tidak ada peserta yang cocok dengan pencarian Anda.</p>';
+        } else if (allParticipants.length === 0) {
+            noResultsDiv.style.display = 'block';
+            noResultsDiv.innerHTML = '<p>Belum ada data peserta untuk kategori ini.</p>';
+        } else {
+             noResultsDiv.style.display = 'none';
+        }
+
+        participantsToDisplay.forEach((p) => {
+            const row = document.createElement('tr');
+            const statusClass = p.status === 'Lulus' ? 'pr-status-lulus' : 'pr-status-gagal';
+            
+            const displayNilai = isNaN(parseFloat(p.nilai)) ? '0.00' : parseFloat(p.nilai).toFixed(2);
+
+            const urlCellContent = p.urlUjian && p.urlUjian.link 
+                ? `<a href="${p.urlUjian.link}" target="_blank" rel="noopener noreferrer">${p.urlUjian.text || 'Lihat Ujian'}</a>` 
+                : 'N/A';
+            
+            row.innerHTML = `
+                <td>${p.peringkat}</td>
+                <td class="pr-name-cell">${getRankIcon(p.peringkat)} ${p.nama}</td>
+                <td class="pr-score-cell">${displayNilai}</td>
+                <td class="pr-status-cell"><span class="${statusClass}">${p.status || 'N/A'}</span></td>
+                <td>${p.jawabanBenar || '0'}</td>
+                <td>${p.jawabanSalah || '0'}</td>
+                <td>${p.tidakDijawab || '0'}</td>
+                <td>${p.durasi || 'N/A'}</td>
+                <td>${p.tanggal || 'N/A'}</td>
+                <td>${urlCellContent}</td>
+            `;
+            rankingBody.appendChild(row);
+        });
+    }
+
+    function renderPodium() {
+        podiumContainer.innerHTML = '';
+        const top3 = allParticipants.slice(0, 3);
+        if (top3.length === 0) {
+            podiumContainer.style.display = 'none';
+            return;
+        }
+        podiumContainer.style.display = 'flex';
+        
+        top3.forEach(p => {
+            const card = document.createElement('div');
+            card.className = `pr-podium-card pr-podium-${p.peringkat}`;
+            const displayNilai = isNaN(parseFloat(p.nilai)) ? '0.00' : parseFloat(p.nilai).toFixed(2);
+            card.innerHTML = `<div class="pr-podium-rank-icon">${getRankIcon(p.peringkat)}</div><div class="pr-podium-name">${p.nama}</div><div class="pr-podium-score">${displayNilai}</div>`;
+            podiumContainer.appendChild(card);
+        });
+    }
+
+    function getRankIcon(rank) { 
+        if (rank === 1) return icons.gold; 
+        if (rank === 2) return icons.silver; 
+        if (rank === 3) return icons.bronze; 
+        return ''; 
+    }
+
+    async function loadCategory(categoryConfig) {
+        mainTitle.textContent = `Papan Peringkat ${categoryConfig.name}`;
+        document.querySelectorAll('.pr-category-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.sheet === categoryConfig.sheetName);
+        });
+        podiumContainer.innerHTML = '';
+        rankingBody.innerHTML = '';
+        tableWrapper.style.display = 'none';
+        noResultsDiv.style.display = 'none';
+        accordionContainer.style.display = 'none';
+        loadingIndicator.style.display = 'block';
+        loadingIndicator.innerHTML = '<p>Memuat data peringkat...</p>';
+        await fetchRankingData(categoryConfig.sheetName);
+    }
+
+    function initializePage() {
+        RANKING_CONFIG.categories.forEach(cat => {
+            const button = document.createElement('button');
+            button.className = 'pr-category-btn';
+            button.textContent = cat.name;
+            button.dataset.sheet = cat.sheetName;
+            button.onclick = () => loadCategory(cat);
+            categorySelector.appendChild(button);
+        });
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryFromUrl = urlParams.get('kategori');
+        const defaultConfig = RANKING_CONFIG.categories.find(c => c.sheetName === categoryFromUrl) || RANKING_CONFIG.categories.find(c => c.sheetName === RANKING_CONFIG.defaultCategory) || RANKING_CONFIG.categories[0];
+        if (defaultConfig) {
+            loadCategory(defaultConfig);
+        } else {
+            loadingIndicator.innerHTML = '<p style="color:red;">Tidak ada kategori ujian yang dikonfigurasi.</p>';
+        }
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        isShowingAll = !isShowingAll;
+        renderTable();
+        toggleBtn.textContent = isShowingAll ? 'Tampilkan Lebih Sedikit' : 'Lihat Semua Peringkat';
+    });
+    
+    searchInput.addEventListener('input', renderTable);
+
+    initializePage();
+});
+</script>

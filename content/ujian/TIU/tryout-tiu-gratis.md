@@ -36,9 +36,10 @@ jumlah: 35
 
 
 
-{{< ujian/TIU/tiu >}}
 
-> **[» KLIK DI SINI UNTUK MELIHAT PERINGKAT PESERTA! «](/ujian/tiu/peringkat/)**
+{{< ujian/TIU/tiu2 >}}
+
+> **[» KLIK DI SINI UNTUK MELIHAT PERINGKAT PESERTA! «](/ujian/ranking-peserta-tryout/)**
 
 ## Merasa Siap Hadapi Tes CPNS & BUMN? Uji Dulu di Try Out TIU Gratis Ini!
 
