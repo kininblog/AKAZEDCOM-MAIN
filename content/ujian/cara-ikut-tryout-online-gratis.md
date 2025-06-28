@@ -28,7 +28,7 @@ waktu:
 jumlah:
 ---
 
-Pengen belajar dan mempersiapkan diri mengikuti test CPNS, PPG atau BUMN dengan ikutan try out online tapi selalu nemu yang berbayar? Tenang, akazed punya rekomendasi link *[situs try out gratis](/link-tryout-ppg-gratis/)*, apalagi kalau bukan di akazed. 
+Pengen belajar dan mempersiapkan diri mengikuti test CPNS, PPG ,*[ tryout PPPK](/categories/tryout-pppk/)* atau BUMN dengan ikutan try out online tapi selalu nemu yang berbayar? Tenang, akazed punya rekomendasi link *[situs try out gratis](/link-tryout-ppg-gratis/)*, apalagi kalau bukan di akazed. 
 
 Di **[akazed](/)** terdapat berbagai tryout online mulai dari *[try out tkp](/ujian/cpns/try-out-tkp-gratis/), [try out skd cpns](/ujian/cpns/try-out-skd-cpns-gratis/)* dan masih banyak lagi. 
 

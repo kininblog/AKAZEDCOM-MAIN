@@ -24,7 +24,7 @@ aliases:
 
 Gimana rasanya habis ngerjain *[try out](/ujian/)*? Pasti campur aduk ya, antara lega, penasaran, dan sedikit deg-degan nunggu hasilnya. Tenang, kamu nggak sendirian! Rasa penasaran itu wajar banget, kok.
 
-Nah, untuk menjawab semua rasa penasaranmu, *[akazed](/)* sudah siapkan halaman **"[Ranking Peserta Try Out dan Latihan](/ujian/ranking-peserta-tryout)"**. Anggap saja ini "papan skor" khusus buat kamu. Di sini, kamu bisa lihat hasil kerja kerasmu, bukan cuma dalam bentuk angka, tapi juga analisis yang bisa bantu kamu jadi lebih jago lagi untuk ujian **SKD CPNS, UTBK SNBT, PPG,** atau **PPPK** nanti.
+Nah, untuk menjawab semua rasa penasaranmu, *[akazed](/)* sudah siapkan halaman **"[Ranking Peserta Try Out dan Latihan](/ujian/ranking-peserta-tryout)"**. Anggap saja ini "papan skor" khusus buat kamu. Di sini, kamu bisa lihat hasil kerja kerasmu, bukan cuma dalam bentuk angka, tapi juga analisis yang bisa bantu kamu jadi lebih jago lagi untuk ujian **SKD CPNS, UTBK SNBT, PPG,** atau **PPPK** nanti, pengen tau? ini nih salah satu contoh *[tryout pppk 2025](/ujian/pppk/tryout-cat-pppk-2025/)*.
 
 ## Ada Apa Aja Sih di Halaman Ranking Ini?
 
