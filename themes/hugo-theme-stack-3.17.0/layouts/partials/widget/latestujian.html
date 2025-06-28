@@ -1,0 +1,33 @@
+{{ $defaults := .Site.Params.widgets.latest_posts }}
+{{ $widget := . }}
+{{ $limit := $widget.params.limit | default $defaults.limit | default 5 }}
+{{ $title := $widget.params.title | default "Try Out Terbaru" }}
+
+<section class="widget widget-latest-ujian">
+    <h3 class="widget__title">{{ $title }}</h3>
+    <ul class="widget__list">
+        {{ range first $limit (where site.RegularPages "Section" "ujian") }}
+        <li class="widget__item">
+            <a class="widget__link" href="{{ .Permalink }}">
+                <div class="widget__text-content">
+                    <span class="widget__link-title">{{ .Title }}</span>
+                    {{/* Grup baru untuk tanggal dan ikon */}}
+                    <div class="widget__meta">
+                        <i class='bx bxs-calendar-alt'></i> {{/* Ikon Kalender */}}
+                        <small class="widget__link-date">{{ .PublishDate.Format "2 Jan 2006" }}</small>
+                    </div>
+                </div>
+
+                {{ with .Params.image }}
+                <div class="widget__thumbnail-wrapper">
+                    <img src="{{ . | absURL }}" alt="{{ $.Title }}" class="widget__thumbnail" loading="lazy">
+                </div>
+                {{ end }}
+            </a>
+        </li>
+        {{ end }}
+    </ul>
+</section>
+<style>
+  
+</style>

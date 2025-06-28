@@ -15,7 +15,7 @@ languages:
 disqusShortname: akazed
 
 # GA Tracking ID
-googleAnalytics: G-2TLDCKC669 #TODO Google分析
+googleAnalytics: G-XFF7ZS8WBK #TODO Google分析
 #googleAnalytics:
 # Theme i18n support
 # Available values: en, fr, id, ja, ko, pt-br, zh-cn, zh-tw, es, de, nl, it, th, el, uk
@@ -160,6 +160,13 @@ params:
            # - type: tag-cloud
             #  params:
              #     limit: 100
+            #- type: latestujian
+             #params:
+              #    limit: 5
+           # - type: tag-cloud
+            #  params:
+             #     limit: 100
+
             - type: ads
             #  params:
               #    limit: 100
