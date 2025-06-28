@@ -48,3 +48,5 @@ Di **[akazed](/)** terdapat berbagai tryout online mulai dari *[try out tkp](/uj
 
 ## Penutup
 Mudah banget kan cara ikut try out di akazed. Temukan berbagai contoh soal, *[try out prediksi soal cpns](/ujian/cpns/tryout-prediksi-soal-cpns-2025/)*, try out bumn dan masih banyak pilihan try out gratis laginnya.
+
+kamu bisa lihat juga ranking peserta ujian **[di sini](/ujian/ranking-peserta-tryout)**
