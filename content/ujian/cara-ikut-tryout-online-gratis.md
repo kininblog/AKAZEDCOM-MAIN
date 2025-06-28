@@ -20,9 +20,10 @@ keywords:
     - soal penguasaan konten pgsd
     - simulasi tes ppg prajabatan gratis
     - cara lulus seleksi ppg prajabatan
-categories:
+categories: 
+- tryout
 tags:
-- 
+- tryout
 waktu:
 jumlah:
 ---
