@@ -2,7 +2,7 @@
 title: Try Out SKD CPNS Gratis Login 2025
 description: Temukan akses mudah Try Out SKD CPNS gratis tanpa ribet! Login sekarang dan rasakan simulasi ujian CAT CPNS lengkap TWK, TIU, TKP. Persiapkan diri Anda hadapi SKD CPNS 2024/2025 dengan latihan soal berkualitas dan pembahasan akurat. Raih skor tinggi, wujudkan impian jadi PNS!
 date: 2025-06-09T15:31:20+07:00
-lastmod: 2025-06-09T15:31:20+07:00
+lastmod: 2025-06-21T15:31:20+07:00
 comments: true
 draft: false 
 slug:   #这里要修改
@@ -35,7 +35,15 @@ waktu: 100 menit
 jumlah: 110  
 ---
 
-> **User Name** : Nama Kamu **password** `akazed.com/ujian` 
+
+<div class="alert alert-info">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line>    <line x1="12" y1="8" x2="12.01" y2="8"></line>  </svg>
+  <span><strong>Informasi:</strong> Password akses tryout adalah <b><i>ujian</b></i>.</span>
+</div>
+<div class="alert alert-info">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line>    <line x1="12" y1="8" x2="12.01" y2="8"></line>  </svg>
+  <span><strong>Informasi:</strong> Lihat juga halaman lain<b> <li><a href="/ujian/cara-ikut-tryout-online-gratis">panduan try out gratis</a></li></b> <b><li><a href="/ujian/ranking-peserta-tryout">ranking peserta try out</a></li></b></span>
+</div>
 
 {{< ujian/CPNS/skd-cpns-sulit >}}
 
