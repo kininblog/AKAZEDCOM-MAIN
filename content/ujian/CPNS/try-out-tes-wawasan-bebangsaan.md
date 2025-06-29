@@ -60,7 +60,7 @@ Kamu yang dapat nilai rendah, berarti kamu gak sendirian nih. Tapi jangan cuma d
 Keunggulannya dibanding try out ditempat lain karena di Akazed Ujian nanti akan diberikan pembahasan soalnya. Jadi bisa deh kita mengetahui kesalahan dan jawaban yang benarnya.
 
 ## Apa Itu Tes Wawasan Kebangsaan?
-TWK singkatan dari **Tes Wawasan Kebangsaan**, yaitu salah satu jenis tes dalam seleksi CPNS (Calon Pegawai Negeri Sipil) yang menguji pemahaman peserta tentang materi kebangsaan Indonesia seperti Pancasila, UUD 1945, Bhinneka Tunggal Ika, dan Negara Kesatuan Republik Indonesia. 
+TWK singkatan dari **Tes Wawasan Kebangsaan**, yaitu salah satu jenis tes dalam *[seleksi CPNS](/categories/tryout-cpns/)* (Calon Pegawai Negeri Sipil) yang menguji pemahaman peserta tentang materi kebangsaan Indonesia seperti Pancasila, UUD 1945, Bhinneka Tunggal Ika, dan Negara Kesatuan Republik Indonesia. 
 
 ### Materi TWK:
 * Pancasila (ideologi negara) 

@@ -55,7 +55,7 @@ Menguasai materi saja tidak cukup jika Anda tidak terbiasa dengan cara kerja sis
 
 ## Mengapa Tryout dengan Antarmuka Mirip CAT BKN Itu Wajib?
 
-Banyak peserta meremehkan pentingnya adaptasi teknis. Padahal, inilah faktor pembeda antara peserta yang siap dan yang sekadar tahu. Melakukan **tryout CAT CPNS** secara rutin memberikan keuntungan berikut:
+Banyak peserta meremehkan pentingnya adaptasi teknis. Padahal, inilah faktor pembeda antara peserta yang siap dan yang sekadar tahu. Melakukan **[tryout CAT CPNS](/categories/tryout-cpns/)** secara rutin memberikan keuntungan berikut:
 
 1.  **Adaptasi Antarmuka (Interface Adaptation):** Anda akan terbiasa dengan letak tombol navigasi (soal berikutnya, soal sebelumnya), di mana penunjuk waktu berada, dan cara menandai soal yang dianggap ragu-ragu. Ini membangun memori otot sehingga Anda tidak membuang waktu untuk hal-hal teknis.
 2.  **Manajemen Waktu yang Realistis:** Tekanan melihat detik yang terus berjalan mundur di layar komputer sangat berbeda dengan menggunakan jam tangan. *[Simulasi CAT](/ujian/cpns/tryout-cat-cpns-gratis/)* melatih mental Anda untuk tetap tenang dan fokus di bawah tekanan waktu digital.

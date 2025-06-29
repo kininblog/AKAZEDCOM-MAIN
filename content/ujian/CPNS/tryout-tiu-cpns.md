@@ -67,7 +67,7 @@ Untuk bisa menaklukkan musuh, kita harus mengenalnya terlebih dahulu. Sesuai kis
 
 ## Kenapa Harus Fokus Latihan Soal TIU Secara Terpisah?
 
-Mungkin Anda bertanya, "Mengapa tidak langsung *[tryout SKD](/ujian/cpns/tryout-cpns-gratis/)* lengkap saja?" Berlatih TIU secara spesifik memberikan keuntungan yang tidak didapatkan dari tryout gabungan:
+Mungkin Anda bertanya, "Mengapa tidak langsung *[tryout SKD](/ujian/cpns/tryout-cpns-gratis/)* lengkap saja?" ***[latihan soal cpns](/categories/tryout-cpns/)*** seperti Berlatih TIU secara spesifik memberikan keuntungan yang tidak didapatkan dari tryout gabungan:
 
 * **Mengasah Skill Spesifik:** Kemampuan berhitung cepat, menarik kesimpulan logis, dan melihat pola gambar adalah skill yang berbeda-beda. Latihan terfokus mempercepat penguasaan masing-masing skill tersebut.
 * **Identifikasi Kelemahan Detail:** Anda bisa jadi jago di Silogisme tapi sangat lemah di Deret Angka. Tryout khusus TIU akan menunjukkan dengan jelas di mana titik lemah Anda yang sesungguhnya.

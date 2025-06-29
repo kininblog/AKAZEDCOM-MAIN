@@ -44,7 +44,7 @@ Inilah mengapa mengikuti **[try out TKP CPNS](/ujian/cpns/try-out-tkp-gratis/)**
 
 ### Apa itu Try Out TKP CPNS dan Mengapa Penting?
 
-Try out TKP CPNS adalah simulasi ujian yang dirancang untuk meniru format dan substansi Tes Karakteristik Pribadi pada *[SKD CPNS](/ujian/cpns/try-out-skd-cpns-gratis/)*. Berbeda dengan TWK dan TIU yang memiliki jawaban benar atau salah mutlak, soal TKP mengukur kemampuan implementasi Anda terhadap berbagai aspek kepribadian yang relevan dengan pekerjaan sebagai ASN. Setiap pilihan jawaban memiliki bobot nilai, dan tujuan Anda adalah memilih opsi yang paling mencerminkan karakter ASN yang ideal.
+***[Try out TKP CPNS](/categories/tryout-cpns/)*** adalah simulasi ujian yang dirancang untuk meniru format dan substansi Tes Karakteristik Pribadi pada *[SKD CPNS](/ujian/cpns/try-out-skd-cpns-gratis/)*. Berbeda dengan TWK dan TIU yang memiliki jawaban benar atau salah mutlak, soal TKP mengukur kemampuan implementasi Anda terhadap berbagai aspek kepribadian yang relevan dengan pekerjaan sebagai ASN. Setiap pilihan jawaban memiliki bobot nilai, dan tujuan Anda adalah memilih opsi yang paling mencerminkan karakter ASN yang ideal.
 
 Pentingnya try out TKP terletak pada beberapa poin berikut:
 

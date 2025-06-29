@@ -46,7 +46,7 @@ Namun, untuk bisa menjadi mahasiswa PPG Prajabatan, ada satu tahapan seleksi kru
 
 ## Mengenal Tes Substantif: Gerbang Utama PPG Prajabatan
 
-Tes Substantif adalah ujian berbasis komputer (CAT) yang dirancang untuk mengukur kompetensi dasar dan profesional calon guru. Untuk rumpun PGSD, tes ini umumnya terbagi menjadi tiga bagian utama:
+***[Tryout ppg](/categories/tryout-ppg/)*** dengan Tes Substantif adalah ujian berbasis komputer (CAT) yang dirancang untuk mengukur kompetensi dasar dan profesional calon guru. Untuk rumpun PGSD, tes ini umumnya terbagi menjadi tiga bagian utama:
 
 1.  **Penguasaan Konten Bidang Studi (PGSD):** Ini adalah jantung dari ujian. Anda akan diuji mengenai pemahaman mendalam terhadap materi-materi yang akan diajarkan di Sekolah Dasar, mencakup:
     * Matematika SD

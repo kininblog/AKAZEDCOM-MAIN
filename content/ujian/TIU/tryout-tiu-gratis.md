@@ -61,7 +61,7 @@ Artikel ini tidak hanya akan membahas pentingnya *[try out](/ujian/)*, tetapi ju
 
 ### Mengapa Ikut Try Out TIU Adalah Keharusan, Bukan Pilihan?
 
-Banyak calon peserta yang meremehkan kekuatan dari sebuah simulasi. Mereka berpikir cukup dengan belajar materi saja. Padahal, try out menawarkan keuntungan strategis yang tidak bisa didapatkan dari sekadar membaca buku.
+Banyak calon peserta yang meremehkan kekuatan dari sebuah simulasi. Mereka berpikir cukup dengan belajar materi saja. Padahal, **[try out tiu](/categories/tryout-tiu/)** menawarkan keuntungan strategis yang tidak bisa didapatkan dari sekadar membaca buku.
 
 1.  **Mengenali Medan Perang:** *[Soal TIU](/ujian/cpns/tryout-tiu-cpns/)* memiliki karakteristik unik. Dengan mengikuti try out, Anda akan terbiasa dengan format soal, tipe pertanyaan yang sering keluar, dan tingkat kesulitan yang realistis. Anda tidak akan lagi kaget saat hari-H.
 
