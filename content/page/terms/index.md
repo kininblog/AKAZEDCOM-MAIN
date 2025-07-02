@@ -1,6 +1,6 @@
 ---
 title: Term
-slug: "term"
+slug: "terms"
 description: Halaman Terms and Conditions (Syarat dan Ketentuan) ini mengatur penggunaan Akazed.com. Dengan mengakses atau menggunakan Blog ini, Anda menyetujui syarat dan ketentuan berikut. Jika Anda tidak setuju dengan salah satu poin, mohon untuk tidak menggunakan Blog ini. 
 date: '2019-04-21T09:38:23+08:00'
 #2023年2月4日10:03:56
@@ -15,6 +15,8 @@ menu:
         params:
             #icon: user
             icon: address-card-solid
+aliases:
+- /term/
 ---
 
 

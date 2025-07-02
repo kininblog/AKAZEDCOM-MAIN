@@ -58,7 +58,7 @@ Jadi, **sertifikasi guru** adalah bentuk pengakuan resmi dari pemerintah atas pr
 
 Oke, ini dia bagian intinya! Mengapa sih semua guru, baik yang baru mau mengajar maupun yang sudah lama berkecimpung di dunia pendidikan, **wajib PPG** dan punya sertifikat pendidik? Ada banyak **manfaat PPG bagi guru** yang sangat esensial dan tak bisa diabaikan. 
 
->Oh ya, bagi kamu calon guru jangan lupa selalu pantau kapan *[jadwal ppg dibuka](jadwal-ppg-2025-kapan-dibuka/)
+>Oh ya, bagi kamu calon guru jangan lupa selalu pantau kapan *[jadwal ppg dibuka](/jadwal-ppg-2025-kapan-dibuka/)
 
 ### 1. Peningkatan Kompetensi Profesional yang Terukur
 

@@ -33,8 +33,8 @@
         
         <div class="site-meta">
 
-            {{/* Cek apakah jenis halaman adalah 'page' ATAU section-nya adalah 'ujian' */}}
-{{ if or (eq .Kind "page") (eq .Section "ujian") }}
+           {{/* Cek apakah jenisnya 'page' ATAU section-nya 'ujian' ATAU jenis taksonominya 'categories' */}}
+{{ if or (eq .Kind "page") (eq .Section "ujian") (eq .Type "categories") }}
   <h2 class="site-name"><a href="{{ .Site.BaseURL | relLangURL }}">{{ .Site.Title }}</a></h2>
 {{ else }}
   <h1 class="site-name"><a href="{{ .Site.BaseURL | relLangURL }}">{{ .Site.Title }}</a></h1>

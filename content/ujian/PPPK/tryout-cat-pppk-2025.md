@@ -48,7 +48,7 @@ jumlah: 145
 
 **[Akazed](/)** - Seleksi Pegawai Pemerintah dengan Perjanjian Kerja (PPPK) tahun 2025 sudah di depan mata. Bagi ribuan pejuang NIP di seluruh Indonesia, ini adalah momen krusial untuk membuktikan diri. Persaingan yang semakin ketat menuntut persiapan yang tidak bisa dianggap remeh. Pertanyaannya, sudah sejauh mana kesiapan Anda untuk menaklukkan sistem Computer Assisted Test (CAT) nanti?
 
->Sekadar membaca materi saja tidak cukup. Anda butuh lebih dari itu. Anda perlu merasakan langsung atmosfer ujian, melatih kecepatan berpikir, dan membiasakan diri dengan antarmuka yang akan dihadapi. Inilah mengapa mengikuti **[tryout PPPK 2025](/ujian/pppk/try-out-cat-pppk-2025/)** menjadi langkah strategis yang tidak boleh Anda lewatkan. Kabar baiknya, Anda bisa memulainya tanpa biaya sepeser pun.
+>Sekadar membaca materi saja tidak cukup. Anda butuh lebih dari itu. Anda perlu merasakan langsung atmosfer ujian, melatih kecepatan berpikir, dan membiasakan diri dengan antarmuka yang akan dihadapi. Inilah mengapa mengikuti **[tryout PPPK 2025](/ujian/pppk/tryout-cat-pppk-2025/)** menjadi langkah strategis yang tidak boleh Anda lewatkan. Kabar baiknya, Anda bisa memulainya tanpa biaya sepeser pun.
 
 ## Mengapa Latihan via Tryout PPPK Gratis Sangat Penting?
 ![tryout pppk gratis online cat](/images/pppk.webp)
