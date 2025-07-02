@@ -49,7 +49,7 @@ Inilah mengapa mengikuti **[try out TKP CPNS](/ujian/cpns/try-out-tkp-gratis/)**
 Pentingnya try out TKP terletak pada beberapa poin berikut:
 
 1.  **Membiasakan Diri dengan Format Ujian:** Anda akan familiar dengan jenis pertanyaan, panjang soal, dan tata letak ujian di layar komputer (jika berbasis CAT).
-2.  **Melatih Manajemen Waktu:** Dengan 45 soal TKP dan total 110 soal SKD yang harus diselesaikan dalam 100 menit, manajemen waktu adalah kunci. Try out membantu Anda mengatur kecepatan dan memastikan semua soal terjawab.
+2.  **Melatih Manajemen Waktu:** Dengan 45 soal TKP dan total 110 **[soal SKD](/ujian/cpns/latihan-soal-skd-cpns-2024/)** yang harus diselesaikan dalam 100 menit, manajemen waktu adalah kunci. Try out membantu Anda mengatur kecepatan dan memastikan semua soal terjawab.
 3.  **Mengukur Kemampuan Diri:** Anda bisa melihat sejauh mana pemahaman dan keselarasan karakter Anda dengan nilai-nilai ASN. Hasil try out akan menjadi cerminan kekuatan dan area yang perlu ditingkatkan.
 4.  **Memahami Pola Penilaian TKP:** Anda akan belajar bagaimana pilihan jawaban yang berbeda menghasilkan skor yang berbeda, sehingga Anda bisa mengidentifikasi "jawaban terbaik" dalam konteks TKP.
 5.  **Mengurangi Kecemasan Ujian:** Semakin sering Anda berlatih dengan simulasi, semakin percaya diri Anda saat menghadapi ujian sesungguhnya.

@@ -63,7 +63,7 @@ Dengan kata lain, **latihan soal CPNS 2025** di halaman ini adalah hasil riset, 
 
 ## Manfaat Mengikuti Tryout Prediksi CPNS 2025 di Halaman Ini
 
-* **Akurat dan Relevan:** Soal-soal dirancang untuk mencerminkan tantangan nyata pada ujian SKD mendatang.
+* **Akurat dan Relevan:** Soal-soal dirancang untuk mencerminkan tantangan nyata pada *[ujian SKD](/ujian/cpns/latihan-soal-skd-cpns-2024/)* mendatang.
 * **Meningkatkan Kecepatan:** Latih diri Anda untuk berpikir cepat dan tepat di bawah tekanan waktu, persis seperti saat *[ujian CAT](/ujian/cpns/tryout-cat-cpns-gratis/)*.
 * **Evaluasi Instan:** Anda bisa langsung mengetahui sejauh mana kesiapan Anda dan di bagian mana (TWK, TIU, atau *[TKP](/ujian/cpns/try-out-tkp-gratis/)*) Anda perlu meningkatkan porsi belajar.
 * **100% GRATIS:** Kami berkomitmen untuk membantu para pejuang ASN. Tidak ada biaya tersembunyi untuk mengikuti *[tryout prediksi soal](/ujian/cpns/tryout-cpns-gratis/)* ini.

@@ -84,7 +84,7 @@ Mencari tahu lebih banyak tentang pilihan platform belajar CPNS bisa Anda lakuka
 
 ### Tips Jitu Memaksimalkan Hasil Try Out SKD CPNS Anda
 ---
-Mengikuti try out saja tidak cukup. Anda perlu strategi untuk memaksimalkan manfaatnya:
+Mengikuti *[try out skd cpns](/ujian/cpns/latihan-soal-skd-cpns-2024/)* saja tidak cukup. Anda perlu strategi untuk memaksimalkan manfaatnya:
 
 1.  **Anggap Seperti Ujian Sesungguhnya:** Kerjakan try out dalam kondisi tenang, tanpa gangguan, dan patuhi batas waktu yang diberikan.
 2.  **Analisis Hasil dengan Cermat:** Jangan hanya melihat skor akhir. Perhatikan soal mana yang salah, mengapa salah, dan materi apa yang masih lemah.
