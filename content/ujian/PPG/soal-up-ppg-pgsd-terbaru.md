@@ -49,7 +49,7 @@ jumlah: 120
 
 Setiap guru di Indonesia, baik yang sedang menempuh **PPG Dalam Jabatan (Daljab)** maupun Prajabatan, memiliki satu tujuan besar yang sama: memegang **sertifikat pendidik (serdik)** sebagai bukti sahih profesionalisme. Puncak dari perjalanan panjang ini adalah Ujian Kompetensi Mahasiswa *[Pendidikan Profesi Guru](/mengenal-apa-itu-ppg-guru/)* (UKMPPG), dengan Ujian Pengetahuan (UP) sebagai gerbang penentu utamanya.
 
-Menghadapi **soal UP PPG PGSD** seringkali terasa seperti mendaki gunung yang terjal. Materinya luas, tekanannya tinggi, dan standar kelulusannya pun tidak main-main. Namun, pernahkah Anda menyadari bahwa pendakian ini sesungguhnya adalah sebuah pusat pelatihan (training ground) yang luar biasa? Keterampilan yang Anda asah untuk menaklukkan **UP PPG 2025** memiliki relevansi langsung dan memberikan keuntungan strategis saat Anda berhadapan dengan arena seleksi lain, seperti CPNS, PPPK, atau bahkan ujian mandiri lainnya.
+Menghadapi **[soal UP PPG PGSD](/ujian/ppg/soal-up-ppg-pgsd-terbaru/)** seringkali terasa seperti mendaki gunung yang terjal. Materinya luas, tekanannya tinggi, dan standar kelulusannya pun tidak main-main. Namun, pernahkah Anda menyadari bahwa pendakian ini sesungguhnya adalah sebuah pusat pelatihan (training ground) yang luar biasa? Keterampilan yang Anda asah untuk menaklukkan **UP PPG 2025** memiliki relevansi langsung dan memberikan keuntungan strategis saat Anda berhadapan dengan arena seleksi lain, seperti CPNS, PPPK, atau bahkan ujian mandiri lainnya.
 
 >Artikel ini akan membedah secara mendalam bagaimana persiapan yang terfokus pada UP PPG PGSD dapat menjadi investasi jangka panjang untuk karier Anda.
 

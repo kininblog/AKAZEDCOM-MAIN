@@ -80,3 +80,5 @@ Sebagai calon guru SD, Anda dituntut memiliki pemahaman yang holistik. Tryout me
 Impian Anda untuk berdiri di depan kelas dan mendidik generasi penerus bangsa sudah di depan mata. Jangan biarkan Tes Substantif menjadi penghalang langkah Anda.
 
 Uji pemahaman konten, literasi, dan numerasi Anda dengan **[tryout gratis](/ujian/)** yang telah kami susun sesuai kisi-kisi terbaru di bawah ini. Mulai sekarang dan ambil langkah pertama Anda untuk mengenakan seragam pendidik profesional kebanggaan, da persiapkan diri untuk *[daftar ppg](/cara-daftar-ppg-prajab-2025/)*!  
+
+>selain ini, kamu juga mengikuti *[tryout soal up pgsd terbaru](/ujian/ppg/soal-up-ppg-pgsd-terbaru/)* gratis untuk mendapatkan pengalaman mengerjakan soal lebih banyak lagi.
