@@ -1,0 +1,761 @@
+    <!-- SELURUH KONTEN HTML ANDA DARI SINI -->
+    <div id="login-container">
+        <div class="login-box">
+            <h2>Login Peserta Ujian</h2>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan username Anda">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password">
+            </div>
+            <button id="login-btn">Masuk</button>
+            <p id="login-error">Password salah. Coba lagi.</p>
+            <a href="/ujian/cara-ikut-tryout-online-gratis" style="text-decoration: none;">
+                <button id="cara-btn" type="button">Cara Ikut Try Out</button>
+            </a>
+        </div>
+    </div>
+
+    <header class="header" style="display: none;">
+        <h2>Simulasi Ujian</h2>
+        <div class="user-info">
+            <span id="header-info"></span>
+            <button id="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <div class="quiz-container" style="display: none;">
+        <main class="question-panel">
+            <div class="question-header">
+                <span id="subtest-title">Subtes</span> | Soal No. <span id="question-number">1</span>
+            </div>
+            <div class="question-body">
+                <p id="question-text">Memuat soal...</p>
+                <ul id="options" class="options-list"></ul>
+            </div>
+            <div class="quiz-actions">
+                <button id="prev-btn" class="action-button">Sebelumnya</button>
+                <button id="doubtful-btn" class="action-button">Ragu-ragu</button>
+                <button id="next-btn" class="action-button">Selanjutnya</button>
+            </div>
+        </main>
+        <aside class="navigation-panel">
+            <div class="timer-box">
+                Sisa Waktu
+                <div id="timer">30:00</div>
+            </div>
+            <div id="grid-container" class="question-grid-container"></div>
+            <div class="quiz-actions" style="justify-content: center;">
+                <button id="finish-btn" class="action-button">Selesaikan Ujian</button>
+            </div>
+        </aside>
+    </div>
+
+    <div id="result-page" class="result-container" style="display: none;">
+        <div class="result-card overall-summary">
+            <div id="status-lulus" class="status"></div>
+            <h2>Hasil Akhir Ujian</h2>
+            <div id="final-score" class="score">0</div>
+            <div id="score-details" class="score-details"></div>
+            <div id="submission-status"></div>
+        </div>
+        <div class="result-card">
+            <h3>Tinjauan Jawaban</h3>
+            <div id="review-section"></div>
+        </div>
+        <div style="text-align: center;">
+           <button id="restart-btn" class="action-button">Ulangi Ujian</button>
+        </div>
+    </div>
+    
+    <div id="confirmation-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Selesaikan Ujian?</h2>
+            <p>Apakah Anda yakin ingin menyelesaikan dan mengakhiri sesi ujian ini?</p>
+            <div class="modal-actions">
+                <button id="confirm-no" class="action-button">Batal</button>
+                <button id="confirm-yes" class="action-button">Ya, Selesaikan</button>
+            </div>
+        </div>
+    </div>
+    <!-- HINGGA AKHIR KONTEN HTML ANDA -->
+
+<script>
+// ===================================================================================
+// --- KONFIGURASI UJIAN (HANYA UBAH BAGIAN INI UNTUK UJIAN BARU) ---
+// ===================================================================================
+const EXAM_CONFIG = {
+    // 1. Ganti nama kategori ini sesuai nama sheet di Google Sheets (cth: "TWK", "TKP")
+    kategori: "PPG",
+    
+    // 2. Ganti URL ini dengan URL Web App dari Google Script Anda yang sudah di-deploy ulang.
+    scriptURL: 'https://script.google.com/macros/s/AKfycbxNJ9pOsCPSPAPRQKfoq43AwmVMSIScq6AIa33Q0dxnMI-jb1xuxi1aK3bUBFDstinDiQ/exec',
+    
+    // 3. Ganti link peringkat ini ke halaman peringkat yang sesuai.
+    linkPeringkat: "/ujian/ranking-peserta-tryout/",
+    
+    // 4. Sesuaikan pengaturan ujian jika perlu.
+    durasiMenit: 180,
+    passingGrade: 65,
+    password: "ujian",
+    
+    // 5. Ganti seluruh isi bank soal di bawah ini dengan soal yang sesuai.
+    bankSoal: [
+
+  {
+    "subtest": "Pedagogik",
+    "question": "Seorang guru PAUD ingin menerapkan pembelajaran yang sesuai dengan prinsip 'merdeka belajar' di kelasnya. Kegiatan yang paling mencerminkan prinsip ini adalah...",
+    "options": [
+      "Guru menyediakan berbagai jenis kegiatan main di beberapa sentra, dan anak-anak bebas memilih kegiatan yang diminatinya.",
+      "Semua anak diminta mengerjakan lembar kerja yang sama untuk memastikan tercapainya tujuan pembelajaran.",
+      "Guru memimpin kegiatan klasikal dengan menyanyikan lagu dan gerak yang harus diikuti semua anak.",
+      "Anak-anak dibagi menjadi kelompok-kelompok kecil oleh guru untuk mengerjakan proyek yang sudah ditentukan temanya."
+    ],
+    "answer": "Guru menyediakan berbagai jenis kegiatan main di beberapa sentra, dan anak-anak bebas memilih kegiatan yang diminatinya.",
+    "explanation": "Prinsip 'merdeka belajar' di PAUD menekankan pada pemberian pilihan, minat, dan partisipasi aktif anak. Menyediakan pilihan kegiatan di sentra memungkinkan anak untuk belajar sesuai dengan minat dan kecepatan perkembangannya sendiri, yang merupakan inti dari kemerdekaan dalam belajar."
+  },
+  {
+    "subtest": "Pedagogik",
+    "question": "Menurut teori perkembangan kognitif Vygotsky, konsep 'Zone of Proximal Development' (ZPD) sangat penting. Bagaimana seorang guru PAUD dapat menerapkan konsep ZPD dalam kegiatan meronce?",
+    "options": [
+      "Memberikan anak manik-manik dan tali, lalu membiarkannya bekerja sepenuhnya sendiri.",
+      "Mengerjakan seluruh tugas meronce untuk anak dan menunjukkan hasilnya.",
+      "Memberikan contoh cara memasukkan satu manik-manik ke tali, lalu mendorong anak untuk mencoba sendiri sambil memberikan bantuan jika ia kesulitan.",
+      "Hanya memberikan instruksi verbal tanpa memberikan contoh atau bantuan fisik."
+    ],
+    "answer": "Memberikan contoh cara memasukkan satu manik-manik ke tali, lalu mendorong anak untuk mencoba sendiri sambil memberikan bantuan jika ia kesulitan.",
+    "explanation": "ZPD adalah area di antara apa yang bisa dilakukan anak secara mandiri dan apa yang bisa ia capai dengan bantuan orang dewasa. Bantuan (scaffolding) yang tepat, seperti memberi contoh dan dukungan saat dibutuhkan, memungkinkan anak untuk mencapai tingkat perkembangan yang lebih tinggi."
+  },
+  {
+    "subtest": "Pedagogik",
+    "question": "Penilaian autentik di PAUD sangat dianjurkan. Manakah di antara berikut ini yang merupakan contoh penerapan penilaian autentik yang paling efektif?",
+    "options": [
+      "Memberikan tes tertulis dengan soal pilihan ganda tentang warna dan bentuk.",
+      "Mengumpulkan semua hasil gambar anak di akhir semester untuk diberi nilai.",
+      "Membuat catatan anekdot ketika seorang anak berhasil menyelesaikan puzzle sulit setelah beberapa kali mencoba.",
+      "Menanyakan kepada semua anak secara lisan, 'Siapa yang sudah bisa menggunting dengan rapi?'"
+    ],
+    "answer": "Membuat catatan anekdot ketika seorang anak berhasil menyelesaikan puzzle sulit setelah beberapa kali mencoba.",
+    "explanation": "Penilaian autentik menilai proses dan hasil belajar anak dalam situasi nyata dan bermakna. Catatan anekdot merekam perilaku, usaha, dan pencapaian spesifik anak pada saat kegiatan berlangsung, sehingga memberikan gambaran yang kaya dan otentik tentang kemampuannya."
+  },
+ {
+    "subtest": "Pedagogik",
+    "question": "Seorang guru ingin mengembangkan kemampuan berpikir kritis pada anak usia 5-6 tahun. Kegiatan main yang paling mendukung tujuan ini adalah...",
+    "options": [
+      "Anak-anak diminta mewarnai gambar pemandangan yang sudah disiapkan guru.",
+      "Anak-anak diajak bermain peran sebagai penjual dan pembeli di pasar.",
+      "Anak-anak diberi balok-balok berbagai bentuk dan diminta membangun jembatan yang bisa dilewati mobil mainan.",
+      "Anak-anak mendengarkan cerita yang dibacakan oleh guru dengan intonasi yang menarik."
+    ],
+    "answer": "Anak-anak diberi balok-balok berbagai bentuk dan diminta membangun jembatan yang bisa dilewati mobil mainan.",
+    "explanation": "Kegiatan membangun jembatan menuntut anak untuk berpikir kritis: merencanakan, mencoba, mengevaluasi (apakah jembatannya kuat?), dan memecahkan masalah jika jembatannya runtuh. Ini adalah proses berpikir tingkat tinggi, bukan sekadar mengikuti instruksi."
+  },
+  {
+    "subtest": "Pedagogik",
+    "question": "Model pembelajaran sentra (BCCT) memiliki tahapan yang khas. Urutan tahapan yang benar dalam satu siklus harian model sentra adalah...",
+    "options": [
+      "Pijakan Lingkungan - Pijakan Sebelum Main - Pijakan Saat Main - Pijakan Setelah Main.",
+      "Pijakan Sebelum Main - Pijakan Lingkungan - Pijakan Saat Main - Pijakan Setelah Main.",
+      "Pijakan Saat Main - Pijakan Setelah Main - Pijakan Lingkungan - Pijakan Sebelum Main.",
+      "Pijakan Lingkungan - Pijakan Setelah Main - Pijakan Sebelum Main - Pijakan Saat Main."
+    ],
+    "answer": "Pijakan Lingkungan - Pijakan Sebelum Main - Pijakan Saat Main - Pijakan Setelah Main.",
+    "explanation": "Tahapan pada model sentra dimulai dengan penyiapan lingkungan main (Pijakan Lingkungan), lalu kegiatan pembukaan untuk menjelaskan aturan (Pijakan Sebelum Main), observasi dan fasilitasi saat anak bermain (Pijakan Saat Main), dan diakhiri dengan kegiatan refleksi dan membereskan (Pijakan Setelah Main)."
+  },
+  {
+    "subtest": "Pedagogik",
+    "question": "Guru A sedang merancang kegiatan untuk menstimulasi aspek perkembangan sosial-emosional. Manakah tujuan pembelajaran yang paling tepat untuk aspek tersebut?",
+    "options": [
+      "Anak mampu menyebutkan nama-nama binatang buas.",
+      "Anak mampu melompat dengan satu kaki sejauh satu meter.",
+      "Anak mampu menunggu giliran saat bermain perosotan.",
+      "Anak mampu menceritakan kembali isi cerita yang didengarnya."
+    ],
+    "answer": "Anak mampu menunggu giliran saat bermain perosotan.",
+    "explanation": "Menunggu giliran adalah indikator kunci dari perkembangan sosial-emosional, khususnya dalam hal pengendalian diri, kesabaran, dan pemahaman aturan sosial dalam berinteraksi dengan teman."
+  },
+  {
+    "subtest": "Pedagogik",
+    "question": "Dalam Kurikulum Merdeka, guru PAUD perlu memahami Capaian Pembelajaran (CP) untuk merancang kegiatan. Fungsi utama dari CP adalah...",
+    "options": [
+      "Sebagai daftar materi pelajaran yang harus diajarkan setiap hari.",
+      "Sebagai kompetensi yang ditargetkan untuk dicapai anak di akhir fase fondasi (akhir TK B).",
+      "Sebagai standar penilaian untuk menentukan kelulusan anak dari PAUD.",
+      "Sebagai panduan kaku yang harus diikuti tanpa boleh diubah."
+    ],
+    "answer": "Sebagai kompetensi yang ditargetkan untuk dicapai anak di akhir fase fondasi (akhir TK B).",
+    "explanation": "Capaian Pembelajaran (CP) adalah deskripsi kompetensi yang lebih umum yang perlu dicapai siswa di akhir sebuah fase. Untuk PAUD, ini adalah fase fondasi, dan CP menjadi acuan utama bagi guru untuk menurunkan menjadi tujuan pembelajaran yang lebih spesifik."
+  },
+  {
+    "subtest": "Pedagogik",
+    "question": "Seorang anak di kelas Anda menunjukkan perilaku agresif, seperti memukul teman saat marah. Pendekatan yang paling tepat berdasarkan prinsip disiplin positif adalah...",
+    "options": [
+      "Menghukum anak dengan menyuruhnya berdiri di pojok kelas.",
+      "Memberi label pada anak sebagai 'anak nakal' agar ia jera.",
+      "Memvalidasi perasaannya ('Ibu tahu kamu marah'), lalu mengajarkan cara yang lebih baik untuk mengekspresikan marah (misal: memukul bantal).",
+      "Mengabaikan perilakunya dengan harapan akan berhenti sendiri."
+    ],
+    "answer": "Memvalidasi perasaannya ('Ibu tahu kamu marah'), lalu mengajarkan cara yang lebih baik untuk mengekspresikan marah (misal: memukul bantal).",
+    "explanation": "Disiplin positif berfokus pada pengajaran keterampilan sosial dan emosional, bukan hukuman. Memvalidasi perasaan anak membuatnya merasa dimengerti, dan mengajarkan cara alternatif yang dapat diterima secara sosial adalah solusi jangka panjang untuk mengelola emosi."
+  },
+  {
+    "subtest": "Pedagogik",
+    "question": "Perhatikan tabel teknik penilaian PAUD berikut:\n\n| No | Teknik Penilaian | Deskripsi |\n|----|------------------|------------------------------------------------|\n| 1  | Catatan Anekdot  | Catatan singkat tentang peristiwa spesifik.     |\n| 2  | Ceklis           | Daftar indikator capaian (tercapai/tidak).     |\n| 3  | Hasil Karya      | Analisis produk buatan anak (gambar, dll).     |\n| 4  | Foto Berseri     | Dokumentasi visual dari sebuah proses.         |\n\nSeorang guru ingin melihat perkembangan kemampuan seorang anak dalam membuat sebuah bangunan dari balok, mulai dari awal hingga akhir. Teknik penilaian manakah yang paling tepat untuk digunakan?",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "answer": "4",
+    "explanation": "Foto berseri adalah teknik yang paling efektif untuk mendokumentasikan sebuah proses secara visual. Guru dapat memotret tahapan-tahapan yang dilalui anak saat membangun balok, yang menunjukkan perkembangan ide, strategi pemecahan masalah, dan hasil akhirnya."
+  },
+  {
+    "subtest": "Pedagogik",
+    "question": "Transisi dari PAUD ke SD yang menyenangkan adalah hak anak. Manakah kegiatan yang paling mendukung terwujudnya transisi yang mulus?",
+    "options": [
+      "Memberikan banyak latihan 'calistung' di TK B agar anak siap secara akademik.",
+      "Mengadakan kunjungan bersama ke sekolah dasar terdekat agar anak familiar dengan lingkungan barunya.",
+      "Mengharuskan semua anak TK B untuk bisa membaca kalimat panjang sebelum lulus.",
+      "Memberitahu anak bahwa di SD mereka harus duduk diam dan mendengarkan guru sepanjang waktu."
+    ],
+    "answer": "Mengadakan kunjungan bersama ke sekolah dasar terdekat agar anak familiar dengan lingkungan barunya.",
+    "explanation": "Transisi yang mulus lebih banyak berkaitan dengan kesiapan sosial dan emosional. Mengenalkan lingkungan SD secara langsung, bertemu guru, dan melihat suasana kelas dapat mengurangi kecemasan dan membangun rasa familiaritas, sehingga anak merasa lebih siap dan nyaman."
+  },
+  {
+    "subtest": "Profesional (Bidang Studi PAUD)",
+    "question": "Seorang anak usia 4 tahun sedang asyik menuangkan air dari satu wadah ke wadah lain yang berbeda bentuk. Aspek perkembangan kognitif apa yang sedang terstimulasi melalui kegiatan ini?",
+    "options": [
+      "Kemampuan konservasi (kekekalan volume)",
+      "Kemampuan klasifikasi (mengelompokkan)",
+      "Kemampuan seriasi (mengurutkan)",
+      "Kemampuan berpikir simbolik"
+    ],
+    "answer": "Kemampuan konservasi (kekekalan volume)",
+    "explanation": "Meskipun anak pada usia ini belum sepenuhnya memahami konsep konservasi (bahwa volume air tetap sama meskipun wadahnya berbeda), kegiatan ini adalah eksplorasi awal yang fundamental untuk membangun pemahaman tersebut. Ia sedang mengamati fenomena yang menjadi dasar konsep kekekalan."
+  },
+  {
+    "subtest": "Profesional (Bidang Studi PAUD)",
+    "question": "Perhatikan gambar berikut:\n\n[Gambar seorang anak sedang berjalan di atas papan titian dengan tangan direntangkan untuk keseimbangan]\n\nKegiatan yang dilakukan anak pada gambar di atas secara spesifik bertujuan untuk mengembangkan...",
+    "options": [
+      "Motorik halus",
+      "Kekuatan otot lengan",
+      "Keseimbangan tubuh (motorik kasar)",
+      "Koordinasi mata dan tangan"
+    ],
+    "answer": "Keseimbangan tubuh (motorik kasar)",
+    "explanation": "Berjalan di atas papan titian adalah latihan klasik untuk melatih keseimbangan tubuh, yang merupakan salah satu komponen penting dari keterampilan motorik kasar. Kegiatan ini melibatkan koordinasi seluruh tubuh untuk menjaga agar tidak jatuh."
+  },
+  {
+    "subtest": "Profesional (Bidang Studi PAUD)",
+    "question": "Dalam perkembangan bahasa, seorang anak mengatakan 'mau minum susu' menjadi 'num cucu'. Fenomena ini disebut...",
+    "options": [
+      "Babbling (meraban)",
+      "Holografis (satu kata mewakili kalimat)",
+      "Telegrafis (kalimat pendek tanpa kata hubung)",
+      "Penyederhanaan fonologis"
+    ],
+    "answer": "Penyederhanaan fonologis",
+    "explanation": "Penyederhanaan fonologis adalah ciri khas perkembangan bahasa anak di mana mereka menyederhanakan pengucapan kata-kata yang kompleks. 'Num cucu' adalah bentuk sederhana dari 'minum susu', yang menunjukkan anak sudah memahami kata namun masih kesulitan dalam artikulasi fonem (bunyi)."
+  },
+  {
+    "subtest": "Profesional (Bidang Studi PAUD)",
+    "question": "Guru menyediakan 'loose parts' seperti ranting, daun kering, batu-batuan, dan tutup botol. Manfaat utama dari penggunaan media 'loose parts' dibandingkan mainan jadi adalah...",
+    "options": [
+      "Lebih murah dan mudah didapat.",
+      "Mengembangkan kreativitas dan imajinasi anak secara tak terbatas.",
+      "Memiliki warna yang lebih menarik bagi anak-anak.",
+      "Memastikan semua anak membuat hasil karya yang seragam."
+    ],
+    "answer": "Mengembangkan kreativitas dan imajinasi anak secara tak terbatas.",
+    "explanation": "'Loose parts' adalah media 'open-ended' yang tidak memiliki satu cara penggunaan yang benar. Hal ini memicu anak untuk berimajinasi dan berkreasi tanpa batas, mengubah ranting menjadi pedang atau daun menjadi piring, sehingga sangat efektif untuk mengembangkan kreativitas."
+  },
+  {
+    "subtest": "Profesional (Bidang Studi PAUD)",
+    "question": "Seorang anak menangis karena bangunannya dari balok tidak sengaja disenggol temannya hingga roboh. Respon guru yang paling tepat untuk mengembangkan empati pada anak yang menyenggol adalah...",
+    "options": [
+      "Langsung menyuruh anak yang menyenggol untuk meminta maaf.",
+      "Menjelaskan kepada anak yang menyenggol, 'Lihat, temanmu jadi sedih karena bangunannya roboh. Yuk, kita bantu dia membangun lagi.'",
+      "Menasihati anak yang menangis agar tidak cengeng.",
+      "Memisahkan kedua anak tersebut agar tidak bermain bersama lagi."
+    ],
+    "answer": "Menjelaskan kepada anak yang menyenggol, 'Lihat, temanmu jadi sedih karena bangunannya roboh. Yuk, kita bantu dia membangun lagi.'",
+    "explanation": "Mengembangkan empati melibatkan proses membantu anak memahami perasaan orang lain dan menghubungkannya dengan akibat dari perilakunya. Mengajak anak melihat dampak tindakannya ('temanmu jadi sedih') dan memberikan solusi konstruktif ('yuk, kita bantu') adalah cara yang efektif untuk menumbuhkan empati."
+  },
+  {
+    "subtest": "Profesional (Bidang Studi PAUD)",
+    "question": "Stimulasi aspek perkembangan Nilai Agama dan Moral (NAM) pada anak usia dini paling baik dilakukan melalui...",
+    "options": [
+      "Menghafalkan doa-doa panjang dan ayat-ayat suci.",
+      "Memberikan hukuman jika anak berbohong.",
+      "Pembiasaan dan keteladanan dalam perilaku sehari-hari, seperti mengucapkan terima kasih, menolong teman, dan bersikap jujur.",
+      "Ceramah tentang konsep surga dan neraka."
+    ],
+    "answer": "Pembiasaan dan keteladanan dalam perilaku sehari-hari, seperti mengucapkan terima kasih, menolong teman, dan bersikap jujur.",
+    "explanation": "Anak usia dini belajar nilai-nilai moral dan agama secara konkret melalui apa yang mereka lihat dan alami. Keteladanan dari guru dan pembiasaan perilaku baik dalam rutinitas harian jauh lebih efektif dan bermakna daripada pengajaran konsep yang abstrak."
+  },
+  {
+    "subtest": "Profesional (Bidang Studi PAUD)",
+    "question": "Seorang guru ingin mengenalkan konsep sains tentang pencampuran warna. Kegiatan bermain yang paling sesuai dan berpusat pada anak adalah...",
+    "options": [
+      "Guru mendemonstrasikan pencampuran warna di depan kelas, lalu anak-anak mencatat hasilnya.",
+      "Guru memberikan air berwarna (merah, kuning, biru) dalam botol-botol kecil dan pipet, lalu membebaskan anak untuk bereksperimen mencampurkannya di wadah kosong.",
+      "Guru menunjukkan video tentang teori warna primer dan sekunder.",
+      "Anak-anak diminta mewarnai gambar pelangi sesuai contoh dari guru."
+    ],
+    "answer": "Guru memberikan air berwarna (merah, kuning, biru) dalam botol-botol kecil dan pipet, lalu membebaskan anak untuk bereksperimen mencampurkannya di wadah kosong.",
+    "explanation": "Pembelajaran sains di PAUD harus berbasis penemuan (discovery) dan eksplorasi langsung. Memberikan kesempatan kepada anak untuk bereksperimen sendiri memungkinkan mereka untuk 'menemukan' konsep pencampuran warna melalui pengalaman sensorik yang nyata dan menyenangkan."
+  },
+  {
+    "subtest": "Profesional (Bidang Studi PAUD)",
+    "question": "Perhatikan tabel menu PMT (Pemberian Makanan Tambahan) di sebuah PAUD:\n\n| Hari    | Menu                 |\n|---------|----------------------|\n| Senin   | Bubur kacang hijau   |\n| Selasa  | Puding buah          |\n| Rabu    | Nasi, sayur bayam, telur |\n| Kamis   | Biskuit dan susu     |\n| Jumat   | Agar-agar            |\n\nBerdasarkan prinsip gizi seimbang, menu pada hari manakah yang paling lengkap kandungan gizinya (karbohidrat, protein, sayur)?",
+    "options": [
+      "Senin",
+      "Rabu",
+      "Kamis",
+      "Jumat"
+    ],
+    "answer": "Rabu",
+    "explanation": "Menu hari Rabu (Nasi, sayur bayam, telur) adalah yang paling lengkap karena mengandung sumber karbohidrat (nasi), protein hewani (telur), serta vitamin dan mineral dari sayuran (bayam), sesuai dengan anjuran gizi seimbang."
+  },
+  {
+    "subtest": "Profesional (Bidang Studi PAUD)",
+    "question": "Kegiatan merobek kertas, meremas kertas, dan membentuknya menjadi bola-bola kecil adalah stimulasi yang sangat baik untuk...",
+    "options": [
+      "Keterampilan sosial anak.",
+      "Kemampuan mengenal konsep bilangan.",
+      "Kekuatan dan kelenturan otot-otot jari tangan (motorik halus).",
+      "Kemampuan berlari dan melompat (motorik kasar)."
+    ],
+    "answer": "Kekuatan dan kelenturan otot-otot jari tangan (motorik halus).",
+    "explanation": "Aktivitas-aktivitas tersebut secara langsung melatih otot-otot kecil di jari dan tangan. Keterampilan ini merupakan fondasi penting untuk kemampuan yang lebih kompleks seperti memegang pensil dan menulis."
+  },
+  {
+    "subtest": "Profesional (Bidang Studi PAUD)",
+    "question": "Seorang anak menunjukkan ketertarikan pada huruf. Ia sering menunjuk huruf-huruf pada buku dan menanyakan bunyinya. Tahap perkembangan literasi yang sedang dialami anak ini disebut...",
+    "options": [
+      "Emergent Literacy (Literasi Dini)",
+      "Conventional Reading (Membaca Konvensional)",
+      "Fluent Reading (Membaca Lancar)",
+      "Pre-writing (Pra-menulis)"
+    ],
+    "answer": "Emergent Literacy (Literasi Dini)",
+    "explanation": "Emergent Literacy adalah tahap di mana anak mulai menunjukkan kesadaran dan minat pada hal-hal yang berkaitan dengan keaksaraan (membaca dan menulis), jauh sebelum mereka bisa membaca secara konvensional. Kesadaran akan tulisan (print awareness) dan minat pada huruf adalah ciri utama dari tahap ini."
+  },
+  {
+    "subtest": "Literasi & Numerasi Kontekstual",
+    "question": "Dalam sebuah catatan observasi guru tertulis: 'Hari ini, Ani berhasil menyusun balok dari yang paling pendek ke yang paling panjang. Ia mencoba beberapa kali sebelum akhirnya berhasil.' Kemampuan kognitif yang ditunjukkan Ani adalah...",
+    "options": [
+      "Klasifikasi",
+      "Seriasi",
+      "Korespondensi satu-satu",
+      "Konservasi"
+    ],
+    "answer": "Seriasi",
+    "explanation": "Seriasi adalah kemampuan untuk mengurutkan objek berdasarkan atribut tertentu, seperti ukuran (dari pendek ke panjang), warna (dari muda ke tua), atau volume (dari sedikit ke banyak). Catatan tersebut secara jelas mendeskripsikan kegiatan seriasi."
+  },
+  {
+    "subtest": "Literasi & Numerasi Kontekstual",
+    "question": "Di sentra persiapan, tersedia 5 wadah. Guru meminta anak untuk meletakkan 3 kerang di setiap wadah. Berapa total kerang yang dibutuhkan anak tersebut?",
+    "options": [
+      "8",
+      "10",
+      "15",
+      "20"
+    ],
+    "answer": "15",
+    "explanation": "Soal ini menguji konsep dasar perkalian dalam konteks yang relevan bagi PAUD. 5 wadah dikalikan dengan 3 kerang per wadah (5 x 3) menghasilkan total 15 kerang. Ini adalah penerapan konsep numerasi dalam kegiatan bermain."
+  },
+  {
+    "subtest": "Literasi & Numerasi Kontekstual",
+    "question": "Perhatikan grafik sederhana berikut:\n\n**Buah Kesukaan Anak Kelas B**\nApel:   🍎🍎🍎🍎🍎\nJeruk:  🍊🍊🍊\nPisang: 🍌🍌🍌🍌\n\n(Setiap gambar mewakili 1 anak)\n\nBerdasarkan grafik di atas, pernyataan manakah yang benar?",
+    "options": [
+      "Anak yang suka jeruk lebih banyak dari yang suka pisang.",
+      "Buah yang paling sedikit disukai adalah apel.",
+      "Jumlah anak yang suka apel adalah 5 orang.",
+      "Total semua anak di kelas B adalah 10 orang."
+    ],
+    "answer": "Jumlah anak yang suka apel adalah 5 orang.",
+    "explanation": "Soal ini menguji kemampuan literasi data (membaca piktogram). Dengan menghitung gambar, dapat disimpulkan bahwa ada 5 anak yang suka apel, 3 suka jeruk, dan 4 suka pisang. Pernyataan yang paling akurat sesuai data adalah bahwa jumlah penyuka apel adalah 5."
+  },
+  {
+    "subtest": "Studi Kasus (SJT)",
+    "question": "Anda adalah guru di kelas A. Salah satu orang tua murid datang kepada Anda dan mengeluh karena anaknya, Budi, pulang dengan baju kotor setiap hari akibat bermain di sentra bahan alam. Orang tua tersebut meminta Anda untuk melarang Budi bermain di sentra itu. Sikap Anda yang paling profesional adalah...",
+    "options": [
+      "Menuruti permintaan orang tua dan melarang Budi bermain di sentra bahan alam untuk menghindari konflik.",
+      "Menjelaskan kepada orang tua tentang pentingnya bermain sensorik di sentra bahan alam bagi perkembangan anak dan menyarankan agar Budi membawa baju ganti.",
+      "Mengatakan kepada orang tua bahwa kotor adalah hal biasa di PAUD dan mereka tidak perlu khawatir.",
+      "Mengabaikan keluhan orang tua tersebut karena menganggapnya tidak penting."
+    ],
+    "answer": "Menjelaskan kepada orang tua tentang pentingnya bermain sensorik di sentra bahan alam bagi perkembangan anak dan menyarankan agar Budi membawa baju ganti.",
+    "explanation": "Sikap profesional melibatkan edukasi dan kolaborasi dengan orang tua. Guru perlu menjelaskan manfaat pedagogis dari suatu kegiatan (mengapa bermain itu penting) sambil memberikan solusi praktis (baju ganti) yang menghargai kekhawatiran orang tua. Ini membangun kemitraan yang positif."
+  },
+  {
+    "subtest": "Studi Kasus (SJT)",
+    "question": "Saat kegiatan proyek tentang 'Tanaman', Anda merencanakan agar anak-anak menanam biji kacang hijau. Namun, sebagian besar anak justru lebih tertarik mengamati cacing yang mereka temukan di tanah. Tindakan yang paling tepat untuk Anda lakukan adalah...",
+    "options": [
+      "Tetap memaksa anak-anak untuk fokus pada kegiatan menanam biji sesuai RPP yang sudah dibuat.",
+      "Menghentikan kegiatan dan memarahi anak-anak karena tidak mengikuti instruksi.",
+      "Mengikuti minat anak dengan menjadikan cacing sebagai pusat pembahasan baru, misalnya 'Apa peran cacing bagi tanah dan tanaman?'",
+      "Membiarkan anak-anak bermain dengan cacing tanpa memberikan bimbingan atau arahan belajar."
+    ],
+    "answer": "Mengikuti minat anak dengan menjadikan cacing sebagai pusat pembahasan baru, misalnya 'Apa peran cacing bagi tanah dan tanaman?'",
+    "explanation": "Pembelajaran yang berpusat pada anak (child-centered) berarti guru harus fleksibel dan mampu mengikuti minat anak. Mengalihkan fokus ke cacing menunjukkan bahwa guru responsif dan dapat mengubah momen tak terduga menjadi kesempatan belajar yang kaya dan bermakna, yang bahkan masih relevan dengan tema besar 'Tanaman'."
+  },
+  {
+    "subtest": "Studi Kasus (SJT)",
+    "question": "Anda mengobservasi seorang anak, Rina (5 tahun), yang jarang mau berbicara di kelas dan selalu menunduk jika diajak bicara oleh guru atau teman. Namun, saat bermain sendiri dengan boneka, ia tampak aktif berbicara. Langkah pertama yang paling bijaksana untuk Anda lakukan adalah...",
+    "options": [
+      "Langsung mendiagnosis Rina sebagai anak dengan gangguan 'selective mutism' dan melaporkannya ke kepala sekolah.",
+      "Memaksa Rina untuk menjawab pertanyaan di depan kelas agar ia terbiasa.",
+      "Melakukan observasi lebih lanjut secara sistematis pada berbagai situasi untuk mengumpulkan data, sambil mencoba membangun hubungan kepercayaan dengan Rina melalui pendekatan personal.",
+      "Menghubungi orang tua Rina dan mengatakan bahwa anaknya memiliki masalah sosial yang serius."
+    ],
+    "answer": "Melakukan observasi lebih lanjut secara sistematis pada berbagai situasi untuk mengumpulkan data, sambil mencoba membangun hubungan kepercayaan dengan Rina melalui pendekatan personal.",
+    "explanation": "Seorang guru profesional tidak boleh terburu-buru dalam membuat kesimpulan atau diagnosis. Langkah pertama yang tepat adalah mengumpulkan data yang cukup melalui observasi yang cermat dan membangun hubungan yang aman dan nyaman dengan anak. Ini adalah pendekatan yang hati-hati dan berpusat pada anak."
+  }
+
+],
+
+    // --- Data dinamis ini tidak perlu diubah ---
+    judulHalaman: document.title,
+    url: window.location.href
+};
+
+// ===================================================================================
+// --- FUNGSI PENGIRIMAN DATA KE GOOGLE SHEET (DIPERBARUI) ---
+// ===================================================================================
+async function kirimKeGoogleSheet(data) {
+    const statusEl = document.getElementById('submission-status');
+    statusEl.textContent = 'Mengirim hasil ujian...';
+    
+    const formData = new FormData();
+    // Menambahkan semua data ke dalam objek FormData.
+    formData.append('kategori', data.kategori);
+    formData.append('url', data.url);
+    formData.append('judulHalaman', data.judulHalaman);
+    formData.append('Nama', data.Nama);
+    formData.append('JumlahSoal', data.JumlahSoal);
+    formData.append('JawabanBenar', data.JawabanBenar);
+    formData.append('JawabanSalah', data.JawabanSalah);
+    formData.append('TidakDijawab', data.TidakDijawab);
+    formData.append('Durasi', data.Durasi);
+    formData.append('Nilai', data.Nilai);
+    formData.append('StatusKelulusan', data.StatusKelulusan);
+
+    try {
+        const response = await fetch(EXAM_CONFIG.scriptURL, {
+            method: 'POST',
+            body: formData
+        });
+        
+        // Membaca respons sebagai JSON untuk mendapatkan pesan sukses/error dari server
+        const result = await response.json();
+        
+        if (result.result === "success") {
+            statusEl.innerHTML = `Hasil ujian berhasil disimpan. <b><a href="${EXAM_CONFIG.linkPeringkat}">Cek Peringkat kamu di sini</a></b>`;
+            statusEl.style.color = 'green';
+        } else {
+            // Menampilkan pesan error yang lebih spesifik dari server
+            throw new Error(result.message || 'Terjadi kesalahan dari server.');
+        }
+    } catch (error) {
+        console.error('Error saat mengirim ke Google Sheet:', error);
+        statusEl.textContent = `Gagal menyimpan hasil. Coba lagi nanti. Error: ${error.message}`;
+        statusEl.style.color = 'red';
+    }
+}
+
+// ===================================================================================
+// --- LOGIKA UTAMA UJIAN (DISESUAIKAN, TIDAK PERLU DIUBAH LAGI) ---
+// ===================================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Menggunakan bank soal dari EXAM_CONFIG
+    const questions = EXAM_CONFIG.bankSoal;
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let questionStatus = new Array(questions.length).fill('unanswered');
+    let timerInterval;
+    let startTime;
+    let currentUsername = '';
+
+    const loginContainer = document.getElementById('login-container');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('login-btn');
+    const loginError = document.getElementById('login-error');
+    const appHeader = document.querySelector('.header');
+    const quizContainer = document.querySelector('.quiz-container');
+    const resultPage = document.getElementById('result-page');
+    const subtestTitleEl = document.getElementById('subtest-title');
+    const questionNumberEl = document.getElementById('question-number');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsEl = document.getElementById('options');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const doubtfulBtn = document.getElementById('doubtful-btn');
+    const finishBtn = document.getElementById('finish-btn');
+    const timerEl = document.getElementById('timer');
+    const restartBtn = document.getElementById('restart-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const headerInfo = document.getElementById('header-info');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmYesBtn = document.getElementById('confirm-yes');
+    const confirmNoBtn = document.getElementById('confirm-no');
+    
+    function showLoginPage() {
+        loginContainer.style.display = 'block'; // Diubah dari 'flex' agar sesuai skrip asli
+        appHeader.style.display = 'none';
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'none';
+        passwordInput.value = '';
+        loginError.style.display = 'none';
+    }
+
+    function handleLogin() {
+        const password = passwordInput.value;
+        const username = usernameInput.value.trim();
+        if (username === "") {
+            loginError.textContent = "Username tidak boleh kosong.";
+            loginError.style.display = 'block';
+            return;
+        }
+        // Menggunakan password dari EXAM_CONFIG
+        if (password === EXAM_CONFIG.password) {
+            currentUsername = username;
+            loginContainer.style.display = 'none';
+            appHeader.style.display = 'flex';
+            quizContainer.style.display = 'flex';
+            resultPage.style.display = 'none';
+            headerInfo.textContent = `Peserta: ${currentUsername}`;
+            startQuiz();
+        } else {
+            loginError.textContent = "Password salah. Coba lagi.";
+            loginError.style.display = 'block';
+        }
+    }
+    
+    function handleLogout() {
+        clearInterval(timerInterval);
+        showLoginPage();
+    }
+
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        userAnswers.fill(null);
+        questionStatus.fill('unanswered');
+        quizContainer.style.display = 'flex';
+        resultPage.style.display = 'none';
+        setupQuestionGrids();
+        displayQuestion(currentQuestionIndex);
+        // Menggunakan durasi dari EXAM_CONFIG
+        startTimer(EXAM_CONFIG.durasiMenit * 60);
+        startTime = new Date();
+    }
+
+    function setupQuestionGrids() {
+        const gridContainer = document.getElementById('grid-container');
+        gridContainer.innerHTML = '';
+        const subtests = [...new Set(questions.map(q => q.subtest))];
+        subtests.forEach(subtest => {
+            const group = document.createElement('div');
+            group.className = 'subtest-group';
+            const title = document.createElement('h3');
+            title.textContent = subtest;
+            const grid = document.createElement('div');
+            grid.className = 'question-grid';
+            group.appendChild(title);
+            group.appendChild(grid);
+            gridContainer.appendChild(group);
+            questions.forEach((q, index) => {
+                if (q.subtest === subtest) {
+                    const button = document.createElement('button');
+                    button.className = 'grid-button';
+                    button.textContent = index + 1;
+                    button.onclick = () => jumpToQuestion(index);
+                    grid.appendChild(button);
+                }
+            });
+        });
+    }
+
+    function displayQuestion(index) {
+        document.querySelector('.grid-button.current')?.classList.remove('current');
+        currentQuestionIndex = index;
+        const question = questions[index];
+        subtestTitleEl.textContent = question.subtest;
+        questionNumberEl.textContent = index + 1;
+        questionTextEl.innerHTML = question.question;
+        optionsEl.innerHTML = '';
+        question.options.forEach(option => {
+            const li = document.createElement('li');
+            const label = document.createElement('label');
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = `option-${index}`;
+            radio.value = option;
+            if (userAnswers[index] === option) {
+                radio.checked = true;
+                label.classList.add('selected');
+            }
+            radio.onchange = () => selectAnswer(index, option, label);
+            const span = document.createElement('span');
+            span.innerHTML = option; // Menggunakan innerHTML untuk render jika ada format
+            label.appendChild(radio);
+            label.appendChild(span);
+            li.appendChild(label);
+            optionsEl.appendChild(li);
+        });
+        updateNavButtons();
+        updateGridButtonStatus(index, true);
+    }
+
+    function selectAnswer(index, answer, label) {
+        userAnswers[index] = answer;
+        document.querySelectorAll(`#options li label`).forEach(l => l.classList.remove('selected'));
+        label.classList.add('selected');
+        if (questionStatus[index] !== 'doubtful') {
+            questionStatus[index] = 'answered';
+        }
+        updateGridButtonStatus(index);
+    }
+    
+    function updateNavButtons() {
+        prevBtn.disabled = currentQuestionIndex === 0;
+        nextBtn.disabled = currentQuestionIndex === questions.length - 1;
+    }
+    
+    function updateGridButtonStatus(index, isCurrent = false) {
+        const allGridButtons = document.querySelectorAll('.grid-button');
+        if (isCurrent) {
+            const currentBtn = document.querySelector('.grid-button.current');
+            if (currentBtn) currentBtn.classList.remove('current');
+        }
+        const button = Array.from(allGridButtons).find(btn => parseInt(btn.textContent) === index + 1);
+        if (!button) return;
+        if(isCurrent) button.classList.add('current');
+        button.classList.remove('answered', 'doubtful');
+        switch (questionStatus[index]) {
+            case 'answered': button.classList.add('answered'); break;
+            case 'doubtful': button.classList.add('doubtful'); break;
+        }
+    }
+
+    function jumpToQuestion(index) {
+        displayQuestion(index);
+    }
+
+    function startTimer(duration) {
+        let timer = duration;
+        clearInterval(timerInterval);
+        timerEl.parentElement.classList.remove('low-time');
+        timerInterval = setInterval(() => {
+            let minutes = parseInt(timer / 60, 10);
+            let seconds = parseInt(timer % 60, 10);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            timerEl.textContent = `${minutes}:${seconds}`;
+            if (timer < 300 && !timerEl.parentElement.classList.contains('low-time')) { 
+                timerEl.parentElement.classList.add('low-time'); 
+            }
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                finishQuiz();
+            }
+        }, 1000);
+    }
+    
+    function showConfirmation() {
+        confirmationModal.style.display = 'flex';
+    }
+
+    function formatDuration(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes} menit ${seconds.toString().padStart(2, '0')} detik`;
+}
+
+
+    function finishQuiz() {
+        clearInterval(timerInterval);
+        confirmationModal.style.display = 'none';
+        const endTime = new Date();
+        const durationMs = endTime - startTime;
+        let correctCount = 0;
+        questions.forEach((q, index) => {
+            if (userAnswers[index] === q.answer) correctCount++;
+        });
+        const totalQuestions = questions.length;
+        const answeredCount = userAnswers.filter(a => a !== null).length;
+        const incorrectCount = answeredCount - correctCount;
+        const unansweredCount = totalQuestions - answeredCount;
+        const finalScore = totalQuestions > 0 ? parseFloat(((correctCount / totalQuestions) * 100).toFixed(2)) : 0;
+        const isPassed = finalScore >= EXAM_CONFIG.passingGrade;
+        
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'block';
+        headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
+        
+        const statusEl = document.getElementById('status-lulus');
+        statusEl.textContent = isPassed ? 'SELAMAT, ANDA LULUS!' : 'MAAF, ANDA BELUM LULUS';
+        statusEl.className = `status ${isPassed ? 'lulus' : 'gagal'}`;
+        document.getElementById('final-score').textContent = finalScore;
+        document.getElementById('score-details').textContent = `${correctCount} dari ${totalQuestions} soal benar`;
+        
+        const reviewSection = document.getElementById('review-section');
+        reviewSection.innerHTML = '';
+        questions.forEach((q, index) => {
+            const userAnswer = userAnswers[index];
+            const isCorrect = userAnswer === q.answer;
+            reviewSection.innerHTML += `
+                <div class="review-item">
+                    <p><strong>Soal ${index + 1}:</strong> ${q.question}</p>
+                    <div class="review-answer user-answer ${isCorrect ? '' : 'is-incorrect'}">Jawaban Anda: ${userAnswer || 'Tidak Dijawab'}</div>
+                    ${!isCorrect ? `<div class="review-answer correct-answer">Jawaban Benar: ${q.answer}</div>` : ''}
+                    <div class="explanation"><strong>Pembahasan:</strong> ${q.explanation}</div>
+                </div>
+            `;
+        });
+        
+        const dataForSheet = {
+            kategori: EXAM_CONFIG.kategori,
+            url: EXAM_CONFIG.url,
+            judulHalaman: EXAM_CONFIG.judulHalaman,
+            Nama: currentUsername,
+            JumlahSoal: totalQuestions,
+            JawabanBenar: correctCount,
+            JawabanSalah: incorrectCount,
+            TidakDijawab: unansweredCount,
+            Durasi: formatDuration(durationMs),
+            Nilai: finalScore,
+            StatusKelulusan: isPassed ? 'Lulus' : 'Tidak Lulus'
+        };
+        kirimKeGoogleSheet(dataForSheet);
+    }
+
+    // Event Listeners
+    loginBtn.addEventListener('click', handleLogin);
+    passwordInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
+    logoutBtn.addEventListener('click', handleLogout);
+    prevBtn.addEventListener('click', () => { if (currentQuestionIndex > 0) displayQuestion(currentQuestionIndex - 1) });
+    nextBtn.addEventListener('click', () => { if (currentQuestionIndex < questions.length - 1) displayQuestion(currentQuestionIndex + 1) });
+    doubtfulBtn.addEventListener('click', () => {
+        const currentStatus = questionStatus[currentQuestionIndex];
+        if (currentStatus === 'doubtful') {
+            questionStatus[currentQuestionIndex] = userAnswers[currentQuestionIndex] ? 'answered' : 'unanswered';
+        } else {
+            questionStatus[currentQuestionIndex] = 'doubtful';
+        }
+        updateGridButtonStatus(currentQuestionIndex);
+    });
+    finishBtn.addEventListener('click', showConfirmation);
+    confirmYesBtn.addEventListener('click', finishQuiz);
+    confirmNoBtn.addEventListener('click', () => confirmationModal.style.display = 'none');
+    restartBtn.addEventListener('click', handleLogout);
+
+    showLoginPage();
+});
+</script>
