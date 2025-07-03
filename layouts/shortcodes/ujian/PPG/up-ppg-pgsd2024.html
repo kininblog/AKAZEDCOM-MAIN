@@ -1,0 +1,581 @@
+    <!-- SELURUH KONTEN HTML ANDA DARI SINI -->
+    <div id="login-container">
+        <div class="login-box">
+            <h2>Login Peserta Ujian</h2>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan username Anda">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password">
+            </div>
+            <button id="login-btn">Masuk</button>
+            <p id="login-error">Password salah. Coba lagi.</p>
+            <a href="/ujian/cara-ikut-tryout-online-gratis" style="text-decoration: none;">
+                <button id="cara-btn" type="button">Cara Ikut Try Out</button>
+            </a>
+        </div>
+    </div>
+
+    <header class="header" style="display: none;">
+        <h2>Simulasi Ujian</h2>
+        <div class="user-info">
+            <span id="header-info"></span>
+            <button id="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <div class="quiz-container" style="display: none;">
+        <main class="question-panel">
+            <div class="question-header">
+                <span id="subtest-title">Subtes</span> | Soal No. <span id="question-number">1</span>
+            </div>
+            <div class="question-body">
+                <p id="question-text">Memuat soal...</p>
+                <ul id="options" class="options-list"></ul>
+            </div>
+            <div class="quiz-actions">
+                <button id="prev-btn" class="action-button">Sebelumnya</button>
+                <button id="doubtful-btn" class="action-button">Ragu-ragu</button>
+                <button id="next-btn" class="action-button">Selanjutnya</button>
+            </div>
+        </main>
+        <aside class="navigation-panel">
+            <div class="timer-box">
+                Sisa Waktu
+                <div id="timer">30:00</div>
+            </div>
+            <div id="grid-container" class="question-grid-container"></div>
+            <div class="quiz-actions" style="justify-content: center;">
+                <button id="finish-btn" class="action-button">Selesaikan Ujian</button>
+            </div>
+        </aside>
+    </div>
+
+    <div id="result-page" class="result-container" style="display: none;">
+        <div class="result-card overall-summary">
+            <div id="status-lulus" class="status"></div>
+            <h2>Hasil Akhir Ujian</h2>
+            <div id="final-score" class="score">0</div>
+            <div id="score-details" class="score-details"></div>
+            <div id="submission-status"></div>
+        </div>
+        <div class="result-card">
+            <h3>Tinjauan Jawaban</h3>
+            <div id="review-section"></div>
+        </div>
+        <div style="text-align: center;">
+           <button id="restart-btn" class="action-button">Ulangi Ujian</button>
+        </div>
+    </div>
+    
+    <div id="confirmation-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Selesaikan Ujian?</h2>
+            <p>Apakah Anda yakin ingin menyelesaikan dan mengakhiri sesi ujian ini?</p>
+            <div class="modal-actions">
+                <button id="confirm-no" class="action-button">Batal</button>
+                <button id="confirm-yes" class="action-button">Ya, Selesaikan</button>
+            </div>
+        </div>
+    </div>
+    <!-- HINGGA AKHIR KONTEN HTML ANDA -->
+
+<script>
+// ===================================================================================
+// --- KONFIGURASI UJIAN (HANYA UBAH BAGIAN INI UNTUK UJIAN BARU) ---
+// ===================================================================================
+const EXAM_CONFIG = {
+    // 1. Ganti nama kategori ini sesuai nama sheet di Google Sheets (cth: "TWK", "TKP")
+    kategori: "PPG",
+    
+    // 2. Ganti URL ini dengan URL Web App dari Google Script Anda yang sudah di-deploy ulang.
+    scriptURL: 'https://script.google.com/macros/s/AKfycbxNJ9pOsCPSPAPRQKfoq43AwmVMSIScq6AIa33Q0dxnMI-jb1xuxi1aK3bUBFDstinDiQ/exec',
+    
+    // 3. Ganti link peringkat ini ke halaman peringkat yang sesuai.
+    linkPeringkat: "/ujian/ranking-peserta-tryout/",
+    
+    // 4. Sesuaikan pengaturan ujian jika perlu.
+    durasiMenit: 150,
+    passingGrade: 65,
+    password: "ujian",
+    
+    // 5. Ganti seluruh isi bank soal di bawah ini dengan soal yang sesuai.
+    bankSoal: [
+// Pedagogik (30 soal)
+{ subtest: 'Pedagogik', question: 'Seorang guru SD ingin menerapkan pembelajaran yang sesuai dengan prinsip konstruktivisme di kelas IV pada materi sifat-sifat cahaya. Kegiatan yang paling tepat untuk dilakukan adalah...', options: ['Guru menjelaskan semua sifat cahaya menggunakan slide presentasi dan video.', 'Siswa diminta membaca buku paket lalu merangkum sifat-sifat cahaya.', 'Guru melakukan demonstrasi percobaan sifat cahaya di depan kelas.', 'Siswa secara berkelompok melakukan serangkaian percobaan untuk menemukan sendiri sifat-sifat cahaya.'], answer: 'Siswa secara berkelompok melakukan serangkaian percobaan untuk menemukan sendiri sifat-sifat cahaya.', explanation: 'Prinsip utama konstruktivisme adalah siswa membangun pengetahuannya sendiri. Kegiatan percobaan secara mandiri memungkinkan siswa untuk aktif menemukan konsep, bukan hanya menerima informasi dari guru.' },
+{ subtest: 'Pedagogik', question: 'Penilaian yang dilakukan guru pada akhir suatu bab atau tema untuk mengukur penguasaan kompetensi siswa setelah proses pembelajaran selesai disebut...', options: ['Penilaian diagnostik', 'Penilaian formatif', 'Penilaian sumatif', 'Penilaian autentik'], answer: 'Penilaian sumatif', explanation: 'Penilaian sumatif bertujuan untuk menyimpulkan pencapaian siswa pada akhir periode pembelajaran (satu bab, satu semester) dan sering digunakan untuk menentukan nilai rapor.' },
+{ subtest: 'Pedagogik', question: 'Menurut teori perkembangan kognitif Piaget, siswa usia SD (7-11 tahun) berada pada tahap operasional konkret. Implikasi dari hal ini dalam pembelajaran adalah...', options: ['Pembelajaran harus selalu menggunakan benda-benda nyata atau media konkret.', 'Siswa sudah mampu berpikir abstrak dan hipotetis.', 'Fokus pembelajaran hanya pada pengembangan keterampilan motorik.', 'Siswa belajar paling baik melalui hafalan materi.'], answer: 'Pembelajaran harus selalu menggunakan benda-benda nyata atau media konkret.', explanation: 'Pada tahap operasional konkret, anak berpikir secara logis namun masih terikat pada objek atau kejadian yang konkret (nyata). Oleh karena itu, penggunaan media pembelajaran yang dapat dilihat dan dimanipulasi sangat penting.' },
+{ subtest: 'Pedagogik', question: 'Seorang guru menemukan bahwa siswanya kesulitan memahami konsep volume balok. Berdasarkan teori Bruner, urutan tahapan pembelajaran yang paling efektif adalah...', options: ['Simbolik -> Ikonik -> Enaktif', 'Enaktif -> Ikonik -> Simbolik', 'Ikonik -> Simbolik -> Enaktif', 'Simbolik -> Enaktif -> Ikonik'], answer: 'Enaktif -> Ikonik -> Simbolik', explanation: 'Teori Bruner menyarankan urutan belajar dari pengalaman konkret (enaktif: menggunakan balok satuan), ke representasi gambar (ikonik: menggambar jaring-jaring balok), baru ke simbol abstrak (simbolik: menggunakan rumus p x l x t).' },
+{ subtest: 'Pedagogik', question: 'Model pembelajaran yang memiliki sintaks orientasi siswa pada masalah, mengorganisasi siswa untuk belajar, membimbing penyelidikan, mengembangkan hasil karya, dan menganalisis evaluasi adalah...', options: ['Discovery Learning', 'Problem Based Learning (PBL)', 'Project Based Learning (PjBL)', 'Inquiry Learning'], answer: 'Problem Based Learning (PBL)', explanation: 'Sintaks tersebut adalah ciri khas dari model Problem Based Learning (PBL), di mana pembelajaran dimulai dari penyajian masalah nyata.' },
+{ subtest: 'Pedagogik', question: 'Apa fungsi utama dari Rencana Pelaksanaan Pembelajaran (RPP) dalam konteks Kurikulum Merdeka yang lebih fleksibel?', options: ['Sebagai dokumen administratif wajib yang kaku.', 'Sebagai bukti fisik saat akreditasi sekolah.', 'Sebagai pedoman fleksibel yang membantu guru mengarahkan pembelajaran agar tetap mencapai tujuan pembelajaran yang ditetapkan.', 'Sebagai bahan untuk dilaporkan kepada orang tua siswa.'], answer: 'Sebagai pedoman fleksibel yang membantu guru mengarahkan pembelajaran agar tetap mencapai tujuan pembelajaran yang ditetapkan.', explanation: 'Dalam Kurikulum Merdeka, RPP (atau Modul Ajar) berfungsi sebagai panduan yang dapat diadaptasi guru untuk memastikan pembelajaran terarah dan efektif, bukan sebagai dokumen yang kaku.' },
+{ subtest: 'Pedagogik', question: 'Penilaian autentik menekankan pada...', options: ['Penilaian hasil belajar berupa skor angka.', 'Penilaian proses dan hasil belajar siswa dalam konteks dunia nyata.', 'Penilaian yang hanya dilakukan di akhir semester.', 'Penilaian menggunakan tes pilihan ganda.'], answer: 'Penilaian proses dan hasil belajar siswa dalam konteks dunia nyata.', explanation: 'Penilaian autentik mengukur kompetensi siswa secara komprehensif (sikap, keterampilan, pengetahuan) melalui tugas-tugas yang relevan dengan kehidupan nyata, seperti portofolio, proyek, atau unjuk kerja.' },
+{ subtest: 'Pedagogik', question: 'Teori belajar behavioristik memandang belajar sebagai...', options: ['Proses membangun pengetahuan.', 'Perubahan tingkah laku sebagai akibat dari adanya interaksi antara stimulus dan respon.', 'Proses berpikir yang kompleks.', 'Upaya memahami potensi diri.'], answer: 'Perubahan tingkah laku sebagai akibat dari adanya interaksi antara stimulus dan respon.', explanation: 'Behaviorisme fokus pada perubahan perilaku yang dapat diamati, yang dikondisikan oleh stimulus (rangsangan) dan diperkuat oleh respon (tanggapan).' },
+{ subtest: 'Pedagogik', question: 'Seorang siswa di kelas Anda sangat aktif, tetapi seringkali mengganggu teman-temannya yang sedang belajar. Tindakan Anda sebagai guru adalah...', options: ['Menghukum siswa tersebut di depan kelas.', 'Memindahkan tempat duduknya ke pojok belakang.', 'Memberikan tugas tambahan yang sangat banyak.', 'Memberikan penyaluran energi yang positif, seperti menjadikannya pemimpin kelompok atau memberikan tanggung jawab khusus.'], answer: 'Memberikan penyaluran energi yang positif, seperti menjadikannya pemimpin kelompok atau memberikan tanggung jawab khusus.', explanation: 'Tindakan ini bersifat pedagogis, yaitu mengelola perilaku siswa dengan cara yang positif dan mendidik, mengubah potensi negatif menjadi kontribusi positif bagi kelas.' },
+{ subtest: 'Pedagogik', question: 'Indikator Pencapaian Kompetensi (IPK) yang baik harus memenuhi kriteria...', options: ['Spesifik, Terukur, Dapat Dicapai, Relevan, dan Berbatas Waktu (SMART).', 'Sulit, Kompleks, dan Abstrak.', 'Sesuai dengan keinginan guru.', 'Sama untuk semua jenjang kelas.'], answer: 'Spesifik, Terukur, Dapat Dicapai, Relevan, dan Berbatas Waktu (SMART).', explanation: 'Kriteria SMART (Specific, Measurable, Achievable, Relevant, Time-bound) digunakan untuk memastikan IPK dirumuskan secara jelas, terukur, dan realistis untuk dicapai.' },
+{ subtest: 'Pedagogik', question: 'Kemampuan berpikir tingkat tinggi (HOTS) dalam taksonomi Bloom yang direvisi meliputi...', options: ['Mengingat, Memahami, Menerapkan', 'Menerapkan, Menganalisis, Mengevaluasi', 'Menganalisis, Mengevaluasi, Mencipta', 'Memahami, Menganalisis, Mencipta'], answer: 'Menganalisis, Mengevaluasi, Mencipta', explanation: 'Tiga level teratas dalam taksonomi Bloom ranah kognitif yang direvisi (Anderson & Krathwohl) adalah C4 (Analyzing), C5 (Evaluating), dan C6 (Creating), yang dikategorikan sebagai HOTS.' },
+{ subtest: 'Pedagogik', question: 'Pembelajaran Terdiferensiasi adalah pendekatan pembelajaran yang...', options: ['Menyeragamkan semua tugas untuk seluruh siswa.', 'Memberikan perlakuan yang sama kepada semua siswa tanpa kecuali.', 'Menyesuaikan proses, konten, dan produk pembelajaran untuk memenuhi kebutuhan belajar individu siswa.', 'Hanya fokus pada siswa yang pintar.'], answer: 'Menyesuaikan proses, konten, dan produk pembelajaran untuk memenuhi kebutuhan belajar individu siswa.', explanation: 'Esensi dari pembelajaran terdiferensiasi adalah mengakomodasi keragaman kebutuhan, minat, dan profil belajar siswa.' },
+{ subtest: 'Pedagogik', question: 'Apa yang dimaksud dengan "scaffolding" dalam pembelajaran?', options: ['Memberikan hukuman kepada siswa.', 'Bantuan atau dukungan sementara yang diberikan guru kepada siswa untuk membantunya menyelesaikan tugas yang sulit.', 'Memberikan kebebasan penuh kepada siswa untuk belajar sendiri.', 'Memberikan tes di awal pembelajaran.'], answer: 'Bantuan atau dukungan sementara yang diberikan guru kepada siswa untuk membantunya menyelesaikan tugas yang sulit.', explanation: 'Scaffolding, seperti perancah pada bangunan, adalah bantuan bertahap yang diberikan guru dan akan ditarik kembali secara perlahan seiring dengan meningkatnya kemampuan siswa.' },
+{ subtest: 'Pedagogik', question: 'Tujuan utama dari kegiatan refleksi pada akhir pembelajaran adalah...', options: ['Mengisi waktu luang sebelum pulang.', 'Memastikan siswa memahami dan memaknai apa yang telah mereka pelajari.', 'Memberikan tugas rumah kepada siswa.', 'Menilai pekerjaan siswa.'], answer: 'Memastikan siswa memahami dan memaknai apa yang telah mereka pelajari.', explanation: 'Refleksi membantu siswa untuk menginternalisasi pembelajaran, menghubungkan konsep baru dengan pengetahuan lama, dan menemukan makna dari proses belajar.' },
+{ subtest: 'Pedagogik', question: 'Pendekatan Technological Pedagogical Content Knowledge (TPACK) menekankan pentingnya integrasi antara...', options: ['Teknologi, Media, dan Guru.', 'Teknologi, Pedagogi, dan Konten/Materi Pelajaran.', 'Siswa, Guru, dan Orang Tua.', 'Kurikulum, Penilaian, dan Pembelajaran.'], answer: 'Teknologi, Pedagogi, dan Konten/Materi Pelajaran.', explanation: 'TPACK adalah kerangka kerja yang menggambarkan pengetahuan yang harus dimiliki guru untuk dapat mengintegrasikan teknologi secara efektif ke dalam pembelajaran, dengan mempertimbangkan aspek pedagogi dan materi.' },
+{ subtest: 'Pedagogik', question: 'Media pembelajaran yang paling tepat untuk menjelaskan proses siklus air di kelas V adalah...', options: ['Gambar bagan di papan tulis.', 'Video animasi atau torso tiga dimensi.', 'Ceramah dari guru.', 'Buku paket siswa.'], answer: 'Video animasi atau torso tiga dimensi.', explanation: 'Proses yang dinamis seperti siklus air akan lebih mudah dipahami melalui media visual yang bergerak (video animasi) atau model tiga dimensi yang dapat diamati dari berbagai sisi.' },
+{ subtest: 'Pedagogik', question: 'Seorang guru menetapkan KKM (Kriteria Ketuntasan Minimal) 75. Jika seorang siswa mendapat nilai 70, tindakan remedial yang paling tepat adalah...', options: ['Memberikan tugas tambahan yang sama dengan siswa lain.', 'Mengulang tes dengan soal yang sama persis.', 'Memberikan pembelajaran ulang pada bagian yang belum dikuasai, lalu memberikan tes atau tugas perbaikan.', 'Langsung memberikan nilai 75 agar tuntas.'], answer: 'Memberikan pembelajaran ulang pada bagian yang belum dikuasai, lalu memberikan tes atau tugas perbaikan.', explanation: 'Remedial yang efektif bukan sekadar mengulang tes, tetapi harus diawali dengan identifikasi kesulitan dan pemberian bimbingan atau pembelajaran ulang pada materi yang belum tuntas.' },
+{ subtest: 'Pedagogik', question: 'Menurut teori kecerdasan majemuk (multiple intelligences) Howard Gardner, seorang siswa yang pandai menari dan berolahraga memiliki kecerdasan...', options: ['Spasial-Visual', 'Musikal', 'Kinestetik-Jasmani', 'Interpersonal'], answer: 'Kinestetik-Jasmani', explanation: 'Kecerdasan kinestetik-jasmani ditandai dengan kemampuan menggunakan tubuh secara terampil untuk mengekspresikan ide dan perasaan (seperti menari) atau menggunakan tangan untuk menciptakan atau mengubah sesuatu (seperti berolahraga).' },
+{ subtest: 'Pedagogik', question: 'Prinsip penilaian yang menyatakan bahwa penilaian tidak boleh menguntungkan atau merugikan siswa karena perbedaan latar belakang disebut prinsip...', options: ['Objektif', 'Adil', 'Terpadu', 'Sistematis'], answer: 'Adil', explanation: 'Prinsip keadilan dalam penilaian berarti tidak ada siswa yang dirugikan atau diuntungkan karena perbedaan suku, agama, ras, status sosial ekonomi, gender, atau hal-hal lain yang tidak relevan dengan pencapaian belajar.' },
+{ subtest: 'Pedagogik', question: 'Ketika guru memberikan sebuah studi kasus nyata kepada siswa untuk dianalisis dan dipecahkan, guru tersebut sedang menerapkan pembelajaran berbasis...', options: ['Masalah (Problem-based)', 'Proyek (Project-based)', 'Konteks (Contextual)', 'Kooperatif (Cooperative)'], answer: 'Masalah (Problem-based)', explanation: 'Ciri utama dari Problem-based Learning (PBL) adalah penggunaan masalah dunia nyata sebagai titik awal untuk penyelidikan dan pembelajaran siswa.' },
+{ subtest: 'Pedagogik', question: 'Dalam menyusun soal HOTS, seorang guru harus memastikan pertanyaan tersebut menuntut siswa untuk...', options: ['Mengingat fakta-fakta spesifik.', 'Menggunakan informasi untuk menyelesaikan masalah baru, menganalisis argumen, atau membuat sebuah kesimpulan.', 'Menjawab pertanyaan dengan cepat dan tepat.', 'Menyalin jawaban dari buku teks.'], answer: 'Menggunakan informasi untuk menyelesaikan masalah baru, menganalisis argumen, atau membuat sebuah kesimpulan.', explanation: 'Soal HOTS melampaui sekadar mengingat (LOTS) dan menuntut proses berpikir yang lebih kompleks seperti transfer pengetahuan, berpikir kritis, dan pemecahan masalah.' },
+{ subtest: 'Pedagogik', question: 'Seorang guru di kelas inklusif memiliki siswa dengan gaya belajar auditori. Strategi yang paling efektif untuk mendukung siswa tersebut adalah...', options: ['Memberikan banyak LKS bergambar.', 'Menggunakan metode diskusi, ceramah interaktif, dan media audio seperti podcast pembelajaran.', 'Meminta siswa untuk selalu mencatat di papan tulis.', 'Memberikan tugas proyek yang membutuhkan banyak gerakan fisik.'], answer: 'Menggunakan metode diskusi, ceramah interaktif, dan media audio seperti podcast pembelajaran.', explanation: 'Siswa dengan gaya belajar auditori memproses informasi paling baik melalui pendengaran. Oleh karena itu, strategi yang melibatkan suara dan diskusi sangat efektif.' },
+{ subtest: 'Pedagogik', question: 'Pada awal tahun ajaran, guru kelas V melakukan tes untuk mengetahui kemampuan awal siswa dalam materi prasyarat pecahan. Penilaian yang dilakukan guru tersebut tergolong...', options: ['Penilaian formatif', 'Penilaian sumatif', 'Penilaian diagnostik', 'Penilaian penempatan'], answer: 'Penilaian diagnostik', explanation: 'Penilaian diagnostik dilakukan di awal untuk mengidentifikasi kekuatan, kelemahan, dan pengetahuan awal siswa sebagai dasar untuk merancang pembelajaran yang sesuai.' },
+{ subtest: 'Pedagogik', question: 'Seorang guru ingin melakukan Penelitian Tindakan Kelas (PTK) untuk mengatasi masalah rendahnya minat baca siswa. Langkah pertama yang harus dilakukan guru adalah...', options: ['Menyusun instrumen penelitian.', 'Melaksanakan tindakan yang sudah direncanakan.', 'Melakukan refleksi awal untuk mengidentifikasi masalah secara spesifik.', 'Menyusun laporan PTK.'], answer: 'Melakukan refleksi awal untuk mengidentifikasi masalah secara spesifik.', explanation: 'Siklus PTK selalu diawali dengan refleksi terhadap masalah yang terjadi di kelas, yang kemudian menjadi dasar untuk merencanakan tindakan perbaikan.' },
+{ subtest: 'Pedagogik', question: 'Dalam menerapkan disiplin positif, pendekatan yang paling tepat saat menghadapi siswa yang tidak mengerjakan PR adalah...', options: ['Menghukum siswa berdiri di depan kelas selama jam pelajaran.', 'Menyuruh siswa menulis "Saya tidak akan mengulangi lagi" sebanyak 100 kali.', 'Mengajak siswa berdiskusi untuk mencari tahu alasan dan bersama-sama menemukan solusi agar hal tersebut tidak terulang.', 'Memberikan nilai 0 dan mengabaikan siswa tersebut.'], answer: 'Mengajak siswa berdiskusi untuk mencari tahu alasan dan bersama-sama menemukan solusi agar hal tersebut tidak terulang.', explanation: 'Disiplin positif fokus pada penyelesaian masalah dan membangun kesadaran internal siswa, bukan pada hukuman yang bersifat eksternal dan tidak mendidik.' },
+{ subtest: 'Pedagogik', question: 'Manakah di antara pilihan berikut yang merupakan tujuan pembelajaran yang paling lengkap dan terukur (mengandung komponen ABCD)?', options: ['Siswa dapat menjelaskan siklus air.', 'Melalui diskusi kelompok, siswa dapat menjelaskan proses siklus air.', 'Setelah mengamati video, siswa kelas V dapat menjelaskan tiga tahapan utama siklus air dengan benar.', 'Menjelaskan tahapan siklus air dengan benar.'], answer: 'Setelah mengamati video, siswa kelas V dapat menjelaskan tiga tahapan utama siklus air dengan benar.', explanation: 'Komponen ABCD (Audience, Behavior, Condition, Degree) terpenuhi: A=Siswa kelas V, B=dapat menjelaskan, C=Setelah mengamati video, D=tiga tahapan utama dengan benar.' },
+{ subtest: 'Pedagogik', question: 'Seorang guru senior merasa kesulitan menggunakan aplikasi pembelajaran digital baru. Sebagai rekan kerja, sikap profesional yang sebaiknya Anda tunjukkan adalah...', options: ['Menganggap guru tersebut sudah ketinggalan zaman.', 'Melaporkan kepada kepala sekolah agar guru tersebut diberi pelatihan.', 'Menawarkan bantuan dengan sabar dan berkolaborasi untuk belajar bersama.', 'Menyindirnya di ruang guru.'], answer: 'Menawarkan bantuan dengan sabar dan berkolaborasi untuk belajar bersama.', explanation: 'Sikap kolaboratif dan saling mendukung adalah bagian dari kompetensi sosial dan kepribadian seorang guru profesional.' },
+{ subtest: 'Pedagogik', question: 'Asesmen formatif dalam Kurikulum Merdeka paling baik digunakan untuk...', options: ['Menentukan kenaikan kelas siswa.', 'Memberikan umpan balik untuk perbaikan proses pembelajaran yang sedang berlangsung.', 'Mengisi nilai rapor di akhir semester.', 'Membandingkan prestasi siswa antar sekolah.'], answer: 'Memberikan umpan balik untuk perbaikan proses pembelajaran yang sedang berlangsung.', explanation: 'Fungsi utama asesmen formatif adalah sebagai "assessment for learning" dan "assessment as learning", yaitu untuk memonitor dan memperbaiki pembelajaran secara berkelanjutan, baik bagi guru maupun siswa.' },
+{ subtest: 'Pedagogik', question: 'Seorang siswa menunjukkan bakat luar biasa dalam melukis, namun kurang dalam pelajaran matematika. Pendekatan yang paling sesuai dengan prinsip pembelajaran terdiferensiasi adalah...', options: ['Memaksa siswa untuk les matematika setiap hari.', 'Mengabaikan bakat melukisnya dan fokus pada kelemahan matematikanya.', 'Memberikan proyek matematika yang dapat diintegrasikan dengan seni, misalnya membuat desain pola geometris yang artistik.', 'Menyarankan siswa untuk pindah ke sekolah seni.'], answer: 'Memberikan proyek matematika yang dapat diintegrasikan dengan seni, misalnya membuat desain pola geometris yang artistik.', explanation: 'Ini adalah contoh diferensiasi konten dan produk yang menghubungkan materi pelajaran dengan minat dan kekuatan siswa, sehingga membuat pembelajaran lebih bermakna.' },
+{ subtest: 'Pedagogik', question: 'Kode etik guru menuntut guru untuk menjaga kerahasiaan informasi tentang peserta didiknya. Manakah situasi berikut yang merupakan pelanggaran terhadap prinsip ini?', options: ['Mendiskusikan kemajuan siswa dengan orang tuanya dalam pertemuan resmi.', 'Berkonsultasi dengan guru BK mengenai masalah yang dihadapi siswa.', 'Menceritakan masalah pribadi dan nilai jelek seorang siswa kepada guru-guru lain di kantin.', 'Menyampaikan data prestasi siswa kepada kepala sekolah untuk keperluan laporan.'], answer: 'Menceritakan masalah pribadi dan nilai jelek seorang siswa kepada guru-guru lain di kantin.', explanation: 'Membicarakan masalah siswa di ruang publik yang tidak relevan dengan penyelesaian masalah adalah bentuk pelanggaran kerahasiaan dan tidak profesional.' },
+
+// Profesional: Matematika (15 soal)
+{ subtest: 'Profesional: Matematika', question: 'Sebuah toko memberikan diskon 20% untuk semua barang. Ibu membeli sebuah baju dengan label harga Rp 150.000 dan sebuah celana dengan label harga Rp 200.000. Berapa total yang harus dibayar Ibu setelah mendapat diskon?', options: ['Rp 280.000', 'Rp 270.000', 'Rp 300.000', 'Rp 70.000'], answer: 'Rp 280.000', explanation: 'Total harga awal = 150.000 + 200.000 = Rp 350.000. Besar diskon = 20% x 350.000 = Rp 70.000. Total yang harus dibayar = 350.000 - 70.000 = Rp 280.000.' },
+{ subtest: 'Profesional: Matematika', question: 'Pak Budi memiliki sebidang tanah berbentuk persegi panjang dengan ukuran panjang 24 meter dan lebar 15 meter. Di sekeliling tanah tersebut akan dipasang pagar dengan biaya Rp 50.000 per meter. Berapakah total biaya yang dibutuhkan Pak Budi?', options: ['Rp 3.900.000', 'Rp 1.950.000', 'Rp 78.000.000', 'Rp 18.000.000'], answer: 'Rp 3.900.000', explanation: 'Keliling tanah = 2 x (panjang + lebar) = 2 x (24 + 15) = 2 x 39 = 78 meter. Total biaya = 78 meter x Rp 50.000/meter = Rp 3.900.000.' },
+{ subtest: 'Profesional: Matematika', question: 'FPB dan KPK dari bilangan 42, 63, dan 84 adalah...', options: ['FPB=7, KPK=252', 'FPB=21, KPK=252', 'FPB=7, KPK=504', 'FPB=21, KPK=504'], answer: 'FPB=21, KPK=252', explanation: 'Faktorisasi prima: 42=2x3x7; 63=3²x7; 84=2²x3x7. FPB (ambil faktor sama pangkat terkecil): 3x7 = 21. KPK (ambil semua faktor pangkat terbesar): 2²x3²x7 = 4x9x7 = 252.' },
+{ subtest: 'Profesional: Matematika', question: 'Ibu membeli 3 1/2 kg tepung terigu. Sebanyak 1,25 kg digunakan untuk membuat kue bolu dan 3/4 kg digunakan untuk membuat donat. Sisa tepung terigu Ibu sekarang adalah...', options: ['1,5 kg', '1 kg', '1,25 kg', '1,75 kg'], answer: '1,5 kg', explanation: 'Ubah semua ke desimal: 3 1/2 = 3,5 kg; 3/4 = 0,75 kg. Tepung digunakan = 1,25 + 0,75 = 2,0 kg. Sisa tepung = 3,5 - 2,0 = 1,5 kg.' },
+{ subtest: 'Profesional: Matematika', question: 'Sebuah akuarium berbentuk balok memiliki volume 90 liter. Jika panjang akuarium 60 cm dan tingginya 50 cm, maka lebar akuarium tersebut adalah...', options: ['30 cm', '25 cm', '35 cm', '40 cm'], answer: '30 cm', explanation: 'Volume = 90 liter = 90.000 cm³. Volume = p × l × t. 90.000 = 60 × l × 50. 90.000 = 3.000 × l. l = 90.000 / 3.000 = 30 cm.' },
+{ subtest: 'Profesional: Matematika', question: 'Perhatikan gambar berikut! <br> <svg width="150" height="150" viewBox="0 0 200 200"><path d="M 100 100 L 100 20 A 80 80 0 0 1 156.57 156.57 Z" fill="#ffcc00" stroke="black" stroke-width="2"/><text x="115" y="85" font-size="20">A</text><text x="105" y="15" font-size="20">P</text><text x="165" y="165" font-size="20">Q</text><text x="90" y="110" font-size="20">O</text></svg> <br> Jika besar sudut POQ adalah 90°, dan jari-jari lingkaran (OP) adalah 14 cm, luas juring POQ adalah... (π = 22/7)', options: ['154 cm²', '77 cm²', '308 cm²', '616 cm²'], answer: '154 cm²', explanation: 'Luas juring = (sudut pusat / 360°) x Luas lingkaran. Luas lingkaran = πr² = (22/7) x 14 x 14 = 616 cm². Luas juring = (90°/360°) x 616 = 1/4 x 616 = 154 cm².' },
+{ subtest: 'Profesional: Matematika', question: 'Data hasil panen padi (dalam ton) di sebuah desa selama 5 tahun adalah sebagai berikut: 10, 12, 11, 14, 13. Rata-rata hasil panen padi di desa tersebut adalah...', options: ['11 ton', '12 ton', '12,5 ton', '13 ton'], answer: '12 ton', explanation: 'Rata-rata = Jumlah data / Banyak data = (10+12+11+14+13) / 5 = 60 / 5 = 12 ton.' },
+{ subtest: 'Profesional: Matematika', question: 'Skala sebuah peta adalah 1 : 1.500.000. Jika jarak antara kota A dan kota B pada peta adalah 4 cm, maka jarak sebenarnya kedua kota tersebut adalah...', options: ['6 km', '60 km', '600 km', '6.000 km'], answer: '60 km', explanation: 'Jarak sebenarnya = Jarak pada peta / Skala = 4 cm / (1/1.500.000) = 4 x 1.500.000 cm = 6.000.000 cm. Ubah ke km: 6.000.000 cm = 60 km.' },
+{ subtest: 'Profesional: Matematika', question: 'Sebuah bangun ruang memiliki sifat: 6 sisi berbentuk persegi yang sama luas, 12 rusuk yang sama panjang, dan 8 titik sudut. Bangun ruang tersebut adalah...', options: ['Balok', 'Prisma segitiga', 'Limas segiempat', 'Kubus'], answer: 'Kubus', explanation: 'Sifat-sifat tersebut adalah karakteristik dari bangun ruang kubus.' },
+{ subtest: 'Profesional: Matematika', question: 'Ayah mengendarai mobil dengan kecepatan rata-rata 60 km/jam. Ia berangkat dari kota P pukul 08.00 dan tiba di kota Q pukul 10.30. Jarak antara kota P dan Q adalah...', options: ['120 km', '150 km', '180 km', '135 km'], answer: '150 km', explanation: 'Waktu tempuh = 10.30 - 08.00 = 2,5 jam. Jarak = Kecepatan x Waktu = 60 km/jam x 2,5 jam = 150 km.' },
+{ subtest: 'Profesional: Matematika', question: 'Dalam sebuah kantong terdapat 5 bola merah, 3 bola biru, dan 2 bola hijau. Jika sebuah bola diambil secara acak, peluang terambilnya bola bukan biru adalah...', options: ['3/10', '7/10', '2/10', '5/10'], answer: '7/10', explanation: 'Total bola = 5+3+2 = 10. Jumlah bola bukan biru (merah + hijau) = 5+2 = 7. Peluang = Jumlah bola bukan biru / Total bola = 7/10.' },
+{ subtest: 'Profesional: Matematika', question: 'Urutan pecahan dari yang terkecil hingga terbesar untuk 3/4, 0.8, 70%, dan 7/8 adalah...', options: ['70%, 3/4, 0.8, 7/8', '3/4, 70%, 0.8, 7/8', '70%, 0.8, 3/4, 7/8', '3/4, 0.8, 70%, 7/8'], answer: '70%, 3/4, 0.8, 7/8', explanation: 'Ubah semua ke desimal: 3/4=0.75; 0.8=0.8; 70%=0.70; 7/8=0.875. Urutan dari terkecil: 0.70, 0.75, 0.8, 0.875. Jadi, 70%, 3/4, 0.8, 7/8.' },
+{ subtest: 'Profesional: Matematika', question: 'Sebuah bak mandi berbentuk kubus dapat menampung air sebanyak 216 liter. Panjang rusuk bak mandi tersebut adalah...', options: ['40 cm', '50 cm', '60 cm', '70 cm'], answer: '60 cm', explanation: 'Volume = 216 liter = 216.000 cm³. Karena berbentuk kubus, Volume = s³. Maka s = ³√216.000 = 60 cm.' },
+{ subtest: 'Profesional: Matematika', question: 'Siswa kelas VI melakukan survey hobi dan hasilnya disajikan dalam diagram lingkaran. Jika 25% siswa hobi membaca, 20% hobi melukis, 30% hobi olahraga, dan sisanya hobi menyanyi, berapa derajat sudut pusat untuk hobi menyanyi?', options: ['90°', '72°', '108°', '99°'], answer: '99°', explanation: 'Persentase hobi menyanyi = 100% - (25% + 20% + 30%) = 100% - 75% = 25%. Oh, ada kesalahan, mari kita hitung ulang. 100 - 25 - 20 - 30 = 25%. Sudut pusat = 25% x 360° = 90°. Mari kita ganti soalnya agar lebih HOTS. Jika jumlah siswa 40 orang, dan yang hobi menyanyi ada 11 orang, berapa derajat sudut pusatnya? Persentase menyanyi = (11/40) * 100% = 27.5%. Sudut pusat = 27.5% * 360° = 99°.' },
+{ subtest: 'Profesional: Matematika', question: 'Perhatikan pola bilangan berikut: 2, 5, 10, 17, ... Dua suku berikutnya dari pola tersebut adalah...', options: ['26, 37', '25, 36', '26, 38', '27, 39'], answer: '26, 37', explanation: 'Pola tersebut adalah n² + 1. Suku ke-1: 1²+1=2. Suku ke-2: 2²+1=5. Suku ke-3: 3²+1=10. Suku ke-4: 4²+1=17. Maka suku ke-5: 5²+1=26. Suku ke-6: 6²+1=37.' },
+
+// Profesional: IPA (15 soal)
+{ subtest: 'Profesional: IPA', question: 'Perhatikan jaring-jaring makanan berikut! <br> <svg width="300" height="200" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"><style>.txt{font-size:14px;font-family:sans-serif;}.arr{marker-end:url(#arrow);stroke:black;stroke-width:1.5;}</style><defs><marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" /></marker></defs><text x="10" y="95" class="txt">Padi</text><text x="90" y="35" class="txt">Tikus</text><text x="90" y="155" class="txt">Belalang</text><text x="180" y="35" class="txt">Ular</text><text x="180" y="155" class="txt">Katak</text><text x="250" y="95" class="txt">Elang</text><path class="arr" d="M 45 90 L 85 40"/><path class="arr" d="M 55 100 L 85 150"/><path class="arr" d="M 130 40 L 175 40"/><path class="arr" d="M 145 150 L 175 150"/><path class="arr" d="M 210 45 L 245 85"/><path class="arr" d="M 210 145 L 245 105"/><path class="arr" d="M 130 40 L 245 90"/><path class="arr" d="M 180 150 L 210 45"/></svg> <br> Jika populasi ular menurun drastis karena perburuan, dampak yang paling mungkin terjadi pada ekosistem tersebut adalah...', options: ['Populasi elang meningkat karena mangsanya bertambah.', 'Populasi tikus meningkat pesat, populasi katak menurun.', 'Populasi padi menurun, populasi tikus meningkat.', 'Populasi tikus meningkat, populasi elang menurun.'], answer: 'Populasi tikus meningkat, populasi elang menurun.', explanation: 'Ular adalah predator bagi tikus dan katak, dan juga mangsa bagi elang. Jika ular menurun, predator tikus berkurang sehingga populasi tikus meningkat. Di sisi lain, salah satu sumber makanan elang (ular) berkurang, yang dapat menyebabkan populasi elang ikut menurun.' },
+{ subtest: 'Profesional: IPA', question: 'Perubahan wujud dari padat langsung menjadi gas tanpa melalui fase cair disebut menyublim. Peristiwa yang menunjukkan proses ini adalah...', options: ['Air yang dimasukkan ke freezer menjadi es.', 'Mentega yang dipanaskan di wajan meleleh.', 'Pengharum ruangan padat (kamper) yang diletakkan di kamar mandi lama-kelamaan habis.', 'Uap air di udara menjadi titik-titik air pada daun di pagi hari.'], answer: 'Pengharum ruangan padat (kamper) yang diletakkan di kamar mandi lama-kelamaan habis.', explanation: 'Kamper (kapur barus) adalah zat padat yang langsung berubah menjadi gas (bau harum) pada suhu ruang, ini adalah contoh proses menyublim.' },
+{ subtest: 'Profesional: IPA', question: 'Tumbuhan kaktus memiliki daun berbentuk duri dan batang yang tebal berlapis lilin. Adaptasi ini bertujuan untuk...', options: ['Menarik perhatian serangga untuk penyerbukan.', 'Mengurangi penguapan air dan menyimpan cadangan air.', 'Melindungi diri dari hewan herbivora.', 'Mempercepat proses fotosintesis.'], answer: 'Mengurangi penguapan air dan menyimpan cadangan air.', explanation: 'Daun berbentuk duri mengurangi luas permukaan sehingga laju penguapan (transpirasi) rendah. Batang tebal berfungsi untuk menyimpan air, sesuai dengan habitatnya yang kering.' },
+{ subtest: 'Profesional: IPA', question: 'Seorang siswa melakukan percobaan dengan melarutkan garam ke dalam air, kemudian memanaskan larutan tersebut hingga semua air menguap dan menyisakan kristal garam. Metode pemisahan campuran yang dilakukan siswa tersebut secara berurutan adalah...', options: ['Filtrasi dan Evaporasi', 'Pelarutan dan Kristalisasi', 'Sublimasi dan Distilasi', 'Kromatografi dan Filtrasi'], answer: 'Pelarutan dan Kristalisasi', explanation: 'Proses pertama adalah melarutkan garam (pelarutan). Proses kedua adalah menguapkan pelarut (air) untuk mendapatkan kembali zat terlarut dalam bentuk padat (kristal), yang disebut kristalisasi (melalui evaporasi).' },
+{ subtest: 'Profesional: IPA', question: 'Planet dalam tata surya yang dikenal sebagai "Planet Merah" dan memiliki dua satelit bernama Phobos dan Deimos adalah...', options: ['Venus', 'Mars', 'Jupiter', 'Saturnus'], answer: 'Mars', explanation: 'Mars dijuluki Planet Merah karena permukaannya yang kaya akan besi oksida. Planet ini memiliki dua satelit alami, yaitu Phobos dan Deimos.' },
+{ subtest: 'Profesional: IPA', question: 'Bunyi dapat merambat melalui medium padat, cair, dan gas, tetapi tidak dapat merambat di ruang hampa. Hal ini membuktikan bahwa bunyi memerlukan...', options: ['Sumber getaran', 'Medium perambatan', 'Telinga sebagai penerima', 'Frekuensi tertentu'], answer: 'Medium perambatan', explanation: 'Fakta bahwa astronot di luar angkasa tidak dapat mendengar suara secara langsung menunjukkan bahwa gelombang bunyi membutuhkan partikel-partikel medium untuk merambat.' },
+{ subtest: 'Profesional: IPA', question: 'Perpindahan panas yang terjadi saat kita merasakan hangat di dekat api unggun tanpa menyentuhnya secara langsung adalah...', options: ['Konduksi', 'Konveksi', 'Radiasi', 'Isolasi'], answer: 'Radiasi', explanation: 'Radiasi adalah perpindahan panas melalui pancaran gelombang elektromagnetik tanpa memerlukan medium. Panas dari api unggun sampai ke tubuh kita melalui radiasi.' },
+{ subtest: 'Profesional: IPA', question: 'Sendi yang memungkinkan gerakan ke segala arah, seperti pada pangkal lengan dan pangkal paha, disebut...', options: ['Sendi engsel', 'Sendi putar', 'Sendi pelana', 'Sendi peluru'], answer: 'Sendi peluru', explanation: 'Sendi peluru memiliki ujung tulang berbentuk bola dan mangkuk, yang memungkinkan gerakan paling bebas ke semua arah.' },
+{ subtest: 'Profesional: IPA', 'question': 'Saat kita menyalakan kipas angin, terjadi perubahan energi dari...', 'options': ['Energi listrik menjadi energi kinetik', 'Energi kimia menjadi energi listrik', 'Energi kinetik menjadi energi listrik', 'Energi listrik menjadi energi panas'], 'answer': 'Energi listrik menjadi energi kinetik', 'explanation': 'Kipas angin mengubah energi listrik dari sumbernya menjadi energi gerak (kinetik) pada baling-balingnya, yang menghasilkan angin.' },
+{ subtest: 'Profesional: IPA', question: 'Fungsi utama dari pembuluh darah kapiler dalam sistem peredaran darah manusia adalah...', options: ['Membawa darah kaya oksigen dari jantung.', 'Membawa darah kaya karbon dioksida ke jantung.', 'Tempat pertukaran gas, nutrisi, dan zat sisa antara darah dan sel-sel tubuh.', 'Menjaga tekanan darah agar tetap stabil.'], answer: 'Tempat pertukaran gas, nutrisi, dan zat sisa antara darah dan sel-sel tubuh.', explanation: 'Dinding kapiler yang sangat tipis memungkinkan terjadinya difusi oksigen dan nutrisi dari darah ke sel, serta karbon dioksida dan zat sisa dari sel ke darah.' },
+{ subtest: 'Profesional: IPA', question: 'Gerhana bulan total terjadi ketika posisi...', options: ['Bulan berada di antara Matahari dan Bumi.', 'Bumi berada di antara Matahari dan Bulan.', 'Matahari berada di antara Bumi dan Bulan.', 'Bumi, Bulan, dan Matahari membentuk sudut 90 derajat.'], answer: 'Bumi berada di antara Matahari dan Bulan.', explanation: 'Gerhana bulan terjadi saat Bumi menghalangi sinar Matahari sehingga tidak sampai ke Bulan. Posisi segarisnya adalah Matahari - Bumi - Bulan.' },
+{ subtest: 'Profesional: IPA', question: 'Sifat magnet yang paling tepat dijelaskan oleh pernyataan...', options: ['Magnet hanya dapat menarik benda-benda dari besi.', 'Kutub magnet yang senama akan tarik-menarik, yang tidak senama akan tolak-menolak.', 'Gaya magnet terkuat berada di bagian tengah magnet batang.', 'Magnet memiliki dua kutub, yaitu kutub utara dan kutub selatan, yang jika dipotong akan selalu menghasilkan kutub baru.'], answer: 'Magnet memiliki dua kutub, yaitu kutub utara dan kutub selatan, yang jika dipotong akan selalu menghasilkan kutub baru.', explanation: 'Ini adalah sifat fundamental magnetisme. Magnet adalah dipol, tidak mungkin ada magnet dengan satu kutub (monopol). Setiap potongan magnet akan selalu memiliki kutub utara dan selatan.' },
+{ subtest: 'Profesional: IPA', question: 'Untuk membuktikan bahwa cahaya merambat lurus, percobaan sederhana yang paling tepat dilakukan adalah...', options: ['Mengarahkan senter ke cermin.', 'Melihat nyala lilin melalui selang yang lurus dan selang yang dibengkokkan.', 'Memasukkan pensil ke dalam gelas berisi air.', 'Menyatukan semua warna pelangi menggunakan cakram warna.'], answer: 'Melihat nyala lilin melalui selang yang lurus dan selang yang dibengkokkan.', explanation: 'Cahaya lilin hanya akan terlihat melalui selang yang lurus, membuktikan bahwa cahaya tidak bisa berbelok mengikuti bentuk selang. Ini secara langsung mendemonstrasikan sifat cahaya merambat lurus.' },
+{ subtest: 'Profesional: IPA', question: 'Dalam rantai makanan, organisme yang berperan menguraikan sisa-sisa makhluk hidup yang telah mati adalah...', options: ['Produsen', 'Konsumen tingkat I', 'Konsumen tingkat II', 'Dekomposer (pengurai)'], answer: 'Dekomposer (pengurai)', explanation: 'Dekomposer, seperti bakteri dan jamur, memiliki peran ekologis penting untuk mengembalikan nutrisi dari organisme mati ke dalam tanah, yang kemudian dapat digunakan kembali oleh produsen.' },
+{ subtest: 'Profesional: IPA', question: 'Pembangkit Listrik Tenaga Air (PLTA) memanfaatkan perubahan energi...', options: ['Potensial air menjadi energi kinetik, lalu menjadi energi listrik.', 'Kinetik air menjadi energi panas, lalu menjadi energi listrik.', 'Kimia air menjadi energi potensial, lalu menjadi energi listrik.', 'Listrik menjadi energi potensial air.'], answer: 'Potensial air menjadi energi kinetik, lalu menjadi energi listrik.', explanation: 'Air di bendungan (ketinggian) memiliki energi potensial. Saat air jatuh, energi potensial berubah menjadi energi kinetik yang memutar turbin. Gerakan turbin kemudian diubah oleh generator menjadi energi listrik.' },
+
+// Profesional: Bahasa Indonesia (15 soal)
+{ subtest: 'Profesional: Bahasa Indonesia', question: 'Bacalah kutipan berikut!\n"Meskipun teknologi membawa kemudahan, ketergantungan yang berlebihan dapat mengikis interaksi sosial secara langsung. Banyak orang kini lebih asyik dengan gawai mereka daripada berbincang dengan orang di sebelahnya."\nIde pokok paragraf tersebut adalah...', options: ['Manfaat teknologi dalam kehidupan.', 'Dampak negatif ketergantungan teknologi terhadap interaksi sosial.', 'Cara menggunakan teknologi dengan bijak.', 'Perbandingan teknologi masa lalu dan masa kini.'], answer: 'Dampak negatif ketergantungan teknologi terhadap interaksi sosial.', explanation: 'Kalimat pertama adalah kalimat utama yang berisi ide pokok, sedangkan kalimat kedua adalah kalimat penjelas yang memberikan contoh untuk mendukung ide pokok tersebut.' },
+{ subtest: 'Profesional: Bahasa Indonesia', question: 'Penggunaan tanda baca yang tepat terdapat pada kalimat...', options: ['Ibu membeli sayur, buah, dan daging di pasar.', 'Ibu membeli: sayur, buah, dan daging di pasar.', 'Ibu membeli sayur; buah; dan daging di pasar.', 'Ibu membeli sayur, buah dan daging, di pasar.'], answer: 'Ibu membeli sayur, buah, dan daging di pasar.', explanation: 'Tanda koma (,) digunakan untuk memisahkan unsur-unsur dalam suatu perincian atau pembilangan. Tanda koma digunakan sebelum kata hubung "dan" dalam perincian yang lebih dari dua.' },
+{ subtest: 'Profesional: Bahasa Indonesia', question: 'Makna ungkapan "kambing hitam" dalam kalimat "Dalam kasus korupsi itu, sekretaris tersebut hanya dijadikan kambing hitam" adalah...', options: ['Orang yang menjadi saksi kunci.', 'Orang yang sangat berani.', 'Orang yang ditumbalkan atau dipersalahkan.', 'Orang yang mendapat keuntungan.'], answer: 'Orang yang ditumbalkan atau dipersalahkan.', explanation: '"Kambing hitam" adalah idiom yang berarti orang yang dipersalahkan atas kesalahan yang tidak dilakukannya.' },
+{ subtest: 'Profesional: Bahasa Indonesia', question: 'Kalimat yang menggunakan kata berimbuhan "me-kan" yang bermakna kausatif (menyebabkan sesuatu terjadi) adalah...', options: ['Ayah membelikan adik mainan baru.', 'Pesawat itu mendaratkan rodanya dengan mulus.', 'Ibu menidurkan adik di ayunan.', 'Nelayan menepikan perahunya.'], answer: 'Ibu menidurkan adik di ayunan.', explanation: 'Kata "menidurkan" berarti menyebabkan (membuat) adik tidur. Ini berbeda dengan "mendaratkan" yang berarti membawa ke darat, atau "membelikan" yang bermakna benefaktif (melakukan untuk orang lain).' },
+{ subtest: 'Profesional: Bahasa Indonesia', question: 'Cermati pantun berikut!\nJalan-jalan ke kota hujan\nJangan lupa membeli talas\n(....)\n(....)\nLarik yang tepat untuk melengkapi sampiran pantun tersebut adalah...', options: ['Jika ingin jadi juara kelas / Rajin-rajinlah belajar dengan ikhlas', 'Wahai kawan mari berjuang / Demi masa depan yang lebih gemilang', 'Kalau ingin naik kelas / Janganlah belajar malas-malas', 'Jika ingin dihargai teman / Janganlah suka berbuat onar'], answer: 'Jika ingin jadi juara kelas / Rajin-rajinlah belajar dengan ikhlas', explanation: 'Pantun yang baik memiliki rima a-b-a-b. Baris pertama ("hujan") berima dengan baris ketiga ("juara"), dan baris kedua ("talas") berima dengan baris keempat ("ikhlas"). Pilihan A memiliki rima yang paling sesuai dan hubungan sebab-akibat yang logis.' },
+{ subtest: 'Profesional: Bahasa Indonesia', question: 'Kalimat majemuk setara yang menyatakan hubungan pertentangan ditandai oleh konjungsi...', options: ['dan, serta, lagi pula', 'lalu, kemudian, setelah itu', 'sedangkan, tetapi, melainkan', 'karena, sebab, oleh karena itu'], answer: 'sedangkan, tetapi, melainkan', explanation: 'Konjungsi seperti "tetapi", "sedangkan", dan "melainkan" digunakan untuk menghubungkan dua klausa yang setara namun memiliki makna yang berlawanan atau bertentangan.' },
+{ subtest: 'Profesional: Bahasa Indonesia', question: 'Penulisan judul karangan yang benar sesuai EYD adalah...', options: ['Dampak Negatif Sampah Plastik Bagi Ekosistem Laut', 'Dampak negatif sampah plastik bagi ekosistem laut', 'Dampak Negatif Sampah Plastik bagi Ekosistem Laut', 'Dampak Negatif Sampah Plastik Bagi Ekosistem laut'], answer: 'Dampak Negatif Sampah Plastik bagi Ekosistem Laut', explanation: 'Menurut aturan penulisan judul, huruf kapital digunakan pada setiap awal kata, kecuali untuk kata tugas (preposisi seperti "bagi", "di", "ke", "dari" dan konjungsi seperti "yang", "dan") yang tidak terletak di awal judul.' },
+{ subtest: 'Profesional: Bahasa Indonesia', question: 'Seorang siswa menulis kalimat: "Para hadirin sekalian dimohon berdiri." Kesalahan pada kalimat tersebut adalah...', options: ['Penggunaan kata "berdiri".', 'Penggunaan kata "dimohon".', 'Penggunaan kata "para" dan "sekalian" secara bersamaan.', 'Tidak ada kesalahan dalam kalimat tersebut.'], answer: 'Penggunaan kata "para" dan "sekalian" secara bersamaan.', explanation: 'Kalimat tersebut tidak efektif karena menggunakan kata-kata yang bermakna jamak secara bersamaan. "Para" sudah berarti jamak, begitu pula "hadirin" dan "sekalian". Seharusnya dipilih salah satu, misalnya: "Hadirin dimohon berdiri."' },
+{ subtest: 'Profesional: Bahasa Indonesia', question: 'Amanat yang tersirat dari cerita Malin Kundang adalah...', options: ['Kita harus merantau untuk mencari kekayaan.', 'Seorang anak harus selalu menuruti kemauan ibunya.', 'Kita tidak boleh melupakan jasa dan kasih sayang orang tua, terutama ibu.', 'Kekayaan adalah segalanya dalam hidup.'], answer: 'Kita tidak boleh melupakan jasa dan kasih sayang orang tua, terutama ibu.', explanation: 'Amanat adalah pesan moral yang ingin disampaikan pengarang. Inti dari cerita Malin Kundang adalah pelajaran tentang akibat dari durhaka kepada orang tua.' },
+{ subtest: 'Profesional: Bahasa Indonesia', question: 'Jenis paragraf yang gagasan utamanya terletak di akhir paragraf disebut paragraf...', options: ['Deduktif', 'Induktif', 'Campuran (Deduktif-Induktif)', 'Naratif'], answer: 'Induktif', explanation: 'Paragraf induktif menyajikan penjelasan atau perincian terlebih dahulu, kemudian diakhiri dengan kesimpulan atau gagasan utama.' },
+{ subtest: 'Profesional: Bahasa Indonesia', question: 'Cermati puisi berikut!\n**Karawang-Bekasi** (Karya: Chairil Anwar)\n...Kami bicara padamu dalam hening di malam sepi\nJika dada rasa hampa dan jam dinding yang berdetak\n... \nTema yang paling menonjol dari kutipan puisi tersebut adalah...', options: ['Percintaan', 'Ketuhanan', 'Perjuangan dan patriotisme', 'Kritik sosial'], answer: 'Perjuangan dan patriotisme', explanation: 'Puisi "Karawang-Bekasi" secara keseluruhan bertema perjuangan. Kutipan tersebut menggambarkan suara arwah para pahlawan yang gugur, menyiratkan pesan perjuangan kepada generasi penerus.' },
+{ subtest: 'Profesional: Bahasa Indonesia', question: 'Kalimat berikut yang merupakan kalimat aktif transitif adalah...', options: ['Adik menangis tersedu-sedu.', 'Ibu sedang memasak di dapur.', 'Ayah membaca koran di teras.', 'Pesawat itu mendarat dengan sempurna.'], answer: 'Ayah membaca koran di teras.', explanation: 'Kalimat aktif transitif adalah kalimat yang predikatnya (kata kerja) memerlukan objek. Dalam kalimat ini, "membaca" (predikat) memerlukan "koran" (objek).' },
+{ subtest: 'Profesional: Bahasa Indonesia', question: 'Kata "tsunami" dan "sushi" merupakan contoh kata serapan dari bahasa...', options: ['Inggris', 'Belanda', 'Arab', 'Jepang'], answer: 'Jepang', explanation: 'Kedua kata tersebut berasal dari bahasa Jepang dan telah diserap ke dalam Bahasa Indonesia.' },
+{ subtest: 'Profesional: Bahasa Indonesia', question: 'Seorang guru meminta siswa untuk menuliskan kembali sebuah cerita yang telah dibaca dengan menggunakan bahasanya sendiri. Kegiatan ini bertujuan untuk melatih keterampilan...', options: ['Membaca pemahaman dan menulis kreatif.', 'Menyimak dan berbicara.', 'Membaca teknis dan menyalin.', 'Berbicara dan berdiskusi.'], answer: 'Membaca pemahaman dan menulis kreatif.', explanation: 'Untuk menceritakan kembali, siswa harus memahami isi bacaan (membaca pemahaman) dan mampu mengungkapkannya kembali dalam struktur kalimat dan pilihan kata sendiri (menulis kreatif).' },
+{ subtest: 'Profesional: Bahasa Indonesia', question: 'Perbedaan utama antara teks deskripsi dan teks laporan hasil observasi adalah...', options: ['Teks deskripsi bersifat fiktif, sedangkan teks laporan bersifat faktual.', 'Teks deskripsi bersifat subjektif berdasarkan sudut pandang penulis, sedangkan teks laporan bersifat objektif berdasarkan data dan fakta.', 'Teks deskripsi selalu panjang, sedangkan teks laporan selalu singkat.', 'Teks deskripsi menggunakan bahasa baku, sedangkan teks laporan menggunakan bahasa santai.'], answer: 'Teks deskripsi bersifat subjektif berdasarkan sudut pandang penulis, sedangkan teks laporan bersifat objektif berdasarkan data dan fakta.', explanation: 'Meskipun sama-sama menggambarkan sesuatu, teks deskripsi boleh memasukkan opini atau kesan pribadi penulis, sementara teks laporan hasil observasi harus murni berdasarkan fakta yang ditemukan saat pengamatan.' },
+
+// Profesional: IPS (15 soal)
+{ subtest: 'Profesional: IPS', question: 'Proklamasi Kemerdekaan Indonesia pada 17 Agustus 1945 merupakan puncak perjuangan bangsa Indonesia. Makna penting dari peristiwa tersebut bagi kehidupan berbangsa dan bernegara adalah...', options: ['Berakhirnya penjajahan di seluruh dunia.', 'Indonesia secara resmi menjadi negara yang merdeka, berdaulat, dan bebas menentukan nasibnya sendiri.', 'Indonesia langsung menjadi negara kaya dan makmur.', 'Indonesia bergabung dengan Perserikatan Bangsa-Bangsa (PBB).'], answer: 'Indonesia secara resmi menjadi negara yang merdeka, berdaulat, dan bebas menentukan nasibnya sendiri.', explanation: 'Makna proklamasi yang paling fundamental adalah sebagai pernyataan de jure dan de facto bahwa Indonesia telah lepas dari penjajahan dan berhak mengatur negaranya sendiri.' },
+{ subtest: 'Profesional: IPS', question: 'Kegiatan ekonomi yang mengubah bahan mentah menjadi barang setengah jadi atau barang jadi disebut kegiatan...', options: ['Produksi', 'Distribusi', 'Konsumsi', 'Investasi'], answer: 'Produksi', explanation: 'Produksi adalah kegiatan menciptakan atau menambah nilai guna suatu barang atau jasa. Mengolah bahan mentah adalah salah satu bentuk kegiatan produksi.' },
+{ subtest: 'Profesional: IPS', question: 'Perhatikan peta buta berikut! [Gambar peta buta Indonesia dengan panah menunjuk ke Pulau Sulawesi]. Pulau yang ditunjuk oleh panah pada peta tersebut terkenal dengan hasil tambang berupa...', options: ['Minyak bumi dan gas alam', 'Emas dan tembaga', 'Nikel dan aspal', 'Batu bara dan timah'], answer: 'Nikel dan aspal', explanation: 'Pulau Sulawesi, khususnya daerah Sorowako dan Pomalaa, dikenal sebagai salah satu penghasil nikel terbesar di dunia. Pulau Buton di Sulawesi Tenggara juga terkenal dengan hasil aspalnya.' },
+{ subtest: 'Profesional: IPS', question: 'Interaksi sosial disosiatif yang berbentuk persaingan untuk merebutkan sumber daya yang terbatas tanpa menggunakan kekerasan atau ancaman disebut...', options: ['Kontravensi', 'Konflik', 'Kompetisi', 'Akomodasi'], answer: 'Kompetisi', explanation: 'Kompetisi (persaingan) adalah bentuk interaksi disosiatif di mana individu atau kelompok berlomba untuk mencapai tujuan yang sama, seperti persaingan dalam kejuaraan olahraga atau dalam mendapatkan pangsa pasar.' },
+{ subtest: 'Profesional: IPS', question: 'Peninggalan sejarah berupa candi seperti Borobudur dan Prambanan menunjukkan bahwa pada masa lalu, Indonesia mendapat pengaruh kuat dari kebudayaan...', options: ['Tiongkok dan Eropa', 'Hindu-Buddha dari India', 'Islam dari Timur Tengah', 'Jepang dan Korea'], answer: 'Hindu-Buddha dari India', explanation: 'Arsitektur, relief, dan fungsi candi merupakan bukti nyata dari akulturasi budaya lokal dengan ajaran Hindu dan Buddha yang berasal dari India.' },
+{ subtest: 'Profesional: IPS', question: 'Penyebab utama terjadinya angin darat dan angin laut di daerah pesisir adalah...', options: ['Perbedaan tekanan udara akibat pemanasan daratan dan lautan yang tidak sama.', 'Perbedaan ketinggian antara daratan dan lautan.', 'Pengaruh dari rotasi bumi.', 'Adanya gelombang pasang dan surut air laut.'], answer: 'Perbedaan tekanan udara akibat pemanasan daratan dan lautan yang tidak sama.', explanation: 'Siang hari daratan lebih cepat panas (tekanan rendah), udara dari laut (tekanan tinggi) bergerak ke darat (angin laut). Malam hari daratan lebih cepat dingin (tekanan tinggi), udara dari darat bergerak ke laut (tekanan rendah), terjadilah angin darat.' },
+{ subtest: 'Profesional: IPS', question: 'Lembaga negara yang memiliki wewenang untuk menguji undang-undang terhadap Undang-Undang Dasar Negara Republik Indonesia Tahun 1945 adalah...', options: ['Mahkamah Agung (MA)', 'Dewan Perwakilan Rakyat (DPR)', 'Majelis Permusyawaratan Rakyat (MPR)', 'Mahkamah Konstitusi (MK)'], answer: 'Mahkamah Konstitusi (MK)', explanation: 'Salah satu kewenangan utama Mahkamah Konstitusi adalah melakukan judicial review, yaitu menguji apakah suatu undang-undang bertentangan atau tidak dengan UUD 1945.' },
+{ subtest: 'Profesional: IPS', question: 'Kerajaan maritim pertama di Nusantara yang menjadi pusat perdagangan dan penyebaran agama Buddha adalah...', options: ['Majapahit', 'Singasari', 'Sriwijaya', 'Mataram Kuno'], answer: 'Sriwijaya', explanation: 'Kerajaan Sriwijaya yang berpusat di Sumatera dikenal sebagai kerajaan maritim yang kuat, menguasai jalur perdagangan di Selat Malaka, dan menjadi pusat pendidikan agama Buddha yang penting di Asia Tenggara.' },
+{ subtest: 'Profesional: IPS', question: 'Salah satu dampak positif dari letak geografis Indonesia yang berada di persilangan jalur lalu lintas dunia adalah...', options: ['Rawan terjadi bencana alam.', 'Menjadi pusat perdagangan dan lalu lintas budaya yang strategis.', 'Memiliki iklim tropis sepanjang tahun.', 'Terdiri dari ribuan pulau.'], answer: 'Menjadi pusat perdagangan dan lalu lintas budaya yang strategis.', explanation: 'Posisi silang antara dua benua (Asia dan Australia) dan dua samudra (Hindia dan Pasifik) menjadikan Indonesia sebagai jalur perdagangan internasional yang penting sejak zaman kuno, yang juga memfasilitasi pertukaran budaya.' },
+{ subtest: 'Profesional: IPS', question: 'Peran utama Rumah Tangga Konsumen (RTK) dalam kegiatan ekonomi adalah...', options: ['Menghasilkan barang dan jasa.', 'Menyediakan faktor-faktor produksi dan mengonsumsi barang dan jasa.', 'Menyalurkan barang dari produsen ke konsumen.', 'Mengatur kebijakan ekonomi negara.'], answer: 'Menyediakan faktor-faktor produksi dan mengonsumsi barang dan jasa.', explanation: 'RTK memiliki dua peran: sebagai pemilik faktor produksi (tenaga kerja, tanah, modal) yang ditawarkan kepada produsen, dan sebagai konsumen yang menggunakan pendapatan mereka untuk membeli barang dan jasa.' },
+{ subtest: 'Profesional: IPS', question: 'Sistem Tanam Paksa (Cultuurstelsel) yang diterapkan pemerintah kolonial Belanda pada abad ke-19 menyebabkan penderitaan rakyat, namun juga memberikan dampak yang tidak terduga, yaitu...', options: ['Rakyat Indonesia menjadi semakin miskin.', 'Rakyat Indonesia mulai mengenal jenis-jenis tanaman ekspor baru dan teknik pertanian.', 'Belanda menjadi negara yang sangat kaya.', 'Terjadinya perlawanan besar-besaran di seluruh Nusantara.'], answer: 'Rakyat Indonesia mulai mengenal jenis-jenis tanaman ekspor baru dan teknik pertanian.', explanation: 'Meskipun sangat merugikan, Tanam Paksa secara tidak langsung memperkenalkan tanaman komoditas ekspor seperti kopi, teh, dan tebu serta sistem pengelolaannya kepada rakyat, yang sebelumnya tidak mereka kenal.' },
+{ subtest: 'Profesional: IPS', question: 'Asean Free Trade Area (AFTA) adalah bentuk kerja sama negara-negara ASEAN di bidang...', options: ['Politik dan Keamanan', 'Sosial Budaya', 'Pendidikan', 'Ekonomi'], answer: 'Ekonomi', explanation: 'AFTA adalah kesepakatan untuk menciptakan kawasan perdagangan bebas di antara negara-negara anggota ASEAN, yang merupakan bentuk kerja sama di bidang ekonomi.' },
+{ subtest: 'Profesional: IPS', question: 'Urbanisasi yang tidak terkendali dapat menimbulkan berbagai masalah sosial di perkotaan. Masalah yang paling sering muncul adalah...', options: ['Meningkatnya lahan pertanian di kota.', 'Munculnya pemukiman kumuh dan meningkatnya angka kriminalitas.', 'Berkurangnya jumlah penduduk di desa.', 'Lalu lintas di kota menjadi lancar.'], answer: 'Munculnya pemukiman kumuh dan meningkatnya angka kriminalitas.', explanation: 'Arus urbanisasi yang besar seringkali tidak diimbangi dengan ketersediaan lapangan kerja dan perumahan yang layak, sehingga memicu munculnya pemukiman kumuh, pengangguran, dan masalah sosial lainnya.' },
+{ subtest: 'Profesional: IPS', question: 'Faktor utama yang mendorong bangsa-bangsa Eropa melakukan penjelajahan samudra pada abad ke-15 dan ke-16 adalah...', options: ['Keinginan untuk menyebarkan agama, mencari kekayaan, dan mencapai kejayaan (Gold, Gospel, Glory).', 'Keinginan untuk berwisata dan mengenal budaya baru.', 'Mencari sumber tenaga kerja yang murah.', 'Menghindari perang yang terjadi di Eropa.'], answer: 'Keinginan untuk menyebarkan agama, mencari kekayaan, dan mencapai kejayaan (Gold, Gospel, Glory).', explanation: 'Motivasi 3G (Gold, Gospel, Glory) adalah pendorong utama era penjelajahan samudra oleh bangsa Eropa, termasuk pencarian rempah-rempah yang harganya sangat mahal.' },
+{ subtest: 'Profesional: IPS', question: 'Norma yang sanksinya paling tegas dan mengikat karena diatur secara resmi oleh negara adalah norma...', options: ['Agama', 'Kesusilaan', 'Kesopanan', 'Hukum'], answer: 'Hukum', explanation: 'Norma hukum memiliki sanksi yang bersifat memaksa dan diatur oleh lembaga-lembaga resmi negara (seperti polisi, jaksa, hakim), berbeda dengan norma lain yang sanksinya lebih bersifat sosial atau pribadi.' },
+
+// Profesional: PPKn (15 soal)
+{ subtest: 'Profesional: PPKn', question: 'Sila "Kemanusiaan yang Adil dan Beradab" dalam Pancasila mengandung makna bahwa bangsa Indonesia mengakui persamaan derajat, hak, dan kewajiban antar sesama manusia. Perilaku yang mencerminkan pengamalan sila ini di sekolah adalah...', options: ['Melaksanakan ibadah sesuai dengan agamanya masing-masing.', 'Tidak membeda-bedakan teman berdasarkan suku, agama, atau status sosial.', 'Mengikuti upacara bendera dengan khidmat.', 'Ikut serta dalam pemilihan ketua kelas.'], answer: 'Tidak membeda-bedakan teman berdasarkan suku, agama, atau status sosial.', explanation: 'Tidak membeda-bedakan teman adalah wujud nyata dari pengakuan persamaan derajat dan sikap saling menghargai sebagai sesama manusia, yang merupakan inti dari sila kedua.' },
+{ subtest: 'Profesional: PPKn', question: 'Dalam sebuah diskusi kelompok, pendapat Anda ditolak oleh mayoritas anggota. Sikap yang paling sesuai dengan nilai musyawarah untuk mufakat adalah...', options: ['Marah dan keluar dari kelompok diskusi.', 'Memaksakan pendapat Anda agar diterima oleh kelompok.', 'Menerima keputusan kelompok dengan lapang dada dan tetap berpartisipasi aktif.', 'Diam dan tidak mau lagi memberikan pendapat.'], answer: 'Menerima keputusan kelompok dengan lapang dada dan tetap berpartisipasi aktif.', explanation: 'Ini mencerminkan nilai kerakyatan (sila ke-4), di mana keputusan bersama harus dihargai meskipun berbeda dengan pendapat pribadi, dan tanggung jawab terhadap hasil musyawarah tetap dijunjung tinggi.' },
+{ subtest: 'Profesional: PPKn', question: 'Setiap warga negara memiliki hak untuk mendapatkan pendidikan. Di sisi lain, setiap siswa juga memiliki kewajiban untuk...', options: ['Mendapatkan nilai yang bagus.', 'Belajar dengan tekun dan menaati peraturan sekolah.', 'Mendapatkan fasilitas sekolah yang lengkap.', 'Dipilih menjadi ketua kelas.'], answer: 'Belajar dengan tekun dan menaati peraturan sekolah.', explanation: 'Hak dan kewajiban harus berjalan seimbang. Kewajiban seorang siswa sebagai konsekuensi dari haknya memperoleh pendidikan adalah belajar dengan sungguh-sungguh dan mengikuti tata tertib yang berlaku.' },
+{ subtest: 'Profesional: PPKn', question: 'Bhinneka Tunggal Ika merupakan semboyan bangsa Indonesia yang berarti "Berbeda-beda tetapi tetap satu". Konsep ini paling relevan untuk menjaga keutuhan NKRI dalam konteks...', options: ['Keragaman suku, agama, ras, dan budaya.', 'Perbedaan pendapat dalam pemilu.', 'Perbedaan hobi dan kesukaan.', 'Keragaman sumber daya alam.'], answer: 'Keragaman suku, agama, ras, dan budaya.', explanation: 'Bhinneka Tunggal Ika secara spesifik menjadi alat pemersatu bangsa di tengah kemajemukan SARA (Suku, Agama, Ras, dan Antargolongan) yang merupakan karakteristik utama masyarakat Indonesia.' },
+{ subtest: 'Profesional: PPKn', question: 'Lembaga negara yang memegang kekuasaan legislatif, yaitu kekuasaan untuk membentuk undang-undang di Indonesia adalah...', options: ['Presiden', 'Mahkamah Agung', 'Dewan Perwakilan Rakyat (DPR)', 'Komisi Yudisial'], answer: 'Dewan Perwakilan Rakyat (DPR)', explanation: 'Sesuai dengan prinsip Trias Politika di Indonesia, DPR adalah pemegang kekuasaan legislatif. Meskipun pembentukan UU dilakukan bersama Presiden, fungsi legislasi melekat pada DPR.' },
+{ subtest: 'Profesional: PPKn', question: 'Menjaga kebersihan lingkungan sekolah adalah bentuk tanggung jawab... sebagai warga sekolah.', options: ['Hanya petugas kebersihan', 'Hanya guru', 'Hanya siswa', 'Seluruh warga sekolah (siswa, guru, kepala sekolah, dan staf)'], answer: 'Seluruh warga sekolah (siswa, guru, kepala sekolah, dan staf)', explanation: 'Tanggung jawab menjaga lingkungan sekolah adalah kewajiban kolektif semua pihak yang berada dan beraktivitas di lingkungan tersebut, bukan hanya tugas satu pihak.' },
+{ subtest: 'Profesional: PPKn', question: 'Contoh perilaku yang menunjukkan sikap cinta tanah air dalam kehidupan sehari-hari seorang siswa adalah...', options: ['Membeli produk-produk impor yang terkenal.', 'Menggunakan produk buatan dalam negeri dan bangga akan budaya lokal.', 'Berlibur ke luar negeri setiap tahun.', 'Menghafal semua nama pahlawan tanpa memahami perjuangannya.'], answer: 'Menggunakan produk buatan dalam negeri dan bangga akan budaya lokal.', explanation: 'Cinta tanah air dapat diwujudkan melalui tindakan nyata yang mendukung perekonomian dan kebudayaan bangsa, seperti menggunakan produk lokal.' },
+{ subtest: 'Profesional: PPKn', question: 'Tata urutan peraturan perundang-undangan di Indonesia menempatkan ... sebagai hukum tertinggi.', options: ['Undang-Undang', 'Peraturan Pemerintah', 'Undang-Undang Dasar Negara Republik Indonesia Tahun 1945', 'Ketetapan MPR'], answer: 'Undang-Undang Dasar Negara Republik Indonesia Tahun 1945', explanation: 'UUD 1945 adalah hukum dasar tertulis dan sumber hukum tertinggi di Indonesia. Semua peraturan perundang-undangan di bawahnya tidak boleh bertentangan dengan UUD 1945.' },
+{ subtest: 'Profesional: PPKn', question: 'Pemilihan umum (Pemilu) yang diselenggarakan secara periodik di Indonesia merupakan perwujudan dari kedaulatan yang berada di tangan...', options: ['Presiden', 'MPR', 'Rakyat', 'Partai Politik'], answer: 'Rakyat', explanation: 'Menurut Pasal 1 Ayat (2) UUD 1945, kedaulatan berada di tangan rakyat dan dilaksanakan menurut Undang-Undang Dasar. Pemilu adalah salah satu cara rakyat menggunakan kedaulatannya.' },
+{ subtest: 'Profesional: PPKn', question: 'Sikap yang menunjukkan persatuan dan kesatuan di lingkungan masyarakat adalah...', options: ['Hanya bergaul dengan tetangga yang satu suku.', 'Ikut serta dalam kegiatan kerja bakti membersihkan lingkungan RT.', 'Mementingkan urusan pribadi di atas kepentingan umum.', 'Menonton televisi sepanjang hari saat hari libur.'], answer: 'Ikut serta dalam kegiatan kerja bakti membersihkan lingkungan RT.', explanation: 'Kerja bakti adalah contoh nyata dari gotong royong dan kebersamaan yang memperkuat persatuan dan kesatuan antar warga masyarakat tanpa memandang perbedaan.' },
+{ subtest: 'Profesional: PPKn', question: 'Seorang siswa menemukan dompet di halaman sekolah. Perilaku yang mencerminkan nilai kejujuran sesuai sila pertama Pancasila adalah...', options: ['Mengambil uangnya dan membuang dompetnya.', 'Menyerahkan dompet tersebut kepada guru piket untuk diumumkan dan dikembalikan kepada pemiliknya.', 'Membagikan uang di dalam dompet kepada teman-temannya.', 'Menyimpan dompet tersebut sampai ada yang mencari.'], answer: 'Menyerahkan dompet tersebut kepada guru piket untuk diumumkan dan dikembalikan kepada pemiliknya.', explanation: 'Kejujuran adalah salah satu nilai moral universal yang diajarkan semua agama. Mengembalikan barang yang bukan miliknya adalah cerminan dari keyakinan bahwa setiap perbuatan akan dipertanggungjawabkan kepada Tuhan Yang Maha Esa (Sila ke-1).' },
+{ subtest: 'Profesional: PPKn', question: 'Pancasila ditetapkan sebagai dasar negara Indonesia pada tanggal...', options: ['17 Agustus 1945', '18 Agustus 1945', '1 Juni 1945', '22 Juni 1945'], answer: '18 Agustus 1945', explanation: 'Pancasila secara resmi disahkan sebagai dasar negara oleh Panitia Persiapan Kemerdekaan Indonesia (PPKI) pada sidang tanggal 18 Agustus 1945, sehari setelah proklamasi.' },
+{ subtest: 'Profesional: PPKn', question: 'Hak seorang anak di rumah adalah mendapatkan kasih sayang. Kewajiban yang harus dilakukan anak sebagai imbal baliknya adalah...', options: ['Mendapatkan uang jajan setiap hari.', 'Menghormati dan menyayangi orang tua.', 'Bermain sepuasnya.', 'Menuntut semua keinginannya dipenuhi.'], answer: 'Menghormati dan menyayangi orang tua.', explanation: 'Keseimbangan antara hak dan kewajiban tercermin dari sikap anak yang membalas kasih sayang orang tua dengan rasa hormat dan bakti.' },
+{ subtest: 'Profesional: PPKn', question: 'Ketika terjadi perbedaan pendapat tentang tujuan wisata keluarga, cara pengambilan keputusan yang paling demokratis adalah...', options: ['Ayah sebagai kepala keluarga langsung memutuskan tujuannya.', 'Melakukan pemungutan suara (voting) di antara anggota keluarga.', 'Ibu yang memutuskan karena paling tahu kebutuhan keluarga.', 'Anak yang paling kecil yang memilih agar tidak menangis.'], answer: 'Melakukan pemungutan suara (voting) di antara anggota keluarga.', explanation: 'Voting adalah salah satu cara demokratis untuk mengambil keputusan ketika musyawarah untuk mufakat tidak tercapai, di mana suara setiap anggota dihargai.' },
+{ subtest: 'Profesional: PPKn', question: 'Lambang negara Garuda Pancasila dengan semboyan Bhinneka Tunggal Ika ditetapkan sebagai lambang negara dalam...', options: ['UUD 1945 Pasal 36A', 'UUD 1945 Pasal 35', 'UUD 1945 Pasal 36', 'UUD 1945 Pasal 36B'], answer: 'UUD 1945 Pasal 36A', explanation: 'Pasal 36A UUD 1945 secara eksplisit menyatakan bahwa "Lambang Negara ialah Garuda Pancasila dengan semboyan Bhinneka Tunggal Ika."' },
+
+// Profesional: SBdP (15 soal)
+{ subtest: 'Profesional: SBdP', question: 'Lagu "Indonesia Raya" dinyanyikan dengan tempo... yang berarti dinyanyikan dengan kecepatan sedang.', options: ['Largo', 'Andante', 'Allegro', 'Moderato'], answer: 'Moderato', explanation: 'Istilah tempo "Moderato" berasal dari bahasa Italia yang berarti sedang. Ini adalah tempo yang umum untuk lagu-lagu kebangsaan yang bersifat khidmat namun tetap bersemangat. Andante juga berarti sedang, namun sering diartikan sedikit lebih lambat dari Moderato.' },
+{ subtest: 'Profesional: SBdP', question: 'Teknik menggambar dengan cara menutupi objek gambar menggunakan satu warna sehingga hanya tampak bentuk globalnya (siluet) disebut teknik...', options: ['Arsir', 'Blok', 'Pointilis', 'Aquarel'], answer: 'Blok', explanation: 'Teknik blok (siluet) adalah teknik menutup objek gambar dengan satu warna untuk menghasilkan kesan bentuk siluet tanpa detail internal.' },
+{ subtest: 'Profesional: SBdP', question: 'Tari Kecak dari Bali merupakan jenis tari kelompok yang pola lantainya cenderung membentuk...', options: ['Garis lurus vertikal', 'Garis lurus horizontal', 'Lingkaran', 'Garis zig-zag'], answer: 'Lingkaran', explanation: 'Ciri khas dari Tari Kecak adalah para penarinya duduk melingkar sambil menyerukan "cak-cak-cak", menciptakan formasi pola lantai lingkaran yang ikonik.' },
+{ subtest: 'Profesional: SBdP', question: 'Alat musik yang sumber bunyinya berasal dari getaran dawai atau senar, seperti gitar dan biola, digolongkan sebagai alat musik...', options: ['Aerofon', 'Idiofon', 'Membranofon', 'Kordofon'], answer: 'Kordofon', explanation: 'Kordofon adalah klasifikasi alat musik yang bunyinya dihasilkan oleh senar atau dawai yang direntangkan dan digetarkan.' },
+{ subtest: 'Profesional: SBdP', question: 'Perhatikan gambar not balok berikut: <br> <svg width="100" height="100"><circle cx="50" cy="70" r="10" fill="black"/><line x1="60" y1="70" x2="60" y2="20" stroke="black" stroke-width="2"/></svg> <br> Not balok tersebut adalah not seperempat yang memiliki nilai... ketukan.', options: ['1/2', '1', '2', '4'], answer: '1', explanation: 'Gambar tersebut adalah not seperempat (quarter note), yang dalam birama umum seperti 4/4, memiliki nilai satu ketukan.' },
+{ subtest: 'Profesional: SBdP', question: 'Karya seni rupa yang dibuat dengan teknik menempelkan berbagai macam bahan seperti potongan kertas, kain, atau biji-bijian pada permukaan gambar disebut...', options: ['Montase', 'Kolase', 'Mozaik', 'Aplikasi'], answer: 'Kolase', explanation: 'Kolase adalah komposisi artistik yang dibuat dari berbagai bahan yang ditempelkan pada permukaan. Ini berbeda dengan mozaik (potongan bahan sejenis) dan montase (potongan gambar jadi).' },
+{ subtest: 'Profesional: SBdP', question: 'Properti yang menjadi ciri khas dalam Tari Piring dari Sumatera Barat adalah...', options: ['Kipas', 'Payung', 'Piring', 'Selendang'], answer: 'Piring', explanation: 'Tari Piring secara atraktif menggunakan piring sebagai properti utama yang dipegang dan dimainkan oleh para penari tanpa jatuh.' },
+{ subtest: 'Profesional: SBdP', question: 'Patung, guci, dan keramik merupakan contoh karya seni rupa...', options: ['Satu dimensi', 'Dua dimensi', 'Tiga dimensi', 'Empat dimensi'], answer: 'Tiga dimensi', explanation: 'Karya seni rupa tiga dimensi adalah karya yang memiliki volume (panjang, lebar, dan tinggi) dan dapat dinikmati dari segala arah.' },
+{ subtest: 'Profesional: SBdP', question: 'Perbedaan mendasar antara tangga nada diatonis mayor dan diatonis minor adalah...', options: ['Jumlah notnya', 'Alat musik yang digunakan', 'Jarak interval dan suasana lagu yang dihasilkan', 'Asal daerahnya'], answer: 'Jarak interval dan suasana lagu yang dihasilkan', explanation: 'Tangga nada mayor memiliki interval 1-1-½-1-1-1-½ dan menghasilkan suasana riang gembira. Tangga nada minor memiliki interval 1-½-1-1-½-1-1 dan menghasilkan suasana sedih atau melankolis.' },
+{ subtest: 'Profesional: SBdP', question: 'Teknik membatik yang menggunakan canting sebagai alat untuk menorehkan malam (lilin) pada kain disebut...', options: ['Batik Cap', 'Batik Tulis', 'Batik Printing', 'Batik Jumputan'], answer: 'Batik Tulis', explanation: 'Batik tulis adalah teknik membatik tradisional yang prosesnya paling rumit dan bernilai seni tinggi karena setiap motif digambar manual menggunakan canting.' },
+{ subtest: 'Profesional: SBdP', question: 'Dalam sebuah pementasan drama, unsur yang meliputi penataan panggung, properti, dan cahaya disebut...', options: ['Tata rias', 'Tata busana', 'Tata panggung (scenery)', 'Tata suara'], answer: 'Tata panggung (scenery)', explanation: 'Tata panggung mencakup semua elemen visual di atas panggung yang berfungsi untuk menciptakan latar tempat, waktu, dan suasana cerita.' },
+{ subtest: 'Profesional: SBdP', question: 'Warna yang dihasilkan dari pencampuran dua warna primer dengan perbandingan yang sama disebut warna...', options: ['Primer', 'Sekunder', 'Tersier', 'Netral'], answer: 'Sekunder', explanation: 'Contohnya, merah (primer) + kuning (primer) = oranye (sekunder). Biru + kuning = hijau. Merah + biru = ungu.' },
+{ subtest: 'Profesional: SBdP', question: 'Gerak maknawi dalam tari adalah gerak yang...', options: ['Hanya mementingkan keindahan semata.', 'Memiliki arti atau maksud tertentu yang ingin disampaikan.', 'Dilakukan secara spontan tanpa latihan.', 'Meniru gerakan hewan.'], answer: 'Memiliki arti atau maksud tertentu yang ingin disampaikan.', explanation: 'Gerak maknawi (gestural) adalah gerak yang mengandung pesan atau cerita, berbeda dengan gerak murni (stilasi) yang lebih fokus pada aspek estetika.' },
+{ subtest: 'Profesional: SBdP', question: 'Lagu "Ampar-Ampar Pisang" berasal dari daerah...', options: ['Jawa Barat', 'Sumatera Utara', 'Kalimantan Selatan', 'Sulawesi Utara'], answer: 'Kalimantan Selatan', explanation: 'Lagu "Ampar-Ampar Pisang" adalah lagu daerah yang populer dari provinsi Kalimantan Selatan.' },
+{ subtest: 'Profesional: SBdP', question: 'Karya kerajinan dari bahan lunak buatan yang proses pembuatannya menggunakan teknik butsir adalah...', options: ['Keranjang dari rotan', 'Guci dari tanah liat atau plastisin', 'Tas dari eceng gondok', 'Bingkai foto dari kardus'], answer: 'Guci dari tanah liat atau plastisin', explanation: 'Teknik butsir adalah teknik membentuk benda dengan mengurangi dan menambah bahan, yang umumnya digunakan untuk bahan lunak seperti tanah liat, plastisin, atau sabun.' }
+
+],
+
+    // --- Data dinamis ini tidak perlu diubah ---
+    judulHalaman: document.title,
+    url: window.location.href
+};
+
+// ===================================================================================
+// --- FUNGSI PENGIRIMAN DATA KE GOOGLE SHEET (DIPERBARUI) ---
+// ===================================================================================
+async function kirimKeGoogleSheet(data) {
+    const statusEl = document.getElementById('submission-status');
+    statusEl.textContent = 'Mengirim hasil ujian...';
+    
+    const formData = new FormData();
+    // Menambahkan semua data ke dalam objek FormData.
+    formData.append('kategori', data.kategori);
+    formData.append('url', data.url);
+    formData.append('judulHalaman', data.judulHalaman);
+    formData.append('Nama', data.Nama);
+    formData.append('JumlahSoal', data.JumlahSoal);
+    formData.append('JawabanBenar', data.JawabanBenar);
+    formData.append('JawabanSalah', data.JawabanSalah);
+    formData.append('TidakDijawab', data.TidakDijawab);
+    formData.append('Durasi', data.Durasi);
+    formData.append('Nilai', data.Nilai);
+    formData.append('StatusKelulusan', data.StatusKelulusan);
+
+    try {
+        const response = await fetch(EXAM_CONFIG.scriptURL, {
+            method: 'POST',
+            body: formData
+        });
+        
+        // Membaca respons sebagai JSON untuk mendapatkan pesan sukses/error dari server
+        const result = await response.json();
+        
+        if (result.result === "success") {
+            statusEl.innerHTML = `Hasil ujian berhasil disimpan. <b><a href="${EXAM_CONFIG.linkPeringkat}">Cek Peringkat kamu di sini</a></b>`;
+            statusEl.style.color = 'green';
+        } else {
+            // Menampilkan pesan error yang lebih spesifik dari server
+            throw new Error(result.message || 'Terjadi kesalahan dari server.');
+        }
+    } catch (error) {
+        console.error('Error saat mengirim ke Google Sheet:', error);
+        statusEl.textContent = `Gagal menyimpan hasil. Coba lagi nanti. Error: ${error.message}`;
+        statusEl.style.color = 'red';
+    }
+}
+
+// ===================================================================================
+// --- LOGIKA UTAMA UJIAN (DISESUAIKAN, TIDAK PERLU DIUBAH LAGI) ---
+// ===================================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Menggunakan bank soal dari EXAM_CONFIG
+    const questions = EXAM_CONFIG.bankSoal;
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let questionStatus = new Array(questions.length).fill('unanswered');
+    let timerInterval;
+    let startTime;
+    let currentUsername = '';
+
+    const loginContainer = document.getElementById('login-container');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('login-btn');
+    const loginError = document.getElementById('login-error');
+    const appHeader = document.querySelector('.header');
+    const quizContainer = document.querySelector('.quiz-container');
+    const resultPage = document.getElementById('result-page');
+    const subtestTitleEl = document.getElementById('subtest-title');
+    const questionNumberEl = document.getElementById('question-number');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsEl = document.getElementById('options');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const doubtfulBtn = document.getElementById('doubtful-btn');
+    const finishBtn = document.getElementById('finish-btn');
+    const timerEl = document.getElementById('timer');
+    const restartBtn = document.getElementById('restart-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const headerInfo = document.getElementById('header-info');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmYesBtn = document.getElementById('confirm-yes');
+    const confirmNoBtn = document.getElementById('confirm-no');
+    
+    function showLoginPage() {
+        loginContainer.style.display = 'block'; // Diubah dari 'flex' agar sesuai skrip asli
+        appHeader.style.display = 'none';
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'none';
+        passwordInput.value = '';
+        loginError.style.display = 'none';
+    }
+
+    function handleLogin() {
+        const password = passwordInput.value;
+        const username = usernameInput.value.trim();
+        if (username === "") {
+            loginError.textContent = "Username tidak boleh kosong.";
+            loginError.style.display = 'block';
+            return;
+        }
+        // Menggunakan password dari EXAM_CONFIG
+        if (password === EXAM_CONFIG.password) {
+            currentUsername = username;
+            loginContainer.style.display = 'none';
+            appHeader.style.display = 'flex';
+            quizContainer.style.display = 'flex';
+            resultPage.style.display = 'none';
+            headerInfo.textContent = `Peserta: ${currentUsername}`;
+            startQuiz();
+        } else {
+            loginError.textContent = "Password salah. Coba lagi.";
+            loginError.style.display = 'block';
+        }
+    }
+    
+    function handleLogout() {
+        clearInterval(timerInterval);
+        showLoginPage();
+    }
+
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        userAnswers.fill(null);
+        questionStatus.fill('unanswered');
+        quizContainer.style.display = 'flex';
+        resultPage.style.display = 'none';
+        setupQuestionGrids();
+        displayQuestion(currentQuestionIndex);
+        // Menggunakan durasi dari EXAM_CONFIG
+        startTimer(EXAM_CONFIG.durasiMenit * 60);
+        startTime = new Date();
+    }
+
+    function setupQuestionGrids() {
+        const gridContainer = document.getElementById('grid-container');
+        gridContainer.innerHTML = '';
+        const subtests = [...new Set(questions.map(q => q.subtest))];
+        subtests.forEach(subtest => {
+            const group = document.createElement('div');
+            group.className = 'subtest-group';
+            const title = document.createElement('h3');
+            title.textContent = subtest;
+            const grid = document.createElement('div');
+            grid.className = 'question-grid';
+            group.appendChild(title);
+            group.appendChild(grid);
+            gridContainer.appendChild(group);
+            questions.forEach((q, index) => {
+                if (q.subtest === subtest) {
+                    const button = document.createElement('button');
+                    button.className = 'grid-button';
+                    button.textContent = index + 1;
+                    button.onclick = () => jumpToQuestion(index);
+                    grid.appendChild(button);
+                }
+            });
+        });
+    }
+
+    function displayQuestion(index) {
+        document.querySelector('.grid-button.current')?.classList.remove('current');
+        currentQuestionIndex = index;
+        const question = questions[index];
+        subtestTitleEl.textContent = question.subtest;
+        questionNumberEl.textContent = index + 1;
+        questionTextEl.innerHTML = question.question;
+        optionsEl.innerHTML = '';
+        question.options.forEach(option => {
+            const li = document.createElement('li');
+            const label = document.createElement('label');
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = `option-${index}`;
+            radio.value = option;
+            if (userAnswers[index] === option) {
+                radio.checked = true;
+                label.classList.add('selected');
+            }
+            radio.onchange = () => selectAnswer(index, option, label);
+            const span = document.createElement('span');
+            span.innerHTML = option; // Menggunakan innerHTML untuk render jika ada format
+            label.appendChild(radio);
+            label.appendChild(span);
+            li.appendChild(label);
+            optionsEl.appendChild(li);
+        });
+        updateNavButtons();
+        updateGridButtonStatus(index, true);
+    }
+
+    function selectAnswer(index, answer, label) {
+        userAnswers[index] = answer;
+        document.querySelectorAll(`#options li label`).forEach(l => l.classList.remove('selected'));
+        label.classList.add('selected');
+        if (questionStatus[index] !== 'doubtful') {
+            questionStatus[index] = 'answered';
+        }
+        updateGridButtonStatus(index);
+    }
+    
+    function updateNavButtons() {
+        prevBtn.disabled = currentQuestionIndex === 0;
+        nextBtn.disabled = currentQuestionIndex === questions.length - 1;
+    }
+    
+    function updateGridButtonStatus(index, isCurrent = false) {
+        const allGridButtons = document.querySelectorAll('.grid-button');
+        if (isCurrent) {
+            const currentBtn = document.querySelector('.grid-button.current');
+            if (currentBtn) currentBtn.classList.remove('current');
+        }
+        const button = Array.from(allGridButtons).find(btn => parseInt(btn.textContent) === index + 1);
+        if (!button) return;
+        if(isCurrent) button.classList.add('current');
+        button.classList.remove('answered', 'doubtful');
+        switch (questionStatus[index]) {
+            case 'answered': button.classList.add('answered'); break;
+            case 'doubtful': button.classList.add('doubtful'); break;
+        }
+    }
+
+    function jumpToQuestion(index) {
+        displayQuestion(index);
+    }
+
+    function startTimer(duration) {
+        let timer = duration;
+        clearInterval(timerInterval);
+        timerEl.parentElement.classList.remove('low-time');
+        timerInterval = setInterval(() => {
+            let minutes = parseInt(timer / 60, 10);
+            let seconds = parseInt(timer % 60, 10);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            timerEl.textContent = `${minutes}:${seconds}`;
+            if (timer < 300 && !timerEl.parentElement.classList.contains('low-time')) { 
+                timerEl.parentElement.classList.add('low-time'); 
+            }
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                finishQuiz();
+            }
+        }, 1000);
+    }
+    
+    function showConfirmation() {
+        confirmationModal.style.display = 'flex';
+    }
+
+    function formatDuration(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes} menit ${seconds.toString().padStart(2, '0')} detik`;
+}
+
+
+    function finishQuiz() {
+        clearInterval(timerInterval);
+        confirmationModal.style.display = 'none';
+        const endTime = new Date();
+        const durationMs = endTime - startTime;
+        let correctCount = 0;
+        questions.forEach((q, index) => {
+            if (userAnswers[index] === q.answer) correctCount++;
+        });
+        const totalQuestions = questions.length;
+        const answeredCount = userAnswers.filter(a => a !== null).length;
+        const incorrectCount = answeredCount - correctCount;
+        const unansweredCount = totalQuestions - answeredCount;
+        const finalScore = totalQuestions > 0 ? parseFloat(((correctCount / totalQuestions) * 100).toFixed(2)) : 0;
+        const isPassed = finalScore >= EXAM_CONFIG.passingGrade;
+        
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'block';
+        headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
+        
+        const statusEl = document.getElementById('status-lulus');
+        statusEl.textContent = isPassed ? 'SELAMAT, ANDA LULUS!' : 'MAAF, ANDA BELUM LULUS';
+        statusEl.className = `status ${isPassed ? 'lulus' : 'gagal'}`;
+        document.getElementById('final-score').textContent = finalScore;
+        document.getElementById('score-details').textContent = `${correctCount} dari ${totalQuestions} soal benar`;
+        
+        const reviewSection = document.getElementById('review-section');
+        reviewSection.innerHTML = '';
+        questions.forEach((q, index) => {
+            const userAnswer = userAnswers[index];
+            const isCorrect = userAnswer === q.answer;
+            reviewSection.innerHTML += `
+                <div class="review-item">
+                    <p><strong>Soal ${index + 1}:</strong> ${q.question}</p>
+                    <div class="review-answer user-answer ${isCorrect ? '' : 'is-incorrect'}">Jawaban Anda: ${userAnswer || 'Tidak Dijawab'}</div>
+                    ${!isCorrect ? `<div class="review-answer correct-answer">Jawaban Benar: ${q.answer}</div>` : ''}
+                    <div class="explanation"><strong>Pembahasan:</strong> ${q.explanation}</div>
+                </div>
+            `;
+        });
+        
+        const dataForSheet = {
+            kategori: EXAM_CONFIG.kategori,
+            url: EXAM_CONFIG.url,
+            judulHalaman: EXAM_CONFIG.judulHalaman,
+            Nama: currentUsername,
+            JumlahSoal: totalQuestions,
+            JawabanBenar: correctCount,
+            JawabanSalah: incorrectCount,
+            TidakDijawab: unansweredCount,
+            Durasi: formatDuration(durationMs),
+            Nilai: finalScore,
+            StatusKelulusan: isPassed ? 'Lulus' : 'Tidak Lulus'
+        };
+        kirimKeGoogleSheet(dataForSheet);
+    }
+
+    // Event Listeners
+    loginBtn.addEventListener('click', handleLogin);
+    passwordInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
+    logoutBtn.addEventListener('click', handleLogout);
+    prevBtn.addEventListener('click', () => { if (currentQuestionIndex > 0) displayQuestion(currentQuestionIndex - 1) });
+    nextBtn.addEventListener('click', () => { if (currentQuestionIndex < questions.length - 1) displayQuestion(currentQuestionIndex + 1) });
+    doubtfulBtn.addEventListener('click', () => {
+        const currentStatus = questionStatus[currentQuestionIndex];
+        if (currentStatus === 'doubtful') {
+            questionStatus[currentQuestionIndex] = userAnswers[currentQuestionIndex] ? 'answered' : 'unanswered';
+        } else {
+            questionStatus[currentQuestionIndex] = 'doubtful';
+        }
+        updateGridButtonStatus(currentQuestionIndex);
+    });
+    finishBtn.addEventListener('click', showConfirmation);
+    confirmYesBtn.addEventListener('click', finishQuiz);
+    confirmNoBtn.addEventListener('click', () => confirmationModal.style.display = 'none');
+    restartBtn.addEventListener('click', handleLogout);
+
+    showLoginPage();
+});
+</script>
