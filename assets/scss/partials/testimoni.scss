@@ -1,0 +1,150 @@
+
+        /* Kontainer Utama Halaman Testimoni */
+        .testimonial-page-container {
+            max-width: 100%;
+        }
+        
+        /* Header Halaman */
+        .testimonial-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .testimonial-header h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--dark-blue);
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-header p {
+            font-size: 1.1rem;
+            color: var(--text-grey);
+            line-height: 1.7;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* --- CSS SLIDER (DENGAN TOMBOL NAVIGASI) --- */
+
+        .css-slider-container {
+            position: relative;
+        }
+        
+        .slider-wrapper {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 20px; 
+            margin: 0 -12px; /* Menetralkan padding slide */
+        }
+        
+        /* Sembunyikan scrollbar visual */
+        .slider-wrapper::-webkit-scrollbar { display: none; }
+        .slider-wrapper { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .slider-slide {
+            flex: 0 0 100%; 
+            padding: 0 12px;
+            scroll-snap-align: start; 
+        }
+        
+        .testimonial-card {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%; 
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .slider-slide:hover .testimonial-card {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .star-rating { color: var(--star-gold); margin-bottom: 16px; }
+
+        .testimonial-text {
+            font-size: 1rem;
+            color: var(--text-grey);
+            line-height: 1.6;
+            margin-bottom: 24px;
+            font-style: italic;
+            flex-grow: 1; 
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-top: 1px solid var(--border-light);
+            padding-top: 16px;
+        }
+        
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: var(--border-light);
+        }
+        
+        .author-info h4 { font-size: 1rem; font-weight: 600; color: var(--dark-blue); }
+        .author-info p { font-size: 0.9rem; color: var(--primary-orange); font-weight: 500; }
+
+        /* Tombol Navigasi Slider */
+        .slide-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border-light);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 24px;
+            color: var(--dark-blue);
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .slide-button:hover {
+            background-color: var(--bg-white);
+            border-color: var(--primary-orange);
+            color: var(--primary-orange);
+        }
+
+        .slide-button.prev { left: -22px; }
+        .slide-button.next { right: -22px; }
+
+        /* Desain Responsif */
+        @media (min-width: 768px) {
+            .slider-slide { flex-basis: 50%; }
+        }
+
+        @media (min-width: 1024px) {
+            .slider-slide { flex-basis: calc(100% / 3); }
+        }
+
+        @media (max-width: 768px) {
+            .testimonial-page-container {
+                padding: 20px;
+                margin: 20px auto;
+            }
+            .testimonial-header h2 { font-size: 2.8rem; }
+            .slide-button { display: none; } /* Sembunyikan tombol di mobile, andalkan swipe */
+        }
+   

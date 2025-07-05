@@ -27,3 +27,30 @@
 		    document.head.appendChild(customFont);
 		}());
 </script>
+ 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const sliderWrapper = document.querySelector('.slider-wrapper');
+        const prevButton = document.getElementById('prev-slide');
+        const nextButton = document.getElementById('next-slide');
+
+        if (sliderWrapper && prevButton && nextButton) {
+            const scrollAmount = () => {
+                const firstSlide = sliderWrapper.querySelector('.slider-slide');
+                if (firstSlide) {
+                    // Menggunakan getBoundingClientRect().width untuk lebar yang lebih akurat
+                    return firstSlide.getBoundingClientRect().width;
+                }
+                return 300; // Lebar fallback jika slide tidak ditemukan
+            };
+
+            nextButton.addEventListener('click', () => {
+                sliderWrapper.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+            });
+
+            prevButton.addEventListener('click', () => {
+                sliderWrapper.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+            });
+        }
+    });
+</script>
