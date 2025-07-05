@@ -148,6 +148,10 @@ params:
     widgets:
         homepage:
             - type: search
+            - type: latest-tryout
+            #  params:
+            #      limit: 10
+
             - type: archives
               params:
                 limit: 5

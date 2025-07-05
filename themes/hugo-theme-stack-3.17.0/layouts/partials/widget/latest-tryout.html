@@ -1,0 +1,178 @@
+{{ $site := .Context.Site }}
+{{ $posts := first 4 (where $site.RegularPages "Section" "ujian") }}
+
+<div class="tryout-widget">
+  <div class="tryout-header">
+    <span class="tryout-logo">Tryout Terbaru</span>
+    <span class="tryout-date">{{ now.Format "02 Januari 2006" }}</span>
+  </div>
+
+  {{ if gt (len $posts) 0 }}
+    {{ $first := index $posts 0 }}
+    <a href="{{ $first.RelPermalink }}" class="tryout-featured">
+      <div class="featured-thumb" style="background-image: url('{{ $first.Params.image | relURL }}');"></div>
+      <div class="featured-content">
+        <h2 class="featured-title">{{ $first.Title }}</h2>
+        <p class="featured-desc">{{ $first.Params.description | truncate 110 }}</p>
+      </div>
+    </a>
+
+    <div class="tryout-list">
+      {{ range after 1 $posts }}
+        <a href="{{ .RelPermalink }}" class="tryout-small-card">
+          <div class="small-thumb" style="background-image: url('{{ .Params.image | relURL }}');"></div>
+          <div class="small-info">
+            <div class="small-title">{{ .Title }}</div>
+            <div class="small-desc">{{ .Params.description | truncate 60 }}</div>
+          </div>
+        </a>
+      {{ end }}
+    </div>
+  {{ else }}
+    <p>Tidak ada tryout terbaru.</p>
+  {{ end }}
+</div>
+
+<style>
+.tryout-widget {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.tryout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 10px;
+  margin-bottom: 18px;
+}
+
+.tryout-logo {
+  font-weight: 700;
+  font-size: 18px;
+  color: #1d4ed8;
+}
+
+.tryout-date {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Featured (posting pertama) */
+.tryout-featured {
+  display: flex;
+  flex-direction: column;
+  background: #f3f4f6;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.tryout-featured:hover {
+  transform: scale(1.01);
+}
+
+.featured-thumb {
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+}
+
+.featured-content {
+  padding: 16px;
+}
+
+.featured-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.featured-desc {
+  font-size: 14px;
+  color: #4b5563;
+  margin: 0;
+}
+
+/* Daftar kecil (post 2–4) */
+.tryout-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tryout-small-card {
+  display: flex;
+  align-items: center;
+  background: #f9fafb;
+  border-radius: 10px;
+  text-decoration: none;
+  overflow: hidden;
+  transition: background 0.2s ease;
+}
+
+.tryout-small-card:hover {
+  background: #eef2ff;
+}
+
+.small-thumb {
+  width: 64px;
+  height: 64px;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+  border-radius: 10px 0 0 10px;
+}
+
+.small-info {
+  padding: 10px 14px;
+}
+
+.small-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.small-desc {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Responsif */
+@media (max-width: 500px) {
+  .featured-thumb {
+    height: 140px;
+  }
+
+  .tryout-widget {
+    padding: 16px;
+  }
+
+  .featured-title {
+    font-size: 16px;
+  }
+
+  .featured-desc {
+    font-size: 13px;
+  }
+
+  .small-title {
+    font-size: 13px;
+  }
+
+  .small-desc {
+    font-size: 11px;
+  }
+}
+</style>
