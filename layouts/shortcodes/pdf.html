@@ -1,0 +1,12 @@
+{{/* Mengambil parameter 'src' dari shortcode */}}
+{{ $src := .Get "src" }}
+
+{{/* Mengambil parameter tinggi dan lebar, atau menggunakan nilai default */}}
+{{ $height := .Get "height" | default "800px" }}
+{{ $width := .Get "width" | default "100%" }}
+
+<div class="pdf-container" style="margin-top: 20px; margin-bottom: 20px;">
+    <iframe src="{{ $src | absURL }}" width="{{ $width }}" height="{{ $height }}" style="border: 1px solid #ddd;">
+        <p>Browser Anda tidak mendukung pratinjau PDF. Silakan unduh file untuk melihatnya: <a href="{{ $src | absURL }}">Unduh PDF</a>.</p>
+    </iframe>
+</div>

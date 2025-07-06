@@ -40,13 +40,15 @@ jumlah: 145
 </div>
 
 
+>**NEWS UPDATE** CASN PPPK 2025 telah dibuka, baca artikel berikut : *[pppk 2025 kejaksaan](/pppk/kejaksaan/penerimaan-cpppk-kejaksaan-2025/)*
 
 {{< ujian/PPPK/cat-pppk2025 >}}
 
 > **[» KLIK DI SINI UNTUK MELIHAT PERINGKAT PESERTA! «](/ujian/ranking-peserta-tryout/)**
 
 
-**[Akazed](/)** - Seleksi Pegawai Pemerintah dengan Perjanjian Kerja (PPPK) tahun 2025 sudah di depan mata. Bagi ribuan pejuang NIP di seluruh Indonesia, ini adalah momen krusial untuk membuktikan diri. Persaingan yang semakin ketat menuntut persiapan yang tidak bisa dianggap remeh. Pertanyaannya, sudah sejauh mana kesiapan Anda untuk menaklukkan sistem Computer Assisted Test (CAT) nanti?
+**[Akazed](/)** - Seleksi Pegawai Pemerintah dengan Perjanjian Kerja (**[PPPK](/pppk/)**) tahun 2025 sudah di depan mata. Bagi ribuan pejuang NIP di seluruh Indonesia, ini adalah momen krusial untuk membuktikan diri. Persaingan yang semakin ketat menuntut persiapan yang tidak bisa dianggap remeh. Pertanyaannya, sudah sejauh mana kesiapan Anda untuk menaklukkan sistem Computer Assisted Test (CAT) nanti?
+
 
 >Sekadar membaca materi saja tidak cukup. Anda butuh lebih dari itu. Anda perlu merasakan langsung atmosfer ujian, melatih kecepatan berpikir, dan membiasakan diri dengan antarmuka yang akan dihadapi. Inilah mengapa mengikuti **[tryout PPPK 2025](/ujian/pppk/tryout-cat-pppk-2025/)** menjadi langkah strategis yang tidak boleh Anda lewatkan. Kabar baiknya, Anda bisa memulainya tanpa biaya sepeser pun.
 
