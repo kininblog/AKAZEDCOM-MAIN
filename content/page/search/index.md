@@ -10,6 +10,6 @@ menu:
         weight: -60
         params: 
             #icon: searchmagnifying-glass-solid
-            icon: magnifying-glass-solid
+            icon: search
 
 ---

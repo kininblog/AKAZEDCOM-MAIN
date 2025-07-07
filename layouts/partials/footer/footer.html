@@ -9,11 +9,11 @@
 
     <section class="copyright">
         &copy; 
-        {{ if and (.Site.Params.footer.since) (ne .Site.Params.footer.since (int (now.Format "2025"))) }}
+        {{ if and (.Site.Params.footer.since) (ne .Site.Params.footer.since (int (now.Format "2006"))) }}
             {{ .Site.Params.footer.since }} - 
         {{ end }}
         <!-- #TODO 修改 -->
-        {{ now.Format "2025" }} <a href="#这里是博客链接">AKAZED.COM</a>·<i class="fas fa-bell"></i> <a id="days">0</a>天<br>
+        {{ now.Format "2006" }} <a href="/">AKAZED.COM</a> <!--<i class="fas fa-bell"></i> <a id="days">0</a>天--><br>
         <!-- {{$var :=  $scratch.Get "total"}}{{$var = div $var 100.0}}{{$var = math.Ceil $var}}{{$var = div $var 10.0}}共手书{{$var}}k字·共 {{ len (where .Site.RegularPages "Section" "post") }}篇文章</br><span><p> -->
 
     </section>

@@ -14,7 +14,7 @@ menu:
         weight: -30
         params:
             #icon: user
-            icon: address-card-solid
+            icon: clipboard-text
 ---
 
 Hi. Saya penulis serta pengelola **Akazed.com**, senang mempelajari hal-hal baru di dunia blogging, saat ini Saya juga menjadi **seorang pendidik**.

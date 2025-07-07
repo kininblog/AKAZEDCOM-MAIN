@@ -14,7 +14,7 @@ menu:
         weight: -30
         params:
             #icon: user
-            icon: address-card-solid
+            icon: user
 ---
 
 ![akazed default image](images/default.webp)

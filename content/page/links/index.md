@@ -13,7 +13,7 @@ menu:
         weight: -80
         params:
             #icon: user
-            icon: user-group-solid
+            icon: user
 
 ---
 ## Daftar Teman dan Koneksi Akazed.com

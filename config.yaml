@@ -224,16 +224,16 @@ menu:
           params:
               ### For demonstration purpose, the home link will be open in a new tab
               newTab: false
-              icon: newspaper-regular
+              icon: home
 
         - identifier: Ujian Online
           name: Try Out 
-          url: /ujian/
+          url: /ujian/ 
           weight: -50
           params:
                ### For demonstration purpose, the home link will be open in a new tab
               newTab: false
-              icon: train-subway-solid
+              icon: file-star
 
         - identifier: Blogger
           name: Blogger
@@ -242,7 +242,7 @@ menu:
           params:
                ### For demonstration purpose, the home link will be open in a new tab
               newTab: false
-              icon: train-subway-solid
+              icon: brand-blogger
 
         ##- identifier: aa
          ## name: aa

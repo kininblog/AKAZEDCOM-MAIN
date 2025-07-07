@@ -8,5 +8,5 @@ menu:
         weight: -70
         params: 
             #icon: archives
-            icon: folder-solid
+            icon: archive
 ---
