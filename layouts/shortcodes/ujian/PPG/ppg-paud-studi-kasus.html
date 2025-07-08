@@ -1,0 +1,569 @@
+    <!-- SELURUH KONTEN HTML ANDA DARI SINI -->
+    <div id="login-container">
+        <div class="login-box">
+            <h2>Login Peserta Ujian</h2>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan username Anda">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password">
+            </div>
+            <button id="login-btn">Masuk</button>
+            <p id="login-error">Password salah. Coba lagi.</p>
+            <a href="/ujian/cara-ikut-tryout-online-gratis" style="text-decoration: none;">
+                <button id="cara-btn" type="button">Cara Ikut Try Out</button>
+            </a>
+        </div>
+    </div>
+
+    <header class="header" style="display: none;">
+        <h2>Simulasi Ujian</h2>
+        <div class="user-info">
+            <span id="header-info"></span>
+            <button id="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <div class="quiz-container" style="display: none;">
+        <main class="question-panel">
+            <div class="question-header">
+                <span id="subtest-title">Subtes</span> | Soal No. <span id="question-number">1</span>
+            </div>
+            <div class="question-body">
+                <p id="question-text">Memuat soal...</p>
+                <ul id="options" class="options-list"></ul>
+            </div>
+            <div class="quiz-actions">
+                <button id="prev-btn" class="action-button">Sebelumnya</button>
+                <button id="doubtful-btn" class="action-button">Ragu-ragu</button>
+                <button id="next-btn" class="action-button">Selanjutnya</button>
+            </div>
+        </main>
+        <aside class="navigation-panel">
+            <div class="timer-box">
+                Sisa Waktu
+                <div id="timer">30:00</div>
+            </div>
+            <div id="grid-container" class="question-grid-container"></div>
+            <div class="quiz-actions" style="justify-content: center;">
+                <button id="finish-btn" class="action-button">Selesaikan Ujian</button>
+            </div>
+        </aside>
+    </div>
+
+    <div id="result-page" class="result-container" style="display: none;">
+        <div class="result-card overall-summary">
+            <div id="status-lulus" class="status"></div>
+            <h2>Hasil Akhir Ujian</h2>
+            <div id="final-score" class="score">0</div>
+            <div id="score-details" class="score-details"></div>
+            <div id="submission-status"></div>
+        </div>
+        <div class="result-card">
+            <h3>Tinjauan Jawaban</h3>
+            <div id="review-section"></div>
+        </div>
+        <div style="text-align: center;">
+           <button id="restart-btn" class="action-button">Ulangi Ujian</button>
+        </div>
+    </div>
+    
+    <div id="confirmation-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Selesaikan Ujian?</h2>
+            <p>Apakah Anda yakin ingin menyelesaikan dan mengakhiri sesi ujian ini?</p>
+            <div class="modal-actions">
+                <button id="confirm-no" class="action-button">Batal</button>
+                <button id="confirm-yes" class="action-button">Ya, Selesaikan</button>
+            </div>
+        </div>
+    </div>
+    <!-- HINGGA AKHIR KONTEN HTML ANDA -->
+
+<script>
+// ===================================================================================
+// --- KONFIGURASI UJIAN (HANYA UBAH BAGIAN INI UNTUK UJIAN BARU) ---
+// ===================================================================================
+const EXAM_CONFIG = {
+    // 1. Ganti nama kategori ini sesuai nama sheet di Google Sheets (cth: "TWK", "TKP")
+    kategori: "PPG",
+    
+    // 2. Ganti URL ini dengan URL Web App dari Google Script Anda yang sudah di-deploy ulang.
+    scriptURL: 'https://script.google.com/macros/s/AKfycbxNJ9pOsCPSPAPRQKfoq43AwmVMSIScq6AIa33Q0dxnMI-jb1xuxi1aK3bUBFDstinDiQ/exec',
+    
+    // 3. Ganti link peringkat ini ke halaman peringkat yang sesuai.
+    linkPeringkat: "/ujian/ranking-peserta-tryout/",
+    
+    // 4. Sesuaikan pengaturan ujian jika perlu.
+    durasiMenit: 30,
+    passingGrade: 65,
+    password: "ujian",
+    
+    // 5. Ganti seluruh isi bank soal di bawah ini dengan soal yang sesuai.
+    bankSoal: [
+  {
+    "subtest": "Pedagogik",
+    "question": "Pada kegiatan pembelajaran, guru merancang kegiatan yang menyenangkan sesuai karakteristik anak. Berdasarkan dari hasil analisis perkembangan, masih banyak anak-anak yang kurang bersemangat dan kurang tertarik dalam kegiatan bermain di kelas. Berdasarkan dari pernyataan di atas, rancangan pengembangan kegiatan di kelas yang tepat dilakukan guru adalah...",
+    "options": [
+      "Merancang kegiatan jual beli dengan barang dagangan yang diletakan di lapak dan anak-anak melakukan tawar menawar.",
+      "Merancang kegiatan seperti di pasar dan anak-anak diminta untuk mengisi barang dagangan yang akan ditawarkan.",
+      "Merancang kegiatan dengan mendatangi pasar agar anak memiliki pengalaman nyata tentang jual beli di pasar tradisional.",
+      "Merancang kegiatan yang melibatkan anak-anak dan orang tua tentang bagaimana cara jual beli dan membeli barang dagangan yang murah.",
+      "Merancang kegiatan dengan mengunjungi toko yang terdekat dan anak-anak diminta untuk membelanjakan sesuai kebutuhan."
+    ],
+    "answer": "Merancang kegiatan dengan mendatangi pasar agar anak memiliki pengalaman nyata tentang jual beli di pasar tradisional.",
+    "explanation": "Pembelajaran pada anak usia dini akan lebih bermakna dan menarik jika berbasis pengalaman nyata (kontekstual). Mengajak anak langsung ke pasar memberikan pengalaman sensorik dan sosial yang kaya, yang tidak bisa sepenuhnya didapatkan melalui simulasi di kelas. Ini sesuai dengan prinsip pembelajaran berbasis pengalaman (experiential learning)."
+  },
+  {
+    "subtest": "Pedagogik",
+    "question": "Guru ingin memberikan reward kepada anak-anak yang telah menyelesaikan tugas dengan baik untuk meningkatkan semangat belajar. Praktik pemberian reward yang paling tepat dan mendidik adalah...",
+    "options": [
+      "Memberi pujian pada semua anak pada saat kegiatan pembelajaran selesai tanpa terkecuali.",
+      "Memberi pujian pada anak-anak yang mengerjakan tugas tercepat untuk memotivasi yang lain.",
+      "Memberikan pujian sesegera mungkin ketika anak menunjukkan proses atau usaha yang lebih baik dari sebelumnya.",
+      "Memberi pujian hanya pada anak laki-laki dan perempuan yang paling cepat menyelesaikan tugas."
+    ],
+    "answer": "Memberikan pujian sesegera mungkin ketika anak menunjukkan proses atau usaha yang lebih baik dari sebelumnya.",
+    "explanation": "Pemberian reward yang paling efektif adalah yang fokus pada proses dan usaha anak, bukan hanya pada hasil akhir atau kecepatan. Memberikan pujian yang spesifik dan segera setelah perilaku positif muncul akan memperkuat perilaku tersebut dan membangun motivasi intrinsik anak."
+  },
+  {
+    "subtest": "Pedagogik",
+    "question": "Seorang anak di kelas sering mengganggu temannya, dan nasihat guru belum berhasil. Guru memutuskan perlu ada konsekuensi. Cara memberikan hukuman atau konsekuensi yang paling tepat dan mendidik adalah...",
+    "options": [
+      "Memberikan tugas yang lebih banyak agar anak sibuk dan tidak mengganggu.",
+      "Mengurangi waktu istirahat anak untuk mengganti waktu belajar yang terlewatkan.",
+      "Menjelaskan konsekuensi logis dari tindakan yang telah dilakukan dengan tenang.",
+      "Memberikan tanggung jawab baru agar fokus anak teralihkan."
+    ],
+    "answer": "Menjelaskan konsekuensi logis dari tindakan yang telah dilakukan dengan tenang.",
+    "explanation": "Pendekatan disiplin positif menekankan pada konsekuensi logis, bukan hukuman. Guru perlu membantu anak memahami dampak dari perilakunya terhadap orang lain. Menjelaskannya dengan tenang dan logis akan membantu anak mengembangkan pemahaman sosial dan tanggung jawab atas tindakannya."
+  },
+  {
+    "subtest": "Pedagogik",
+    "question": "Guru meminta anak untuk belajar mencampur berbagai warna dari berbagai bahan yang disediakan. Anak-anak dibebaskan untuk membuat warna baru dari bahan-bahan yang telah dipilih. Materi pembelajaran yang paling kaya dan mengembangkan sisi eksplorasi anak dari kegiatan ini adalah...",
+    "options": [
+      "Anak-anak membuat percampuran warna dengan bahan alam.",
+      "Anak-anak melakukan percampuran warna dari cat air.",
+      "Melakukan eksperimen percobaan warna dari bahan terbarukan.",
+      "Membuat pola warna dari bahan buah-buahan berwarna."
+    ],
+    "answer": "Melakukan eksperimen percobaan warna dari bahan terbarukan.",
+    "explanation": "Istilah 'eksperimen' menekankan pada proses penemuan dan pendekatan saintifik sederhana (sains permulaan). Ini mendorong anak untuk bereksplorasi, mengamati, dan menarik kesimpulan sendiri, yang merupakan keterampilan berpikir tingkat tinggi bagi anak usia dini."
+  },
+  {
+    "subtest": "Pedagogik",
+    "question": "Guru ingin mengenalkan konsep siang dan malam melalui praktik langsung di kelas. Dukungan lingkungan kelas yang paling efektif untuk kegiatan ini adalah...",
+    "options": [
+      "Kelas yang luas dan bertingkat.",
+      "Kelas dengan jendela bisa dibuat gelap dan terang.",
+      "Kelas dengan fasilitas teknologi terbaru.",
+      "Kelas yang mudah diakses siapa saja."
+    ],
+    "answer": "Kelas dengan jendela bisa dibuat gelap dan terang.",
+    "explanation": "Untuk mempraktikkan konsep abstrak seperti siang (terang) dan malam (gelap), diperlukan lingkungan yang dapat dimanipulasi untuk merepresentasikan konsep tersebut. Kelas yang bisa diatur pencahayaannya dari terang menjadi gelap (atau sebaliknya) adalah sarana yang paling efektif dan sederhana."
+  },
+  {
+    "subtest": "Pedagogik",
+    "question": "Pada kegiatan pembelajaran tema binatang, guru ingin menjelaskan proses metamorfosis kupu-kupu secara menarik dan mudah dipahami. Media atau model pembelajaran yang paling efektif untuk tujuan ini adalah...",
+    "options": [
+      "Menggunakan model pembelajaran berdiferensiasi.",
+      "Menyediakan materi cetak tentang jenis-jenis kupu-kupu.",
+      "Menampilkan video pembelajaran tentang metamorfosis kupu-kupu.",
+      "Membuat penangkaran kupu-kupu sederhana di sekolah."
+    ],
+    "answer": "Menampilkan video pembelajaran tentang metamorfosis kupu-kupu.",
+    "explanation": "Meskipun membuat penangkaran adalah ide yang bagus (pengalaman nyata), prosesnya memakan waktu lama. Video pembelajaran dapat menunjukkan keseluruhan proses metamorfosis yang kompleks secara visual, menarik, dan dalam waktu singkat, sehingga mudah dipahami oleh anak."
+  },
+  {
+    "subtest": "Pedagogik",
+    "question": "Guru melihat lingkungan sekolah masih banyak sampah berserakan. Guru ingin mengangkat topik ini menjadi sebuah proyek pembelajaran. Topik proyek yang paling relevan dan dapat langsung dikerjakan oleh anak adalah...",
+    "options": [
+      "Kebersihan lingkungan sekolah.",
+      "Sekolah bersih dan sehat.",
+      "Membuat pupuk kompos.",
+      "Sekolah bebas dari sampah."
+    ],
+    "answer": "Membuat pupuk kompos.",
+    "explanation": "Pembelajaran berbasis proyek (PjBL) harus menghasilkan sebuah 'karya' atau 'aksi' nyata. 'Membuat pupuk kompos' adalah kegiatan konkret yang bisa dilakukan anak-anak sebagai solusi dari masalah sampah organik di sekolah. Topik lain cenderung masih bersifat konsep atau slogan."
+  },
+  {
+    "subtest": "Pedagogik",
+    "question": "Guru mengembangkan tema alam semesta dengan memanfaatkan laptop dan internet. Langkah yang paling tepat dilakukan oleh guru dalam kegiatan pembelajaran yang memanfaatkan teknologi adalah...",
+    "options": [
+      "Memberikan penjelasan tentang pentingnya teknologi dalam pembelajaran.",
+      "Anak diminta untuk bermain dengan laptop sesuai dengan keinginan masing-masing.",
+      "Memberikan kesempatan bermain menggunakan laptop untuk melihat video tentang alam semesta.",
+      "Guru memberikan kegiatan dengan laptop mainan agar anak mengenal lebih awal."
+    ],
+    "answer": "Memberikan kesempatan bermain menggunakan laptop untuk melihat video tentang alam semesta.",
+    "explanation": "Pemanfaatan teknologi di PAUD harus bertujuan dan terarah. Memberi kesempatan anak menonton video yang relevan dengan tema (alam semesta) adalah cara yang tepat untuk menggunakan teknologi sebagai sumber belajar, bukan sekadar sebagai mainan bebas."
+  },
+  {
+    "subtest": "Pedagogik",
+    "question": "Pada kegiatan pembelajaran tentang makanan kesukaan, guru ingin mengembangkan kemampuan berpikir kritis anak. Pertanyaan yang paling efektif untuk memicu kemampuan berpikir kritis adalah...",
+    "options": [
+      "Sebutkan jenis-jenis makanan sehat!",
+      "Dimana tempat membeli makanan sehat?",
+      "Apa yang kamu pahami setelah belajar hari ini?",
+      "Mengapa topik ini penting untuk kita pelajari?"
+    ],
+    "answer": "Mengapa topik ini penting untuk kita pelajari?",
+    "explanation": "Pertanyaan 'mengapa' mendorong anak untuk melakukan analisis dan evaluasi, bukan hanya mengingat fakta (seperti menyebutkan jenis atau tempat). Ini melatih anak untuk menghubungkan informasi dengan relevansi dan signifikansinya, yang merupakan inti dari berpikir kritis."
+  },
+  {
+    "subtest": "Pedagogik",
+    "question": "Bu Hindun mendapatkan data bahwa 5 dari 12 anak memiliki pemahaman di bawah rata-rata mengenai materi profesi. Tindakan evaluatif yang paling tepat dilakukan oleh Bu Hindun adalah...",
+    "options": [
+      "Memberikan tugas tambahan kepada seluruh siswa.",
+      "Mengulang materi profesi dengan metode pengajaran yang sama.",
+      "Meminta anak yang sudah paham untuk menjadi tutor sebaya bagi yang belum paham.",
+      "Memberikan tes ulang dengan soal yang sama persis."
+    ],
+    "answer": "Meminta anak yang sudah paham untuk menjadi tutor sebaya bagi yang belum paham.",
+    "explanation": "Tutor sebaya (peer tutoring) adalah strategi yang efektif. Bagi anak yang belum paham, belajar dari teman bisa terasa lebih nyaman dan mudah dimengerti. Bagi anak yang menjadi tutor, kegiatan ini akan memperkuat pemahamannya sendiri. Ini juga mengembangkan keterampilan sosial dan kolaborasi."
+  }
+]
+,
+
+    // --- Data dinamis ini tidak perlu diubah ---
+    judulHalaman: document.title,
+    url: window.location.href
+};
+
+// ===================================================================================
+// --- FUNGSI PENGIRIMAN DATA KE GOOGLE SHEET (DIPERBARUI) ---
+// ===================================================================================
+async function kirimKeGoogleSheet(data) {
+    const statusEl = document.getElementById('submission-status');
+    statusEl.textContent = 'Mengirim hasil ujian...';
+    
+    const formData = new FormData();
+    // Menambahkan semua data ke dalam objek FormData.
+    formData.append('kategori', data.kategori);
+    formData.append('url', data.url);
+    formData.append('judulHalaman', data.judulHalaman);
+    formData.append('Nama', data.Nama);
+    formData.append('JumlahSoal', data.JumlahSoal);
+    formData.append('JawabanBenar', data.JawabanBenar);
+    formData.append('JawabanSalah', data.JawabanSalah);
+    formData.append('TidakDijawab', data.TidakDijawab);
+    formData.append('Durasi', data.Durasi);
+    formData.append('Nilai', data.Nilai);
+    formData.append('StatusKelulusan', data.StatusKelulusan);
+
+    try {
+        const response = await fetch(EXAM_CONFIG.scriptURL, {
+            method: 'POST',
+            body: formData
+        });
+        
+        // Membaca respons sebagai JSON untuk mendapatkan pesan sukses/error dari server
+        const result = await response.json();
+        
+        if (result.result === "success") {
+            statusEl.innerHTML = `Hasil ujian berhasil disimpan. <b><a href="${EXAM_CONFIG.linkPeringkat}">Cek Peringkat kamu di sini</a></b>`;
+            statusEl.style.color = 'green';
+        } else {
+            // Menampilkan pesan error yang lebih spesifik dari server
+            throw new Error(result.message || 'Terjadi kesalahan dari server.');
+        }
+    } catch (error) {
+        console.error('Error saat mengirim ke Google Sheet:', error);
+        statusEl.textContent = `Gagal menyimpan hasil. Coba lagi nanti. Error: ${error.message}`;
+        statusEl.style.color = 'red';
+    }
+}
+
+// ===================================================================================
+// --- LOGIKA UTAMA UJIAN (DISESUAIKAN, TIDAK PERLU DIUBAH LAGI) ---
+// ===================================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Menggunakan bank soal dari EXAM_CONFIG
+    const questions = EXAM_CONFIG.bankSoal;
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let questionStatus = new Array(questions.length).fill('unanswered');
+    let timerInterval;
+    let startTime;
+    let currentUsername = '';
+
+    const loginContainer = document.getElementById('login-container');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('login-btn');
+    const loginError = document.getElementById('login-error');
+    const appHeader = document.querySelector('.header');
+    const quizContainer = document.querySelector('.quiz-container');
+    const resultPage = document.getElementById('result-page');
+    const subtestTitleEl = document.getElementById('subtest-title');
+    const questionNumberEl = document.getElementById('question-number');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsEl = document.getElementById('options');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const doubtfulBtn = document.getElementById('doubtful-btn');
+    const finishBtn = document.getElementById('finish-btn');
+    const timerEl = document.getElementById('timer');
+    const restartBtn = document.getElementById('restart-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const headerInfo = document.getElementById('header-info');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmYesBtn = document.getElementById('confirm-yes');
+    const confirmNoBtn = document.getElementById('confirm-no');
+    
+    function showLoginPage() {
+        loginContainer.style.display = 'block'; // Diubah dari 'flex' agar sesuai skrip asli
+        appHeader.style.display = 'none';
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'none';
+        passwordInput.value = '';
+        loginError.style.display = 'none';
+    }
+
+    function handleLogin() {
+        const password = passwordInput.value;
+        const username = usernameInput.value.trim();
+        if (username === "") {
+            loginError.textContent = "Username tidak boleh kosong.";
+            loginError.style.display = 'block';
+            return;
+        }
+        // Menggunakan password dari EXAM_CONFIG
+        if (password === EXAM_CONFIG.password) {
+            currentUsername = username;
+            loginContainer.style.display = 'none';
+            appHeader.style.display = 'flex';
+            quizContainer.style.display = 'flex';
+            resultPage.style.display = 'none';
+            headerInfo.textContent = `Peserta: ${currentUsername}`;
+            startQuiz();
+        } else {
+            loginError.textContent = "Password salah. Coba lagi.";
+            loginError.style.display = 'block';
+        }
+    }
+    
+    function handleLogout() {
+        clearInterval(timerInterval);
+        showLoginPage();
+    }
+
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        userAnswers.fill(null);
+        questionStatus.fill('unanswered');
+        quizContainer.style.display = 'flex';
+        resultPage.style.display = 'none';
+        setupQuestionGrids();
+        displayQuestion(currentQuestionIndex);
+        // Menggunakan durasi dari EXAM_CONFIG
+        startTimer(EXAM_CONFIG.durasiMenit * 60);
+        startTime = new Date();
+    }
+
+    function setupQuestionGrids() {
+        const gridContainer = document.getElementById('grid-container');
+        gridContainer.innerHTML = '';
+        const subtests = [...new Set(questions.map(q => q.subtest))];
+        subtests.forEach(subtest => {
+            const group = document.createElement('div');
+            group.className = 'subtest-group';
+            const title = document.createElement('h3');
+            title.textContent = subtest;
+            const grid = document.createElement('div');
+            grid.className = 'question-grid';
+            group.appendChild(title);
+            group.appendChild(grid);
+            gridContainer.appendChild(group);
+            questions.forEach((q, index) => {
+                if (q.subtest === subtest) {
+                    const button = document.createElement('button');
+                    button.className = 'grid-button';
+                    button.textContent = index + 1;
+                    button.onclick = () => jumpToQuestion(index);
+                    grid.appendChild(button);
+                }
+            });
+        });
+    }
+
+    function displayQuestion(index) {
+        document.querySelector('.grid-button.current')?.classList.remove('current');
+        currentQuestionIndex = index;
+        const question = questions[index];
+        subtestTitleEl.textContent = question.subtest;
+        questionNumberEl.textContent = index + 1;
+        questionTextEl.innerHTML = question.question;
+        optionsEl.innerHTML = '';
+        question.options.forEach(option => {
+            const li = document.createElement('li');
+            const label = document.createElement('label');
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = `option-${index}`;
+            radio.value = option;
+            if (userAnswers[index] === option) {
+                radio.checked = true;
+                label.classList.add('selected');
+            }
+            radio.onchange = () => selectAnswer(index, option, label);
+            const span = document.createElement('span');
+            span.innerHTML = option; // Menggunakan innerHTML untuk render jika ada format
+            label.appendChild(radio);
+            label.appendChild(span);
+            li.appendChild(label);
+            optionsEl.appendChild(li);
+        });
+        updateNavButtons();
+        updateGridButtonStatus(index, true);
+    }
+
+    function selectAnswer(index, answer, label) {
+        userAnswers[index] = answer;
+        document.querySelectorAll(`#options li label`).forEach(l => l.classList.remove('selected'));
+        label.classList.add('selected');
+        if (questionStatus[index] !== 'doubtful') {
+            questionStatus[index] = 'answered';
+        }
+        updateGridButtonStatus(index);
+    }
+    
+    function updateNavButtons() {
+        prevBtn.disabled = currentQuestionIndex === 0;
+        nextBtn.disabled = currentQuestionIndex === questions.length - 1;
+    }
+    
+    function updateGridButtonStatus(index, isCurrent = false) {
+        const allGridButtons = document.querySelectorAll('.grid-button');
+        if (isCurrent) {
+            const currentBtn = document.querySelector('.grid-button.current');
+            if (currentBtn) currentBtn.classList.remove('current');
+        }
+        const button = Array.from(allGridButtons).find(btn => parseInt(btn.textContent) === index + 1);
+        if (!button) return;
+        if(isCurrent) button.classList.add('current');
+        button.classList.remove('answered', 'doubtful');
+        switch (questionStatus[index]) {
+            case 'answered': button.classList.add('answered'); break;
+            case 'doubtful': button.classList.add('doubtful'); break;
+        }
+    }
+
+    function jumpToQuestion(index) {
+        displayQuestion(index);
+    }
+
+    function startTimer(duration) {
+        let timer = duration;
+        clearInterval(timerInterval);
+        timerEl.parentElement.classList.remove('low-time');
+        timerInterval = setInterval(() => {
+            let minutes = parseInt(timer / 60, 10);
+            let seconds = parseInt(timer % 60, 10);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            timerEl.textContent = `${minutes}:${seconds}`;
+            if (timer < 300 && !timerEl.parentElement.classList.contains('low-time')) { 
+                timerEl.parentElement.classList.add('low-time'); 
+            }
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                finishQuiz();
+            }
+        }, 1000);
+    }
+    
+    function showConfirmation() {
+        confirmationModal.style.display = 'flex';
+    }
+
+    function formatDuration(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes} menit ${seconds.toString().padStart(2, '0')} detik`;
+}
+
+
+    function finishQuiz() {
+        clearInterval(timerInterval);
+        confirmationModal.style.display = 'none';
+        const endTime = new Date();
+        const durationMs = endTime - startTime;
+        let correctCount = 0;
+        questions.forEach((q, index) => {
+            if (userAnswers[index] === q.answer) correctCount++;
+        });
+        const totalQuestions = questions.length;
+        const answeredCount = userAnswers.filter(a => a !== null).length;
+        const incorrectCount = answeredCount - correctCount;
+        const unansweredCount = totalQuestions - answeredCount;
+        const finalScore = totalQuestions > 0 ? parseFloat(((correctCount / totalQuestions) * 100).toFixed(2)) : 0;
+        const isPassed = finalScore >= EXAM_CONFIG.passingGrade;
+        
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'block';
+        headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
+        
+        const statusEl = document.getElementById('status-lulus');
+        statusEl.textContent = isPassed ? 'SELAMAT, ANDA LULUS!' : 'MAAF, ANDA BELUM LULUS';
+        statusEl.className = `status ${isPassed ? 'lulus' : 'gagal'}`;
+        document.getElementById('final-score').textContent = finalScore;
+        document.getElementById('score-details').textContent = `${correctCount} dari ${totalQuestions} soal benar`;
+        
+        const reviewSection = document.getElementById('review-section');
+        reviewSection.innerHTML = '';
+        questions.forEach((q, index) => {
+            const userAnswer = userAnswers[index];
+            const isCorrect = userAnswer === q.answer;
+            reviewSection.innerHTML += `
+                <div class="review-item">
+                    <p><strong>Soal ${index + 1}:</strong> ${q.question}</p>
+                    <div class="review-answer user-answer ${isCorrect ? '' : 'is-incorrect'}">Jawaban Anda: ${userAnswer || 'Tidak Dijawab'}</div>
+                    ${!isCorrect ? `<div class="review-answer correct-answer">Jawaban Benar: ${q.answer}</div>` : ''}
+                    <div class="explanation"><strong>Pembahasan:</strong> ${q.explanation}</div>
+                </div>
+            `;
+        });
+        
+        const dataForSheet = {
+            kategori: EXAM_CONFIG.kategori,
+            url: EXAM_CONFIG.url,
+            judulHalaman: EXAM_CONFIG.judulHalaman,
+            Nama: currentUsername,
+            JumlahSoal: totalQuestions,
+            JawabanBenar: correctCount,
+            JawabanSalah: incorrectCount,
+            TidakDijawab: unansweredCount,
+            Durasi: formatDuration(durationMs),
+            Nilai: finalScore,
+            StatusKelulusan: isPassed ? 'Lulus' : 'Tidak Lulus'
+        };
+        kirimKeGoogleSheet(dataForSheet);
+    }
+
+    // Event Listeners
+    loginBtn.addEventListener('click', handleLogin);
+    passwordInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
+    logoutBtn.addEventListener('click', handleLogout);
+    prevBtn.addEventListener('click', () => { if (currentQuestionIndex > 0) displayQuestion(currentQuestionIndex - 1) });
+    nextBtn.addEventListener('click', () => { if (currentQuestionIndex < questions.length - 1) displayQuestion(currentQuestionIndex + 1) });
+    doubtfulBtn.addEventListener('click', () => {
+        const currentStatus = questionStatus[currentQuestionIndex];
+        if (currentStatus === 'doubtful') {
+            questionStatus[currentQuestionIndex] = userAnswers[currentQuestionIndex] ? 'answered' : 'unanswered';
+        } else {
+            questionStatus[currentQuestionIndex] = 'doubtful';
+        }
+        updateGridButtonStatus(currentQuestionIndex);
+    });
+    finishBtn.addEventListener('click', showConfirmation);
+    confirmYesBtn.addEventListener('click', finishQuiz);
+    confirmNoBtn.addEventListener('click', () => confirmationModal.style.display = 'none');
+    restartBtn.addEventListener('click', handleLogout);
+
+    showLoginPage();
+});
+</script>
