@@ -48,7 +48,7 @@ Menghadapi soal-soal seleksi yang kompleks, sekadar berlatih saja terkadang tida
 
 Berbeda dengan latihan biasa, tryout yang dilengkapi pembahasan memberikan keuntungan ganda:
 1.  **Evaluasi Mendalam:** Anda tidak hanya tahu skor akhir, tetapi juga bisa meninjau kembali setiap jawaban. Ini membantu mengidentifikasi materi mana yang perlu dipelajari lagi.
-2.  **Pemahaman Konsep:** Pembahasan yang detail akan menjelaskan konsep di balik soal tersebut, bukan hanya kunci jawaban. Ini sangat krusial untuk soal-soal pedagogik yang sering kali bersifat studi kasus.
+2.  **Pemahaman Konsep:** Pembahasan yang detail akan menjelaskan konsep di balik soal tersebut, bukan hanya kunci jawaban. Ini sangat krusial untuk soal-soal pedagogik yang sering kali bersifat studi kasus. Untuk lebih memahami lebih lanjut, kamu juga bisa ikuti *[tryout ppg paud studi kasus](/ujian/ppg/tryout-ppg-paud-soal-studi-kasus/)*.
 3.  **Strategi Pengerjaan:** Dengan melihat pembahasan, Anda bisa mempelajari cara cepat dan efektif dalam menyelesaikan berbagai tipe soal.
 
 ## Manfaatkan Fasilitas Tryout Gratis untuk Persiapan Maksimal

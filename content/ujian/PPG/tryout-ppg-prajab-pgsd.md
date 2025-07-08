@@ -73,7 +73,7 @@ Sebagai calon guru SD, Anda dituntut memiliki pemahaman yang holistik. Tryout me
 
 * **Review Materi Kuliah:** Buka kembali catatan dan buku-buku inti dari masa kuliah S1 PGSD Anda.
 * **Perbanyak Latihan Literasi & Numerasi:** Jangan hanya fokus pada konten PGSD. Latih kemampuan literasi dengan membaca artikel atau jurnal pendidikan. Asah numerasi dengan mengerjakan soal-soal logika matematika.
-* **Pahami Model Pembelajaran Inovatif:** Pelajari kembali model-model seperti *Problem-Based Learning* atau *Project-Based Learning*, karena seringkali muncul dalam soal studi kasus pedagogik.
+* **Pahami Model Pembelajaran Inovatif:** Pelajari kembali model-model seperti *Problem-Based Learning* atau *Project-Based Learning*, karena seringkali muncul dalam *[soal studi kasus](/ujian/ppg/tryout-ppg-paud-soal-studi-kasus/)* pedagogik.
 
 ## Buktikan Kesiapan Anda Menjadi Guru Profesional! Coba Tryout PPG Prajabatan PGSD Gratis!
 
