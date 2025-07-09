@@ -2,7 +2,7 @@
 title: Tryout TKP (Tes Karakteristik Pribadi) CPNS
 description: Jangan sepelekan TKP! Latih diri Anda dengan Tryout TKP CPNS gratis. Pelajari cara memilih jawaban dengan skor 5 pada aspek Pelayanan Publik, Profesionalisme, Anti Radikalisme, dll.
 date: 2025-04-09T15:31:20+07:00
-lastmod: 2025-06-28T15:31:20+07:00
+lastmod: 2025-07-08T15:31:20+07:00
 comments: true
 draft: false 
 slug:   #这里要修改
@@ -41,7 +41,7 @@ jumlah: 35
 
 Banyak calon peserta **[seleksi CPNS](/categories/tryout-cpns/)** menganggap Tes Karakteristik Pribadi (TKP) adalah bagian termudah karena "tidak ada jawaban yang salah". Justru di sinilah letak tantangan terbesarnya. Setiap pilihan jawaban memiliki bobot nilai dari 1 hingga 5. Kesalahan dalam memilih jawaban tidak akan membuat Anda mendapat nilai nol, tetapi akan menjauhkan Anda dari skor maksimal.
 
-TKP bukanlah tes akademis, melainkan sebuah ujian untuk menilai sejauh mana karakter Anda selaras dengan nilai-nilai yang dibutuhkan seorang Aparatur Sipil Negara (ASN). Untuk bisa meraih skor tinggi, Anda perlu berlatih mengkalibrasi pola pikir Anda. Halaman ini menyediakan **[Tryout TKP CPNS Gratis](/ujian/cpns/tryout-tkp-cpns/)** sebagai sarana latihan Anda.
+*[try out TKP](/ujian/cpns/tryout-tkp-cpns/)* bukanlah tes akademis, melainkan sebuah ujian untuk menilai sejauh mana karakter Anda selaras dengan nilai-nilai yang dibutuhkan seorang Aparatur Sipil Negara (ASN). Untuk bisa meraih skor tinggi, Anda perlu berlatih mengkalibrasi pola pikir Anda. Halaman ini menyediakan **[Tryout TKP CPNS Gratis](/ujian/cpns/tryout-tkp-cpns/)** sebagai sarana latihan Anda.
 
 ## Memahami Filosofi di Balik Soal TKP
 
@@ -76,8 +76,3 @@ Bagaimana cara menemukan jawaban dengan skor paling tinggi? Gunakan panduan berp
 Memahami teori dan strategi adalah langkah pertama. Langkah selanjutnya adalah melatih intuisi Anda melalui praktik nyata. Dengan terbiasa menghadapi soal-soal studi kasus TKP, Anda akan semakin mudah mengidentifikasi mana jawaban yang paling ideal.
 
 Kerjakan soal-soal pada **[Tryout TKP CPNS](/ujian/)** yang telah kami siapkan di bawah ini. Lihat seberapa siap karakter Anda untuk mengemban amanah sebagai pelayan masyarakat. Selamat berlatih!
-
-
-
-
-
