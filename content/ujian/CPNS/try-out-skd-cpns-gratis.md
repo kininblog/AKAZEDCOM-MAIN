@@ -2,7 +2,7 @@
 title: Try Out SKD CPNS Gratis Login 2025
 description: Temukan akses mudah Try Out SKD CPNS gratis tanpa ribet! Login sekarang dan rasakan simulasi ujian CAT CPNS lengkap TWK, TIU, TKP. Persiapkan diri Anda hadapi SKD CPNS 2024/2025 dengan latihan soal berkualitas dan pembahasan akurat. Raih skor tinggi, wujudkan impian jadi PNS!
 date: 2025-06-09T15:31:20+07:00
-lastmod: 2025-06-21T15:31:20+07:00
+lastmod: 2025-07-09T15:31:20+07:00
 comments: true
 draft: false 
 slug:   #这里要修改
@@ -65,7 +65,7 @@ Banyak calon peserta CPNS mungkin bertanya-tanya, seberapa efektifkah try out gr
 ---
 *[SKD CPNS](/ujian/cpns/tryout-cpns-gratis/)* terdiri dari tiga jenis tes utama yang menguji berbagai aspek kompetensi Anda. Memahami karakteristik masing-masing sangat penting untuk strategi belajar yang efektif.
 
-1.  **Tes Wawasan Kebangsaan (TWK):** Menguji penguasaan Anda terhadap nilai-nilai kebangsaan, seperti Pancasila, UUD 1945, Bhinneka Tunggal Ika, dan Negara Kesatuan Republik Indonesia. Soal-soal **[try out TWK](/ujian/cpns/try-out-tes-wawasan-bebangsaan/)** dirancang untuk mengukur integritas dan pemahaman Anda sebagai calon abdi negara.
+1.  **[Tes Wawasan Kebangsaan](/ujian/cpns/tes-wawasan-kebangsaan/) (TWK):** Menguji penguasaan Anda terhadap nilai-nilai kebangsaan, seperti Pancasila, UUD 1945, Bhinneka Tunggal Ika, dan Negara Kesatuan Republik Indonesia. Soal-soal **[try out TWK](/ujian/cpns/try-out-tes-wawasan-bebangsaan/)** dirancang untuk mengukur integritas dan pemahaman Anda sebagai calon abdi negara.
 2.  **Tes Inteligensi Umum (TIU):** Mengukur kemampuan verbal, numerik, dan figural Anda. Ini mencakup penalaran logis, kemampuan berhitung, hingga pemahaman pola gambar. **[try out TIU](/ujian/cpns/tryout-tiu-cpns/)** adalah bagian yang membutuhkan ketelitian dan kecepatan berpikir.
 3.  **Tes Karakteristik Pribadi (TKP):** Menilai aspek kepribadian Anda yang relevan dengan pekerjaan sebagai PNS, seperti pelayanan publik, jejaring kerja, sosial budaya, teknologi informasi, profesionalisme, dan anti-radikalisme. Di bagian ini, tidak ada jawaban benar atau salah mutlak, melainkan skala nilai dari yang paling sesuai hingga paling tidak sesuai. Kamu bisa coba *[try out tkp](/ujian/cpns/try-out-tkp-gratis/)* ini gratis di akazed ujian
 

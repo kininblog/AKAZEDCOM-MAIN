@@ -2,7 +2,7 @@
 title: Tryout Prediksi Soal Seleksi CPNS 2025 Gratis
 description: Hadapi seleksi CPNS 2025 dengan Tryout Prediksi Soal Gratis dari kami. Dibuat berdasarkan analisis kisi-kisi terbaru BKN. Uji kemampuanmu sekarang
 date: 2025-04-07T15:31:20+07:00
-lastmod: 2025-06-26T15:31:20+07:00
+lastmod: 2025-07-06T15:31:20+07:00
 comments: true
 draft: false 
 slug:   #这里要修改
@@ -57,7 +57,7 @@ Kami tidak menyusun soal-soal ini secara asal. "Prediksi" di sini didasarkan pad
 
 1.  **Analisis Kisi-Kisi Resmi BKN:** Setiap soal dibuat dengan merujuk pada PermenPAN-RB terbaru mengenai *[materi SKD CPNS](/ujian/cpns/try-out-skd-cpns-gratis/)*.
 2.  **Kajian Tren Soal (Field Report):** Kami menganalisis soal-soal yang keluar pada seleksi tahun-tahun sebelumnya untuk mengidentifikasi pola dan materi yang sering muncul.
-3.  **Isu-Isu Aktual:** Khusus untuk soal TWK, kami memasukkan materi yang berkaitan dengan isu-isu kebangsaan terkini yang relevan, seperti implementasi nilai Pancasila dalam konteks digital atau kebijakan strategis nasional.
+3.  **Isu-Isu Aktual:** Khusus untuk *[soal TWK](/ujian/cpns/tes-wawasan-kebangsaan/)*, kami memasukkan materi yang berkaitan dengan isu-isu kebangsaan terkini yang relevan, seperti implementasi nilai Pancasila dalam konteks digital atau kebijakan strategis nasional.
 
 Dengan kata lain, **latihan soal CPNS 2025** di halaman ini adalah hasil riset, bukan sekadar kumpulan soal acak.
 

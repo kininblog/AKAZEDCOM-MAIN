@@ -2,7 +2,7 @@
 title: Tryout TIU CPNS Gratis
 description: Taklukkan soal TIU CPNS dengan tryout gratis ini! Latihan soal TIU terbaru (numerik, figural, verbal) lengkap dengan pembahasan dan tips cepat. Siap capai skor tinggi
 date: 2025-04-09T15:31:20+07:00
-lastmod: 2025-06-27T15:31:20+07:00
+lastmod: 2025-07-05T15:31:20+07:00
 comments: true
 draft: false 
 slug:   #这里要修改
@@ -41,7 +41,7 @@ jumlah: 35
 
 {{< ujian/CPNS/tiu-mudah >}}
 
-Tes Intelegensia Umum (TIU) seringkali menjadi "momok" yang paling menentukan dalam *[Seleksi Kompetensi Dasar (SKD) CPNS](/ujian/cpns/try-out-skd-cpns-gratis/)*. Bukan hanya karena materinya yang luas, tetapi juga karena tuntutan kecepatan, ketelitian, dan kemampuan penalaran yang tinggi. Banyak peserta dengan wawasan kebangsaan (TWK) yang baik justru gagal karena tidak mampu memenuhi nilai ambang batas TIU.
+Tes Intelegensia Umum (TIU) seringkali menjadi "momok" yang paling menentukan dalam *[Seleksi Kompetensi Dasar (SKD) CPNS](/ujian/cpns/try-out-skd-cpns-gratis/)*. Bukan hanya karena materinya yang luas, tetapi juga karena tuntutan kecepatan, ketelitian, dan kemampuan penalaran yang tinggi. Banyak peserta dengan wawasan kebangsaan (*[TWK](/ujian/cpns/tes-wawasan-kebangsaan/)*) yang baik justru gagal karena tidak mampu memenuhi nilai ambang batas TIU.
 
 Apakah Anda salah satunya yang merasa khawatir? Tenang, Anda tidak sendirian. Kunci untuk menaklukkan TIU adalah dengan latihan yang fokus dan terarah. Untuk itu, kami secara khusus menyediakan **[Tryout TIU CPNS Gratis](/ujian/cpns/tryout-tiu-cpns/)** di halaman ini untuk mengasah kemampuan Anda hingga tajam.
 
