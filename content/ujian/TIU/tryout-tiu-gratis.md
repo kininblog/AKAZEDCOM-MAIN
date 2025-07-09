@@ -1,8 +1,8 @@
 ---
 title: Try Out TIU (Tes Inteligensi Umum) Gratis
-description: Uji kemampuan Anda dengan try out TIU gratis terbaru 2025! Dapatkan latihan soal TIU CPNS & BUMN lengkap dengan pembahasan untuk materi verbal, numerik, dan figural. Tingkatkan skor Anda di sini
+description: Uji kemampuan Anda dengan try out TIU gratis terbaru 2025! Dapatkan latihan soal TIU CPNS & BUMN lengkap dengan pembahasan untuk materi verbal, numerik, dan figural. Tingkatkan skor Anda dengan ikut tryout tiu gratis ini.
 date: 2025-06-23T15:31:20+07:00
-lastmod: 2025-06-27T15:31:20+07:00
+lastmod: 2025-07-07T15:31:20+07:00
 comments: true
 draft: false 
 slug:   #这里要修改
@@ -11,6 +11,7 @@ license:
 difficulty: "Sulit"
 hidden: false
 keywords: 
+  - tryout tiu gratis
   - Try Out TIU
   - Latihan Soal TIU
   - TIU Gratis
@@ -67,7 +68,7 @@ Banyak calon peserta yang meremehkan kekuatan dari sebuah simulasi. Mereka berpi
 
 2.  **Latihan Manajemen Waktu:** Inilah musuh terbesar saat tes: waktu. TIU memberikan soal yang banyak dengan alokasi waktu yang sangat terbatas. Try out melatih Anda untuk berpikir cepat, mengambil keputusan soal mana yang harus dikerjakan lebih dulu, dan kapan harus *move on* dari soal yang sulit.
 
-3.  **Mengukur Kemampuan Awal (Baseline):** Berapa skor Anda saat ini? Di bagian mana Anda paling lemah? Apakah verbal, numerik, atau figural? Try out memberikan data konkret mengenai kekuatan dan kelemahan Anda. Tanpa data ini, Anda hanya akan belajar secara buta.
+3.  **Mengukur Kemampuan Awal (Baseline):** Berapa skor Anda saat ini? Di bagian mana Anda paling lemah? Apakah verbal, numerik, atau figural? Mengikuti *tryout tiu gratis* memberikan data konkret mengenai kekuatan dan kelemahan Anda. Tanpa data ini, Anda hanya akan belajar secara buta.
 
 4.  **Membangun Mental Juara:** Tekanan saat mengerjakan tes sungguhan bisa membuat otak 'nge-blank'. Dengan sering mengikuti try out, Anda melatih mental agar tetap tenang dan fokus di bawah tekanan waktu, sehingga performa Anda bisa maksimal.
 
@@ -101,9 +102,16 @@ Tujuan utama try out bukanlah untuk mendapatkan skor 100 di percobaan pertama. T
 
 2.  **Pelajari Pembahasan:** Inilah bagian terpenting. Kami menyediakan pembahasan untuk setiap soal. Pahami di mana letak kesalahan berpikir Anda. Apakah karena salah rumus? Kurang teliti? Atau salah menafsirkan pertanyaan?
 
-3.  **Fokus pada Kelemahan:** Jika Anda lemah di deret angka, alokasikan waktu belajar lebih banyak untuk melatih berbagai jenis pola deret. Jika Anda sering terjebak di silogisme, perbanyak latihan soal khusus silogisme.
+3.  **Fokus pada Kelemahan:** Jika Anda lemah di deret angka, alokasikan waktu belajar lebih banyak untuk melatih berbagai jenis pola deret. Jika Anda sering terjebak di silogisme, perbanyak *latihan soal tiu* khusus silogisme.
 
 4.  **Ulangi Secara Berkala:** Jangan cukup hanya sekali. Ikuti try out secara rutin, misalnya seminggu sekali. Perhatikan apakah ada peningkatan skor. Proses ini akan mengasah kemampuan Anda secara signifikan dari waktu ke waktu.
+
+## Cara Ikut Tryout TIU Gratis
+Pengen ikut ujian dan latihan soal tiu cpns gratis tapi gak tau caranya? Sini admin *[akazed](/)* bisikin caranya dan panduan lengkapnya.
+1. Buka situs *[akazed tryout online](/ujian/)*, atau kamu bisa lansung klik *[tryout tiu online](/categories/tryout-tiu/) dan pilih paket soal tiu nya
+2. Kemudian masukkan Nama kamu dan password yang tertera untuk ikut ujian
+3. Lalu kerjakan soal ujian
+4. Klik **Selesai** untuk menyelesaikan ujian dan lihat perolehan nilai dan ranking kamu
 
 ### Siap Menguji Diri? Mulai Sekarang Juga!
 
