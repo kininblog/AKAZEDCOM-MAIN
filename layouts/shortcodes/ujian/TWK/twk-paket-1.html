@@ -1,0 +1,809 @@
+
+    <!-- SELURUH KONTEN HTML ANDA DARI SINI -->
+    <div id="login-container">
+        <div class="login-box">
+            <h2>Login Peserta Ujian</h2>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan username Anda">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password">
+            </div>
+            <button id="login-btn">Masuk</button>
+            <p id="login-error">Password salah. Coba lagi.</p>
+            <a href="/ujian/cara-ikut-tryout-online-gratis" style="text-decoration: none;">
+                <button id="cara-btn" type="button">Cara Ikut Try Out</button>
+            </a>
+        </div>
+    </div>
+
+    <header class="header" style="display: none;">
+        <h2>Simulasi Ujian</h2>
+        <div class="user-info">
+            <span id="header-info"></span>
+            <button id="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <div class="quiz-container" style="display: none;">
+        <main class="question-panel">
+            <div class="question-header">
+                <span id="subtest-title">Subtes</span> | Soal No. <span id="question-number">1</span>
+            </div>
+            <div class="question-body">
+                <p id="question-text">Memuat soal...</p>
+                <ul id="options" class="options-list"></ul>
+            </div>
+            <div class="quiz-actions">
+                <button id="prev-btn" class="action-button">Sebelumnya</button>
+                <button id="doubtful-btn" class="action-button">Ragu-ragu</button>
+                <button id="next-btn" class="action-button">Selanjutnya</button>
+            </div>
+        </main>
+        <aside class="navigation-panel">
+            <div class="timer-box">
+                Sisa Waktu
+                <div id="timer">30:00</div>
+            </div>
+            <div id="grid-container" class="question-grid-container"></div>
+            <div class="quiz-actions" style="justify-content: center;">
+                <button id="finish-btn" class="action-button">Selesaikan Ujian</button>
+            </div>
+        </aside>
+    </div>
+
+    <div id="result-page" class="result-container" style="display: none;">
+        <div class="result-card overall-summary">
+            <div id="status-lulus" class="status"></div>
+            <h2>Hasil Akhir Ujian</h2>
+            <div id="final-score" class="score">0</div>
+            <div id="score-details" class="score-details"></div>
+            <div id="submission-status"></div>
+        </div>
+        <div class="result-card">
+            <h3>Tinjauan Jawaban</h3>
+            <div id="review-section"></div>
+        </div>
+        <div style="text-align: center;">
+           <button id="restart-btn" class="action-button">Ulangi Ujian</button>
+        </div>
+    </div>
+    
+    <div id="confirmation-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Selesaikan Ujian?</h2>
+            <p>Apakah Anda yakin ingin menyelesaikan dan mengakhiri sesi ujian ini?</p>
+            <div class="modal-actions">
+                <button id="confirm-no" class="action-button">Batal</button>
+                <button id="confirm-yes" class="action-button">Ya, Selesaikan</button>
+            </div>
+        </div>
+    </div>
+    <!-- HINGGA AKHIR KONTEN HTML ANDA -->
+
+<script>
+// ===================================================================================
+// --- KONFIGURASI UJIAN (HANYA UBAH BAGIAN INI UNTUK UJIAN BARU) ---
+// ===================================================================================
+const EXAM_CONFIG = {
+    // 1. Ganti nama kategori ini sesuai nama sheet di Google Sheets (cth: "TWK", "TKP")
+    kategori: "TWK",
+    
+    // 2. Ganti URL ini dengan URL Web App dari Google Script Anda yang sudah di-deploy ulang.
+    scriptURL: 'https://script.google.com/macros/s/AKfycbxNJ9pOsCPSPAPRQKfoq43AwmVMSIScq6AIa33Q0dxnMI-jb1xuxi1aK3bUBFDstinDiQ/exec',
+    
+    // 3. Ganti link peringkat ini ke halaman peringkat yang sesuai.
+    linkPeringkat: "/ujian/ranking-peserta-tryout/",
+    
+    // 4. Sesuaikan pengaturan ujian jika perlu.
+    durasiMenit: 30,
+    passingGrade: 65,
+    password: "ujian",
+    
+    // 5. Ganti seluruh isi bank soal di bawah ini dengan soal yang sesuai.
+    bankSoal: [
+  {
+    "subtest": "TWK - Pancasila (Analisis Nilai)",
+    "question": "Pemerintah meluncurkan program bantuan sosial yang menyasar kelompok masyarakat miskin tanpa membedakan suku, agama, atau latar belakang budayanya. Namun, dalam pelaksanaannya, muncul kritik bahwa data penerima tidak akurat sehingga banyak warga mampu yang justru menerima bantuan, sementara warga yang benar-benar membutuhkan tidak terdata. Dilihat dari implementasi nilai-nilai Pancasila, tindakan korektif yang paling mencerminkan sila kelima adalah...",
+    "options": [
+      "Melakukan musyawarah dengan tokoh masyarakat untuk menentukan penerima baru.",
+      "Menyerahkan sepenuhnya proses penyaluran kepada mekanisme pasar.",
+      "Melakukan verifikasi dan validasi data secara transparan dan akuntabel untuk memastikan bantuan tepat sasaran.",
+      "Menambah jumlah bantuan tanpa mengubah sistem data yang ada untuk menenangkan masyarakat."
+    ],
+    "answer": "Melakukan verifikasi dan validasi data secara transparan dan akuntabel untuk memastikan bantuan tepat sasaran.",
+    "explanation": "Sila kelima, 'Keadilan Sosial bagi Seluruh Rakyat Indonesia', menuntut adanya keadilan dalam distribusi sumber daya. Masalah utama dalam kasus ini adalah ketidaktepatan sasaran yang menyebabkan ketidakadilan. Opsi C adalah tindakan yang paling fundamental untuk mewujudkan keadilan sosial, yaitu dengan memperbaiki sistem (data) agar hak-hak masyarakat miskin yang seharusnya menerima bantuan dapat terpenuhi secara adil dan merata. Opsi A (musyawarah) relevan dengan sila keempat, namun tidak langsung menyelesaikan akar masalah ketidakakuratan data. Opsi B dan D justru bertentangan dengan prinsip keadilan sosial."
+  },
+  {
+    "subtest": "TWK - UUD 1945 (Hubungan Antar Lembaga)",
+    "question": "Dewan Perwakilan Rakyat (DPR) menggunakan hak angket untuk menyelidiki kebijakan pemerintah terkait impor garam yang dianggap merugikan petani lokal. Di sisi lain, Presiden berpendapat bahwa kebijakan tersebut sudah melalui kajian mendalam dan merupakan kewenangan eksekutif. Dalam kerangka sistem presidensial Indonesia berdasarkan UUD 1945, mekanisme yang paling tepat untuk menyeimbangkan situasi ini adalah...",
+    "options": [
+      "Mahkamah Konstitusi secara otomatis membatalkan hak angket DPR karena mengganggu pemerintah.",
+      "Presiden mengeluarkan dekret untuk membubarkan penyelidikan DPR.",
+      "DPR melanjutkan penyelidikan dan hasilnya dapat digunakan sebagai dasar untuk mengajukan hak menyatakan pendapat yang bisa berujung pada proses pemakzulan.",
+      "Mahkamah Agung mengambil alih penyelidikan untuk menjaga netralitas."
+    ],
+    "answer": "DPR melanjutkan penyelidikan dan hasilnya dapat digunakan sebagai dasar untuk mengajukan hak menyatakan pendapat yang bisa berujung pada proses pemakzulan.",
+    "explanation": "Ini adalah contoh mekanisme 'checks and balances' dalam UUD 1945. DPR memiliki hak pengawasan (termasuk hak angket) terhadap pemerintah (eksekutif). Presiden tidak bisa membubarkan penyelidikan DPR secara sepihak. Hasil dari hak angket dapat menjadi dasar bagi DPR untuk menggunakan hak selanjutnya, yaitu hak menyatakan pendapat. Ini menunjukkan bahwa meskipun Presiden memiliki kewenangan eksekutif, DPR memiliki kewenangan legislatif dan pengawasan untuk menjaga keseimbangan kekuasaan. MK tidak otomatis membatalkan hak angket, dan MA tidak mengambil alih penyelidikan kebijakan."
+  },
+  {
+    "subtest": "TWK - Bhinneka Tunggal Ika (Resolusi Konflik)",
+    "question": "Di sebuah desa transmigran yang dihuni oleh masyarakat dari berbagai suku, terjadi perselisihan terkait pengelolaan sumber mata air. Masing-masing kelompok suku mengklaim hak ulayat berdasarkan adat istiadat mereka di daerah asal. Pendekatan yang paling sesuai dengan semangat Bhinneka Tunggal Ika untuk menyelesaikan konflik ini adalah...",
+    "options": [
+      "Pemerintah daerah mengambil alih sepenuhnya pengelolaan sumber mata air dan memberlakukan tarif.",
+      "Mengadakan kompetisi antar suku untuk menentukan siapa yang berhak mengelola sumber mata air.",
+      "Memfasilitasi dialog antar-tokoh adat untuk menciptakan kesepakatan baru yang mengakomodasi kepentingan bersama dan didasarkan pada rasa persatuan sebagai warga desa.",
+      "Memberlakukan hukum adat dari suku mayoritas sebagai aturan yang berlaku untuk semua warga desa."
+    ],
+    "answer": "Memfasilitasi dialog antar-tokoh adat untuk menciptakan kesepakatan baru yang mengakomodasi kepentingan bersama dan didasarkan pada rasa persatuan sebagai warga desa.",
+    "explanation": "Bhinneka Tunggal Ika bukan hanya mengakui perbedaan, tetapi juga menekankan persatuan. Pendekatan yang paling tepat adalah musyawarah dan mufakat (dialog) untuk mencari titik temu. Opsi C mencerminkan upaya menyatukan perbedaan (berbagai hukum adat) untuk mencapai tujuan bersama (kepentingan bersama warga desa) tanpa harus menghilangkan identitas masing-masing, melainkan menciptakan sebuah kesepakatan baru yang mengikat semua pihak dalam semangat persatuan."
+  },
+  {
+    "subtest": "TWK - NKRI (Nasionalisme Kontemporer)",
+    "question": "Serbuan produk budaya asing melalui platform digital menjadi tantangan bagi generasi muda dalam memaknai nasionalisme. Sikap yang paling mencerminkan nasionalisme yang adaptif dan relevan dengan tantangan tersebut adalah...",
+    "options": [
+      "Menolak sepenuhnya semua produk budaya asing dan hanya mengonsumsi produk budaya lokal.",
+      "Mengadopsi budaya asing secara total karena dianggap lebih modern dan maju.",
+      "Mempelajari, menyaring, dan mengadaptasi unsur-unsur positif dari budaya asing sambil memperkuat dan mempromosikan identitas budaya nasional.",
+      "Hanya fokus pada pelestarian budaya tradisional tanpa peduli pada perkembangan global."
+    ],
+    "answer": "Mempelajari, menyaring, dan mengadaptasi unsur-unsur positif dari budaya asing sambil memperkuat dan mempromosikan identitas budaya nasional.",
+    "explanation": "Nasionalisme di era globalisasi tidak berarti isolasionisme (menutup diri). Nasionalisme yang relevan adalah nasionalisme yang cerdas dan terbuka. Sikap ini melibatkan kemampuan untuk berinteraksi dengan budaya global, mengambil hal-hal yang baik (sesuai dengan nilai Pancasila), dan pada saat yang sama, menjadikan identitas nasional sebagai fondasi yang kokoh dan sumber kebanggaan yang aktif dipromosikan. Ini menunjukkan ketahanan budaya dan rasa percaya diri sebagai sebuah bangsa."
+  },
+  {
+    "subtest": "TWK - Integritas (Anti-Korupsi)",
+    "question": "Seorang Aparatur Sipil Negara (ASN) yang bekerja di unit pelayanan perizinan ditawari sejumlah uang oleh seorang pengusaha untuk mempercepat proses penerbitan izin yang seharusnya memakan waktu lebih lama karena ada beberapa syarat yang belum lengkap. ASN tersebut menolak tawaran itu meskipun ia sedang membutuhkan uang untuk biaya pengobatan keluarganya. Tindakan ASN tersebut menunjukkan bahwa ia memiliki tingkat integritas yang didasarkan pada...",
+    "options": [
+      "Takut terhadap sanksi hukum dan pengawasan dari atasan.",
+      "Prinsip moral dan etika profesi yang diinternalisasi sebagai nilai pribadi.",
+      "Keinginan untuk mendapatkan citra baik dan pujian dari rekan kerja.",
+      "Kalkulasi bahwa risiko tertangkap lebih besar daripada imbalan yang ditawarkan."
+    ],
+    "answer": "Prinsip moral dan etika profesi yang diinternalisasi sebagai nilai pribadi.",
+    "explanation": "Integritas sejati bersumber dari dalam diri (internal). Meskipun ada faktor eksternal (tekanan kebutuhan ekonomi) dan tidak ada pengawasan langsung, ASN tersebut tetap berpegang pada prinsip yang benar. Ini menunjukkan bahwa nilai-nilai anti-korupsi, kejujuran, dan profesionalisme telah menjadi bagian dari karakter dan prinsip moralnya, bukan sekadar kepatuhan karena takut akan hukuman (opsi A dan D) atau demi citra (opsi C)."
+  },
+  {
+    "subtest": "TWK - Pancasila (Ideologi Terbuka)",
+    "question": "Perdebatan tentang Rancangan Undang-Undang yang mengatur tentang kesetaraan gender seringkali dihadapkan pada argumen nilai-nilai agama dan adat istiadat. Sebagai ideologi terbuka, Pancasila memberikan kerangka untuk menyelesaikan pertentangan ini dengan cara...",
+    "options": [
+      "Menolak RUU tersebut secara total karena bertentangan dengan nilai adat mayoritas.",
+      "Mengesahkan RUU tersebut tanpa mempertimbangkan masukan dari kelompok agama dan adat.",
+      "Mencari titik temu antara prinsip kemanusiaan yang adil dan beradab (Sila ke-2) dengan nilai-nilai luhur agama dan budaya (Sila ke-1 dan ke-3) melalui dialog.",
+      "Menyerahkan keputusan sepenuhnya kepada voting di parlemen tanpa mediasi lebih lanjut."
+    ],
+    "answer": "Mencari titik temu antara prinsip kemanusiaan yang adil dan beradab (Sila ke-2) dengan nilai-nilai luhur agama dan budaya (Sila ke-1 dan ke-3) melalui dialog.",
+    "explanation": "Keterbukaan Pancasila berarti kemampuannya untuk berdialog dengan perkembangan zaman dan nilai-nilai baru tanpa kehilangan esensinya. Dalam kasus ini, Pancasila tidak menolak mentah-mentah atau menerima tanpa kritik. Sebaliknya, Pancasila berfungsi sebagai platform dialog. Prinsip kesetaraan gender dapat diakomodasi melalui lensa Sila ke-2 (kemanusiaan yang adil), namun implementasinya harus diselaraskan dengan nilai ketuhanan (Sila ke-1) dan persatuan yang menghargai keragaman budaya (Sila ke-3)."
+  },
+  {
+    "subtest": "TWK - UUD 1945 (Hak Asasi Manusia)",
+    "question": "Pemerintah berencana melakukan penggusuran terhadap pemukiman liar di bantaran sungai untuk proyek normalisasi sungai demi mencegah banjir di wilayah yang lebih luas. Warga menolak dengan alasan mereka telah menempati lahan tersebut selama puluhan tahun. Berdasarkan UUD 1945, dilema antara kepentingan umum (pencegahan banjir) dan hak warga (hak atas tempat tinggal) seharusnya diselesaikan dengan...",
+    "options": [
+      "Melakukan penggusuran paksa karena kepentingan umum harus diutamakan di atas segalanya.",
+      "Membatalkan proyek normalisasi untuk menghormati hak warga.",
+      "Melakukan musyawarah untuk mufakat, memberikan ganti rugi yang layak, dan menyediakan solusi relokasi yang manusiawi sebelum penggusuran dilakukan.",
+      "Membiarkan status quo dan menunggu warga pindah dengan sendirinya."
+    ],
+    "answer": "Melakukan musyawarah untuk mufakat, memberikan ganti rugi yang layak, dan menyediakan solusi relokasi yang manusiawi sebelum penggusuran dilakukan.",
+    "explanation": "Pasal 28H ayat (1) UUD 1945 menjamin hak setiap orang untuk bertempat tinggal. Namun, pelaksanaan hak ini dapat dibatasi oleh undang-undang demi kepentingan umum. Meskipun demikian, pembatasan tersebut tidak boleh dilakukan secara sewenang-wenang. Pendekatan yang konstitusional adalah menyeimbangkan keduanya. Kepentingan umum (proyek) tetap berjalan, tetapi hak-hak dasar warga (ganti rugi yang layak dan relokasi manusiawi) harus dipenuhi. Ini mencerminkan prinsip negara hukum yang melindungi warganya."
+  },
+  {
+    "subtest": "TWK - NKRI (Sejarah Perjuangan)",
+    "question": "Perjanjian Linggarjati (1947) secara de jure memperkecil wilayah kedaulatan RI hanya meliputi Jawa, Madura, dan Sumatera. Meskipun demikian, para pemimpin bangsa saat itu bersedia menandatanganinya. Keputusan ini dapat diinterpretasikan sebagai sebuah strategi diplomasi yang menunjukkan...",
+    "options": [
+      "Kelemahan bangsa Indonesia dan ketidakmampuan untuk berperang.",
+      "Pengkhianatan terhadap cita-cita proklamasi kemerdekaan.",
+      "Upaya realistis untuk mendapatkan pengakuan kedaulatan internasional pertama kali, meskipun terbatas, sebagai modal perjuangan selanjutnya.",
+      "Sinyal menyerah kepada Belanda dengan syarat diberikan otonomi."
+    ],
+    "answer": "Upaya realistis untuk mendapatkan pengakuan kedaulatan internasional pertama kali, meskipun terbatas, sebagai modal perjuangan selanjutnya.",
+    "explanation": "Ini adalah soal analisis historis. Para pemimpin bangsa saat itu tidak menyerah, melainkan berpikir strategis. Dalam kondisi militer yang belum kuat, jalan diplomasi adalah pilihan yang realistis. Dengan ditandatanganinya perjanjian tersebut, Indonesia untuk pertama kalinya mendapatkan pengakuan de jure dari negara lain (Belanda). Pengakuan ini, meskipun atas wilayah yang sempit, menjadi 'pintu masuk' dan modal politik yang sangat penting bagi Indonesia untuk berjuang lebih lanjut di panggung internasional dan membuktikan eksistensinya sebagai negara merdeka."
+  },
+  {
+    "subtest": "TWK - Bela Negara",
+    "question": "Di era perang siber dan disinformasi, bentuk bela negara yang paling relevan bagi seorang mahasiswa IT adalah...",
+    "options": [
+      "Mengikuti wajib militer dan berlatih menggunakan senjata.",
+      "Membuat konten hiburan di media sosial untuk mengalihkan isu-isu politik.",
+      "Menggunakan keahliannya untuk mengembangkan sistem keamanan siber nasional dan aktif melawan hoaks dengan literasi digital.",
+      "Menjadi pegawai negeri sipil di kementerian pertahanan."
+    ],
+    "answer": "Menggunakan keahliannya untuk mengembangkan sistem keamanan siber nasional dan aktif melawan hoaks dengan literasi digital.",
+    "explanation": "Konsep bela negara modern tidak hanya terbatas pada perjuangan fisik (militer). Sesuai dengan Pasal 27 ayat (3) UUD 1945, bela negara adalah hak dan kewajiban setiap warga negara. Wujudnya disesuaikan dengan profesi dan kemampuan masing-masing. Bagi seorang mahasiswa IT, ancaman nyata saat ini adalah perang siber dan hoaks. Maka, kontribusi paling efektif dan relevan adalah menggunakan keahliannya di bidang tersebut untuk melindungi kedaulatan digital dan kecerdasan bangsa."
+  },
+  {
+    "subtest": "TWK - Pilar Negara (Analisis Tabel)",
+    "question": "Perhatikan tabel fiktif berikut mengenai Indeks Pembangunan Manusia (IPM) dan Tingkat Korupsi (skala 0-100, makin tinggi makin korup) di 4 provinsi.\n\n| Provinsi | IPM (2023) | Tingkat Korupsi (2023) |\n|---|---|---|\n| A | 82.5 | 25 |\n| B | 65.1 | 78 |\n| C | 81.9 | 28 |\n| D | 66.3 | 75 |\n\nKesimpulan analitis yang paling tepat berdasarkan data di atas adalah...",
+    "options": [
+      "Tingkat korupsi tidak memiliki hubungan apapun dengan kualitas pembangunan manusia.",
+      "Provinsi dengan IPM tinggi pasti memiliki tingkat korupsi yang rendah.",
+      "Terdapat indikasi kuat adanya korelasi negatif antara tingkat korupsi dan capaian pembangunan manusia.",
+      "Peningkatan IPM secara otomatis akan menurunkan tingkat korupsi."
+    ],
+    "answer": "Terdapat indikasi kuat adanya korelasi negatif antara tingkat korupsi dan capaian pembangunan manusia.",
+    "explanation": "Soal ini menuntut kemampuan analisis data dan menarik kesimpulan logis. Dari tabel, terlihat pola yang jelas: Provinsi A dan C yang memiliki IPM tinggi, tingkat korupsinya rendah. Sebaliknya, Provinsi B dan D yang IPM-nya rendah, tingkat korupsinya sangat tinggi. Ini menunjukkan adanya 'korelasi negatif' (satu variabel naik, variabel lain turun). Opsi A salah karena jelas ada hubungan. Opsi B terlalu menyederhanakan ('pasti'). Opsi D salah karena korelasi tidak berarti kausalitas (sebab-akibat) otomatis; bisa jadi faktor lain yang mempengaruhi keduanya."
+  },
+  {
+      "subtest": "TWK - Pancasila (Tantangan Ideologi)",
+      "question": "Paham individualisme ekstrem yang mengagungkan kebebasan individu tanpa batas dapat mengancam kohesi sosial di Indonesia. Nilai Pancasila yang paling fundamental untuk membentengi masyarakat dari dampak negatif paham tersebut adalah...",
+      "options": [
+        "Sila Pertama, karena individualisme seringkali dikaitkan dengan sekularisme.",
+        "Sila Kedua, karena menuntut perlakuan adil bagi setiap individu.",
+        "Gabungan Sila Keempat dan Kelima, yang menekankan pentingnya kepentingan bersama dan keadilan sosial di atas kepentingan pribadi.",
+        "Sila Ketiga, karena individualisme dapat memecah belah persatuan bangsa."
+      ],
+      "answer": "Gabungan Sila Keempat dan Kelima, yang menekankan pentingnya kepentingan bersama dan keadilan sosial di atas kepentingan pribadi.",
+      "explanation": "Individualisme ekstrem bertentangan langsung dengan prinsip gotong royong dan kolektivitas bangsa Indonesia. Sila Keempat (Kerakyatan yang dipimpin oleh hikmat kebijaksanaan dalam permusyawaratan/perwakilan) menegaskan bahwa keputusan diambil untuk kepentingan bersama melalui musyawarah, bukan atas dasar keinginan individu semata. Sila Kelima (Keadilan sosial) juga menekankan keseimbangan antara hak dan kewajiban, serta kepedulian terhadap sesama, yang merupakan antitesis dari egoisme individualistik. Kombinasi keduanya menjadi benteng paling kokoh."
+  },
+  {
+      "subtest": "TWK - UUD 1945 (Otonomi Daerah)",
+      "question": "Pemerintah Pusat menetapkan kebijakan standar nasional pendidikan yang harus diikuti oleh semua daerah. Namun, sebuah provinsi di wilayah terpencil merasa kesulitan menerapkan standar tersebut karena keterbatasan infrastruktur dan sumber daya manusia. Dalam kerangka otonomi daerah, langkah yang paling konstitusional dan bijaksana adalah...",
+      "options": [
+        "Provinsi tersebut menolak sepenuhnya kebijakan pusat karena tidak sesuai dengan kondisi lokal.",
+        "Pemerintah Pusat memaksa penerapan kebijakan dengan memberikan sanksi bagi daerah yang tidak patuh.",
+        "Pemerintah Pusat bekerja sama dengan pemerintah daerah untuk membuat peta jalan adaptasi kebijakan, memberikan dukungan fiskal, dan bantuan teknis secara bertahap.",
+        "Daerah tersebut dibiarkan saja untuk mengembangkan sistem pendidikannya sendiri tanpa campur tangan pusat."
+      ],
+      "answer": "Pemerintah Pusat bekerja sama dengan pemerintah daerah untuk membuat peta jalan adaptasi kebijakan, memberikan dukungan fiskal, dan bantuan teknis secara bertahap.",
+      "explanation": "Prinsip otonomi daerah dalam NKRI adalah desentralisasi, bukan separasi. Pemerintah Pusat berwenang menetapkan standar nasional (urusan konkruen), namun daerah memiliki kewenangan untuk menjalankannya sesuai kondisi lokal. Solusi yang paling sesuai dengan semangat UUD 1945 adalah sinergi. Pusat memberikan standar dan dukungan (fungsi fasilitasi dan supervisi), sementara daerah mengimplementasikannya secara adaptif (fungsi eksekusi). Ini menyeimbangkan antara tujuan nasional dan realitas daerah."
+  },
+  {
+      "subtest": "TWK - Bhinneka Tunggal Ika (Wawasan Nusantara)",
+      "question": "Pembangunan masif infrastruktur seperti jalan tol trans-pulau dan pelabuhan laut dalam di berbagai wilayah Indonesia merupakan perwujudan konkret dari konsep Wawasan Nusantara, terutama dalam aspek...",
+      "options": [
+        "Politik, untuk menunjukkan kekuatan pemerintah pusat.",
+        "Pertahanan, sebagai jalur untuk mobilisasi militer.",
+        "Sosial-budaya, untuk mempermudah transmigrasi penduduk.",
+        "Ekonomi dan persatuan, untuk mengintegrasikan wilayah dan menciptakan kesatuan ruang ekonomi nasional."
+      ],
+      "answer": "Ekonomi dan persatuan, untuk mengintegrasikan wilayah dan menciptakan kesatuan ruang ekonomi nasional.",
+      "explanation": "Wawasan Nusantara memandang Indonesia sebagai satu kesatuan utuh (politik, ekonomi, sosial budaya, pertahanan keamanan). Pembangunan infrastruktur konektivitas secara langsung mewujudkan konsep ini. Dengan terhubungnya pulau-pulau, maka Indonesia menjadi satu 'ruang' ekonomi yang terintegrasi, di mana arus barang, jasa, dan manusia menjadi lebih lancar. Hal ini memperkuat persatuan (Sila ke-3) dengan mengurangi kesenjangan antarwilayah dan mewujudkan Indonesia sebagai satu kesatuan tanah air."
+  },
+  {
+      "subtest": "TWK - NKRI (Peran Indonesia di Dunia Internasional)",
+      "question": "Indonesia menolak untuk bergabung dengan aliansi militer manapun dan secara konsisten menyuarakan perdamaian dalam konflik antarnegara. Sikap ini merupakan implementasi dari prinsip politik luar negeri 'bebas aktif' yang bertujuan untuk...",
+      "options": [
+        "Menghindari tanggung jawab dalam penyelesaian konflik global.",
+        "Menjaga netralitas absolut tanpa memihak kebenaran.",
+        "Secara mandiri (bebas) menentukan sikap dan secara proaktif (aktif) berkontribusi pada ketertiban dunia berdasarkan kemerdekaan dan keadilan sosial.",
+        "Mencari keuntungan ekonomi dari negara-negara yang sedang berkonflik."
+      ],
+      "answer": "Secara mandiri (bebas) menentukan sikap dan secara proaktif (aktif) berkontribusi pada ketertiban dunia berdasarkan kemerdekaan dan keadilan sosial.",
+      "explanation": "Politik luar negeri 'bebas aktif' memiliki dua dimensi. 'Bebas' berarti tidak terikat oleh kekuatan blok dunia manapun dan bebas menentukan sikap sesuai kepentingan nasional. 'Aktif' berarti tidak tinggal diam, melainkan ikut serta secara aktif dalam usaha mewujudkan perdamaian dan ketertiban dunia, sebagaimana diamanatkan dalam Pembukaan UUD 1945 alinea keempat. Opsi C adalah definisi yang paling tepat dan komprehensif dari konsep tersebut."
+  },
+  {
+      "subtest": "TWK - Integritas (Etika Publik)",
+      "question": "Seorang pejabat publik mengunggah foto-foto liburan mewah di luar negeri ke akun media sosial pribadinya. Meskipun liburan tersebut dibiayai dengan uang pribadi yang sah, tindakan ini menuai kritik dari masyarakat karena dianggap tidak menunjukkan empati di tengah kondisi ekonomi masyarakat yang sedang sulit. Kritik tersebut berkaitan dengan pelanggaran aspek...",
+      "options": [
+        "Hukum pidana korupsi.",
+        "Kode etik ASN terkait larangan bepergian ke luar negeri.",
+        "Etika publik yang menuntut pejabat untuk menunjukkan kepantasan dan kepedulian sosial.",
+        "Aturan disiplin pegawai terkait penggunaan media sosial."
+      ],
+      "answer": "Etika publik yang menuntut pejabat untuk menunjukkan kepantasan dan kepedulian sosial.",
+      "explanation": "Integritas bukan hanya soal benar atau salah secara hukum (legal/ilegal), tetapi juga soal pantas atau tidak pantas (etis). Tindakan pejabat tersebut mungkin tidak melanggar hukum, tetapi melanggar etika publik. Sebagai figur publik, tindakannya harus mempertimbangkan perasaan dan kondisi masyarakat yang dilayaninya. Memamerkan kemewahan di tengah kesulitan ekonomi rakyat menunjukkan kurangnya kepekaan, kepedulian, dan empati, yang merupakan bagian penting dari etika seorang pejabat publik."
+  },
+  {
+      "subtest": "TWK - Pancasila (Analisis Gambar)",
+      "question": "Perhatikan gambar berikut: [Gambar timbangan yang di satu sisi ada tumpukan buku bertuliskan 'HAK', dan di sisi lain ada tumpukan buku bertuliskan 'KEWAJIBAN'. Posisi timbangan seimbang sempurna.] Makna filosofis gambar tersebut dalam konteks kehidupan bernegara sesuai Pancasila adalah...",
+      "options": [
+        "Setiap warga negara hanya boleh menuntut hak setelah semua kewajibannya selesai.",
+        "Negara harus memprioritaskan pemenuhan hak daripada menuntut kewajiban.",
+        "Tercapainya keadilan sosial (Sila ke-5) memerlukan keseimbangan antara pelaksanaan hak dan pemenuhan kewajiban oleh warga negara dan pemerintah.",
+        "Hak dan kewajiban adalah dua hal yang terpisah dan tidak saling berhubungan."
+      ],
+      "answer": "Tercapainya keadilan sosial (Sila ke-5) memerlukan keseimbangan antara pelaksanaan hak dan pemenuhan kewajiban oleh warga negara dan pemerintah.",
+      "explanation": "Gambar timbangan yang seimbang adalah metafora visual untuk konsep 'keseimbangan'. Dalam konteks Pancasila, khususnya Sila Kelima, keadilan sosial tidak akan terwujud jika hanya ada penuntutan hak tanpa kesadaran untuk melaksanakan kewajiban, atau sebaliknya. Keseimbangan ini berlaku bagi semua elemen bangsa, baik warga negara (misalnya, berhak mendapat fasilitas publik, wajib membayar pajak) maupun pemerintah (berkewajiban menyediakan layanan, berhak mengatur negara)."
+  },
+  {
+      "subtest": "TWK - UUD 1945 (Kekuasaan Kehakiman)",
+      "question": "Seorang warga negara mengajukan gugatan terhadap sebuah Undang-Undang kepada Mahkamah Konstitusi karena merasa hak konstitusionalnya dirugikan oleh pemberlakuan UU tersebut. Di sisi lain, pemerintah berargumen bahwa UU tersebut adalah produk politik yang sah antara pemerintah dan DPR. Kedudukan Mahkamah Konstitusi dalam kasus ini adalah...",
+      "options": [
+        "Sebagai penengah antara warga negara dan pemerintah.",
+        "Sebagai lembaga politik yang memihak kepada pembuat UU.",
+        "Sebagai penjaga konstitusi (the guardian of the constitution) yang berwenang menguji konstitusionalitas UU terhadap UUD 1945.",
+        "Sebagai pelaksana UU yang tunduk pada keputusan DPR dan Presiden."
+      ],
+      "answer": "Sebagai penjaga konstitusi (the guardian of the constitution) yang berwenang menguji konstitusionalitas UU terhadap UUD 1945.",
+      "explanation": "Ini adalah fungsi utama Mahkamah Konstitusi (MK) sesuai Pasal 24C ayat (1) UUD 1945. MK tidak bertindak sebagai penengah atau lembaga politik. Perannya adalah yudisial murni, yaitu menilai apakah sebuah produk hukum (Undang-Undang) isinya bertentangan atau tidak dengan norma yang lebih tinggi, yaitu UUD 1945. Keputusan MK bersifat final dan mengikat, menunjukkan supremasi konstitusi di atas produk politik manapun."
+  },
+  {
+      "subtest": "TWK - Bhinneka Tunggal Ika (Ancaman Disintegrasi)",
+      "question": "Menguatnya sentimen primodialisme berbasis kedaerahan yang berlebihan, di mana loyalitas kepada daerah dianggap lebih tinggi daripada loyalitas kepada negara, merupakan ancaman serius terhadap prinsip Bhinneka Tunggal Ika. Upaya preventif yang paling strategis untuk mengatasi hal ini adalah...",
+      "options": [
+        "Menghapuskan semua identitas budaya daerah untuk menciptakan satu budaya nasional.",
+        "Memberikan otonomi seluas-luasnya kepada daerah tanpa kontrol dari pusat.",
+        "Memperkuat pendidikan wawasan kebangsaan dan sejarah perjuangan bangsa yang menekankan bahwa kekuatan Indonesia lahir dari persatuan dalam keragaman.",
+        "Memberlakukan sanksi pidana yang berat bagi siapa saja yang menunjukkan identitas kedaerahannya."
+      ],
+      "answer": "Memperkuat pendidikan wawasan kebangsaan dan sejarah perjuangan bangsa yang menekankan bahwa kekuatan Indonesia lahir dari persatuan dalam keragaman.",
+      "explanation": "Ancaman primodialisme ekstrem bersumber dari pemahaman yang sempit tentang identitas. Solusi yang paling fundamental dan preventif adalah melalui pendidikan. Dengan menanamkan pemahaman sejarah bahwa kemerdekaan diraih oleh persatuan berbagai suku dan daerah, serta wawasan kebangsaan yang melihat keragaman sebagai kekuatan, maka loyalitas daerah dan loyalitas nasional dapat berjalan harmonis. Opsi A dan D bersifat represif dan kontraproduktif, sementara opsi B bisa mengarah pada separatisme."
+  },
+  {
+      "subtest": "TWK - NKRI (Sistem Pemerintahan)",
+      "question": "Presiden sebagai kepala negara dan sekaligus kepala pemerintahan memiliki kekuasaan yang besar. Namun, kekuasaannya tidak absolut. Salah satu mekanisme dalam UUD 1945 yang secara fundamental membatasi kekuasaan Presiden dalam membentuk hukum adalah...",
+      "options": [
+        "Presiden harus melaporkan semua rancangan undang-undang kepada Mahkamah Agung.",
+        "Setiap rancangan undang-undang yang diajukan Presiden harus mendapatkan persetujuan bersama dengan Dewan Perwakilan Rakyat (DPR).",
+        "Presiden hanya boleh mengajukan rancangan undang-undang yang berkaitan dengan anggaran negara.",
+        "Semua rancangan undang-undang dari Presiden harus disetujui melalui referendum rakyat."
+      ],
+      "answer": "Setiap rancangan undang-undang yang diajukan Presiden harus mendapatkan persetujuan bersama dengan Dewan Perwakilan Rakyat (DPR).",
+      "explanation": "Pasal 20 ayat (2) UUD 1945 secara eksplisit menyatakan bahwa 'Setiap rancangan undang-undang dibahas oleh Dewan Perwakilan Rakyat dan Presiden untuk mendapat persetujuan bersama'. Ini adalah inti dari mekanisme checks and balances dalam fungsi legislasi. Presiden tidak bisa membuat UU sendiri. Kekuasaannya untuk membentuk UU harus dibagi dan disetujui oleh DPR sebagai representasi rakyat. Ini adalah pembatasan kekuasaan yang paling mendasar dalam proses legislasi."
+  },
+  {
+      "subtest": "TWK - Nasionalisme (Patriotisme)",
+      "question": "Seorang atlet bulu tangkis Indonesia memilih untuk menolak tawaran kewarganegaraan dan fasilitas mewah dari negara lain demi terus berjuang mengharumkan nama Indonesia di kancah internasional, meskipun bonus dan fasilitas dari dalam negeri terbatas. Sikap atlet tersebut adalah manifestasi dari...",
+      "options": [
+        "Chauvinisme, karena menganggap bangsa lain lebih rendah.",
+        "Primodialisme, karena terikat pada suku asalnya.",
+        "Patriotisme, yaitu rasa cinta pada tanah air yang diwujudkan dalam pengorbanan dan perjuangan nyata.",
+        "Profesionalisme, karena hanya fokus pada karir olahraganya."
+      ],
+      "answer": "Patriotisme, yaitu rasa cinta pada tanah air yang diwujudkan dalam pengorbanan dan perjuangan nyata.",
+      "explanation": "Patriotisme adalah turunan dari nasionalisme yang lebih menekankan pada tindakan nyata, pengorbanan, dan keberanian untuk membela bangsa dan negara. Sikap atlet tersebut yang rela berkorban (menolak tawaran lebih baik) demi berjuang untuk negaranya adalah contoh patriotisme yang paling jelas. Ini bukan chauvinisme (mengagungkan bangsa sendiri secara berlebihan) atau primodialisme (kesukuan), melainkan cinta yang tulus kepada tanah air."
+  },
+  {
+      "subtest": "TWK - Pancasila (Hubungan Antar Sila)",
+      "question": "Kebijakan pemerintah untuk membangun rumah ibadah bagi semua agama yang diakui secara proporsional di sebuah ibu kota baru merupakan implementasi Sila Pertama Pancasila. Namun, agar implementasi ini sesuai dengan Pancasila secara utuh, kebijakan tersebut harus juga mempertimbangkan...",
+      "options": [
+        "Potensi keuntungan ekonomi dari wisata religi.",
+        "Prinsip persatuan Indonesia (Sila ke-3) dengan menjadikan pembangunan tersebut sebagai simbol kerukunan antarumat beragama.",
+        "Hanya membangun rumah ibadah untuk agama mayoritas.",
+        "Desain arsitektur yang paling megah untuk menunjukkan kemajuan bangsa."
+      ],
+      "answer": "Prinsip persatuan Indonesia (Sila ke-3) dengan menjadikan pembangunan tersebut sebagai simbol kerukunan antarumat beragama.",
+      "explanation": "Sila-sila dalam Pancasila merupakan satu kesatuan yang utuh dan saling menjiwai. Pelaksanaan Sila Pertama (Ketuhanan) tidak boleh menimbulkan perpecahan. Oleh karena itu, ia harus dijiwai oleh Sila Ketiga (Persatuan). Pembangunan rumah ibadah yang proporsional harus diniatkan dan dikomunikasikan sebagai sarana untuk memperkuat persatuan dan toleransi, bukan sekadar pemenuhan hak individual kelompok agama. Ini menunjukkan pemahaman yang holistik terhadap Pancasila."
+  },
+  {
+      "subtest": "TWK - UUD 1945 (Amandemen)",
+      "question": "Wacana amandemen kelima UUD 1945 muncul dengan usulan untuk menghidupkan kembali Garis-Garis Besar Haluan Negara (GBHN). Argumen utama yang mendukung wacana ini adalah perlunya arah pembangunan jangka panjang yang berkesinambungan dan tidak berganti setiap kali presiden berganti. Namun, argumen tandingan yang paling kuat dari sudut pandang sistem presidensial adalah...",
+      "options": [
+        "GBHN akan membuat pembangunan menjadi terlalu kaku dan tidak adaptif.",
+        "Adanya GBHN yang ditetapkan oleh MPR akan mereduksi posisi Presiden sebagai mandataris rakyat hasil pemilu langsung dan membuatnya menjadi mandataris MPR.",
+        "Penyusunan GBHN akan memakan biaya yang sangat besar.",
+        "Rakyat tidak akan peduli dengan adanya GBHN atau tidak."
+      ],
+      "answer": "Adanya GBHN yang ditetapkan oleh MPR akan mereduksi posisi Presiden sebagai mandataris rakyat hasil pemilu langsung dan membuatnya menjadi mandataris MPR.",
+      "explanation": "Soal ini menuntut analisis konsekuensi dari perubahan konstitusional. Sebelum amandemen, Presiden adalah mandataris MPR yang menjalankan GBHN. Setelah amandemen, Presiden dipilih langsung oleh rakyat dan menjalankan visi-misinya sendiri (dituangkan dalam RPJMN). Jika GBHN dihidupkan kembali dan ditetapkan oleh MPR, maka Presiden akan terikat pada haluan negara yang dibuat oleh lembaga lain. Ini akan menggeser sistem presidensial murni (di mana presiden bertanggung jawab langsung pada rakyat) kembali ke arah sistem parlementer/supremasi MPR, yang merupakan perubahan fundamental pada arsitektur ketatanegaraan."
+  },
+  {
+      "subtest": "TWK - Bhinneka Tunggal Ika (Integrasi Nasional)",
+      "question": "Bahasa Indonesia ditetapkan sebagai bahasa persatuan jauh sebelum kemerdekaan, yaitu melalui Sumpah Pemuda 1928. Padahal, penutur bahasa Melayu (cikal bakal bahasa Indonesia) saat itu bukanlah mayoritas. Keputusan visioner ini menunjukkan bahwa para pendiri bangsa memprioritaskan fungsi bahasa sebagai...",
+      "options": [
+        "Alat dominasi suku Melayu terhadap suku-suku lain.",
+        "Alat pemersatu yang netral dan egaliter untuk mengatasi ratusan bahasa daerah.",
+        "Bahasa yang paling mudah dipelajari oleh bangsa asing.",
+        "Upaya untuk menghilangkan bahasa-bahasa daerah secara perlahan."
+      ],
+      "answer": "Alat pemersatu yang netral dan egaliter untuk mengatasi ratusan bahasa daerah.",
+      "explanation": "Pemilihan bahasa Melayu (yang kemudian menjadi bahasa Indonesia) adalah sebuah keputusan jenius yang berlandaskan semangat persatuan. Bahasa ini tidak dipilih karena jumlah penuturnya yang paling banyak (bukan bahasa Jawa atau Sunda), melainkan karena sifatnya yang sudah menjadi 'lingua franca' (bahasa pergaulan) di banyak pelabuhan dan relatif mudah dipelajari. Dengan tidak memilih bahasa dari suku mayoritas, tidak ada suku yang merasa superior. Ini menjadikan bahasa Indonesia sebagai alat pemersatu yang diterima dengan ikhlas oleh semua suku, sebuah fondasi krusial bagi integrasi nasional."
+  },
+  {
+      "subtest": "TWK - NKRI (Geopolitik)",
+      "question": "Indonesia terletak di posisi silang antara dua benua dan dua samudra, yang memberikan keuntungan geografis sekaligus kerawanan. Dalam konteks geopolitik modern, ancaman non-tradisional yang paling signifikan yang muncul dari posisi strategis ini adalah...",
+      "options": [
+        "Invasi militer secara langsung dari negara tetangga.",
+        "Menjadi jalur utama perdagangan narkotika internasional dan penyelundupan manusia.",
+        "Bencana alam seperti tsunami dan letusan gunung berapi.",
+        "Sulitnya melakukan ekspor karena jauh dari pasar utama Eropa dan Amerika."
+      ],
+      "answer": "Menjadi jalur utama perdagangan narkotika internasional dan penyelundupan manusia.",
+      "explanation": "Posisi silang yang strategis menjadikan Indonesia sebagai 'hub' atau 'koridor' alami. Di era modern, ancaman tidak lagi melulu soal invasi militer (ancaman tradisional). Posisi ini justru sangat rentan dimanfaatkan oleh jaringan kejahatan transnasional, seperti kartel narkoba dan sindikat perdagangan manusia, sebagai rute transit maupun pasar. Ini adalah ancaman non-tradisional yang merusak tatanan sosial dan keamanan dalam negeri, dan merupakan konsekuensi langsung dari geopolitik Indonesia."
+  },
+  {
+      "subtest": "TWK - Integritas (Konflik Kepentingan)",
+      "question": "Seorang kepala dinas pendidikan memiliki sebuah perusahaan yang bergerak di bidang percetakan buku. Dinas yang dipimpinnya akan mengadakan proyek pengadaan buku ajar untuk seluruh sekolah di kabupaten. Situasi yang paling tepat menggambarkan adanya konflik kepentingan adalah jika kepala dinas tersebut...",
+      "options": [
+        "Mengundurkan diri dari jabatannya sebagai kepala dinas sebelum proyek dimulai.",
+        "Secara transparan menyatakan kepemilikan perusahaannya dan tidak ikut serta dalam seluruh proses pengambilan keputusan terkait proyek tersebut.",
+        "Memerintahkan panitia pengadaan untuk memilih perusahaan lain sebagai pemenang tender.",
+        "Mempengaruhi panitia pengadaan untuk menyusun spesifikasi teknis yang hanya bisa dipenuhi oleh perusahaannya."
+      ],
+      "answer": "Mempengaruhi panitia pengadaan untuk menyusun spesifikasi teknis yang hanya bisa dipenuhi oleh perusahaannya.",
+      "explanation": "Konflik kepentingan terjadi ketika kepentingan pribadi (atau perusahaan) seorang pejabat dapat mempengaruhi atau berpotensi mempengaruhi objektivitasnya dalam menjalankan tugas publik. Opsi D adalah contoh paling jelas dan culas dari penyalahgunaan wewenang yang timbul dari konflik kepentingan. Pejabat tersebut menggunakan jabatannya untuk mengarahkan keuntungan publik (proyek) kepada kepentingan pribadinya (perusahaan). Opsi B adalah cara yang tepat untuk mengelola konflik kepentingan, sementara opsi A adalah cara untuk menghindarinya."
+  },
+  {
+      "subtest": "TWK - Pancasila (Gotong Royong)",
+      "question": "Di tengah pandemi, muncul berbagai inisiatif warga seperti 'lumbung pangan mandiri' dan penggalangan dana untuk membantu tetangga yang terdampak secara ekonomi. Fenomena ini menunjukkan bahwa nilai gotong royong dalam Pancasila...",
+      "options": [
+        "Hanya dapat diimplementasikan melalui program resmi pemerintah.",
+        "Merupakan nilai yang hidup dan menjadi modal sosial bangsa Indonesia dalam menghadapi krisis.",
+        "Adalah konsep usang yang tidak lagi relevan di masyarakat modern.",
+        "Hanya muncul ketika ada bencana besar dan akan hilang setelahnya."
+      ],
+      "answer": "Merupakan nilai yang hidup dan menjadi modal sosial bangsa Indonesia dalam menghadapi krisis.",
+      "explanation": "Kasus ini menunjukkan bahwa gotong royong bukanlah sekadar slogan atau program pemerintah. Ia adalah 'social capital' atau modal sosial, yaitu nilai yang tertanam dalam masyarakat dan dapat dimobilisasi secara spontan saat dibutuhkan. Kemunculan inisiatif dari bawah (grassroots) ini membuktikan bahwa nilai-nilai Pancasila, khususnya semangat kebersamaan dan tolong-menolong, masih hidup dan menjadi kekuatan resiliensi (daya tahan) bangsa dalam menghadapi tantangan bersama."
+  },
+  {
+      "subtest": "TWK - UUD 1945 (Kewarganegaraan)",
+      "question": "Seorang anak lahir di negara X yang menganut asas ius soli (hak berdasarkan tempat lahir) dari orang tua yang keduanya merupakan Warga Negara Indonesia (yang menganut ius sanguinis/hak berdasarkan keturunan). Menurut UU Kewarganegaraan RI, status kewarganegaraan anak tersebut adalah...",
+      "options": [
+        "Otomatis menjadi Warga Negara X dan kehilangan status WNI.",
+        "Otomatis menjadi Warga Negara Indonesia dan tidak diakui oleh Negara X.",
+        "Memiliki kewarganegaraan ganda terbatas hingga usia 18 tahun, dan setelah itu harus memilih salah satu.",
+        "Tidak memiliki kewarganegaraan (apatride) karena adanya konflik dua asas hukum."
+      ],
+      "answer": "Memiliki kewarganegaraan ganda terbatas hingga usia 18 tahun, dan setelah itu harus memilih salah satu.",
+      "explanation": "UU No. 12 Tahun 2006 tentang Kewarganegaraan RI dirancang untuk mencegah apatride (tanpa kewarganegaraan) dan bipatride (kewarganegaraan ganda) pada orang dewasa. Untuk kasus seperti ini, UU memberikan solusi 'kewarganegaraan ganda terbatas'. Anak tersebut diakui sebagai WNI (berdasarkan ius sanguinis dari orang tuanya) dan juga diakui sebagai warga negara X (berdasarkan ius soli tempat ia lahir). Hak ganda ini berlaku hingga ia berusia 18 tahun (atau sudah menikah), di mana ia diberi kesempatan untuk memilih salah satu kewarganegaraannya."
+  },
+  {
+      "subtest": "TWK - Bhinneka Tunggal Ika (Toleransi)",
+      "question": "Sebuah sekolah negeri memutuskan untuk tidak mengadakan kegiatan perayaan hari besar agama tertentu di lingkungan sekolah untuk menjaga netralitas. Namun, sekolah memberikan izin dan memfasilitasi para siswa dari agama tersebut untuk mengadakan perayaan di luar jam sekolah dengan menggunakan fasilitas sekolah. Kebijakan sekolah ini dapat dinilai sebagai bentuk toleransi yang...",
+      "options": [
+        "Pasif, karena sekolah tidak terlibat sama sekali.",
+        "Negatif, karena melarang perayaan di jam sekolah.",
+        "Aktif dan akomodatif, karena menghormati netralitas ruang publik sekaligus memfasilitasi hak beragama siswa.",
+        "Diskriminatif, karena tidak merayakan semua agama secara bersamaan."
+      ],
+      "answer": "Aktif dan akomodatif, karena menghormati netralitas ruang publik sekaligus memfasilitasi hak beragama siswa.",
+      "explanation": "Toleransi aktif bukan berarti menyamaratakan semua atau tidak melakukan apa-apa. Kebijakan sekolah ini menunjukkan pemahaman yang matang. Di satu sisi, mereka menjaga sekolah sebagai ruang publik yang netral (tidak mengistimewakan satu perayaan agama di acara resmi sekolah). Di sisi lain, mereka secara aktif mengakomodasi dan memfasilitasi kebutuhan siswa untuk menjalankan keyakinannya. Ini adalah bentuk penghormatan terhadap perbedaan dalam bingkai persatuan, sebuah implementasi cerdas dari Bhinneka Tunggal Ika."
+  },
+  {
+      "subtest": "TWK - NKRI (Ancaman Negara)",
+      "question": "Gerakan separatisme yang menggunakan isu ketidakadilan ekonomi dan sentimen etnis sebagai alat propaganda merupakan ancaman terhadap keutuhan NKRI yang bersifat multidimensional. Pendekatan yang paling komprehensif untuk mengatasi ancaman tersebut adalah...",
+      "options": [
+        "Operasi militer berskala besar untuk menumpas seluruh anggota gerakan.",
+        "Hanya fokus pada dialog politik dengan para pemimpin gerakan separatis.",
+        "Menggabungkan pendekatan keamanan (penegakan hukum), peningkatan kesejahteraan ekonomi secara adil, dan dialog budaya untuk memperkuat identitas nasional.",
+        "Menutup akses informasi sepenuhnya di daerah tersebut untuk mencegah penyebaran propaganda."
+      ],
+      "answer": "Menggabungkan pendekatan keamanan (penegakan hukum), peningkatan kesejahteraan ekonomi secara adil, dan dialog budaya untuk memperkuat identitas nasional.",
+      "explanation": "Karena ancamannya bersifat multidimensional (ekonomi, sosial, politik), maka solusinya juga harus komprehensif. Hanya menggunakan pendekatan militer (hard power) seringkali tidak menyelesaikan akar masalah dan justru bisa menimbulkan luka baru. Pendekatan yang paling efektif adalah 'smart power', yaitu menggabungkan penegakan hukum yang tegas bagi pelaku kekerasan (aspek keamanan), mengatasi akar masalah ketidakadilan dengan pembangunan yang merata (aspek kesejahteraan), serta merangkul masyarakat melalui dialog dan penguatan wawasan kebangsaan (aspek sosial-budaya)."
+  },
+  {
+      "subtest": "TWK - Nasionalisme (Produk Dalam Negeri)",
+      "question": "Sikap 'bangga menggunakan produk dalam negeri' tidak cukup hanya dengan membeli, tetapi juga harus disertai dengan sikap kritis dan konstruktif. Manakah tindakan berikut yang paling mencerminkan nasionalisme ekonomi yang dewasa?",
+      "options": [
+        "Membeli produk dalam negeri apapun kualitasnya demi menunjukkan rasa cinta tanah air.",
+        "Tidak pernah membeli produk luar negeri sama sekali.",
+        "Memilih dan menggunakan produk dalam negeri yang berkualitas, serta memberikan masukan kepada produsen untuk perbaikan jika ada kekurangan.",
+        "Hanya membeli produk dalam negeri jika harganya lebih murah dari produk impor."
+      ],
+      "answer": "Memilih dan menggunakan produk dalam negeri yang berkualitas, serta memberikan masukan kepada produsen untuk perbaikan jika ada kekurangan.",
+      "explanation": "Nasionalisme ekonomi yang dewasa dan berkelanjutan bukan sekadar sentimen buta, melainkan sebuah ekosistem. Sikap yang paling tepat adalah mendukung produk lokal dengan cara menjadi konsumen yang cerdas dan kritis. Dengan memilih produk berkualitas, kita mendorong produsen untuk bersaing. Dengan memberikan masukan, kita membantu mereka untuk tumbuh dan meningkatkan kualitasnya agar bisa bersaing di pasar yang lebih luas. Ini adalah bentuk kontribusi nyata untuk membangun kemandirian dan daya saing ekonomi bangsa."
+  }
+]
+,
+
+    // --- Data dinamis ini tidak perlu diubah ---
+    judulHalaman: document.title,
+    url: window.location.href
+};
+
+// ===================================================================================
+// --- FUNGSI PENGIRIMAN DATA KE GOOGLE SHEET (DIPERBARUI) ---
+// ===================================================================================
+async function kirimKeGoogleSheet(data) {
+    const statusEl = document.getElementById('submission-status');
+    statusEl.textContent = 'Mengirim hasil ujian...';
+    
+    const formData = new FormData();
+    // Menambahkan semua data ke dalam objek FormData.
+    formData.append('kategori', data.kategori);
+    formData.append('url', data.url);
+    formData.append('judulHalaman', data.judulHalaman);
+    formData.append('Nama', data.Nama);
+    formData.append('JumlahSoal', data.JumlahSoal);
+    formData.append('JawabanBenar', data.JawabanBenar);
+    formData.append('JawabanSalah', data.JawabanSalah);
+    formData.append('TidakDijawab', data.TidakDijawab);
+    formData.append('Durasi', data.Durasi);
+    formData.append('Nilai', data.Nilai);
+    formData.append('StatusKelulusan', data.StatusKelulusan);
+
+    try {
+        const response = await fetch(EXAM_CONFIG.scriptURL, {
+            method: 'POST',
+            body: formData
+        });
+        
+        // Membaca respons sebagai JSON untuk mendapatkan pesan sukses/error dari server
+        const result = await response.json();
+        
+        if (result.result === "success") {
+            statusEl.innerHTML = `Hasil ujian berhasil disimpan. <b><a href="${EXAM_CONFIG.linkPeringkat}">Cek Peringkat kamu di sini</a></b>`;
+            statusEl.style.color = 'green';
+        } else {
+            // Menampilkan pesan error yang lebih spesifik dari server
+            throw new Error(result.message || 'Terjadi kesalahan dari server.');
+        }
+    } catch (error) {
+        console.error('Error saat mengirim ke Google Sheet:', error);
+        statusEl.textContent = `Gagal menyimpan hasil. Coba lagi nanti. Error: ${error.message}`;
+        statusEl.style.color = 'red';
+    }
+}
+
+// ===================================================================================
+// --- LOGIKA UTAMA UJIAN (DISESUAIKAN, TIDAK PERLU DIUBAH LAGI) ---
+// ===================================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Menggunakan bank soal dari EXAM_CONFIG
+    const questions = EXAM_CONFIG.bankSoal;
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let questionStatus = new Array(questions.length).fill('unanswered');
+    let timerInterval;
+    let startTime;
+    let currentUsername = '';
+
+    const loginContainer = document.getElementById('login-container');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('login-btn');
+    const loginError = document.getElementById('login-error');
+    const appHeader = document.querySelector('.header');
+    const quizContainer = document.querySelector('.quiz-container');
+    const resultPage = document.getElementById('result-page');
+    const subtestTitleEl = document.getElementById('subtest-title');
+    const questionNumberEl = document.getElementById('question-number');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsEl = document.getElementById('options');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const doubtfulBtn = document.getElementById('doubtful-btn');
+    const finishBtn = document.getElementById('finish-btn');
+    const timerEl = document.getElementById('timer');
+    const restartBtn = document.getElementById('restart-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const headerInfo = document.getElementById('header-info');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmYesBtn = document.getElementById('confirm-yes');
+    const confirmNoBtn = document.getElementById('confirm-no');
+    
+    function showLoginPage() {
+        loginContainer.style.display = 'block'; // Diubah dari 'flex' agar sesuai skrip asli
+        appHeader.style.display = 'none';
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'none';
+        passwordInput.value = '';
+        loginError.style.display = 'none';
+    }
+
+    function handleLogin() {
+        const password = passwordInput.value;
+        const username = usernameInput.value.trim();
+        if (username === "") {
+            loginError.textContent = "Username tidak boleh kosong.";
+            loginError.style.display = 'block';
+            return;
+        }
+        // Menggunakan password dari EXAM_CONFIG
+        if (password === EXAM_CONFIG.password) {
+            currentUsername = username;
+            loginContainer.style.display = 'none';
+            appHeader.style.display = 'flex';
+            quizContainer.style.display = 'flex';
+            resultPage.style.display = 'none';
+            headerInfo.textContent = `Peserta: ${currentUsername}`;
+            startQuiz();
+        } else {
+            loginError.textContent = "Password salah. Coba lagi.";
+            loginError.style.display = 'block';
+        }
+    }
+    
+    function handleLogout() {
+        clearInterval(timerInterval);
+        showLoginPage();
+    }
+
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        userAnswers.fill(null);
+        questionStatus.fill('unanswered');
+        quizContainer.style.display = 'flex';
+        resultPage.style.display = 'none';
+        setupQuestionGrids();
+        displayQuestion(currentQuestionIndex);
+        // Menggunakan durasi dari EXAM_CONFIG
+        startTimer(EXAM_CONFIG.durasiMenit * 60);
+        startTime = new Date();
+    }
+
+    function setupQuestionGrids() {
+        const gridContainer = document.getElementById('grid-container');
+        gridContainer.innerHTML = '';
+        const subtests = [...new Set(questions.map(q => q.subtest))];
+        subtests.forEach(subtest => {
+            const group = document.createElement('div');
+            group.className = 'subtest-group';
+            const title = document.createElement('h3');
+            title.textContent = subtest;
+            const grid = document.createElement('div');
+            grid.className = 'question-grid';
+            group.appendChild(title);
+            group.appendChild(grid);
+            gridContainer.appendChild(group);
+            questions.forEach((q, index) => {
+                if (q.subtest === subtest) {
+                    const button = document.createElement('button');
+                    button.className = 'grid-button';
+                    button.textContent = index + 1;
+                    button.onclick = () => jumpToQuestion(index);
+                    grid.appendChild(button);
+                }
+            });
+        });
+    }
+
+    function displayQuestion(index) {
+        document.querySelector('.grid-button.current')?.classList.remove('current');
+        currentQuestionIndex = index;
+        const question = questions[index];
+        subtestTitleEl.textContent = question.subtest;
+        questionNumberEl.textContent = index + 1;
+        questionTextEl.innerHTML = question.question;
+        optionsEl.innerHTML = '';
+        question.options.forEach(option => {
+            const li = document.createElement('li');
+            const label = document.createElement('label');
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = `option-${index}`;
+            radio.value = option;
+            if (userAnswers[index] === option) {
+                radio.checked = true;
+                label.classList.add('selected');
+            }
+            radio.onchange = () => selectAnswer(index, option, label);
+            const span = document.createElement('span');
+            span.innerHTML = option; // Menggunakan innerHTML untuk render jika ada format
+            label.appendChild(radio);
+            label.appendChild(span);
+            li.appendChild(label);
+            optionsEl.appendChild(li);
+        });
+        updateNavButtons();
+        updateGridButtonStatus(index, true);
+    }
+
+    function selectAnswer(index, answer, label) {
+        userAnswers[index] = answer;
+        document.querySelectorAll(`#options li label`).forEach(l => l.classList.remove('selected'));
+        label.classList.add('selected');
+        if (questionStatus[index] !== 'doubtful') {
+            questionStatus[index] = 'answered';
+        }
+        updateGridButtonStatus(index);
+    }
+    
+    function updateNavButtons() {
+        prevBtn.disabled = currentQuestionIndex === 0;
+        nextBtn.disabled = currentQuestionIndex === questions.length - 1;
+    }
+    
+    function updateGridButtonStatus(index, isCurrent = false) {
+        const allGridButtons = document.querySelectorAll('.grid-button');
+        if (isCurrent) {
+            const currentBtn = document.querySelector('.grid-button.current');
+            if (currentBtn) currentBtn.classList.remove('current');
+        }
+        const button = Array.from(allGridButtons).find(btn => parseInt(btn.textContent) === index + 1);
+        if (!button) return;
+        if(isCurrent) button.classList.add('current');
+        button.classList.remove('answered', 'doubtful');
+        switch (questionStatus[index]) {
+            case 'answered': button.classList.add('answered'); break;
+            case 'doubtful': button.classList.add('doubtful'); break;
+        }
+    }
+
+    function jumpToQuestion(index) {
+        displayQuestion(index);
+    }
+
+    function startTimer(duration) {
+        let timer = duration;
+        clearInterval(timerInterval);
+        timerEl.parentElement.classList.remove('low-time');
+        timerInterval = setInterval(() => {
+            let minutes = parseInt(timer / 60, 10);
+            let seconds = parseInt(timer % 60, 10);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            timerEl.textContent = `${minutes}:${seconds}`;
+            if (timer < 300 && !timerEl.parentElement.classList.contains('low-time')) { 
+                timerEl.parentElement.classList.add('low-time'); 
+            }
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                finishQuiz();
+            }
+        }, 1000);
+    }
+    
+    function showConfirmation() {
+        confirmationModal.style.display = 'flex';
+    }
+
+    function formatDuration(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes} menit ${seconds.toString().padStart(2, '0')} detik`;
+}
+
+
+    function finishQuiz() {
+        clearInterval(timerInterval);
+        confirmationModal.style.display = 'none';
+        const endTime = new Date();
+        const durationMs = endTime - startTime;
+        let correctCount = 0;
+        questions.forEach((q, index) => {
+            if (userAnswers[index] === q.answer) correctCount++;
+        });
+        const totalQuestions = questions.length;
+        const answeredCount = userAnswers.filter(a => a !== null).length;
+        const incorrectCount = answeredCount - correctCount;
+        const unansweredCount = totalQuestions - answeredCount;
+        const finalScore = totalQuestions > 0 ? parseFloat(((correctCount / totalQuestions) * 100).toFixed(2)) : 0;
+        const isPassed = finalScore >= EXAM_CONFIG.passingGrade;
+        
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'block';
+        headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
+        
+        const statusEl = document.getElementById('status-lulus');
+        statusEl.textContent = isPassed ? 'SELAMAT, ANDA LULUS!' : 'MAAF, ANDA BELUM LULUS';
+        statusEl.className = `status ${isPassed ? 'lulus' : 'gagal'}`;
+        document.getElementById('final-score').textContent = finalScore;
+        document.getElementById('score-details').textContent = `${correctCount} dari ${totalQuestions} soal benar`;
+        
+        const reviewSection = document.getElementById('review-section');
+        reviewSection.innerHTML = '';
+        questions.forEach((q, index) => {
+            const userAnswer = userAnswers[index];
+            const isCorrect = userAnswer === q.answer;
+            reviewSection.innerHTML += `
+                <div class="review-item">
+                    <p><strong>Soal ${index + 1}:</strong> ${q.question}</p>
+                    <div class="review-answer user-answer ${isCorrect ? '' : 'is-incorrect'}">Jawaban Anda: ${userAnswer || 'Tidak Dijawab'}</div>
+                    ${!isCorrect ? `<div class="review-answer correct-answer">Jawaban Benar: ${q.answer}</div>` : ''}
+                    <div class="explanation"><strong>Pembahasan:</strong> ${q.explanation}</div>
+                </div>
+            `;
+        });
+        
+        const dataForSheet = {
+            kategori: EXAM_CONFIG.kategori,
+            url: EXAM_CONFIG.url,
+            judulHalaman: EXAM_CONFIG.judulHalaman,
+            Nama: currentUsername,
+            JumlahSoal: totalQuestions,
+            JawabanBenar: correctCount,
+            JawabanSalah: incorrectCount,
+            TidakDijawab: unansweredCount,
+            Durasi: formatDuration(durationMs),
+            Nilai: finalScore,
+            StatusKelulusan: isPassed ? 'Lulus' : 'Tidak Lulus'
+        };
+        kirimKeGoogleSheet(dataForSheet);
+    }
+
+    // Event Listeners
+    loginBtn.addEventListener('click', handleLogin);
+    passwordInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
+    logoutBtn.addEventListener('click', handleLogout);
+    prevBtn.addEventListener('click', () => { if (currentQuestionIndex > 0) displayQuestion(currentQuestionIndex - 1) });
+    nextBtn.addEventListener('click', () => { if (currentQuestionIndex < questions.length - 1) displayQuestion(currentQuestionIndex + 1) });
+    doubtfulBtn.addEventListener('click', () => {
+        const currentStatus = questionStatus[currentQuestionIndex];
+        if (currentStatus === 'doubtful') {
+            questionStatus[currentQuestionIndex] = userAnswers[currentQuestionIndex] ? 'answered' : 'unanswered';
+        } else {
+            questionStatus[currentQuestionIndex] = 'doubtful';
+        }
+        updateGridButtonStatus(currentQuestionIndex);
+    });
+    finishBtn.addEventListener('click', showConfirmation);
+    confirmYesBtn.addEventListener('click', finishQuiz);
+    confirmNoBtn.addEventListener('click', () => confirmationModal.style.display = 'none');
+    restartBtn.addEventListener('click', handleLogout);
+
+    showLoginPage();
+});
+</script>
