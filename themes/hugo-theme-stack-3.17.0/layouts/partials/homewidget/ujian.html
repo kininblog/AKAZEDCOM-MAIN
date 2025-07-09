@@ -4,8 +4,9 @@ Partial: Try Out Section
 layouts/partials/tryout-section.html
 =================================
 Deskripsi:
-Partial ini menampilkan 3 postingan terbaru dari seksi "ujian" dalam format kartu
-dengan thumbnail dan latar belakang gradien.
+Partial ini menampilkan hingga 6 postingan terbaru dari seksi "ujian".
+Kode telah diperbarui dengan logika yang kuat untuk menemukan dan memproses
+gambar thumbnail secara otomatis.
 
 Cara Penggunaan:
 Panggil partial ini di template Anda (misalnya: index.html) dengan:
@@ -15,32 +16,53 @@ Frontmatter yang Dibutuhkan di Postingan (content/ujian/....md):
 ---
 title: "Tryout SKD CPNS 2024"
 date: 2025-07-09
-image: "/images/tryout-cpns.jpg"  # Path ke gambar thumbnail
+image: "/images/tryout-cpns.jpg"  # Path ke gambar
 ---
 */ -}}
 
-{{- /* Mengambil hingga 3 postingan terbaru dari seksi 'ujian' */ -}}
-{{- $latestTryouts := where .Site.RegularPages "Section" "ujian" | first 3 -}}
+{{- /* PERBAIKAN: Mengambil hingga 6 postingan terbaru dari seksi 'ujian' */ -}}
+{{- $latestTryouts := where .Site.RegularPages "Section" "ujian" | first 6 -}}
 
 {{- /* Hanya render seksi jika ada postingan yang ditemukan */ -}}
 {{- if $latestTryouts -}}
 <section class="content-section">
     <div class="section-header">
         <h2 class="section-header__title">Try Out</h2>
-        {{- /* PERBAIKAN: Mengubah sintaks pemanggilan .Permalink */ -}}
         <a href="{{ (.Site.GetPage "section" "ujian").Permalink }}" class="section-header__see-more">Lihat Semua →</a>
     </div>
     <div class="card-grid">
         {{- range $index, $post := $latestTryouts -}}
-        {{- /* Menentukan warna gradien berdasarkan urutan */ -}}
-        {{- $cardColorClass := printf "tryout-card--%d" (add $index 1) -}}
+        {{- /* Menentukan warna gradien berdasarkan urutan (mengulang setelah 3) */ -}}
+        {{- $colorIndex := add (mod $index 3) 1 -}}
+        {{- $cardColorClass := printf "tryout-card--%d" $colorIndex -}}
 
         <article class="tryout-card {{ $cardColorClass }}">
-            {{- with $post.Params.image -}}
-                <img src="{{ . | absURL }}" alt="Thumbnail untuk {{ $post.Title }}" class="tryout-card__thumbnail">
+            {{- /* PERBAIKAN: Logika baru yang lebih kuat untuk menemukan gambar */ -}}
+            {{- $image := "" -}}
+            {{- $imagePath := $post.Params.image -}}
+
+            {{- if $imagePath -}}
+                {{- /* 1. Coba temukan sebagai Page Resource (di dalam folder postingan) */ -}}
+                {{- $image = $post.Resources.GetMatch $imagePath -}}
+
+                {{- /* 2. Jika gagal, coba sebagai Global Resource (di dalam /assets) */ -}}
+                {{- if not $image -}}
+                    {{- $image = resources.Get $imagePath -}}
+                {{- end -}}
+            {{- end -}}
+
+            {{- if $image -}}
+                {{- /* Jika gambar ditemukan & bisa diproses, resize dan tampilkan */ -}}
+                {{- $processedImage := $image.Resize "400x225" -}}
+                <img src="{{ $processedImage.Permalink }}" alt="Thumbnail untuk {{ $post.Title }}" class="tryout-card__thumbnail">
+            {{- else if $post.Params.image -}}
+                {{- /* 3. Jika gagal diproses tapi path ada, gunakan path langsung (untuk gambar di /static) */ -}}
+                <img src="{{ $post.Params.image | absURL }}" alt="Thumbnail untuk {{ $post.Title }}" class="tryout-card__thumbnail">
             {{- else -}}
+                {{- /* 4. Jika tidak ada sama sekali, tampilkan placeholder */ -}}
                 <img src="https://placehold.co/400x225/cccccc/ffffff?text=Thumbnail" alt="Placeholder" class="tryout-card__thumbnail">
             {{- end -}}
+
             <div class="tryout-card__content">
                 <h3 class="tryout-card__title">{{ $post.Title }}</h3>
                 <a href="{{ $post.Permalink }}" class="tryout-card__button">Lihat Detail</a>

@@ -262,6 +262,17 @@
 
 
 
+{{- /*
+=================================
+Template: Halaman Daftar Ujian
+layouts/ujian/list.html (Contoh path)
+=================================
+Deskripsi:
+Template ini menampilkan semua postingan dari seksi "ujian",
+dikelompokkan berdasarkan kategori, dan ditampilkan dalam slider per kategori.
+Logika gambar telah diperbaiki untuk menangani pemrosesan gambar otomatis oleh Hugo.
+*/ -}}
+
 <div class="list-page-container" >
     <header class="list-page-header">
         <h1>{{ .Title }}</h1>
@@ -270,68 +281,79 @@
     </header>
 
     <main>
-        {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
-            {{ $pagesInCat := where $.Site.RegularPages "Params.categories" "intersect" (slice $name) }}
-            {{ $pagesInSection := where $pagesInCat "Section" "ujian" }}
+        {{- range $name, $taxonomy := .Site.Taxonomies.categories -}}
+            {{- $pagesInCat := where $.Site.RegularPages "Params.categories" "intersect" (slice $name) -}}
+            {{- $pagesInSection := where $pagesInCat "Section" "ujian" -}}
             
-            {{ if gt (len $pagesInSection) 0 }}
+            {{- if gt (len $pagesInSection) 0 -}}
                 <section class="category-section" id="{{ $name | urlize }}">
                     <h2 class="category-title">{{ $name }}</h2>
                     
                     <div class="css-slider-container">
                         <div class="slider-wrapper">
-                            {{ range $pagesInSection }}
+                            {{- range $pagesInSection -}}
                                 <div class="slider-slide">
                                     <div class="exam-card">
-                                        {{ with .Params.image }}
-                                            <img src="{{ . | relURL }}" alt="Thumbnail {{ $.Title }}" class="exam-thumbnail" onerror="this.onerror=null;this.src='https://placehold.co/600x400/112174/FFFFFF?text=Gambar';">
-                                        {{ else }}
+                                        {{- /* PERBAIKAN: Logika baru yang lebih kuat untuk menemukan gambar */ -}}
+                                        {{- $image := "" -}}
+                                        {{- $imagePath := .Params.image -}}
+                                        {{- if $imagePath -}}
+                                            {{- $image = .Resources.GetMatch $imagePath -}}
+                                            {{- if not $image -}}{{- $image = resources.Get $imagePath -}}{{- end -}}
+                                        {{- end -}}
+
+                                        {{- if $image -}}
+                                            {{- $processedImage := $image.Resize "600x400" -}}
+                                            <img src="{{ $processedImage.Permalink }}" alt="Thumbnail untuk {{ .Title }}" class="exam-thumbnail">
+                                        {{- else if .Params.image -}}
+                                            <img src="{{ .Params.image | absURL }}" alt="Thumbnail untuk {{ .Title }}" class="exam-thumbnail" onerror="this.onerror=null;this.src='https://placehold.co/600x400/112174/FFFFFF?text=Gambar';">
+                                        {{- else -}}
                                             <img src="https://placehold.co/600x400/EAEAEA/696871?text=Tanpa+Gambar" alt="Placeholder" class="exam-thumbnail">
-                                        {{ end }}
+                                        {{- end -}}
+
                                         <div class="card-body">
                                             <div class="card-header">
                                                 <h3 class="exam-title">{{ .Title }}</h3>
-                                                {{ with .Params.difficulty }}
+                                                {{- with .Params.difficulty -}}
                                                     <span class="tag-difficulty tag-{{ . }}">{{ . }}</span>
-                                                {{ end }}
+                                                {{- end -}}
                                             </div>
                                             <p class="exam-description">
-  {{ with .Params.description }}
-    {{ . }}
-  {{ else }}
-    {{ .Summary | truncate 120 }}
-  {{ end }}
-</p>
-
+                                                {{- with .Params.description -}}
+                                                    {{ . }}
+                                                {{- else -}}
+                                                    {{ .Summary | truncate 120 -}}
+                                                {{- end -}}
+                                            </p>
                                             
                                             <div class="exam-meta">
-                                                {{ with .Params.waktu }}
+                                                {{- with .Params.waktu -}}
                                                 <div class="meta-item">
                                                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                                     <span>{{ . }}</span>
                                                 </div>
-                                                {{ end }}
-                                                {{ with .Params.jumlah }}
+                                                {{- end -}}
+                                                {{- with .Params.jumlah -}}
                                                 <div class="meta-item">
                                                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
                                                     <span>{{ . }} Soal</span>
                                                 </div>
-                                                {{ end }}
+                                                {{- end -}}
                                             </div>
 
                                             <a href="{{ .Permalink }}" class="exam-cta">Mulai Ujian</a>
                                         </div>
                                     </div>
                                 </div>
-                            {{ end }}
+                            {{- end -}}
                         </div>
                         {{/* Tombol navigasi akan diatur oleh JavaScript */}}
                         <button class="slide-button prev">&#8249;</button>
                         <button class="slide-button next">&#8250;</button>
                     </div>
                 </section>
-            {{ end }}
-        {{ end }}
+            {{- end -}}
+        {{- end -}}
     </main>
 </div>
 

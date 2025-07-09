@@ -51,7 +51,7 @@ jumlah: 35
 
 ## Merasa Siap Hadapi Tes CPNS & BUMN? Uji Dulu di Try Out TIU Gratis Ini!
 
->Gerbang seleksi Calon Pegawai Negeri Sipil (CPNS) dan rekrutmen BUMN sudah di depan mata. Di antara berbagai tahapan tes, ada satu nama yang konsisten menjadi penentu kelulusan banyak orang: **Tes Intelegensi Umum (TIU)**.
+>Gerbang seleksi Calon Pegawai Negeri Sipil (CPNS) dan rekrutmen BUMN sudah di depan mata. Di antara berbagai tahapan tes, ada satu nama yang konsisten menjadi penentu kelulusan banyak orang: **[Tes Intelegensi Umum (TIU)](/ujian/tiu/tryout-tiu-cpns-2024/)**.
 
 Mungkin Anda sudah membaca puluhan artikel, menghafal rumus, dan mempelajari berbagai jenis soal. Anda merasa siap. Tapi, ada perbedaan besar antara *merasa siap* dan *benar-benar siap*. Bagaimana cara mengetahui level kesiapan Anda yang sesungguhnya?
 

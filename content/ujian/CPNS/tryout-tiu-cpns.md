@@ -75,7 +75,7 @@ Mungkin Anda bertanya, "Mengapa tidak langsung *[tryout SKD](/ujian/cpns/tryout-
 * **Membangun Kecepatan:** Soal TIU sangat terikat waktu. Semakin sering Anda berlatih, semakin cepat Anda mengenali pola soal dan menemukan jawabannya.
 
 ## Strategi Cepat Mengerjakan Soal TIU
-
+Beberapa tips mengerjakan *[soal tiu cpns](/ujian/tiu/tryout-tiu-cpns-2024/)* agar lebih cepat.
 * **Untuk Soal Numerik:** Jangan habiskan lebih dari 1 menit per soal. Jika terlihat sangat rumit, lewati dan tandai untuk dikerjakan nanti.
 * **Untuk Soal Logis/Analitis:** Buat coretan atau visualisasi sederhana. Menggambar tabel atau diagram bisa sangat membantu memperjelas informasi.
 * **Untuk Soal Figural:** Cari satu jenis pola yang paling mudah dikenali terlebih dahulu: rotasi (perputaran), refleksi (pencerminan), atau adisi/subtraksi (penambahan/pengurangan elemen).
