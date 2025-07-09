@@ -1,0 +1,114 @@
+{{- /*
+=================================
+Partial: Hero Posts
+layouts/partials/hero-posts.html
+=================================
+Deskripsi:
+Partial ini akan menampilkan hingga 3 postingan terbaru dalam layout grid khusus.
+Kode telah diperbarui dengan logika yang lebih kuat untuk menemukan dan memproses
+gambar thumbnail secara otomatis, sama seperti pada seksi lainnya.
+
+Cara Penggunaan:
+Panggil partial ini di template Anda (misalnya: index.html) dengan:
+{{ partial "hero-posts.html" . }}
+
+Frontmatter yang Dibutuhkan di Postingan (content/post/....md):
+---
+title: "Judul Postingan Anda"
+date: 2025-07-09
+image: "/images/nama-gambar.jpg"  # Path ke gambar
+categories: ["Blog"]              # Kategori postingan
+draft: false
+---
+*/ -}}
+
+{{- /* Mengambil hingga 3 postingan terbaru dari seksi 'post' */ -}}
+{{- $latestPosts := where .Site.RegularPages "Section" "post" | first 3 -}}
+
+{{- if ge (len $latestPosts) 1 -}}
+
+{{- $largePost := index $latestPosts 0 -}}
+{{- $smallPosts := after 1 $latestPosts -}}
+
+<section class="latest-posts-container">
+    <div class="posts-grid">
+        <!-- Kartu Postingan Besar -->
+        <article class="post-card post-card--large">
+            <a href="{{ $largePost.Permalink }}" title="{{ $largePost.Title }}">
+                {{- /* Logika baru yang lebih kuat untuk menemukan gambar */ -}}
+                {{- $image := "" -}}
+                {{- $imagePath := $largePost.Params.image -}}
+                {{- if $imagePath -}}
+                    {{- $image = $largePost.Resources.GetMatch $imagePath -}}
+                    {{- if not $image -}}{{- $image = resources.Get $imagePath -}}{{- end -}}
+                {{- end -}}
+
+                {{- if $image -}}
+                    {{- /* Resize gambar besar */ -}}
+                    {{- $processedImage := $image.Resize "800x1000" -}}
+                    <img src="{{ $processedImage.Permalink }}" alt="Thumbnail untuk {{ $largePost.Title }}" class="post-card__image" loading="lazy">
+                {{- else if $largePost.Params.image -}}
+                    <img src="{{ $largePost.Params.image | absURL }}" alt="Thumbnail untuk {{ $largePost.Title }}" class="post-card__image" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/800x1000/1a1a1a/ffffff?text=Gambar+Gagal+Dimuat';">
+                {{- else -}}
+                    <img src="https://placehold.co/800x1000/1a1a1a/ffffff?text=Gambar+Tidak+Ditemukan" alt="Placeholder" class="post-card__image">
+                {{- end -}}
+
+                <div class="post-card__content">
+                    <div class="post-card__header">
+                        {{- with $largePost.Params.categories -}}
+                        <span class="post-card__category">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 22H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1ZM5 20h14V4H5v16Zm4-2h6v-2H9v2Zm-2-4h8v-2H7v2Zm0-4h8V8H7v2Z"/></svg>
+                            {{- index . 0 -}}
+                        </span>
+                        {{- end -}}
+                        <span class="post-card__read-time">{{ $largePost.ReadingTime }} MIN READ</span>
+                    </div>
+                    <h2 class="post-card__title">{{ $largePost.Title }}</h2>
+                </div>
+            </a>
+        </article>
+        
+        {{- range $index, $post := $smallPosts -}}
+        {{- $cardClass := "post-card--small-top" -}}
+        {{- if eq $index 1 -}}
+            {{- $cardClass = "post-card--small-bottom" -}}
+        {{- end -}}
+        <!-- Kartu Postingan Kecil -->
+        <article class="post-card {{ $cardClass }}">
+             <a href="{{ $post.Permalink }}" title="{{ $post.Title }}">
+                {{- /* Logika baru yang lebih kuat untuk menemukan gambar */ -}}
+                {{- $image := "" -}}
+                {{- $imagePath := $post.Params.image -}}
+                {{- if $imagePath -}}
+                    {{- $image = $post.Resources.GetMatch $imagePath -}}
+                    {{- if not $image -}}{{- $image = resources.Get $imagePath -}}{{- end -}}
+                {{- end -}}
+
+                {{- if $image -}}
+                    {{- /* Resize gambar kecil */ -}}
+                    {{- $processedImage := $image.Resize "600x480" -}}
+                    <img src="{{ $processedImage.Permalink }}" alt="Thumbnail untuk {{ $post.Title }}" class="post-card__image" loading="lazy">
+                {{- else if $post.Params.image -}}
+                    <img src="{{ $post.Params.image | absURL }}" alt="Thumbnail untuk {{ $post.Title }}" class="post-card__image" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/600x480/1a1a1a/ffffff?text=Gambar+Gagal+Dimuat';">
+                {{- else -}}
+                    <img src="https://placehold.co/600x480/1a1a1a/ffffff?text=Gambar+Tidak+Ditemukan" alt="Placeholder" class="post-card__image">
+                {{- end -}}
+
+                <div class="post-card__content">
+                    <div class="post-card__header">
+                         {{- with $post.Params.categories -}}
+                        <span class="post-card__category">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2ZM5 5v14h14V5H5Zm2 2h10v2H7V7Zm0 4h10v2H7v-2Zm0 4h5v2H7v-2Z"/></svg>
+                            {{- index . 0 -}}
+                        </span>
+                        {{- end -}}
+                        <span class="post-card__read-time">{{ $post.ReadingTime }} MIN READ</span>
+                    </div>
+                    <h2 class="post-card__title">{{ $post.Title }}</h2>
+                </div>
+            </a>
+        </article>
+        {{- end -}}
+    </div>
+</section>
+{{- end -}}

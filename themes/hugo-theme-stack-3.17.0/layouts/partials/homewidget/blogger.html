@@ -1,0 +1,82 @@
+{{- /*
+=================================
+Partial: Blogger Section
+layouts/partials/blogger-section.html
+=================================
+Deskripsi:
+Partial ini menampilkan 3 postingan terbaru dari kategori "blogger".
+Kode telah diperbarui dengan logika yang lebih kuat untuk menemukan gambar,
+baik dari folder 'assets', 'static', maupun dari dalam folder postingan itu sendiri.
+
+Cara Penggunaan:
+Panggil partial ini di template Anda (misalnya: index.html) dengan:
+{{ partial "blogger-section.html" . }}
+
+Frontmatter yang Dibutuhkan di Postingan:
+---
+title: "Judul Postingan Blogger"
+date: 2025-07-09
+image: "/images/blogger-pic.jpg" # Path ke gambar
+categories: ["blogger", "opini"]
+---
+*/ -}}
+
+{{- /* Mengambil 3 postingan terbaru yang memiliki kategori 'blogger' */ -}}
+{{- $bloggerPosts := where .Site.RegularPages "Params.categories" "intersect" (slice "blogger") | first 3 -}}
+
+{{- /* Hanya render seksi jika ada postingan yang ditemukan */ -}}
+{{- if $bloggerPosts -}}
+<section class="content-section">
+    <div class="section-header">
+        <h2 class="section-header__title">Blogger</h2>
+        {{- with .Site.GetPage "categories/blogger" -}}
+        <a href="{{ .Permalink }}" class="section-header__see-more">Lihat Semua →</a>
+        {{- end -}}
+    </div>
+    <div class="news-list">
+        {{- range $bloggerPosts -}}
+        <article class="news-item">
+            <div class="news-item__content">
+                <div class="news-item__meta">
+                    {{- with .Params.author | default .Site.Author.name -}}
+                        {{ . }}
+                    {{- end -}}
+                    <span>· {{ .Date.Format "2 Jan 2006" }}</span>
+                </div>
+                <a href="{{ .Permalink }}" class="news-item__title">{{ .Title }}</a>
+                <p class="news-item__snippet">{{ .Summary | plainify | truncate 120 }}</p>
+            </div>
+            <div class="news-item__image-container">
+                <a href="{{ .Permalink }}">
+                {{- /* PERBAIKAN: Logika baru yang lebih kuat untuk menemukan gambar */ -}}
+                {{- $image := "" -}}
+                {{- $imagePath := .Params.image -}}
+
+                {{- if $imagePath -}}
+                    {{- /* 1. Coba temukan sebagai Page Resource (di dalam folder postingan) */ -}}
+                    {{- $image = .Resources.GetMatch $imagePath -}}
+
+                    {{- /* 2. Jika gagal, coba sebagai Global Resource (di dalam /assets) */ -}}
+                    {{- if not $image -}}
+                        {{- $image = resources.Get $imagePath -}}
+                    {{- end -}}
+                {{- end -}}
+
+                {{- if $image -}}
+                    {{- /* Jika gambar ditemukan & bisa diproses, resize dan tampilkan */ -}}
+                    {{- $processedImage := $image.Resize "200x130" -}}
+                    <img src="{{ $processedImage.Permalink }}" alt="Thumbnail untuk {{ .Title }}" class="news-item__image">
+                {{- else if .Params.image -}}
+                    {{- /* 3. Jika gagal diproses tapi path ada, gunakan path langsung (untuk gambar di /static) */ -}}
+                    <img src="{{ .Params.image | absURL }}" alt="Thumbnail untuk {{ .Title }}" class="news-item__image">
+                {{- else -}}
+                    {{- /* 4. Jika tidak ada sama sekali, tampilkan placeholder */ -}}
+                    <img src="https://placehold.co/200x130/cccccc/ffffff?text=Image" alt="Placeholder" class="news-item__image">
+                {{- end -}}
+                </a>
+            </div>
+        </article>
+        {{- end -}}
+    </div>
+</section>
+{{- end -}}

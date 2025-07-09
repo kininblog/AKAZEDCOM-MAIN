@@ -22,17 +22,12 @@
             <main class="main full-width">
 
                 {{ if .IsHome }}
-  {{- $terms := (site.GetPage "taxonomyTerm" "categories").Pages -}}
-  {{ if $terms }}
-    <!-- Judul dihapus di sini -->
-    <div class="subsection-list">
-      <div class="article-list--tile">
-        {{ range $terms }}
-          {{ partial "article-list/tile" (dict "context" . "size" "250x150" "Type" "taxonomy") }}
-        {{ end }}
-      </div>
-    </div>
-  {{ end }} 
+  
+
+            {{ partial "homewidget/hero-post.html" . }}
+            {{ partial "homewidget/features.html" . }}
+            {{ partial "homewidget/ujian.html" . }}
+            {{ partial "homewidget/blogger.html" . }}
 
 {{ end }}
 

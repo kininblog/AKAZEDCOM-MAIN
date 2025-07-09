@@ -1,0 +1,579 @@
+/* CSS Lengkap untuk Widget Situs Berita */
+
+/* =================================
+   1. Reset dan Pengaturan Dasar (Variables)
+   ================================= */
+:root {
+    --background-color: #ffffff;
+    --text-color: #1a1a1a;
+    --text-color-light: #555;
+    --card-text-color: #ffffff;
+    --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    --card-radius: 16px;
+    --transition-speed: 0.4s;
+    --grid-gap: 1.5rem;
+    --border-color: #e5e5e5;
+    --primary-color: #007bff;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Kontainer utama untuk semua konten */
+.main-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+/* =================================
+   2. Seksi Umum & Header
+   ================================= */
+.content-section {
+    width: 100%;
+    margin-bottom: 0;
+}
+.content-section:last-child {
+    margin-bottom: 0;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.section-header__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+.section-header__see-more {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-color-light);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.section-header__see-more:hover {
+    color: var(--primary-color);
+}
+
+
+/* =================================
+   3. Seksi Hero (Grid Postingan Atas)
+   ================================= */
+.latest-posts-container {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.posts-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: var(--grid-gap);
+    min-height: 400px; 
+}
+
+.post-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    color: var(--card-text-color);
+    transition: transform var(--transition-speed) ease;
+    width: 100%;
+    height: 100%;
+}
+
+.post-card--large {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+}
+
+.post-card--small-top {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+}
+
+.post-card--small-bottom {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+}
+
+.post-card:hover { transform: translateY(-8px); }
+.post-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    transition: transform var(--transition-speed) ease;
+}
+.post-card:hover .post-card__image { transform: scale(1.05); }
+.post-card__content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 20%, transparent 70%);
+    color: #ffffff;
+}
+.post-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.9;
+}
+.post-card__category { display: flex; align-items: center; gap: 0.5rem; }
+.post-card__category svg { width: 16px; height: 16px; }
+.post-card__title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0;
+}
+.post-card--small-top .post-card__title,
+.post-card--small-bottom .post-card__title {
+    font-size: 1.25rem;
+}
+
+/* =================================
+   4. Seksi Kategori
+   ================================= */
+.category-section {
+    margin-bottom: 0;
+}
+.category-grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(120px, 1fr);
+    gap: var(--grid-gap);
+    overflow-x: auto;
+    padding: 0.5rem 0 1rem 0;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.category-grid::-webkit-scrollbar {
+    display: none;
+}
+.category-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border-radius: var(--card-radius);
+    background-color: #f8f9fa;
+    border: 1px solid var(--border-color);
+    text-decoration: none;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+.category-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 20px rgba(0, 123, 255, 0.1);
+    color: var(--primary-color);
+}
+.category-card__icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+.category-card:hover .category-card__icon {
+    color: var(--primary-color);
+}
+.category-card__icon svg {
+    width: 28px;
+    height: 28px;
+}
+.category-card__name {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* =================================
+   5. Seksi Menu Fitur & Hobi
+   ================================= */
+.feature-menu-section {
+    margin-bottom: 0;
+}
+.feature-menu-grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 240px; 
+    gap: var(--grid-gap);
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.feature-menu-grid::-webkit-scrollbar {
+    display: none;
+}
+.feature-card {
+    padding: 1.25rem;
+    border-radius: 20px;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-size: 150% 150%;
+    transition: transform 0.3s ease;
+}
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+.feature-card--1 { background-image: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); }
+.feature-card--2 { background-image: linear-gradient(135deg, #ede7f6 0%, #d1c4e9 100%); }
+.feature-card--3 { background-image: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); }
+.feature-card--4 { background-image: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); }
+/* Gradien untuk kartu hobi */
+.feature-card--hoby-1 { background-image: linear-gradient(135deg, #dcedc8 0%, #a5d6a7 100%); }
+.feature-card--hoby-2 { background-image: linear-gradient(135deg, #d1c4e9 0%, #b39ddb 100%); }
+.feature-card--hoby-3 { background-image: linear-gradient(135deg, #ffccbc 0%, #ffab91 100%); }
+
+.feature-card__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+.feature-card__icon svg {
+    width: 22px;
+    height: 22px;
+}
+.feature-card__title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+}
+.feature-card__description {
+    font-size: 0.85rem;
+    color: var(--text-color-light);
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+    flex-grow: 1;
+}
+.feature-card__button {
+    display: inline-block;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-color-light);
+    background-color: #ffffff;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.feature-card__button:hover {
+    color: var(--text-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* =================================
+   6. Seksi More News (Daftar Berita)
+   ================================= */
+.news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.news-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.news-list .news-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.news-item__content { flex: 1; }
+.news-item__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+.news-item__meta span {
+    color: var(--text-color-light);
+    font-weight: 400;
+    text-transform: none;
+}
+.news-item__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: var(--text-color);
+    text-decoration: none;
+}
+.news-item__title:hover { text-decoration: underline; }
+.news-item__snippet {
+    font-size: 1rem;
+    color: var(--text-color-light);
+    line-height: 1.5;
+    margin: 0;
+}
+.news-item__image-container {
+    flex-shrink: 0;
+    width: 200px;
+    height: 130px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.news-item__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* =================================
+   7. Seksi Kartu Grid (Pendidikan, Try Out)
+   ================================= */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--grid-gap);
+}
+
+/* Kartu Pendidikan (Hover untuk deskripsi) */
+.education-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--card-radius);
+    color: var(--card-text-color);
+    aspect-ratio: 4 / 5;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform var(--transition-speed) ease;
+}
+.education-card:hover {
+    transform: translateY(-8px);
+}
+.education-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-speed) ease;
+}
+.education-card:hover .education-card__image {
+    transform: scale(1.05);
+}
+.education-card__content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 25%, transparent 100%);
+    transform: translateY(40%);
+    transition: transform var(--transition-speed) ease-in-out;
+}
+.education-card:hover .education-card__content {
+    transform: translateY(0);
+}
+.education-card__meta {
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.education-card__meta img {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+}
+.education-card__title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0;
+    transition: margin-bottom var(--transition-speed) ease-in-out;
+}
+.education-card:hover .education-card__title {
+    margin-bottom: 0.5rem;
+}
+.education-card__description {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: rgba(255,255,255,0.85);
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+.education-card:hover .education-card__description {
+    max-height: 100px;
+    opacity: 1;
+}
+.education-card__play-icon {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    width: 60px;
+    height: 60px;
+    background-color: rgba(0,0,0,0.4);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: all var(--transition-speed) ease;
+}
+.education-card:hover .education-card__play-icon {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Kartu Try Out (Thumbnail + Konten Gradien) */
+.tryout-card {
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+.tryout-card:hover {
+    transform: translateY(-5px);
+}
+.tryout-card__thumbnail {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+.tryout-card__content {
+    padding: 1.25rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    color: var(--text-color);
+}
+.tryout-card--1 .tryout-card__content { background-image: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); }
+.tryout-card--2 .tryout-card__content { background-image: linear-gradient(135deg, #ede7f6 0%, #d1c4e9 100%); }
+.tryout-card--3 .tryout-card__content { background-image: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); }
+
+.tryout-card__title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+}
+.tryout-card__button {
+    margin-top: auto; /* Mendorong tombol ke bawah */
+    display: inline-block;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-color-light);
+    background-color: #ffffff;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.tryout-card__button:hover {
+    color: var(--text-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* =================================
+   8. Media Queries (Responsif)
+   ================================= */
+@media (max-width: 768px) {
+    .main-container { padding: 1rem; }
+    :root { --grid-gap: 1rem; }
+    
+    .posts-grid { min-height: 300px; }
+    .post-card__content { padding: 1rem; }
+    .post-card__title { font-size: 1.25rem; }
+    .post-card--small-top .post-card__title,
+    .post-card--small-bottom .post-card__title {
+        font-size: 0.9rem;
+        line-height: 1.2;
+    }
+    .post-card__header {
+        font-size: 0.7rem;
+        margin-bottom: 0.5rem;
+    }
+    .post-card__read-time { display: none; }
+    .post-card--large .post-card__read-time { display: inline; }
+
+    .news-item { gap: 1rem; }
+    .news-item__image-container { width: 120px; height: 80px; }
+    .news-item__title { font-size: 1.1rem; }
+    .news-item__snippet {
+        font-size: 0.9rem;
+    }
+
+    .card-grid { grid-template-columns: repeat(3, 1fr); }
+    .education-card__title { font-size: 0.9rem; }
+    .education-card__meta { font-size: 0.7rem; }
+    .education-card:hover .education-card__content { transform: translateY(0); }
+
+    .tryout-card__title { font-size: 0.9rem; }
+}
+@media (max-width: 480px) {
+    .post-card__title { font-size: 1rem; }
+    .post-card--small-top .post-card__title,
+    .post-card--small-bottom .post-card__title { font-size: 0.8rem; }
+
+    .card-grid {
+        grid-template-columns: 1fr; /* Ubah menjadi 1 kolom di layar sangat kecil */
+    }
+
+    .education-card__title { font-size: 0.8rem; }
+    .education-card__description { display: none; }
+    .education-card:hover .education-card__title { margin-bottom: 0; }
+    .education-card__content { transform: translateY(0); }
+    .education-card:hover .education-card__content { transform: translateY(0); }
+}
