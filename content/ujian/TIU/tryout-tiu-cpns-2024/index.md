@@ -3,11 +3,13 @@ title: Tryout TIU CPNS 2024 dan Pembahasan
 description: Segera persiapan diri matang-matang, pendaftaran cpns akan segera dibuka. Ayo ikut berbagai tryout seperti try out tiu cpns gratis, pembahasannya dan 35 soal tiu hots 2024.
 date: 2025-07-08T21:14:15+08:00 
 #2023年12月27日21:14:15
-lastmod: 2025-07-08T21:14:15+08:00 
+lastmod: 2025-07-11T21:14:15+08:00 
 comments: true
 keywords: 
 - Tryout tiu cpns 2024
 - tryout tiu
+- tryout tiu cpns
+- tryout tiu gratis
 - tryout tiu cpns dan pembahasan
 - soal tiu cpns pdf
 license: 
@@ -57,7 +59,14 @@ Beberapa tujuan ujian TIU adalah untuk
 - **Kemampuan Figural:** Soal-soal yang menguji kemampuan memahami dan menganalisis hubungan antar gambar atau bentuk, seperti analogi gambar, perbedaan gambar, dan serial gambar. 
 
 
-Dalam *[tryout tiu cpns](/ujian/cpns/tryout-tiu-cpns/)* ini akazed udah bikin semaksimal mungkin agar materi ujian TIU nya lengkap. 
+Dalam *[tryout tiu cpns](/ujian/cpns/tryout-tiu-cpns/)* ini akazed udah bikin semaksimal mungkin agar materi ujian TIU nya lengkap.  
+
+## Cara Ikut tryout tiu gratis
+Gimana, udah siap untuk berlatih soal dan mempelajari contoh soal tiu cpns? Gini cara ikutan *[tryout tiu gratis](/ujian/tiu/tryout-tiu-gratis/)* di platform website tryout online akazed.
+1. Buka situs *[akazed tryout online](/ujian/)*, atau kamu bisa lansung klik *[Tryout tiu gratis](/categories/tryout-tiu/), dan pilih paket latihan soal tiu cpns dan pembahasan yang ingin diikuti
+2. Masukkan nama dan password, password ujian biasanya ada di halaman *[tryout online](/ujian/)* tersebut
+3. Kerjakan ujian dan klik *selesaikan ujian* untuk selesai, dan nilai serta pembahasan soal tiu cpns terbaru 2025 akan keluar
+
 
 ## Tryout TIU CPNS 2024
 *Tryout tiu cpns online* ini, soal-soal ujian yang diberikan adalah latihan soal TIU CPNS 2024-2025. Terdiri dari 35 soal, *passing grade*-nya cukup tinggi, akazed bikin 65 loh, jadi jawab soal bersungguh-sungguh.
