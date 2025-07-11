@@ -2,7 +2,7 @@
 title: Try Out TIU (Tes Inteligensi Umum) Gratis
 description: Uji kemampuan Anda dengan try out TIU gratis terbaru 2025! Dapatkan latihan soal TIU CPNS & BUMN lengkap dengan pembahasan untuk materi verbal, numerik, dan figural. Tingkatkan skor Anda dengan ikut tryout tiu gratis ini.
 date: 2025-06-23T15:31:20+07:00
-lastmod: 2025-07-07T15:31:20+07:00
+lastmod: 2025-07-10T15:31:20+07:00
 comments: true
 draft: false 
 slug:   #这里要修改
@@ -60,6 +60,18 @@ Jawabannya sederhana: **melalui [try out tiu](/ujian/tiu/tryout-tiu-gratis/).**
 
 Artikel ini tidak hanya akan membahas pentingnya *[try out](/ujian/)*, tetapi juga akan menjadi gerbang Anda untuk langsung mencoba **[Try Out TIU Gratis](/ujian/tiu/tryout-tiu-gratis/)** yang kami sediakan. Anggap ini sebagai pos pengecekan terakhir sebelum Anda terjun ke medan pertempuran yang sebenarnya.
 
+## Apa Itu Soal TIU?
+Sebelum kamu mengikuti latihan soal tiu dengan ikut tryout tiu online di Akazed, kit pelajari dahulu apa itu soal tiu.
+
+***TIU adalah singkatan dari Tes Intelegensi Umum***. Ini adalah salah satu bagian dari Seleksi Kompetensi Dasar (SKD) dalam seleksi Calon Pegawai Negeri Sipil (CPNS) yang bertujuan untuk mengukur kemampuan intelektual peserta, khususnya kemampuan verbal, numerik, dan penalaran. 
+
+### Secara lebih rinci, TIU menguji kemampuan peserta dalam: 
+1. *Kemampuan Verbal:* Memahami informasi tertulis, sinonim, antonim, analogi, dan penalaran berbasis teks.
+2. *Kemampuan Numerik:* Berhitung, pemecahan masalah matematis, dan penalaran logis berbasis angka.
+Kemampuan Penalaran: Berpikir logis, pemecahan masalah, dan penalaran analitis. 
+
+>Jadi, jika Anda akan mengikuti tes CPNS, penting untuk memahami apa itu TIU dan mempersiapkan diri untuk menghadapi berbagai jenis soal yang diujikan dalam tes ini, seperti soal analogi, silogisme, deret angka, dan lain-lain. 
+
 ### Mengapa Ikut Try Out TIU Adalah Keharusan, Bukan Pilihan?
 
 Banyak calon peserta yang meremehkan kekuatan dari sebuah simulasi. Mereka berpikir cukup dengan belajar materi saja. Padahal, **[try out tiu](/categories/tryout-tiu/)** menawarkan keuntungan strategis yang tidak bisa didapatkan dari sekadar membaca buku.
@@ -112,6 +124,14 @@ Pengen ikut ujian dan latihan soal tiu cpns gratis tapi gak tau caranya? Sini ad
 2. Kemudian masukkan Nama kamu dan password yang tertera untuk ikut ujian
 3. Lalu kerjakan soal ujian
 4. Klik **Selesai** untuk menyelesaikan ujian dan lihat perolehan nilai dan ranking kamu
+
+## Cara Ikut Tryout TIU Gratis
+Gimana-gimana? Dari penjelasan di atas udah gak sabar kan pengen ikut ujian tiu dan berlatih prediksi soal tiu cpns dan pembahasannya? Begini caranya
+1. Buka *[Tryout Online](/ujian/)* dan pililih kategori tiu
+2. Pilih ujian yang ingin diikuti
+3. Masukkan nama, dan password. Untuk password tertera di halaman ujian
+4. Jawab semua latihan soal tiu online nya, dan klik selesaikan ujian jika telah selesai
+5. Maka nilai dan pembahasan soal akan muncul otomatis
 
 ### Siap Menguji Diri? Mulai Sekarang Juga!
 
