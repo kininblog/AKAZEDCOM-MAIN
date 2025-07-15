@@ -1,0 +1,564 @@
+    <style>
+        /* Cookie Consent Overlay */
+        .cookie-consent-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .cookie-consent-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Cookie Consent Dialog - Google AdSense like design */
+        .cookie-consent-dialog {
+            background-color: #ffffff;
+            border-radius: 8px; /* Slightly less rounded for a cleaner look */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Softer shadow */
+            max-width: 580px; /* Wider for more content space */
+            width: 95%;
+            padding: 24px; /* Adjusted padding */
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 16px; /* Reduced gap for a more compact feel */
+            max-height: 90vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .cookie-consent-overlay.show .cookie-consent-dialog {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Cookie Categories */
+        .cookie-categories {
+            border-top: 1px solid #e0e0e0; /* Subtle separator */
+            padding-top: 16px;
+        }
+
+        .cookie-category-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0; /* Lighter border for categories */
+        }
+
+        .cookie-category-toggle:last-child {
+            border-bottom: none;
+        }
+
+        .cookie-category-toggle > div {
+            flex-grow: 1; /* Allow text to take more space */
+            padding-right: 15px; /* Space between text and toggle */
+        }
+
+        /* Toggle Switch - Modernized and Google-like colors */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px; /* Slightly smaller */
+            height: 24px; /* Slightly smaller */
+            flex-shrink: 0; /* Prevent it from shrinking */
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc; /* Light gray for off */
+            transition: .4s;
+            border-radius: 24px; /* Fully rounded */
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px; /* Smaller circle */
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow for the thumb */
+        }
+
+        input:checked + .slider {
+            background-color: #1a73e8; /* Google Blue for on */
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #1a73e8;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px); /* Adjust thumb movement */
+        }
+
+        /* Buttons - Google-like styling */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px; /* Smaller gap */
+            margin-top: 20px; /* Space from categories */
+        }
+
+        .btn {
+            padding: 10px 24px; /* Adjusted padding */
+            border-radius: 4px; /* Less rounded for a Google feel */
+            font-weight: 500; /* Slightly lighter font weight */
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+            font-size: 0.95rem; /* Slightly smaller font */
+            text-align: center;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-primary {
+            background-color: #1a73e8; /* Google Blue */
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #1764cc; /* Darker Google Blue */
+        }
+
+        .btn-secondary {
+            background-color: transparent; /* Ghost button */
+            color: #1a73e8; /* Google Blue text */
+            border: 1px solid #dadce0; /* Light border */
+        }
+
+        .btn-secondary:hover {
+            background-color: #f8f8f8; /* Very light hover */
+        }
+
+        .btn-text {
+            background-color: transparent;
+            color: #5f6368; /* Google Grey text */
+            border: none;
+            padding: 10px 12px; /* More compact for text buttons */
+        }
+
+        .btn-text:hover {
+            background-color: #f0f0f0; /* Light hover */
+        }
+
+        @media (min-width: 640px) {
+            .button-group {
+                flex-direction: row-reverse; /* Reverse order for "Accept" on right */
+                justify-content: flex-start; /* Align to start (which is right due to reverse) */
+            }
+            .btn-text {
+                margin-right: auto; /* Push text button to the left */
+            }
+        }
+
+        /* Floating Cookie Icon */
+        .floating-cookie-icon {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #1a73e8; /* Google Blue */
+            color: white;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 999;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .floating-cookie-icon:hover {
+            background-color: #1764cc; /* Darker Google Blue */
+        }
+
+        .floating-cookie-icon:active {
+            transform: translateY(1px);
+        }
+
+        .floating-cookie-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: currentColor;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            text-align: center;
+            padding: 32px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+        }
+
+        .main-content h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .main-content p {
+            color: #4b5563;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Text styles within dialog - Google-like typography */
+        .dialog-header {
+            text-align: center; /* Center align header content */
+            margin-bottom: 20px; /* Space below header */
+        }
+
+        .dialog-logo {
+            max-width: 80px; /* Adjust logo size */
+            height: auto;
+            margin-bottom: 10px; /* Space below logo */
+        }
+
+        .dialog-blog-title {
+            font-size: 1.5rem; /* Larger font for blog title */
+            font-weight: 600; /* Slightly bolder */
+            color: #202124;
+            margin-bottom: 5px;
+        }
+
+        .dialog-blog-description {
+            color: #5f6368;
+            font-size: 1rem;
+            line-height: 1.4;
+            margin-bottom: 15px; /* Space below description */
+        }
+
+        .dialog-title {
+            font-size: 1.375rem; /* Slightly smaller for a cleaner header */
+            font-weight: 500; /* Lighter font weight */
+            color: #202124; /* Google's dark grey */
+            margin-bottom: 0.5rem;
+        }
+
+        .dialog-description {
+            color: #5f6368; /* Google's standard grey text */
+            font-size: 0.875rem;
+            line-height: 1.5; /* Adjusted line height */
+            margin-bottom: 16px; /* Space before categories */
+        }
+
+        /* Link styling within dialog description */
+        .dialog-description a {
+            color: #1a73e8; /* Google Blue for links */
+            text-decoration: none; /* No underline by default */
+            font-weight: 500;
+        }
+
+        .dialog-description a:hover {
+            text-decoration: underline; /* Underline on hover */
+        }
+
+        .category-title {
+            font-weight: 500; /* Lighter font weight */
+            color: #202124;
+        }
+
+        .category-description {
+            color: #5f6368;
+            font-size: 0.75rem;
+        }
+
+        /* Responsive adjustments for very small screens */
+        @media (max-width: 480px) {
+            .cookie-consent-dialog {
+                padding: 16px; /* Reduce padding on very small screens */
+                gap: 12px; /* Reduce gap between elements */
+            }
+            .btn {
+                padding: 8px 16px; /* Adjust button padding */
+                font-size: 0.85rem; /* Slightly smaller font for buttons */
+            }
+            .toggle-switch {
+                width: 40px; /* Further smaller switch */
+                height: 22px;
+            }
+            .slider:before {
+                height: 16px;
+                width: 16px;
+                left: 3px;
+                bottom: 3px;
+            }
+            input:checked + .slider:before {
+                transform: translateX(18px); /* Adjust thumb movement */
+            }
+            .button-group {
+                flex-direction: column; /* Ensure stacked on small screens */
+            }
+            .dialog-logo {
+                max-width: 60px; /* Smaller logo on very small screens */
+            }
+            .dialog-blog-title {
+                font-size: 1.3rem; /* Smaller title on very small screens */
+            }
+        }
+    </style>
+
+    <!-- Floating Cookie Icon -->
+    <div id="floatingCookieIcon" class="floating-cookie-icon">
+        <!-- Modernized Cookie SVG Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM9 9c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-3 6c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+        </svg>
+    </div>
+
+    <!-- Cookie Consent Overlay -->
+    <div id="cookieConsentOverlay" class="cookie-consent-overlay">
+        <div class="cookie-consent-dialog">
+            <div class="dialog-header">
+                <img src="https://akazed.com/img/akazed_hu5275fa5222c3dc8beed2db97f95ceac6_28190_300x0_resize_q75_h2_box_2.webp"
+                     alt=""
+                     class="dialog-logo"
+                     onerror="this.onerror=null;this.src='https://placehold.co/80x80/cccccc/333333?text=Logo'">
+                <h1 class="dialog-blog-title">Akazed.com - Edu & Tech</h1>
+                <p class="dialog-blog-description">Panduan blogger, SEO, teknologi, game, internet, dan berita pendidikan</p>
+            </div>
+
+            <h2 class="dialog-title">Pengaturan Privasi Anda</h2>
+            <p class="dialog-description">
+                Kami menggunakan cookie untuk meningkatkan pengalaman penjelajahan Anda, menayangkan iklan yang dipersonalisasi, dan menganalisis lalu lintas situs kami. Dengan mengklik "Terima Semua", Anda menyetujui penggunaan cookie kami. Anda dapat mengubah preferensi Anda kapan saja.
+                Untuk informasi lebih lanjut, silakan lihat <a href="https://akazed.com/policy/" target="_blank" rel="noopener noreferrer">Kebijakan Privasi</a> dan <a href="https://akazed.com/terms/" target="_blank" rel="noopener noreferrer">Persyaratan Layanan</a> kami.
+            </p>
+
+            <div class="cookie-categories">
+                <!-- Essential Cookies -->
+                <div class="cookie-category-toggle">
+                    <div>
+                        <h3 class="category-title">Cookie Esensial</h3>
+                        <p class="category-description">Diperlukan untuk fungsionalitas dasar situs web dan tidak dapat dimatikan.</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked disabled>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Analytics Cookies -->
+                <div class="cookie-category-toggle">
+                    <div>
+                        <h3 class="category-title">Cookie Analitik</h3>
+                        <p class="category-description">Membantu kami memahami bagaimana pengunjung berinteraksi dengan situs web, mengidentifikasi area untuk perbaikan.</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="analyticsCookies" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Marketing Cookies -->
+                <div class="cookie-category-toggle">
+                    <div>
+                        <h3 class="category-title">Cookie Pemasaran</h3>
+                        <p class="category-description">Digunakan untuk melacak pengunjung di seluruh situs web untuk menampilkan iklan yang relevan dan menarik bagi pengguna individu.</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="marketingCookies" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button id="acceptAllBtn" class="btn btn-primary">Terima Semua</button>
+                <button id="savePreferencesBtn" class="btn btn-secondary">Simpan Preferensi</button>
+                <button id="rejectAllBtn" class="btn btn-text">Tolak Semua</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const cookieConsentOverlay = document.getElementById('cookieConsentOverlay');
+        const acceptAllBtn = document.getElementById('acceptAllBtn');
+        const rejectAllBtn = document.getElementById('rejectAllBtn');
+        const savePreferencesBtn = document.getElementById('savePreferencesBtn');
+        const analyticsCookiesToggle = document.getElementById('analyticsCookies');
+        const marketingCookiesToggle = document.getElementById('marketingCookies');
+        const floatingCookieIcon = document.getElementById('floatingCookieIcon');
+
+        // --- Cookie Management Functions ---
+
+        /**
+         * Sets the cookie consent preferences in localStorage.
+         * @param {Object} preferences - An object containing cookie preferences.
+         * @param {boolean} preferences.essential - Always true.
+         * @param {boolean} preferences.analytics - True if analytics cookies are allowed.
+         * @param {boolean} preferences.marketing - True if marketing cookies are allowed.
+         */
+        function setCookiePreferences(preferences) {
+            localStorage.setItem('cookieConsent', JSON.stringify(preferences));
+            console.log('Preferensi cookie disimpan:', preferences);
+            applyCookiePreferences(preferences); // Apply immediately
+            hideConsentDialog();
+        }
+
+        /**
+         * Retrieves cookie consent preferences from localStorage.
+         * @returns {Object|null} The preferences object if found, otherwise null.
+         */
+        function getCookiePreferences() {
+            const preferences = localStorage.getItem('cookieConsent');
+            return preferences ? JSON.parse(preferences) : null;
+        }
+
+        /**
+         * Applies the cookie preferences, e.g., loads Google AdSense scripts.
+         * In a real application, you would dynamically load scripts here.
+         * For this example, we'll just log to the console.
+         * @param {Object} preferences - The preferences object.
+         */
+        function applyCookiePreferences(preferences) {
+            console.log('Menerapkan preferensi cookie:', preferences);
+
+            // Simulate Google AdSense script loading
+            // In a real scenario, you would conditionally load the AdSense script
+            // based on preferences.marketing.
+            const adsenseScriptId = 'adsense-script';
+            let adsenseScript = document.getElementById(adsenseScriptId);
+
+            if (preferences.marketing) {
+                if (!adsenseScript) {
+                    console.log('Memuat skrip Google AdSense...');
+                    adsenseScript = document.createElement('script');
+                    adsenseScript.id = adsenseScriptId;
+                    adsenseScript.async = true;
+                    adsenseScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID'; // Replace with your actual AdSense ID
+                    adsenseScript.crossOrigin = 'anonymous';
+                    document.head.appendChild(adsenseScript);
+
+                    // Initialize AdSense (this part is usually handled by the script itself)
+                    // (adsbygoogle = window.adsbygoogle || []).push({});
+                } else {
+                    console.log('Skrip Google AdSense sudah dimuat.');
+                }
+            } else {
+                if (adsenseScript) {
+                    console.log('Menghapus skrip Google AdSense (karena cookie pemasaran ditolak).');
+                    adsenseScript.remove();
+                }
+            }
+
+            // You would do similar checks for analytics scripts (e.g., Google Analytics)
+            if (preferences.analytics) {
+                console.log('Cookie analitik diizinkan. (Muat skrip analitik Anda di sini)');
+            } else {
+                console.log('Cookie analitik ditolak.');
+            }
+        }
+
+        // --- UI Functions ---
+
+        /**
+         * Shows the cookie consent dialog.
+         */
+        function showConsentDialog() {
+            cookieConsentOverlay.classList.add('show');
+            // Update toggle states based on current preferences if available
+            const currentPreferences = getCookiePreferences();
+            if (currentPreferences) {
+                analyticsCookiesToggle.checked = currentPreferences.analytics;
+                marketingCookiesToggle.checked = currentPreferences.marketing;
+            } else {
+                // Default to all on if no preferences saved yet
+                analyticsCookiesToggle.checked = true;
+                marketingCookiesToggle.checked = true;
+            }
+        }
+
+        /**
+         * Hides the cookie consent dialog.
+         */
+        function hideConsentDialog() {
+            cookieConsentOverlay.classList.remove('show');
+        }
+
+        // --- Event Listeners ---
+
+        acceptAllBtn.addEventListener('click', () => {
+            const preferences = {
+                essential: true,
+                analytics: true,
+                marketing: true
+            };
+            setCookiePreferences(preferences);
+        });
+
+        rejectAllBtn.addEventListener('click', () => {
+            const preferences = {
+                essential: true, // Essential cookies are always true
+                analytics: false,
+                marketing: false
+            };
+            setCookiePreferences(preferences);
+        });
+
+        savePreferencesBtn.addEventListener('click', () => {
+            const preferences = {
+                essential: true,
+                analytics: analyticsCookiesToggle.checked,
+                marketing: marketingCookiesToggle.checked
+            };
+            setCookiePreferences(preferences);
+        });
+
+        // Event listener for the floating cookie icon
+        floatingCookieIcon.addEventListener('click', () => {
+            showConsentDialog();
+        });
+
+        // --- Initialization on Page Load ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const preferences = getCookiePreferences();
+
+            if (preferences) {
+                // If preferences exist, apply them and hide the dialog
+                applyCookiePreferences(preferences);
+                hideConsentDialog();
+            } else {
+                // If no preferences, show the consent dialog
+                showConsentDialog();
+            }
+        });
+    </script>
