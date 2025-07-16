@@ -3,7 +3,7 @@ title: Panduan Meta Tag SEO Blogger Terbaru
 description: Panduan lengkap meta tag SEO Blogger terbaru 2025. Pelajari cara setting meta tag, optimasi on-page, dan riset keyword untuk meningkatkan peringkat blog Anda di Google. Cocok untuk pemula
 date: 2025-07-14T21:14:15+08:00 
 #2023年12月27日21:14:15
-lastmod: 2025-07-14T21:14:15+08:00 
+lastmod: 2025-07-16T21:14:15+08:00 
 comments: true
 keywords: 
 - meta tag seo blogger
@@ -151,6 +151,7 @@ Dengan menggunakan meta robots tag secara strategis, Anda memastikan bahwa Googl
 Teori sudah kita kuasai, sekarang saatnya praktik. Bagian ini adalah inti dari panduan ini, di mana kita akan menerapkan semua pengetahuan tadi langsung ke dalam platform Blogger. Ada dua jalur yang bisa Anda ambil: metode dasbor yang ramah pemula, dan metode edit HTML untuk kontrol penuh.
 
 **Tabel Referensi Cepat Meta Tag Esensial untuk Blogger**
+![cara setting meta tag seo blogger](images/settings.webp)
 
 | Tag                  | Fungsi Utama                                     | Metode Implementasi di Blogger                                                    |
 | :------------------- | :----------------------------------------------- | :--------------------------------------------------------------------------------- |
@@ -188,7 +189,7 @@ Sekarang, setiap kali Anda membuat atau mengedit postingan, Anda akan memiliki o
 Metode dasbor ini menjembatani kesenjangan bagi pemula, memberikan kontrol dasar atas elemen SEO yang penting tanpa perlu pengetahuan teknis. Ini membangun kepercayaan diri sebelum melangkah ke tingkat selanjutnya.
 
 ### **Sub-bagian 4.2: Metode Edit HTML (Level Profesional)**
-
+![meta tag seo blogspot terbaru](images/html.webp)
 Untuk mendapatkan kontrol penuh dan menerapkan tag lanjutan seperti Open Graph atau title tag dinamis, kita harus masuk ke "ruang mesin" Blogger.
 
 > **Peringatan Penting:** Sebelum mengedit HTML, selalu buat cadangan template Anda! Caranya: masuk ke **Tema** > klik ikon tiga titik di sebelah **SESUAIKAN** > pilih **Cadangkan**.
