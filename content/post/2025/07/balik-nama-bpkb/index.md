@@ -11,14 +11,14 @@ slug: /balik-nama-bpkb-motor/
 draft: false 
 image: "images/baliknama.webp"
 categories:
-- 
+- tutorial
 tags:
 - bpkb
 - samsat
 ---
 Pemerintahan Sumatera Barat lagi ngadain *event* pemutihan pajak kendaraan bermotor lagi nih. Gak mau ketinggalan, saya punya motor Supra X 125 yang udah mati pajak lebih dari 10 tahun, bayangin. Tapi, pas mau bayar pajak eh ternyata BPKB motor masih belum balik nama ke nama Saya. Yap, dulu tepatnya 2014 ayah membeli motor ini di dealer resmi, dengan kondisi *second*. 
 
-Alhasil, saya harus mengganti atau balik nama bpk motor supra ini terlebih dahulu, 
+Alhasil, saya harus mengganti atau *[balik nama bpk motor](/balik-nama-bpkb-motor/)* supra ini terlebih dahulu, 
 
 >Dan kalian tau? Balik nama BPKB ternyata gak bisa lansung di daerah, dan harus ke pusat kota. Ya, hari ini saya sedang di padang mengurus pengalihan nama ini.
 
