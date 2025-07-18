@@ -1,9 +1,9 @@
 ---
 title: Pengalaman Balik Nama BPKB Motor di Samsat Padang
 description: 
-date: 2025-07-18T21:14:15+08:00 
+date: 2025-07-17T21:14:15+08:00 
 #2023年12月27日21:14:15
-lastmod: 2025-07-18T21:14:15+08:00 
+lastmod: 2025-07-17T21:14:15+08:00 
 comments: true
 keywords: 
 license: 
