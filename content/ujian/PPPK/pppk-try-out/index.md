@@ -34,7 +34,7 @@ difficulty: "Sulit"
 
 {{< ujian/PPPK/pppk-tryout-25 >}}
 
-Persaingan untuk menjadi Aparatur Sipil Negara (ASN) di tahun 2025 semakin ketat. Ribuan talenta terbaik bangsa bersiap untuk mengikuti salah satu jalur rekrutmen paling diminati: **seleksi PPPK 2025**. Menjadi Pegawai Pemerintah dengan Perjanjian Kerja bukan lagi sekadar impian, melainkan sebuah tujuan karir yang menjanjikan stabilitas dan kesempatan untuk mengabdi pada negeri.
+Persaingan untuk menjadi Aparatur Sipil Negara (ASN) di tahun 2025 semakin ketat. Ribuan talenta terbaik bangsa bersiap untuk mengikuti salah satu jalur rekrutmen paling diminati: **[seleksi PPPK 2025](/ujian/pppk/pppk-try-out/)**. Menjadi Pegawai Pemerintah dengan Perjanjian Kerja bukan lagi sekadar impian, melainkan sebuah tujuan karir yang menjanjikan stabilitas dan kesempatan untuk mengabdi pada negeri.
 
 Namun, jalan menuju kelulusan tidaklah mudah. Diperlukan persiapan yang matang, pemahaman mendalam terhadap setiap tahapan seleksi, dan strategi yang cerdas untuk menaklukkan soal-soal ujian.
 

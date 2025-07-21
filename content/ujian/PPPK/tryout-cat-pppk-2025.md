@@ -101,7 +101,7 @@ Jangan terkecoh dengan namanya. Ini bukanlah wawancara tatap muka. Anda akan men
 
 Setelah memahami semua materi di atas, langkah paling logis berikutnya adalah praktik. Teori tanpa eksekusi tidak akan membawa Anda ke mana-mana. Anda perlu menguji semua pengetahuan Anda dalam sebuah arena yang sesungguhnya.
 
->Kabar baiknya, Anda tidak perlu lagi mencari-cari **[website tryout PPPK terpercaya](/link-tryout-ppg-gratis/)**. Kami telah menyediakan platform **Tryout PPPK Online Gratis CAT 2025** yang bisa Anda akses sekarang juga, dan kamu bisa lansung mengikuti ribuan simulasi pppk 2025, contoh pembahasan soal, dan mendownload pdf prediksi soal yang akan datang.
+>Kabar baiknya, Anda tidak perlu lagi mencari-cari **[website tryout PPPK terpercaya](/link-tryout-ppg-gratis/)**. Kami telah menyediakan platform **[Tryout PPPK Online Gratis CAT 2025](/ujian/pppk/pppk-try-out/)** yang bisa Anda akses sekarang juga, dan kamu bisa lansung mengikuti ribuan simulasi pppk 2025, contoh pembahasan soal, dan mendownload pdf prediksi soal yang akan datang.
 
 Platform kami dirancang khusus untuk memberikan pengalaman semirip mungkin dengan CAT BKN:
 * **Struktur Soal Terbaru:** Jumlah soal persis seperti yang dijelaskan di atas (Teknis 90, Manajerial 25, Soskul 20, Wawancara 10).
