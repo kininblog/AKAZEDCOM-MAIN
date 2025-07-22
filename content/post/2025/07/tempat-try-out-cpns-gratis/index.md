@@ -12,6 +12,7 @@ draft: false
 image: "images/tryout-gratis.webp"
 categories:
 - tryout
+- pendidikan
 tags:
 - tryout cpns
 - link try out
