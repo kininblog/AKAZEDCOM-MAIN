@@ -3,7 +3,7 @@ title: Pengalaman Balik Nama BPKB Motor di Samsat Padang
 description: Proses balik nama bpkb motor di samsat padang, syarat dan biaya nya. Balik nama motor supra x saat event pemutihan
 date: 2025-07-17T21:14:15+08:00 
 #2023年12月27日21:14:15
-lastmod: 2025-07-17T21:14:15+08:00 
+lastmod: 2025-07-25T21:14:15+08:00 
 comments: true
 keywords: 
 license: 
@@ -42,6 +42,15 @@ Beberapa hal yang saya bawa sebagai amunisi ke sini antara lain
 4. Baru datang keruangan BPKB untuk memasukkan permohonan, dan bayar uang biaya BPKB Rp. 225.000 untuk kendaraan roda dua, dan Rp. 300.000 untuk kendaraan roda empat. 
 5. Setelah dilakukan validasi, kamu akan dikasih tanda kapan harus mengambil BPKB yang baru.
 
+![proses balik nama bpkb sumbar](images/bpkb.webp)
+## Proses Mengamblil BPKB Baru
+Akhirnya, sekarang tanggal 25 juli, sesuai yang tertulis di surat pengambilan, saya kembali ke Samsat Padang untuk mengambil BPKB baru yang sudah dicetak.
+
+Pukul 11:00 WIB orang rame banget, dan karena bertepatan hari jumat, saya menyerahkan surat penjemputan, dan nanti setelah jum'atan kembali.
+
+Ga butuh waktu lama, sekitar pukul 13:40 WIB kantor nya udah kembali buka, dan saya jadi orang pertama mengambil BPKB ini.
+
+>Ga ada biaya lagi yah. Karena sebelumnya kita sudah bayar biaya balik nama, jadi jangan sampai kalian dimintai biaya di bagian ini.
 
 ## Penutup dan Saran
 Yap, ini hari pertama, dan di sini tertulis BPKB baru saya bisa diambil tanggal 25 juli mendatang. Mari kita tunggu saja.
