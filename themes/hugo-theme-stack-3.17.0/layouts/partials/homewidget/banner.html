@@ -1,0 +1,332 @@
+    <style>
+        /* --- Slider Container Styling --- */
+        .slider-container {
+            width: 100%;
+            height: 450px;
+            position: relative;
+            overflow: hidden;
+            background-color: #e0e0e0;
+        }
+
+        .slides {
+            display: flex;
+            width: 200%;
+            height: 100%;
+            transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .slide {
+            width: 50%;
+            height: 100%;
+            flex-shrink: 0;
+        }
+
+        /* --- Hero Section Styling (Shared) --- */
+        .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 2rem;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* --- Slide 1: HUT RI Styling --- */
+        .slide-hut-ri {
+            background: linear-gradient(135deg, #D71921 0%, #B20000 70%, #9A0000 100%);
+        }
+
+        .slide-hut-ri::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.03) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.03) 50%, rgba(255, 255, 255, 0.03) 75%, transparent 75%, transparent);
+            background-size: 60px 60px;
+            opacity: 0.5;
+            z-index: 1;
+        }
+        
+        /* --- Slide 2: Tryout Online Styling --- */
+        .slide-tryout {
+            background: linear-gradient(135deg, #FF8C00 0%, #FF6B00 70%, #E65100 100%);
+        }
+
+        .slide-tryout .hero-content {
+            flex-direction: row;
+            text-align: left;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .slide-tryout .hero-text-content {
+            flex: 1;
+        }
+        
+        /* --- Kotak Pilihan Ujian --- */
+        .exam-types-container {
+            flex: 1;
+            max-width: 450px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .exam-box {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 1.25rem 1rem;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+        }
+
+        .exam-box:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        /* --- Content Container Styling --- */
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1100px;
+            width: 100%;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: transparent;
+            backdrop-filter: none;
+            border: none;
+            box-shadow: none;
+        }
+        
+        /* --- Element Styling --- */
+        .hero-logo {
+            width: 90px;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        .hero-title {
+            font-size: 2.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+            text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.4);
+            margin-bottom: 0.5rem;
+        }
+        
+        .slide-tryout .hero-title {
+             font-size: 2.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .hero-description {
+            font-size: 0.95rem;
+            max-width: 550px;
+            margin: 0 auto 1.5rem auto;
+            opacity: 0.95;
+            transition: display 0.3s ease;
+        }
+        
+        .slide-tryout .hero-description {
+            margin: 0 0 1.5rem 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cta-button.red {
+            background-color: #ffffff;
+            color: #D71921;
+        }
+        .cta-button.red:hover {
+            background-color: #f1f1f1;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .cta-button.orange {
+            background-color: #ffffff;
+            color: #E65100;
+        }
+        .cta-button.orange:hover {
+            background-color: #f1f1f1;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* --- Slider Navigation Dots --- */
+        .slider-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: white;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 900px) {
+            .slide-tryout .hero-content {
+                gap: 2rem;
+            }
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            .exam-box {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slider-container {
+                height: 420px;
+            }
+            .hero-content {
+                padding: 1.5rem;
+            }
+            .slide-tryout .hero-content {
+                gap: 1.5rem;
+            }
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            .hero-description {
+                font-size: 0.85rem;
+                margin-bottom: 1rem;
+            }
+            .cta-button {
+                padding: 10px 22px;
+                font-size: 0.85rem;
+            }
+            .exam-box {
+                min-height: 85px;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .slider-container {
+                height: 480px;
+            }
+            .slide-tryout .hero-content {
+                gap: 1rem;
+                padding: 1.5rem 1rem;
+            }
+            .slide-tryout .hero-text-content {
+                flex: 1.2;
+            }
+            .exam-types-container {
+                flex: 1;
+                grid-template-columns: 1fr; /* Kotak ujian menjadi 1 kolom */
+                gap: 0.5rem;
+            }
+            .exam-box {
+                min-height: 60px;
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            .hero-title {
+                font-size: 1.5rem;
+            }
+            .hero-subtitle {
+                font-size: 0.9rem;
+            }
+            .slide-tryout .hero-description {
+                display: none; /* Sembunyikan deskripsi di layar sangat kecil */
+            }
+        }
+    </style>
+    <div class="slider-container">
+        <div class="slides">
+            <!-- Slide 1: HUT RI ke-80 -->
+            <section class="slide hero-section slide-hut-ri">
+                <div class="hero-content">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgn6rsLas4jurzKWN6Mmu_l8p0uNQATrLuItH1-a82pjFaXerYdEoMi2VqxhB-5C-X9MK72yAJoKVsir4URZoboKr-5JHssga9aooPW_Y-XEZe_J8WnoF8EhJdPw4zrHgecZDAbjgdJitc_3k7DYksc0jhjmjfj3cY8sc8yyXkRp9YHDBFGxeZMkb0Evwc/s1920/HUTRI80_FA_Main%20Logo_Red.png" alt="Logo Resmi HUT RI ke-80" class="hero-logo" onerror="this.style.display='none'">
+                    <h1 class="hero-title">Indonesia Emas 2045</h1>
+                    <h2 class="hero-subtitle">Nusantara Baru, Indonesia Maju</h2>
+                    <p class="hero-description">Merayakan delapan dekade kemerdekaan dengan semangat kolaborasi, inovasi, dan persatuan.</p>
+                    <a href="/" class="cta-button red">Jelajahi Tentang Indonesia</a>
+                </div>
+            </section>
+
+            <!-- Slide 2: Tryout Online dengan Pilihan Ujian -->
+            <section class="slide hero-section slide-tryout">
+                <div class="hero-content">
+                    <div class="hero-text-content">
+                        <h1 class="hero-title">Siap Hadapi Ujian?</h1>
+                        <h2 class="hero-subtitle">Platform Tryout Terlengkap</h2>
+                        <p class="hero-description">Uji kemampuanmu dengan ribuan soal berkualitas dan pembahasan lengkap. Pilih jenis ujianmu dan raih skor tertinggi!</p>
+                        <a href="https://akazed.com/ujian/" target="_blank" class="cta-button orange">Lihat Semua Ujian</a>
+                    </div>
+                    <div class="exam-types-container">
+                        <a href="/categories/tryout-cpns/" class="exam-box">
+                            <span>CPNS</span>
+                        </a>
+                        <a href="/categories/tryout-ppg/" class="exam-box">
+                            <span>Tryout PPG</span>
+                        </a>
+                        <a href="/categories/tryout-pppk/" class="exam-box">
+                            <span>PPPK</span>
+                        </a>
+                        <a href="/ujian/" class="exam-box">
+                            <span>BUMN</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="slider-dots">
+            <!-- Dots akan digenerate oleh JavaScript -->
+        </div>
+    </div>
