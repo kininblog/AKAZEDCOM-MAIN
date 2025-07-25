@@ -292,7 +292,7 @@
             <section class="slide hero-section slide-hut-ri">
                 <div class="hero-content">
                     <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgn6rsLas4jurzKWN6Mmu_l8p0uNQATrLuItH1-a82pjFaXerYdEoMi2VqxhB-5C-X9MK72yAJoKVsir4URZoboKr-5JHssga9aooPW_Y-XEZe_J8WnoF8EhJdPw4zrHgecZDAbjgdJitc_3k7DYksc0jhjmjfj3cY8sc8yyXkRp9YHDBFGxeZMkb0Evwc/s1920/HUTRI80_FA_Main%20Logo_Red.png" alt="Logo Resmi HUT RI ke-80" class="hero-logo" onerror="this.style.display='none'">
-                    <h1 class="hero-title">Indonesia Emas 2045</h1>
+                    <h2 class="hero-title">Indonesia Emas 2045</h2>
                     <h2 class="hero-subtitle">Nusantara Baru, Indonesia Maju</h2>
                     <p class="hero-description">Merayakan delapan dekade kemerdekaan dengan semangat kolaborasi, inovasi, dan persatuan.</p>
                     <a href="/" class="cta-button red">Jelajahi Tentang Indonesia</a>
@@ -303,7 +303,7 @@
             <section class="slide hero-section slide-tryout">
                 <div class="hero-content">
                     <div class="hero-text-content">
-                        <h1 class="hero-title">Siap Hadapi Ujian?</h1>
+                        <h2 class="hero-title">Siap Hadapi Ujian?</h2>
                         <h2 class="hero-subtitle">Platform Tryout Terlengkap</h2>
                         <p class="hero-description">Uji kemampuanmu dengan ribuan soal berkualitas dan pembahasan lengkap. Pilih jenis ujianmu dan raih skor tertinggi!</p>
                         <a href="https://akazed.com/ujian/" target="_blank" class="cta-button orange">Lihat Semua Ujian</a>
@@ -330,3 +330,51 @@
             <!-- Dots akan digenerate oleh JavaScript -->
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelector('.slides');
+            const slideCount = document.querySelectorAll('.slide').length;
+            const dotsContainer = document.querySelector('.slider-dots');
+            let currentSlide = 0;
+            let autoSlideInterval;
+
+            // Buat dots navigasi
+            for (let i = 0; i < slideCount; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    goToSlide(i);
+                    resetAutoSlide();
+                });
+                dotsContainer.appendChild(dot);
+            }
+
+            const dots = document.querySelectorAll('.dot');
+
+            function goToSlide(slideIndex) {
+                if (slideIndex >= slideCount) slideIndex = 0;
+                if (slideIndex < 0) slideIndex = slideCount - 1;
+                slides.style.transform = `translateX(-${slideIndex * (100 / slideCount)}%)`;
+                dots.forEach(dot => dot.classList.remove('active'));
+                dots[slideIndex].classList.add('active');
+                currentSlide = slideIndex;
+            }
+
+            function nextSlide() {
+                goToSlide(currentSlide + 1);
+            }
+            
+            function startAutoSlide() {
+                autoSlideInterval = setInterval(nextSlide, 5000);
+            }
+
+            function resetAutoSlide() {
+                clearInterval(autoSlideInterval);
+                startAutoSlide();
+            }
+
+            startAutoSlide();
+        });
+    </script>
