@@ -1,35 +1,72 @@
-{{- $ThemeVersion := "3.17.0" -}}
-<footer class="site-footer">
-    <!-- #TODO 参考https://github.com/journey-ad/Moe-Counter使用并放在下面 -->
 
-    {{$scratch := newScratch}}
-{{ range (where .Site.Pages "Kind" "page" )}}
-    {{$scratch.Add "total" .WordCount}}
-{{ end }}
+<footer class="site-footer-container">
+    <div class="gradient-line"></div>
+    <!-- BAGIAN ATAS FOOTER -->
+    <div class="footer-top">
+        <div class="footer-top-grid">
+            <!-- Kolom 1: Ikuti Try Out -->
+            <div class="footer-column">
+                <h3>Ikuti Try Out</h3>
+                <ul>
+                    <li><a href="/">Try Out PPG</a></li>
+                    <li><a href="/">Try Out PPPK</a></li>
+                    <li><a href="/">Try Out CPNS</a></li>
+                    <li><a href="/">Try Out BUMN</a></li>
+                </ul>
+            </div>
 
-    <section class="copyright">
-        &copy; 
-        {{ if and (.Site.Params.footer.since) (ne .Site.Params.footer.since (int (now.Format "2006"))) }}
-            {{ .Site.Params.footer.since }} - 
-        {{ end }}
-        <!-- #TODO 修改 -->
-        {{ now.Format "2006" }} <a href="/">AKAZED.COM</a> <!--<i class="fas fa-bell"></i> <a id="days">0</a>天--><br>
-        <!-- {{$var :=  $scratch.Get "total"}}{{$var = div $var 100.0}}{{$var = math.Ceil $var}}{{$var = div $var 10.0}}共手书{{$var}}k字·共 {{ len (where .Site.RegularPages "Section" "post") }}篇文章</br><span><p> -->
+            <!-- Kolom 2: Kategori -->
+            <div class="footer-column">
+                <h3>Kategori</h3>
+                <ul>
+                    <li><a href="/categories/pendidikan/">Pendidikan</a></li>
+                    <li><a href="/categories/news/">Berita</a></li>
+                    <li><a href="/categories/blogger/">Blogger</a></li>
+                    <li><a href="/categories/tech/">Tech News</a></li>
+                    <li><a href="#">Games</a></li>
+                    <li><a href="#">Finance</a></li>
+                    <li><a href="/categories/tutorial/">Tutorial</a></li>
+                </ul>
+            </div>
 
-    </section>
-    
-    <section class="powerby">
-      <p>Sawahan Timur, Padang Timur, Padang Sumatera Barat<br/>
-      Contact nandafransiska.mail@gmail.com or WhatsApp +6281374107656</p>
-    </section>
+            <!-- Kolom 3: LearnDash Plugins -->
+            <div class="footer-column">
+                <h3>Blogger Tips</h3>
+                <ul>
+                    <li><a href="#">SEO</a></li>
+                    <li><a href="#">Backlink</a></li>
+                </ul>
+            </div>
 
-    <script>
-        // #TODO 下面修改建站时间
-        var s1 = '2018-04-15';//设置为建站时间
-        s1 = new Date(s1.replace(/-/g, "/"));
-        s2 = new Date();
-        var days = s2.getTime() - s1.getTime();
-        var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
-        document.getElementById('days').innerHTML = number_of_days;
-        </script>
+            <!-- Kolom 4: Contact Us -->
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <p class="contact-info"><a href="mailto:nandafransiska.mail@gmail.com">nandafransiska.mail@gmail.com</a></p>
+                <p class="contact-info"><a href="tel:081374107656">0813 7410 7656</a></p>
+                <div class="social-icons">
+                    <a href="https://www.linkedin.com/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                    <a href="https://www.youtube.com/" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BAGIAN BAWAH FOOTER -->
+    <div class="footer-bottom">
+        <div class="footer-bottom-grid">
+            <p>Copyright © {{ now.Format "2006" }} Akazed.com Edu & Tech. All Rights Reserved. | Phone number 6281374107656</p>
+            <p>Sawahan Timur, Padang Timur, Padang Sumatera Barat, Indonesia</p>
+            <p>Akazed adalah situs berita pendidikan dan teknologi serta platform ujian try out online gratis untuk semua orang. Ini merupakan proyek pribadi.</p>
+            <div class="policy-links">
+                <a href="/about/">About Me</a> |
+                <a href="/policy/">Privacy Policy</a> |
+                <a href="/disclaimer/">Cookie Policy</a> |
+                <a href="/terms/">Terms and Condition</a>
+            </div>
+        </div>
+    </div>
 </footer>

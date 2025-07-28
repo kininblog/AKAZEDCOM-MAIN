@@ -1,0 +1,238 @@
+{{- /*
+=================================
+Partial: Tryout Widget
+layouts/partials/widgets/tryout.html (Contoh path)
+=================================
+Deskripsi:
+Widget ini menampilkan 4 postingan terbaru dari seksi "post" dengan satu
+postingan utama (featured) dan 3 postingan kecil di bawahnya.
+Kode telah diperbarui untuk bekerja di dalam konteks sidebar.
+
+Frontmatter yang Dibutuhkan di Postingan (content/post/....md):
+---
+title: "Tryout SKD CPNS 2024"
+date: 2025-07-09
+image: "/images/tryout-cpns.jpg"
+description: "Deskripsi singkat untuk tryout..."
+---
+*/ -}}
+
+{{- /* Menggunakan .Context.Site untuk mengambil data dari dalam widget */ -}}
+{{- $posts := first 4 (where .Context.Site.RegularPages "Section" "post") -}}
+
+<div class="tryout-widget">
+    <div class="tryout-header">
+        <span class="tryout-logo">Lates Post</span>
+        <span class="tryout-date">{{ now.Format "02 Januari 2006" }}</span>
+    </div>
+
+    {{- if gt (len $posts) 0 -}}
+        {{- $first := index $posts 0 -}}
+
+        {{- /* Logika untuk menemukan dan memproses gambar utama */ -}}
+        {{- $imageUrl := "" -}}
+        {{- with $first.Params.image -}}
+            {{- $imageResource := "" -}}
+            {{- if ($first.Resources.GetMatch .) -}}
+                {{- $imageResource = $first.Resources.GetMatch . -}}
+            {{- else -}}
+                {{- $imageResource = resources.Get . -}}
+            {{- end -}}
+            
+            {{- if $imageResource -}}
+                {{- $processedImage := $imageResource.Resize "400x225" -}}
+                {{- $imageUrl = $processedImage.RelPermalink -}}
+            {{- else -}}
+                {{- $imageUrl = . | relURL -}}
+            {{- end -}}
+        {{- end -}}
+
+        <a href="{{ $first.RelPermalink }}" class="tryout-featured">
+            <div class="featured-thumb" style="background-image: url('{{ $imageUrl }}');"></div>
+            <div class="featured-content">
+                <h2 class="featured-title">{{ $first.Title }}</h2>
+                <p class="featured-desc">{{ $first.Params.description | truncate 110 }}</p>
+            </div>
+        </a>
+
+        <div class="tryout-list">
+            {{- range after 1 $posts -}}
+                {{- /* PERBAIKAN: Logika baru yang lebih kuat untuk menemukan gambar di dalam loop */ -}}
+                {{- $post := . -}}
+                {{- $smallImageUrl := "" -}}
+                {{- with $post.Params.image -}}
+                    {{- $imagePath := . -}}
+                    {{- $smallImageResource := "" -}}
+                    
+                    {{- /* Gunakan variabel $post untuk mengakses Resources, bukan konteks string '.' */ -}}
+                    {{- if ($post.Resources.GetMatch $imagePath) -}}
+                         {{- $smallImageResource = $post.Resources.GetMatch $imagePath -}}
+                    {{- else -}}
+                         {{- $smallImageResource = resources.Get $imagePath -}}
+                    {{- end -}}
+
+                    {{- if $smallImageResource -}}
+                        {{- $smallProcessed := $smallImageResource.Resize "100x100" -}}
+                        {{- $smallImageUrl = $smallProcessed.RelPermalink -}}
+                    {{- else -}}
+                        {{- $smallImageUrl = $imagePath | relURL -}}
+                    {{- end -}}
+                {{- end -}}
+
+                <a href="{{ $post.RelPermalink }}" class="tryout-small-card">
+                    <div class="small-thumb" style="background-image: url('{{ $smallImageUrl }}');"></div>
+                    <div class="small-info">
+                        <div class="small-title">{{ $post.Title }}</div>
+                        <div class="small-desc">{{ $post.Params.description | truncate 60 }}</div>
+                    </div>
+                </a>
+            {{- end -}}
+        </div>
+    {{- else -}}
+        <p>Tidak ada tryout terbaru.</p>
+    {{- end -}}
+</div>
+
+<style>
+.tryout-widget {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.tryout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 10px;
+  margin-bottom: 18px;
+}
+
+.tryout-logo {
+  font-weight: 700;
+  font-size: 18px;
+  color: #1d4ed8;
+}
+
+.tryout-date {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Featured (posting pertama) */
+.tryout-featured {
+  display: flex;
+  flex-direction: column;
+  background: #f3f4f6;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.tryout-featured:hover {
+  transform: scale(1.01);
+}
+
+.featured-thumb {
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+}
+
+.featured-content {
+  padding: 16px;
+}
+
+.featured-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.featured-desc {
+  font-size: 14px;
+  color: #4b5563;
+  margin: 0;
+}
+
+/* Daftar kecil (post 2–4) */
+.tryout-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tryout-small-card {
+  display: flex;
+  align-items: center;
+  background: #f9fafb;
+  border-radius: 10px;
+  text-decoration: none;
+  overflow: hidden;
+  transition: background 0.2s ease;
+}
+
+.tryout-small-card:hover {
+  background: #eef2ff;
+}
+
+.small-thumb {
+  width: 64px;
+  height: 64px;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+  border-radius: 10px 0 0 10px;
+}
+
+.small-info {
+  padding: 10px 14px;
+}
+
+.small-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.small-desc {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Responsif */
+@media (max-width: 500px) {
+  .featured-thumb {
+    height: 140px;
+  }
+
+  .tryout-widget {
+    padding: 16px;
+  }
+
+  .featured-title {
+    font-size: 16px;
+  }
+
+  .featured-desc {
+    font-size: 13px;
+  }
+
+  .small-title {
+    font-size: 13px;
+  }
+
+  .small-desc {
+    font-size: 11px;
+  }
+}
+</style>

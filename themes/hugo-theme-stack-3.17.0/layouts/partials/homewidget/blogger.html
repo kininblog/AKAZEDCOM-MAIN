@@ -44,7 +44,7 @@ categories: ["blogger", "opini"]
                     <span>· {{ .Date.Format "2 Jan 2006" }}</span>
                 </div>
                 <a href="{{ .Permalink }}" class="news-item__title">{{ .Title }}</a>
-                <p class="news-item__snippet">{{ .Summary | plainify | truncate 120 }}</p>
+<p class="news-item__snippet">{{ .Description | plainify | truncate 300 }}</p>
             </div>
             <div class="news-item__image-container">
                 <a href="{{ .Permalink }}">

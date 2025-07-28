@@ -149,6 +149,7 @@ params:
         homepage:
             - type: search
             - type: latest-tryout
+            - type: latest-post
             #  params:
             #      limit: 10
 

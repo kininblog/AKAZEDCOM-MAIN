@@ -1,30 +1,166 @@
-footer.site-footer {
-    padding: 20px 0 var(--section-separation) 0;
-    font-size: 1.4rem;
-    line-height: 1.75;
 
-    &:before {
-        content: "";
+    /* --- Reset dan Gaya Dasar --- */
+    .site-footer-container * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* --- Kontainer Utama Footer --- */
+    .site-footer-container {
+        color: #333;
+        line-height: 1.6;
+    }
+
+    /* --- Garis Gradien di Atas Footer --- */
+    .site-footer-container .gradient-line {
         display: block;
-        height: 3px;
-        width: 50px;
-        background: var(--body-text-color);
+        height: 4px; /* Atur tinggi garis gradien */
+        background: linear-gradient(to right, #e87a24, #f8c04e); 
+        width: 100%;
+    }
+
+    /* --- Bagian Atas Footer (Ungu) --- */
+    .site-footer-container .footer-top {
+        background-color: #2c1e4a;
+        color: #ffffff;
+        padding: 60px 40px;
+    }
+
+    .site-footer-container .footer-top-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        /* Mengubah dari 4 kolom menjadi 2 kolom */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+    }
+
+    /* --- Kolom di Bagian Atas --- */
+    .site-footer-container .footer-column h3 {
+        font-size: 18px;
+        font-weight: 700;
         margin-bottom: 20px;
+        color: #ffffff;
     }
 
-    .copyright {
-        color: var(--accent-color);
-        font-weight: bold;
-        margin-bottom: 5px;
+    .site-footer-container .footer-column ul {
+        list-style: none;
+        padding-left: 0;
     }
 
-    .powerby {
-        color: var(--body-text-color);
-        font-weight: normal;
-        font-size: 1.2rem;
+    .site-footer-container .footer-column ul li {
+        margin-bottom: 12px;
+    }
 
-        a {
-            color: var(--body-text-color);
+    .site-footer-container .footer-column a,
+    .site-footer-container .footer-column p {
+        color: #e0e0e0;
+        text-decoration: none;
+        font-size: 16px;
+        transition: color 0.3s ease;
+    }
+
+    .site-footer-container .footer-column a:hover {
+        color: #ffffff;
+        text-decoration: underline;
+    }
+
+    .site-footer-container .footer-column .contact-info {
+        margin-bottom: 15px;
+    }
+
+    /* --- Ikon Media Sosial --- */
+    .site-footer-container .social-icons {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .site-footer-container .social-icons a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background-color: #ffffff;
+        border-radius: 5px;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .site-footer-container .social-icons a:hover {
+        transform: scale(1.1);
+        opacity: 0.9;
+    }
+
+    .site-footer-container .social-icons svg {
+        width: 22px;
+        height: 22px;
+        fill: #2c1e4a;
+    }
+
+    /* --- Bagian Bawah Footer (Abu-abu) --- */
+    .site-footer-container .footer-bottom {
+        background-color: #f0f2f5;
+        color: #555555;
+        padding: 30px 40px;
+        font-size: 14px;
+    }
+
+    .site-footer-container .footer-bottom-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .site-footer-container .footer-bottom p {
+        margin-bottom: 10px;
+    }
+
+    .site-footer-container .footer-bottom a {
+        color: #333333;
+        text-decoration: underline;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+
+    .site-footer-container .footer-bottom a:hover {
+        color: #000000;
+    }
+
+    .site-footer-container .policy-links {
+        margin-top: 15px;
+    }
+
+    .site-footer-container .policy-links a {
+        margin-right: 15px;
+    }
+    .site-footer-container .policy-links a:last-child {
+        margin-right: 0;
+    }
+
+
+    /* --- Aturan Responsif --- */
+    /* Untuk layar yang lebih kecil dari 768px, ubah menjadi 1 kolom */
+    @media (max-width: 768px) {
+        .site-footer-container .footer-top {
+            padding: 40px 20px;
+        }
+        .site-footer-container .footer-bottom {
+            padding: 25px 20px;
+            text-align: center;
+        }
+        .site-footer-container .footer-top-grid {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+        .site-footer-container .social-icons {
+            justify-content: center;
+        }
+        .site-footer-container .policy-links {
+            text-align: center;
+        }
+        .site-footer-container .policy-links a {
+            margin: 0 10px;
         }
     }
-}
