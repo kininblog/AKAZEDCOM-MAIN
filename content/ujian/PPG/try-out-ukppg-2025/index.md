@@ -34,7 +34,7 @@ difficulty: "Sulit"
 
 Gak terasa jadwal ujian UKPPG guru tertentu periode 2 tahun 2025 sudah terbit, tepatnya tanggal 3 agustus 2025 mendatang. Gimana, udah mulai terasa deg degan? Biar lebih tenang saat ujian tentu kamu harus persiapin diri semaksimal mungkin. salah satunya dengan ikut try out ukppg 2025 ini
 
-*[Akazed](/)* memberikan akses 30 Soal Try Out UKPPPG 2025 dan Kunci Jawaban Uji Kompetensi Peserta PPG 2025 sebagai Bahan Latihan yang dapat dibuka secara gratis. selain itu, sudah ada kunci jawaban dan pembahasan soal.
+*[Akazed](/)* memberikan akses 30 Soal *[Try Out UKPPPG 2025](/ujian/ppg/try-out-ukppg-2025/)* dan Kunci Jawaban Uji Kompetensi Peserta PPG 2025 sebagai Bahan Latihan yang dapat dibuka secara gratis. selain itu, sudah ada kunci jawaban dan pembahasan soal.
 
 Sistem *[try out online](/ujian/)* inipun disesuaikan seperti sistem CAT BKN dari segi tampilan, biar lebih terbiasa dengan dashboard ujian nantinya.
 
@@ -45,4 +45,4 @@ Mau ikut joint ujian PPPG 2025 ini? Caranya mudah kok
 3. Setelah selesai mengerjakan soal klik **selesaikan ujian** nanti skor akan keluar, beserta pembahasan soalnya untuk dipelajari lebih lanjut
 4. Ikuti ujian lainnya, klik ***[daftar try out ppg gratis](/categories/tryout-ppg/)***
 
-
+Pengen latihan soal lebih banyak, ikuti juga *[try out up ppg](/ujian/ppg/soal-up-ppg-pgsd-terbaru/)* dan mulai kerjakan soal-soal menantang lainnya.
