@@ -1,0 +1,798 @@
+    <!-- SELURUH KONTEN HTML ANDA DARI SINI -->
+    <div id="login-container">
+        <div class="login-box">
+            <h2>Login Peserta Ujian</h2>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan username Anda">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password">
+            </div>
+            <button id="login-btn">Masuk</button>
+            <p id="login-error">Password salah. Coba lagi.</p>
+            <a href="/ujian/cara-ikut-tryout-online-gratis" style="text-decoration: none;">
+                <button id="cara-btn" type="button">Cara Ikut Try Out</button>
+            </a>
+        </div>
+    </div>
+
+    <header class="header" style="display: none;">
+        <h2>Simulasi Ujian</h2>
+        <div class="user-info">
+            <span id="header-info"></span>
+            <button id="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <div class="quiz-container" style="display: none;">
+        <main class="question-panel">
+            <div class="question-header">
+                <span id="subtest-title">Subtes</span> | Soal No. <span id="question-number">1</span>
+            </div>
+            <div class="question-body">
+                <p id="question-text">Memuat soal...</p>
+                <ul id="options" class="options-list"></ul>
+            </div>
+            <div class="quiz-actions">
+                <button id="prev-btn" class="action-button">Sebelumnya</button>
+                <button id="doubtful-btn" class="action-button">Ragu-ragu</button>
+                <button id="next-btn" class="action-button">Selanjutnya</button>
+            </div>
+        </main>
+        <aside class="navigation-panel">
+            <div class="timer-box">
+                Sisa Waktu
+                <div id="timer">30:00</div>
+            </div>
+            <div id="grid-container" class="question-grid-container"></div>
+            <div class="quiz-actions" style="justify-content: center;">
+                <button id="finish-btn" class="action-button">Selesaikan Ujian</button>
+            </div>
+        </aside>
+    </div>
+
+    <div id="result-page" class="result-container" style="display: none;">
+        <div class="result-card overall-summary">
+            <div id="status-lulus" class="status"></div>
+            <h2>Hasil Akhir Ujian</h2>
+            <div id="final-score" class="score">0</div>
+            <div id="score-details" class="score-details"></div>
+            <div id="submission-status"></div>
+        </div>
+        <div class="result-card">
+            <h3>Tinjauan Jawaban</h3>
+            <div id="review-section"></div>
+        </div>
+        <div style="text-align: center;">
+           <button id="restart-btn" class="action-button">Ulangi Ujian</button>
+        </div>
+    </div>
+    
+    <div id="confirmation-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Selesaikan Ujian?</h2>
+            <p>Apakah Anda yakin ingin menyelesaikan dan mengakhiri sesi ujian ini?</p>
+            <div class="modal-actions">
+                <button id="confirm-no" class="action-button">Batal</button>
+                <button id="confirm-yes" class="action-button">Ya, Selesaikan</button>
+            </div>
+        </div>
+    </div>
+    <!-- HINGGA AKHIR KONTEN HTML ANDA -->
+
+<script>
+// ===================================================================================
+// --- KONFIGURASI UJIAN (HANYA UBAH BAGIAN INI UNTUK UJIAN BARU) ---
+// ===================================================================================
+const EXAM_CONFIG = {
+    // 1. Ganti nama kategori ini sesuai nama sheet di Google Sheets (cth: "TWK", "TKP")
+    kategori: "PPG",
+    
+    // 2. Ganti URL ini dengan URL Web App dari Google Script Anda yang sudah di-deploy ulang.
+    scriptURL: 'https://script.google.com/macros/s/AKfycbxNJ9pOsCPSPAPRQKfoq43AwmVMSIScq6AIa33Q0dxnMI-jb1xuxi1aK3bUBFDstinDiQ/exec',
+    
+    // 3. Ganti link peringkat ini ke halaman peringkat yang sesuai.
+    linkPeringkat: "/ujian/ranking-peserta-tryout/",
+    
+    // 4. Sesuaikan pengaturan ujian jika perlu.
+    durasiMenit: 35,
+    passingGrade: 65,
+    password: "ujian",
+    
+    // 5. Ganti seluruh isi bank soal di bawah ini dengan soal yang sesuai.
+    bankSoal: 
+    [
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Anda memiliki seorang peserta didik yang selalu berjuang dengan kepercayaan dirinya. Peserta didik ini sering merasa ragu dan takut untuk berbicara di depan kelas. sebagai seorang guru Bimbingan dan Konseling tentu Anda ingin membantu siswa ini. Namun Anda tidak memiliki jadwal tatap muka sebagaimana guru mapel lainnya. Dan ketika Anda mendapat kesempatan untuk membantu peserta didik tersebut, Anda juga diminta menjadi perwakilan sekolah pada Sosialisasi Pembentukan Tim Pencegahan dan Penanganan Kekerasan di tingkat kabupaten. Apa yang Anda lakukan untuk menjalankan dua tugas tersebut dengan optimal?",
+    "options": [
+      "mengikuti penugasan dari sekolah dan meminta guru lain untuk memberikan tugas tambahan presentasi agar siswa tersebut dapat meningkatkan diri.",
+      "meminta guru lain mewakili sekolah dan fokus memberi kesempatan presentasi sederhana pada siswa tersebut, diberi pujian, lalu pada sesi berikutnya makin kompleks.",
+      "menunaikan tugas sekolah sebagai TPPK dan menghubungi orang tua siswa dan memintanya untuk menangani masalah ini.",
+      "mendahulukan penugasan dari sekolah dan mengabaikan hal tersebut, karena itu wajar sebagai bagian dari perkembangan siswa tersebut.",
+      "menunaikan tugas dari sekolah dan menjadwalkan untuk mengadakan percakapan pribadi dengan siswa tersebut agar memahami penyebab masalah yang dihadapinya dan mencari jalan keluarnya."
+    ],
+    "answer": "menunaikan tugas dari sekolah dan menjadwalkan untuk mengadakan percakapan pribadi dengan siswa tersebut agar memahami penyebab masalah yang dihadapinya dan mencari jalan keluarnya.",
+    "explanation": "Pilihan ini menunjukkan profesionalisme dengan menyeimbangkan dua tanggung jawab penting. Guru memenuhi tugas institusional (mewakili sekolah) sambil tetap proaktif dan peduli terhadap kebutuhan individual siswa dengan menjadwalkan sesi konseling untuk mencari akar masalah dan solusi."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Sekolah Anda baru saja meluncurkan program kokurikuler baru yang bertujuan meningkatkan keterampilan literasi digital siswa. Namun, beberapa orang tua merasa program ini terlalu menuntut dan tidak sesuai dengan kurikulum utama. Yang akan Anda lakukan untuk mengatasi kekhawatiran orang tua dan memastikan program berjalan lancar adalah",
+    "options": [
+      "mengabaikan kekhawatiran orang tua dan tetap melaksanakan program sesuai rencana",
+      "mengurangi beban tugas dalam program untuk mengakomodasi keluhan orang tua",
+      "memberikan pilihan tugas dalam program untuk mengakomodasi keluhan orang tua",
+      "mengadakan pertemuan dengan orang tua untuk mendiskusikan dan mendapatkan masukan mereka",
+      "menghapus program tersebut agar tidak menimbulkan konflik lebih lanjut"
+    ],
+    "answer": "mengadakan pertemuan dengan orang tua untuk mendiskusikan dan mendapatkan masukan mereka",
+    "explanation": "Komunikasi dan kolaborasi adalah kunci. Mengadakan pertemuan menunjukkan bahwa sekolah menghargai masukan orang tua dan bersedia berdialog untuk mencari solusi terbaik, menjelaskan manfaat program, dan membangun kemitraan yang positif."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Anda merencanakan kegiatan kelompok dengan menggunakan teknologi komputer untuk mengerjakan proyek mata pelajaran Bahasa Indonesia. Namun, pada hari pelaksanaan, listrik di sekolah mati sehingga komputer sekolah tidak dapat digunakan. Respon Anda terkait hal ini adalah ...",
+    "options": [
+      "meniadakan pembelajaran bahasa Indonesia",
+      "menggunakan waktu tersebut untuk mengajarkan materi lain",
+      "membatalkan proyek dan memberikan tugas membaca secara berkelompok",
+      "mengubah peralatan penyelesaian proyek menjadi menggunakan alat tulis dan kertas",
+      "menunda proyek hingga listrik kembali menyala"
+    ],
+    "answer": "mengubah peralatan penyelesaian proyek menjadi menggunakan alat tulis dan kertas",
+    "explanation": "Jawaban ini menunjukkan fleksibilitas dan kemampuan adaptasi seorang guru. Meskipun alat utama (komputer) tidak tersedia, tujuan pembelajaran (mengerjakan proyek) tetap dapat dicapai dengan memodifikasi media atau alat yang digunakan."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Anda diundang sebagai peserta dalam sebuah saresehan yang diadakan oleh organisasi profesi guru. Saresehan tersebut membahas masalah rendahnya minat baca siswa di sekolah. Sebagai peserta, Anda diminta memberikan kontribusi untuk mengatasi masalah ini. Yang akan Anda lakukan untuk memberikan kontribusi yang efektif dalam seminar tersebut adalah",
+    "options": [
+      "menyampaikan pandangan tentang teori-teori yang bertentangan dengan yang disampaikan narasumber terkait peningkatan minat baca",
+      "menyampaikan hasil observasi Anda terkait strategi yang telah diterapkan teman- teman guru untuk meningkatkan minat baca",
+      "menyampaikan upaya meningkatkan minat baca berdasarkan kajian pustaka",
+      "menyampaikan pandangan tentang pembelajaran yang menurunkan minat baca yang dilakukan rekan guru",
+      "menyampaikan pengalaman pribadi terkait strategi yang telah Anda terapkan untuk meningkatkan minat baca"
+    ],
+    "answer": "menyampaikan pengalaman pribadi terkait strategi yang telah Anda terapkan untuk meningkatkan minat baca",
+    "explanation": "Berbagi pengalaman pribadi (best practice) adalah kontribusi yang paling konkret dan bermanfaat. Ini memberikan contoh nyata yang telah terbukti berhasil dan dapat menginspirasi guru lain untuk mencoba strategi serupa di kelas mereka."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Bu Mince adalah guru Bahasa Inggris. Bu Mince bekerja sama dengan guru Matematika dan IPA untuk merancang pembelajaran (intrakurikuler) berbasis proyek terpadu yang menggabungkan ketiga mata pelajaran. Proyek ini bertujuan untuk meningkatkan keterampilan analisis data dan pemahaman ilmiah siswa. Namun, Bu Mince khawatir bahwa fokus pada tujuan bersama ini akan membuat tujuan mata pelajaran Bahasa Inggris menjadi kurang jelas. Apabila Anda adalah Bu Mince, yang akan Anda lakukan adalah ...",
+    "options": [
+      "menyampaikan kekhawatirannya kepada rekan guru dan meminta mereka untuk menyesuaikan tujuan proyek agar lebih seimbang",
+      "mengusulkan proyek yang sepenuhnya terpisah dari tujuan bersama, agar tujuan Bahasa Inggris tetap jelas",
+      "berkolaborasi untuk merancang proyek yang mengintegrasikan keterampilan analisis data dengan penulisan laporan ilmiah dalam Bahasa Inggris",
+      "fokus pada tujuan bersama dan tidak terlalu memikirkan tujuan Bahasa Inggris, karena proyek ini bersifat terpadu",
+      "menyusun proyek dengan fokus utama pada keterampilan analisis data dan pemahaman ilmiah, aspek Bahasa Inggris sebagai tambahan"
+    ],
+    "answer": "berkolaborasi untuk merancang proyek yang mengintegrasikan keterampilan analisis data dengan penulisan laporan ilmiah dalam Bahasa Inggris",
+    "explanation": "Ini adalah solusi kolaboratif terbaik. Alih-alih memisahkan diri atau mengurangi peran mapelnya, Bu Mince secara proaktif mencari cara untuk mengintegrasikan tujuan Bahasa Inggris (misalnya, penulisan laporan ilmiah, presentasi) ke dalam kerangka proyek bersama, sehingga semua tujuan mapel tercapai secara sinergis."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Seorang guru ingin membantu siswa memahami pentingnya tanggung jawab dalam kehidupan mereka, baik dalam lingkungan sekolah maupun di luar sekolah. Guru ingin memastikan bahwa siswa tidak hanya memahami konsep ini secara teori, tetapi juga dapat merefleksikan dan menerapkannya dalam kehidupan sehari-hari. Apa yang sebaiknya dilakukan guru terkait hal tersebut?",
+    "options": [
+      "Menyelenggarakan proyek kelompok di mana setiap siswa memiliki peran dan tanggung jawab tertentu, lalu meminta mereka merefleksikan bagaimana mereka menjalankan tugas tersebut dan dampaknya terhadap kelompok",
+      "Meminta siswa membuat jurnal refleksi tentang situasi di mana mereka harus mengambil tanggung jawab, bagaimana mereka menghadapinya, serta apa yang bisa mereka lakukan untuk meningkatkan sikap tersebut",
+      "Mengulang kembali materi dengan ceramah tambahan dan ujian tanpa memberi kesempatan bagi siswa untuk merefleksikan bagaimana mereka menerapkan nilai tanggung jawab dalam kehidupan mereka.",
+      "Mengadakan diskusi terbuka di mana siswa berbagi pengalaman tentang kapan mereka merasa bertanggung jawab dalam kehidupan mereka serta bagaimana sikap tersebut mempengaruhi orang lain",
+      "Memberikan tugas membaca tentang tanggung jawab dan meminta siswa menjawab pertanyaan pemahaman tanpa menghubungkannya dengan pengalaman pribadi mereka"
+    ],
+    "answer": "Menyelenggarakan proyek kelompok di mana setiap siswa memiliki peran dan tanggung jawab tertentu, lalu meminta mereka merefleksikan bagaimana mereka menjalankan tugas tersebut dan dampaknya terhadap kelompok",
+    "explanation": "Pilihan ini paling komprehensif karena menggabungkan pengalaman langsung (learning by doing) melalui proyek kelompok dengan metakognisi (refleksi). Siswa tidak hanya bertindak, tetapi juga memikirkan tindakan mereka dan dampaknya, yang merupakan cara paling efektif untuk internalisasi nilai."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Bu Reni adalah guru Matematika kelas 8 yang sedang mengadakan permainan edukatif tentang berhitung. Siswa diminta untuk menghitung jumlah benda yang ditunjukkan dan menuliskan jawabannya. Saat permainan berlangsung, seorang siswa, Andi, dengan sengaja memberikan jawaban yang salah tetapi tetap bersikeras bahwa jawaban tersebut benar. Teman-temannya ragu namun tidak berani membantah karena Andi adalah siswa yang cukup dominan di kelas. Sebagai seorang guru yang ingin menanamkan nilai kejujuran, bagaimana sebaiknya Bu Reni menangani situasi ini?",
+    "options": [
+      "Mengajak Andi menghitung ulang bersama di depan kelas, menunjukkan cara mendapatkan jawaban yang benar, lalu menjelaskan kepada seluruh siswa bahwa kejujuran dalam belajar akan membantu memahami konsep.",
+      "Mengabaikan jawaban yang salah dan tetap melanjutkan permainan sesuai rencana tanpa mengoreksi Andi. Kemudian, meminta para siswa lain menunjukkan hasil yang benar tanpa menyalahkan Andi secara langsung.",
+      "Menggunakan kasus ini sebagai kesempatan untuk menyampaikan tentang pentingnya kejujuran dalam belajar, lalu meminta beberapa siswa lain untuk menghitung bersama- sama tanpa menyalahkan Andi secara langsung.",
+      "Menegur Andi dengan keras di depan kelas dan mengatakan bahwa ia telah berbohong kepada teman-temannya, lalu meminta siswa lain untuk menghitung ulang untuk menunjukkan kesalahan Andi agar dia paham.",
+      "Menegur Andi secara pribadi setelah permainan dan memberikan penjelasan bahwa mengatakan hal yang tidak benar dalam kerja atau permainan kelompok bisa mempengaruhi pola pemikiran teman-teman kelompoknya."
+    ],
+    "answer": "Mengajak Andi menghitung ulang bersama di depan kelas, menunjukkan cara mendapatkan jawaban yang benar, lalu menjelaskan kepada seluruh siswa bahwa kejujuran dalam belajar akan membantu memahami konsep.",
+    "explanation": "Tindakan ini bersifat edukatif dan tidak menghakimi. Dengan mengajak menghitung bersama, guru memvalidasi proses, bukan menyalahkan individu. Pesan tentang pentingnya kejujuran disampaikan secara positif dan relevan dengan konteks pembelajaran (memahami konsep), sehingga menjadi pelajaran berharga bagi seluruh kelas."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Anda adalah guru Seni Budaya. Untuk asesmen proyek akhir, siswa diminta membuat karya seni bertema \"Ekspresi Budaya Lokal\" . Ada kelompok yang terdiri dari Rani (siswa yang berasal dari suku yang sangat menjunjung tinggi tradisi tertentu dan ingin merepresentasikannya secara murni) dan Kevin (siswa yang gemar seni kontemporer dan ingin menginterpretasikan budaya lokal dengan sentuhan modern dan kadang cenderung provokatif). Saat perancangan proyek, terjadi perdebatan. Rani merasa karya Kevin tidak menghargai \"kesakralan\" atau \"kemurnian\" budaya mereka, sementara Kevin berpendapat bahwa seni adalah kebebasan berekspresi dan interpretasi adalah hal yang wajar. Sebagai guru, Anda merasa hambatan ini dapat mempengaruhi jadwal proyek secara keseluruhan. Tindakan manakah yang paling tepat Anda lakukan?",
+    "options": [
+      "Menilai kedua karya berdasarkan kriteria seni rupa teknis saja (komposisi, warna, dll), dan mengabaikan perbedaan interpretasi budaya untuk menghindari konflik.",
+      "Memanggil Rani dan Kevin secara terpisah untuk menjelaskan akar permasalahan, kemudian menasihati untuk saling menghargai dan meminta saling menerima ide untuk rencana proyeknya.",
+      "Mengumpulkan Rani dan Kevin, menjelaskan bahwa interpretasi seni itu beragam namun harus tetap menjaga etika dan batas-batas kebebasan berekspresi dalam konteks budaya.",
+      "Menjelaskan kepada mereka bahwa bahwa setiap interpretasi seni adalah valid. Anda akan meminta Rani dan Kevin untuk saling menghargai pilihan artistik masing-masing.",
+      "Menguatkan di kelas bahwa seni adalah berekspresi juga harus mengedepankan nilai persatuan, selanjutny membimbing Rani dan Kevin untuk tetap meng budaya dalam proyeknya."
+    ],
+    "answer": "Mengumpulkan Rani dan Kevin, menjelaskan bahwa interpretasi seni itu beragam namun harus tetap menjaga etika dan batas-batas kebebasan berekspresi dalam konteks budaya.",
+    "explanation": "Pilihan ini paling tepat karena guru bertindak sebagai fasilitator dan mediator. Guru tidak memihak, tetapi memberikan kerangka berpikir yang penting: kebebasan berekspresi dalam seni memang ada, namun tidak absolut dan harus diimbangi dengan etika serta penghormatan terhadap nilai budaya. Ini membuka dialog untuk mencari jalan tengah."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Anda adalah guru Seni Budaya kelas X. Salah satu proyek akhir semester adalah \"Kreasi Seni Berbasis Budaya Lokal\" . Seorang siswa bernama Rendra, yang sangat kreatif dan memiliki latar belakang keluarga yang memegang teguh tradisi tertentu, membuat sebuah karya seni instalasi yang secara visual sangat kuat dan artistik. Namun, instalasi tersebut menggunakan simbolsimbol atau motif yang, bagi sebagian besar masyarakat umum (termasuk beberapa guru dan siswa lain di sekolah), dianggap tabu, tidak sopan, atau bahkan bisa memicu kesalahpahaman karena interpretasi yang berbeda. Anda khawatir karya ini dapat menimbulkan kontroversi atau bahkan merusak citra sekolah jika dipamerkan, di satu sisi Anda menyadari bahwa hal ini adalah bagian dari kebebasan berekspresi melalui seni. Bagaimanakah tindakan Anda?",
+    "options": [
+      "Memberikan nilai yang baik berdasarkan kreativitas dan usaha Rendra, dan tetap menampilkan karya tersebut di pameran sekolah sebagai bentuk kebebasan ekspresi apresiasi seni",
+      "Meminta Rendra mengganti simbol-simbol kontroversial dengan yang lebih umum dan diterima demi kebaikan bersama, apabila tidak dipenuhi karya Rendra tidak bisa ditampilkan pada pameran",
+      "Memuji kreativitas dan kedalaman makna karya Rendra, dengan mendiskusikan potensi interpretasi norma negatif masyarakat dan tetap pameran di ruang terbatas.",
+      "Menjelaskan kepada Rendra bahwa karya seninya unik, namun sekolah memiliki tanggung jawab untuk menjaga etika dan norma publik sehingga meminta Rendra merevisi bagian sensitif karyanya.",
+      "Menjelaskan karya seni Rendra unik, namun sekolah memiliki tanggung jawab untuk menjaga etika dan norma sehingga meminta Rendra untuk membuat presentasi lisan menjelaskan makna karya di depan anda."
+    ],
+    "answer": "Menjelaskan kepada Rendra bahwa karya seninya unik, namun sekolah memiliki tanggung jawab untuk menjaga etika dan norma publik sehingga meminta Rendra merevisi bagian sensitif karyanya.",
+    "explanation": "Opsi ini menyeimbangkan antara apresiasi terhadap kreativitas siswa dan tanggung jawab institusi sekolah. Guru menghargai karya siswa tetapi juga mendidik siswa tentang konteks sosial dan norma publik, serta membimbingnya untuk melakukan revisi. Ini adalah tindakan yang bertanggung jawab dan mendidik."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Bu Nia adalah guru Biologi kelas XI yang selalu berusaha menciptakan suasana kelas yang positif dan inklusif. Suatu hari, ia mengamati Riko, seorang siswa sering terlihat ragu untuk berbicara dalam diskusi kelas dan tampak cemas setiap kali harus menyampaikan pendapatnya. Ketika diberi kesempatan berbicara, Riko sering menunduk dan memberikan jawaban pendek tanpa ekspresi. Teman-temannya mulai kehilangan kesabaran dan terkadang mengabaikan keberadaannya dalam aktivitas kelompok. Sebagai seorang guru, bagaimana sebaiknya Bu Nia menangani situasi ini?",
+    "options": [
+      "Mendekati Riko secara pribadi dan mengajaknya berbicara tentang apa yang membuatnya merasa cemas, selanjutnya secara perlahan memberinya kesempatan berbicara dengan cara yang lebih nyaman.",
+      "Mengadakan kegiatan kelas yang mendorong seluruh siswa untuk mendengarkan pendapat setiap teman dengan permainan interaktif atau diskusi santai agar semua siswa merasa lebih nyaman.",
+      "Mendukung Riko dengan cara memujinya setiap kali ia mencoba berbicara, tetapi tidak memberikan solusi tentang bagaimana ia bisa merasa lebih nyaman dalam berinteraksi sosial.",
+      "Meminta Riko untuk lebih berani berbicara tanpa harus memberikan dukungan untuk membantunya merasa lebih nyaman sebagai bentuk pendewasaan kemandirin Riko",
+      "Mengabaikan perilaku Riko dan tetap melanjutkan kelas seperti rencana yang telah dibuat sebelumnya tanpa memberikan intervensi supaya kelas terbentuk secara alami."
+    ],
+    "answer": "Mendekati Riko secara pribadi dan mengajaknya berbicara tentang apa yang membuatnya merasa cemas, selanjutnya secara perlahan memberinya kesempatan berbicara dengan cara yang lebih nyaman.",
+    "explanation": "Pendekatan personal adalah langkah pertama yang paling penting. Dengan berbicara secara pribadi, guru dapat membangun kepercayaan, memahami akar masalah kecemasan siswa, dan kemudian merancang intervensi yang aman dan bertahap (scaffolding) untuk membantu siswa merasa lebih nyaman berpartisipasi."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Bu Sinta adalah guru Fisika di kelas 9 SMP. Ia memberikan tugas eksperimen kelompok. Namun, ia melihat dua siswa, Andi dan Rina, terlibat dalam perselisihan karena merasa salah satu dari mereka tidak bekerja cukup keras dalam tim. Mereka mulai saling menyalahkan dan suasana kelompok menjadi tidak kondusif. Sebagai seorang guru, bagaimana sebaiknya Bu Sinta menangani situasi ini?",
+    "options": [
+      "Menegur mereka dan meminta mereka untuk segera menyelesaikan masalah tanpa memberikan arahan bagaimana cara yang baik untuk menyelesaikannya.",
+      "Mendekati Andi dan Rina, mendengarkan perspektif masing-masing tanpa menghakimi, lalu membimbing mereka untuk mencari solusi bersama dan memperbaiki komunikasi mereka.",
+      "Memisahkan Andi dan Rina dari kelompok tetapi tanpa memberikan pemahaman tentang pentingnya kerja sama sampai mereka mengetahuinya sendiri",
+      "Mengabaikan konflik dan membiarkan mereka menemukan solusi sendiri tanpa intervensi sebagai bentuk pendewasaan dan kemandirian dalam menghadapi masalah",
+      "Menggunakan situasi ini sebagai pelajaran bagi seluruh kelas tentang bagaimana menyelesaikan konflik dengan cara yang sehat dan saling menghormati"
+    ],
+    "answer": "Mendekati Andi dan Rina, mendengarkan perspektif masing-masing tanpa menghakimi, lalu membimbing mereka untuk mencari solusi bersama dan memperbaiki komunikasi mereka.",
+    "explanation": "Ini adalah pendekatan mediasi konflik yang paling efektif. Guru bertindak sebagai fasilitator yang netral, memberikan kesempatan bagi kedua belah pihak untuk didengar, dan membimbing mereka untuk mengembangkan keterampilan resolusi konflik dan komunikasi, yang merupakan pelajaran hidup yang berharga."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Anda adalah guru Bahasa Indonesia. Hari ini Anda merasa sangat lelah dan sedikit kesal karena semalam terjadi perselisihan kecil dengan anggota keluarga di rumah. Saat pelajaran berlangsung, dua siswa di barisan belakang mulai berbisik-bisik dan tertawa cekikikan hingga mengganggu konsentrasi siswa lain yang sedang mengerjakan latihan menulis esai. Tindakan manakah yang paling tepat Anda lakukan untuk merespons situasi ini ?",
+    "options": [
+      "Secara tegas meminta siswa keluar kelas untuk menenangkan diri dan tetap akan mengurangi nilai keaktifan mereka.",
+      "Mengabaikan kedua siswa tersebut supaya dapat berhenti sendiri, dan jika tetap menggangu akan dicatat untuk dibahas di akhir pelajaran.",
+      "Menenangkan diri sejenak, dan meminta kedua siswa dengan isyarat mata agar tetap terlibat pembelajaran, dan akan menegurnya jika masih abai",
+      "Menghentikan seluruh aktivitas kelas, dan meminta kedua siswa tersebut untuk saling mengingatkan jika ada yang berbuat gaduh.",
+      "Menenangkan diri sejenak, berbicara kepada kedua siswa tentang kendala pelajaran dan mengingatkannya agar menjaga kelas tenang"
+    ],
+    "answer": "Menenangkan diri sejenak, berbicara kepada kedua siswa tentang kendala pelajaran dan mengingatkannya agar menjaga kelas tenang",
+    "explanation": "Pilihan ini menunjukkan kecerdasan emosional guru. Guru terlebih dahulu mengelola emosinya sendiri ('menenangkan diri'), kemudian melakukan intervensi yang tenang, langsung ke sasaran, dan bersifat mengingatkan tanpa menimbulkan drama atau mengganggu seluruh kelas. Ini adalah manajemen kelas yang efektif."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Anda adalah guru Kimia kelas X. Setelah siswa mempelajari konsep-konsep dasar tentang \"Laju Reaksi\" (tahap Abstract Conceptualization), kini Anda ingin mereka menerapkan pemahaman tersebut dalam sebuah eksperimen baru. Anda menugaskan kelompok siswa untuk merancang sendiri percobaan sederhana untuk menguji pengaruh suhu terhadap laju reaksi antara asam dan logam. Namun, saat proses perancangan, beberapa kelompok terlihat bingung tentang bagaimana memulai, variabel apa yang harus dikontrol, dan langkah- langkah praktis apa yang harus diambil. Mereka tampak kesulitan mengaplikasikan teori ke dalam desain eksperimen nyata. Di sisi lain, Anda menginginkan agar pembelajaran mencapai tujuan sesuai alokasi waktu. Bagaimanakah tindakan Anda?",
+    "options": [
+      "Memberikan mereka panduan lengkap berupa lembar kerja praktikum yang sudah berisi semua langkah-langkah, alat, dan bahan yang diperlukan untuk percobaan, agar mereka mengikuti panduan tersebut.",
+      "Membiarkan mereka terus mencoba dan melakukan \"trial and error\" tanpa intervensi, karena kesalahan adalah bagian dari pembelajaran dalam eksperimentasi.",
+      "Mengadakan sesi singkat di awal kelas untuk mereview kembali konsep-konsep kunci tentang variabel dan kontrol dalam eksperimen, kemudian memberikan contoh desain eksperimen yang tidak terkait langsung dengan topik, dan setelah itu meminta siswa untuk mulai merancang.",
+      "Meminta setiap kelompok untuk mempresentasikan ide awal desain percobaan mereka di depan kelas, berdiskusi, dan memberikan umpan balik konstruktif serta pertanyaan pancingan kepada setiap kelompok untuk membantu mereka menyempurnakan desain.",
+      "Membagi siswa ke dalam kelompok yang lebih kecil dan meminta setiap kelompok untuk mencari referensi desain percobaan tentang laju reaksi dari buku atau internet, lalu meniru desain tersebut."
+    ],
+    "answer": "Meminta setiap kelompok untuk mempresentasikan ide awal desain percobaan mereka di depan kelas, berdiskusi, dan memberikan umpan balik konstruktif serta pertanyaan pancingan kepada setiap kelompok untuk membantu mereka menyempurnakan desain.",
+    "explanation": "Ini adalah bentuk scaffolding (bantuan bertahap) yang paling baik. Guru tidak memberikan jawaban langsung, tetapi memfasilitasi proses berpikir siswa melalui diskusi, umpan balik, dan pertanyaan pancingan. Ini mendorong pemikiran kritis dan kolaborasi, sambil tetap menjaga siswa di jalur yang benar."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Pak Rendi adalah guru Bahasa Inggris di kelas 8. Ia melihat ada beberapa siswa yang selalu ragu untuk berbicara dalam bahasa Inggris di kelas karena takut salah. Mereka sering diam dan tidak berani mencoba, meskipun mereka sebenarnya memiliki kemampuan yang cukup baik. Sebagai seorang guru yang ingin memfasilitasi para siswa belajar agar mencapai proses dan hasil optimal yaitu ….",
+    "options": [
+      "Menciptakan suasana belajar yang aman dengan mengapresiasi usaha siswa, bukan hanya hasilnya, serta mengajarkan bahwa kesalahan adalah bagian dari proses belajar.",
+      "Menegur siswa yang tidak berbicara dalam bahasa Inggris tanpa harus memberikan dukungan tambahan untuk meningkatkan kepercayaan diri mereka untuk berbicara.",
+      "Mengadakan aktivitas berbicara dalam kelompok kecil sebelum berbicara di depan kelas agar siswa lebih percaya diri dan terbiasa berkomunikasi dalam bahasa Inggris.",
+      "Memotivasi siswa dengan memberikan dorongan tetapi tanpa mengubah metode pembelajaran agar mereka berani untuk berbicara dalam bahasa Inggris.",
+      "Mengabaikan rasa takut siswa untuk berbicara dalam bahasa Inggris dan tetap melanjutkan pembelajaran seperti rencana semula tanpa harus memberikan solusi."
+    ],
+    "answer": "Menciptakan suasana belajar yang aman dengan mengapresiasi usaha siswa, bukan hanya hasilnya, serta mengajarkan bahwa kesalahan adalah bagian dari proses belajar.",
+    "explanation": "Pilihan ini menyentuh akar masalah yaitu 'rasa takut salah'. Dengan menciptakan lingkungan yang aman secara psikologis, di mana usaha lebih dihargai daripada kesempurnaan dan kesalahan dinormalisasi sebagai bagian belajar, guru dapat secara fundamental meningkatkan kepercayaan diri siswa."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Sejumlah siswa merasa bingung dalam menentukan pilihan karier yang sesuai dengan minat dan kemampuan mereka. Guru ingin memilih asesmen non-tes yang tepat untuk membantu mereka. Bagaimana cara terbaik bagi guru untuk membantu siswa memahami pilihan karier mereka melalui asesmen non-tes?",
+    "options": [
+      "Memotivasi siswa untuk mengembangkan minat dan menghadapi kesulitannya sendiri sesuai kehidupan dia.",
+      "Memberikan referensi bacaan dan informasi tentang berbagai pilihan karier dan bidang studi lanjut.",
+      "Menggunakan asesmen minat dan bakat untuk membantu siswa mengenali potensi dan preferensi karier mereka.",
+      "Mengadakan sesi konseling karier untuk membahas prospek pekerjaan sesuai dengan kepribadian dan keterampilan siswa.",
+      "Mengajak alumni berbagi pengalaman mengenai pilihan karier mereka untuk memberi inspirasi kepada siswa."
+    ],
+    "answer": "Menggunakan asesmen minat dan bakat untuk membantu siswa mengenali potensi dan preferensi karier mereka.",
+    "explanation": "Pertanyaan ini secara spesifik menanyakan tentang 'asesmen non-tes'. Menggunakan instrumen asesmen minat dan bakat adalah cara yang paling sistematis dan terstruktur untuk mengumpulkan data tentang potensi dan preferensi siswa, yang menjadi dasar untuk eksplorasi karier lebih lanjut."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Guru telah melakukan asesmen sosiometri untuk memahami pola interaksi sosial dalam kelas. Data menunjukkan bahwa beberapa siswa tidak memiliki hubungan sosial yang kuat dengan teman-temannya. Bagaimana guru dapat menganalisis hasil asesmen ini untuk memberikan layanan bimbingan dan konseling yang sesuai?",
+    "options": [
+      "Mengabaikan data, tidak memberikan intervensi karena menganggap masalah sosial sebagai bagian dari kehidupan remaja",
+      "Mengidentifikasi pola hubungan sosial antar siswa dan menyusun strategi intervensi untuk mendukung keterlibatan mereka",
+      "Membandingkan data dengan masukan dari guru lain dan orang tua untuk mendapatkan gambaran yang lebih lengkap",
+      "Membuat kesimpulan umum tanpa harus melihat faktor individual dan memilih untuk memberi rekomendasi secara kolektif",
+      "Menghubungkan hasil asesmen dengan observasi perilaku sosial siswa-siswa dalam berbagai macam kegiatan di luar kelas"
+    ],
+    "answer": "Mengidentifikasi pola hubungan sosial antar siswa dan menyusun strategi intervensi untuk mendukung keterlibatan mereka",
+    "explanation": "Ini adalah tindak lanjut langsung dan tujuan utama dari asesmen sosiometri. Data yang diperoleh digunakan untuk mengidentifikasi siswa yang mungkin terisolasi atau pola klik, lalu guru merancang intervensi (misalnya, kegiatan kelompok yang diatur, bimbingan sosial) untuk memperbaiki iklim sosial kelas."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Anda adalah guru Matematika kelas X. Anda menyadari bahwa banyak siswa di kelas Anda menunjukkan tingkat kecemasan yang tinggi setiap kali menghadapi soal-soal berbasis Higher Order Thinking Skills (HOTS), meskipun mereka cukup menguasai konsep dasar. Mereka seringkali langsung menyerah atau panik, sehingga nilai rata-rata kelas untuk soal HOTS selalu rendah. Anda ingin memberikan bimbingan klasikal untuk mengatasi masalah ini, namun Anda bingung bagaimana mengidentifikasi secara spesifik akar masalah kecemasan tersebut agar bimbingan yang diberikan tepat sasaran. Tindakan manakah yang paling efektif Anda lakukan untuk mengidentifikasi kebutuhan bimbingan klasikal terkait kecemasan siswa tersebut?",
+    "options": [
+      "Langsung merancang sesi bimbingan tentang strategi pengerjaan soal HOTS dan teknik relaksasi, berasumsi bahwa kecemasan mereka berasal dari ketidakmampuan mengerjakan soal.",
+      "Membagikan kuesioner singkat kepada siswa yang berisi pertanyaan-pertanyaan terbuka tentang perasaan mereka saat menghadapi soal HOTS, kesulitan yang dialami, dan apa yang mereka harapkan dari guru.",
+      "Berdiskusi secara personal dengan beberapa siswa yang paling sering menunjukkan kecemasan dan bertanya langsung tentang apa yang mereka rasakan saat mengerjakan soal HOTS.",
+      "Mengadakan survei cepat melalui polling singkat di kelas untuk mengetahui apakah sebagian besar siswa setuju bahwa mereka cemas terhadap soal HOTS, tanpa menggali alasannya.",
+      "Meminta bantuan guru Bimbingan Konseling (BK) untuk melakukan asesmen psikologis terhadap siswa yang menunjukkan kecemasan tinggi, dan meminta rekomendasi dari mereka."
+    ],
+    "answer": "Membagikan kuesioner singkat kepada siswa yang berisi pertanyaan-pertanyaan terbuka tentang perasaan mereka saat menghadapi soal HOTS, kesulitan yang dialami, dan apa yang mereka harapkan dari guru.",
+    "explanation": "Untuk merancang bimbingan klasikal yang efektif, guru perlu data dari seluruh kelas. Kuesioner adalah cara yang efisien untuk mengumpulkan informasi spesifik tentang akar masalah (apakah karena mindset, strategi, atau tekanan waktu) dari seluruh siswa, sehingga bimbingan bisa dirancang sesuai kebutuhan mayoritas."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Anda adalah guru Bahasa Inggris kelas XII. Anda telah mencoba mendekati seorang siswa bernama Tomi yang sering bolos dan menunjukkan sikap cuek terhadap pelajaran, meskipun Anda tahu ia memiliki potensi. Anda telah menawarkan bantuan dan mencoba mendengarkan, tetapi Tomi selalu menolak tawaran Anda dengan mengatakan \"tidak perlu\" atau \"saya bisa urus sendiri\" . Anda merasa frustrasi karena upaya Anda tampaknya tidak membuahkan hasil. Bagaimanakah sikap Anda terhadap Tomi yang paling tepat?",
+    "options": [
+      "Menghentikan sementara semua upaya pendekatan terhadap Tomi, karena ia jelas tidak mau dibantu dan Anda tidak bisa memaksanya.",
+      "Memberikan konsekuensi akademis yang lebih berat agar Tomi menyadari bahwa ia harus berubah.",
+      "Menujukkan sikap sabar, konsisten dan terbuka untuk mendengarkan tanpa memaksa Tomi untuk berbicara tentang masalahnya.",
+      "Menceritakan kepada Tomi pengalaman Anda sendiri yang pernah mengalami masa sulit dan bagaimana Anda berhasil mengatasinya, dengan harapan ia akan terinspirasi.",
+      "Menyarankan Tomi untuk menemui guru BK, karena masalahnya mungkin lebih kompleks dari sekadar pelajaran."
+    ],
+    "answer": "Menujukkan sikap sabar, konsisten dan terbuka untuk mendengarkan tanpa memaksa Tomi untuk berbicara tentang masalahnya.",
+    "explanation": "Membangun hubungan dengan siswa yang 'sulit' membutuhkan waktu dan kesabaran. Sikap yang konsisten menunjukkan bahwa guru benar-benar peduli dan pintu selalu terbuka. Memaksa atau menyerah adalah kontraproduktif. Dengan tetap sabar dan terbuka, guru menciptakan kesempatan bagi siswa untuk akhirnya mau membuka diri ketika ia siap."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Dalam proses penyusunan perencanaan individual dengan siswi bernama Budi, Anda menemukan Budi masih ragu-ragu dan belum yakin tentang apa saja minat atau kekuatannya. Ia cenderung menjawab \"tidak tahu\" saat ditanya. Tindakan prosedural manakah yang paling efektif untuk membantu Budi?",
+    "options": [
+      "Menunjukkan nilai-nilai Budi pada rapor dan menyimpulkan bahwa pelajaran dengan nilai tinggi adalah kekuatannya, lalu menyarankan minat berdasarkan nilai tersebut.",
+      "Meminta Budi untuk mengisi lembar kerja sederhana yang berisi daftar kegiatan atau mata pelajaran dan meminta dia menandai mana yang paling ia nikmati atau merasa paling mudah dilakukan.",
+      "Menceritakan pengalaman Anda sendiri atau pengalaman alumni lain yang sukses untuk menginspirasi Budi, agar Budi dapat menemukan pilihan karir yang selaras dengan dirinya.",
+      "Meminta Budi untuk bertanya kepada orang tua atau teman-temannya tentang kekuatan atau minatnya dari sudut pandang orang lain.",
+      "Meminta Budi untuk mempelajari nilai rapor untuk menemukan kekuatannya pada mata pelajaran tertentu, serta mempelajari portofolio hasil kegiatan dan lomba Budi untuk memperoleh data tambahan."
+    ],
+    "answer": "Meminta Budi untuk mengisi lembar kerja sederhana yang berisi daftar kegiatan atau mata pelajaran dan meminta dia menandai mana yang paling ia nikmati atau merasa paling mudah dilakukan.",
+    "explanation": "Ketika siswa menjawab 'tidak tahu', seringkali mereka butuh alat bantu untuk menstrukturkan pikiran. Lembar kerja sederhana (checklist) adalah alat yang konkret dan tidak mengintimidasi. Ini membantu siswa untuk mulai mengidentifikasi preferensi ('menikmati') dan kemampuan ('mudah dilakukan') secara mandiri, yang merupakan langkah pertama dalam eksplorasi diri."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Sejumlah siswa mengalami motivasi belajar rendah dan tidak menunjukkan minat terhadap pelajaran. Guru ingin merancang sistem dukungan untuk meningkatkan motivasi akademik mereka dalam mata pelajarannya. Apa langkah terbaik yang bisa diterapkan dalam merancang strategi dukungan bagi siswa dengan motivasi belajar rendah?",
+    "options": [
+      "Menyediakan program bimbingan motivasi yang mencakup refleksi diri, eksplorasi tujuan akademik, dan teknik peningkatan motivasi",
+      "Membiarkan siswa menentukan dan menumbuhkan motivasi belajar mereka sendiri tanpa adanya intervensi dari guru atau sekolah",
+      "Menciptakan lingkungan belajar yang lebih interaktif dan menarik untuk meningkatkan keterlibatan siswa dalam aktivitas pembelajaran",
+      "Membuat sistem asesmen motivasi akademik dan menyusun intervensi berbasis personal bagi siswa dalam aktivitas pembelajaran",
+      "Memberikan ceramah motivasi tanpa harus membangun program dukungan yang berkelanjutan bagi siswa dalam aktivitas pembelajaran"
+    ],
+    "answer": "Menciptakan lingkungan belajar yang lebih interaktif dan menarik untuk meningkatkan keterlibatan siswa dalam aktivitas pembelajaran",
+    "explanation": "Motivasi rendah seringkali berakar pada metode pembelajaran yang monoton. Dengan membuat lingkungan belajar lebih interaktif, relevan, dan menarik, guru secara langsung mengatasi penyebab kebosanan dan meningkatkan keterlibatan (engagement), yang merupakan kunci untuk membangkitkan motivasi intrinsik."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Sekolah Anda menerima laporan bahwa salah satu guru terlibat dalam tindakan yang tidak etis dan mencemarkan nama baik sekolah. Kepala sekolah meminta Anda untuk menangani situasi ini. Yang akan Anda lakukan adalah",
+    "options": [
+      "fokus pada nama baik sekolah dalam investigasi dan tindak lanjut hasil investigasi",
+      "melakukan investigasi serta tindak lanjut berdasarkan hasil investigasi",
+      "menutup-nutupi kejadian dan berharap masalahnya hilang dengan sendirinya",
+      "fokus pada pemulihan dan pengatasan trauma pada pihak-pihak yang dirugikan",
+      "fokus pada penyebab mengapa hal itu terjadi agar peristiwa serupa tidak terjadi di kemudian hari"
+    ],
+    "answer": "melakukan investigasi serta tindak lanjut berdasarkan hasil investigasi",
+    "explanation": "Ini adalah langkah yang paling profesional dan adil. Investigasi yang objektif diperlukan untuk mengumpulkan fakta. Tindak lanjut harus didasarkan pada bukti yang ditemukan, bukan pada asumsi atau keinginan untuk melindungi citra sekolah semata. Opsi lain seperti pemulihan korban dan pencegahan adalah bagian dari tindak lanjut tersebut."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Di sekolah TNB, terdapat ketegangan antara Bu Mirna guru bahasa Indonesia dengan Pak Salim guru IPS terkait pelaksanaan pentas seni. Bu Mirna merasa bahwa Pak Salim dan beberapa guru muda lainnya tidak mengikuti saran atau instruksi yang diberikan. Sebaliknya, Pak Salim dan guru muda lainnya merasa bahwa Bu Mirna terlalu otoriter dan tidak mau menerima ide-ide baru yang mereka usulkan. Ketegangan ini menyebabkan suasana kerja menjadi tidak kondusif, dan komunikasi antara dua kelompok guru tersebut menjadi terhambat. Jika Anda sebagai bagian dari guru muda lainnya, bagaimana Anda akan mengatasi hal tersebut?",
+    "options": [
+      "Melaporkan masalah ini kepada kepala sekolah agar dapat mengambil tindakan yang diperlukan untuk mengatasi ketegangan.",
+      "Mengadakan rapat terbuka yang dihadiri oleh seluruh staf pengajar untuk mendiskusikan masalah dan mengambil keputusan bersama.",
+      "Mengembangkan program mentoring di mana guru senior membimbing guru junior, sekaligus membuka ruang bagi guru junior untuk berbagi ide dan pendekatan baru.",
+      "Mengadakan pertemuan khusus antara Bu Mirna dan guru-guru muda untuk membahas permasalahan dan mencari solusi bersama.",
+      "Mengabaikan ketegangan dan tetap fokus pada tugas masing-masing dengan harapan masalah akan mereda dengan sendirinya."
+    ],
+    "answer": "Mengadakan pertemuan khusus antara Bu Mirna dan guru-guru muda untuk membahas permasalahan dan mencari solusi bersama.",
+    "explanation": "Menangani konflik secara langsung pada sumbernya adalah yang paling efektif. Mengadakan pertemuan khusus memungkinkan kedua belah pihak (Bu Mirna dan kelompok guru muda) untuk berkomunikasi secara langsung, mengklarifikasi kesalahpahaman, dan mencari jalan tengah tanpa melibatkan pihak lain yang tidak terkait secara langsung."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Pak Fadhil merupakan seorang ayah tunggal yang memiliki anak usia 4 tahun yang dititipkan di taman PAUD dekat sekolah tempat Pak Fadhil mengajar. Hari itu, Pak Fadhil memiliki jadwal mengajar mulai pagi hingga menjelang makan siang sementara pada saat yang bersamaan Pak Fadhil mendapat undangan rapat MGMP dan anaknya mengikuti lomba mewarnai yang akan dimulai pagi. Apa yang akan Anda lakukan jika berada di posisi Pak Fadhil?",
+    "options": [
+      "Mengantarkan anak ke sekolah lebih awal, mengajar seperti biasa lalu menghadiri rapat MGMP walau terlambat dan meminta kerabat untuk mendampingi anak di lomba mewarnai.",
+      "Meminta izin kepada kepala sekolah untuk menghadiri rapat MGMP dan meninggalkan kelas sebentar untuk mendampingi anaknya di lomba mewarnai.",
+      "Menyusun jadwal pengganti dengan sesama guru untuk mengajar di kelas, sehingga bisa fokus mendampingi anaknya di lomba mewarnai dan menghadiri rapat MGMP.",
+      "Mengatur jadwal mengajar dengan sesama guru agar bisa menghadiri lomba mewarnai anaknya sebentar, kemudian kembali mengajar dan menghadiri rapat MGMP.",
+      "Meminta izin kepada kepala sekolah untuk tidak mengikuti rapat MGMP dan fokus mengajar serta mendampingi anaknya di lomba mewarnai."
+    ],
+    "answer": "Mengatur jadwal mengajar dengan sesama guru agar bisa menghadiri lomba mewarnai anaknya sebentar, kemudian kembali mengajar dan menghadiri rapat MGMP.",
+    "explanation": "Opsi ini menunjukkan kemampuan manajemen waktu, prioritas, dan kolaborasi yang sangat baik. Guru tetap bertanggung jawab pada tugas utamanya (mengajar) dengan berkoordinasi dengan rekan kerja, sambil tetap bisa memenuhi kewajiban profesional (rapat MGMP) dan peran sebagai orang tua (mendampingi anak)."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Pak Heri adalah seorang guru yang ramah dan mudah akrab dengan peserta didik. Suatu hari, seorang peserta didik melapor ke ruang BK bahwa ia melihat Pak Heri sedang berbincang berdua dengan seorang siswi perempuan sepulang sekolah. Pak Heri juga terlihat akrab dan tidak menjaga jarak dengan siswi tersebut. Situasi tersebut berkembang menjadi isu yang cepat tersebar di kalangan siswa dan guru. Jika Pak Heri menanyai Anda sebagai sesama guru perihal situasi tersebut, sikap yang sebaiknya Anda lakukan adalah",
+    "options": [
+      "Mengingatkan Pak Heri tentang pentingnya menjaga jarak profesional dengan siswa untuk menghindari situasi serupa di masa depan.",
+      "Menyarankan Pak Heri untuk berbicara dengan siswa-siswi untuk menjelaskan bahwa tidak ada yang perlu dikhawatirkan.",
+      "Menyampaikan dukungan Anda kepada Pak Heri dan menyarankan agar dia tidak perlu khawatir dengan isu tersebut.",
+      "Menghindari terlibat dalam masalah tersebut dengan mengatakan kepada Pak Heri bahwa Anda tidak tahu apa-apa tentang situasinya.",
+      "Memberitahu Pak Heri bahwa sebaiknya dia segera mengadakan pertemuan dengan kepala sekolah untuk memberikan klarifikasi."
+    ],
+    "answer": "Mengingatkan Pak Heri tentang pentingnya menjaga jarak profesional dengan siswa untuk menghindari situasi serupa di masa depan.",
+    "explanation": "Sebagai rekan kerja, memberikan masukan yang konstruktif adalah bentuk dukungan terbaik. Mengingatkan tentang batas profesional bukan berarti menuduh, melainkan membantu rekan untuk merefleksikan perilakunya dan mencegah potensi masalah yang lebih besar di kemudian hari, sekaligus melindungi dirinya dan siswa dari persepsi negatif."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Bu Vina merupakan guru yang baru dipindahkan ke sekolah lain. Ada peserta didik yang cepat memahami pelajaran, sementara yang lainnya memerlukan waktu lebih lama untuk memahami materi yang sama. Bagaimana sikap yang paling tepat bagi Bu Vina dalam menghadapi situasi ini?",
+    "options": [
+      "Menyampaikan kepada peserta didik bahwa mereka harus belajar lebih keras agar bisa menyamai teman-temannya yang lebih cepat memahami.",
+      "Mengadakan diskusi dengan seluruh kelas untuk menemukan metode belajar yang paling nyaman untuk semua peserta didik.",
+      "Mengajak peserta didik yang lebih cepat memahami untuk membantu teman- temannya yang memerlukan lebih banyak waktu.",
+      "Membagi peserta didik berdasarkan kemampuan mereka dan memberikan materi yang berbeda sesuai tingkat kemampuan masing-masing.",
+      "Mengabaikanperbedaan tersebut dan memberikanpelajaran dengan cara yang sama untuk semua peserta didik."
+    ],
+    "answer": "Mengajak peserta didik yang lebih cepat memahami untuk membantu teman- temannya yang memerlukan lebih banyak waktu.",
+    "explanation": "Ini adalah strategi pembelajaran kooperatif (cooperative learning) yang efektif. Ini tidak hanya membantu siswa yang lebih lambat (tutor sebaya), tetapi juga memperkuat pemahaman siswa yang lebih cepat karena mereka harus menjelaskan konsep kepada orang lain. Ini juga membangun iklim kelas yang positif dan kolaboratif."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Ibu Sari, seorang guru kelas 5 SD, mengamati Dika, salah satu siswanya, sering menunjukkan ledakan emosi saat frustrasi menghadapi tugas matematika yang sulit. Dika akan merobek lembar kerjanya, menangis, atau bahkan memukul meja. Perilaku ini seringkali membuat teman-temannya terkejut dan mengganggu konsentrasi kelas. Ibu Sari menyadari bahwa Dika berada dalam tahap perkembangan di mana ia masih belajar mengelola emosinya yang kompleks, dan tekanan akademik menjadi pemicu utamanya. Ibu Sari ingin menciptakan lingkungan yang aman dan nyaman bagi Dika, sekaligus membantunya mengembangkan keterampilan regulasi emosi. Sebagai guru yang menerapkan metode pembelajaran berpusat pada peserta didik dan memahami teori perkembangan emosional, strategi pengelolaan perilaku Dika yang paling efektif yang harus dilakukan Ibu Sari adalah...",
+    "options": [
+      "Langsung memberikan hukuman setiap kali Dika menunjukkan perilaku tersebut agar ia jera dan tidak mengulanginya lagi di depan teman-temannya.",
+      "Mengabaikan perilaku Dika, dengan harapan ia akan berhenti sendiri ketika tidak ada yang memperhatikan, karena perhatian justru bisa memperburuk.",
+      "Menerapkan teknik \"time-out\" di sudut kelas setiap kali Dika marah, kemudian mengajaknya berdiskusi tentang perasaan yang ia alami dan mencari solusi alternatif untuk menghadapi frustrasi.",
+      "Memindahkan Dika ke kelas yang lebih rendah atau meminta orang tuanya untuk segera membawa Dika ke psikolog anak karena perilakunya di luar kemampuan sekolah."
+    ],
+    "answer": "Menerapkan teknik \"time-out\" di sudut kelas setiap kali Dika marah, kemudian mengajaknya berdiskusi tentang perasaan yang ia alami dan mencari solusi alternatif untuk menghadapi frustrasi.",
+    "explanation": "Jawaban ini paling tepat karena menggabungkan dua pendekatan penting: de-eskalasi dan pembelajaran. 'Time-out' memberikan Dika ruang untuk menenangkan diri tanpa mengganggu kelas. Diskusi setelahnya membantu Dika mengidentifikasi perasaannya (regulasi emosi) dan belajar strategi koping yang lebih sehat, yang merupakan tujuan utama."
+  },
+  {
+    "subtest": "Penilaian Situasi Kerja Guru",
+    "question": "Pak Anton mengajar di kelas 4 SD yang memiliki keragaman latar belakang siswa, baik dari segi kemampuan akademik maupun minat belajar. Ada beberapa siswa yang sangat cepat memahami materi dan cenderung bosan jika pembelajaran terlalu lambat. Di sisi lain, ada sekelompok siswa yang mengalami kesulitan dalam pemahaman bacaan dan seringkali kehilangan fokus di tengah pelajaran. Pak Anton ingin merancang pembelajaran yang tidak hanya berpusat pada siswa tetapi juga efektif dalam mengelola perbedaan karakteristik ini agar semua siswa merasa nyaman dan termotivasi. Berdasarkan deskripsi karakteristik peserta didik di atas, pendekatan pembelajaran yang paling tepat dan berpusat pada peserta didik yang harus diterapkan Pak Anton untuk mengelola perbedaan tersebut adalah...",
+    "options": [
+      "Memberikan tugas yang sama kepada semua siswa dengan tingkat kesulitan yang tinggi agar siswa yang cepat tertantang dan siswa yang lambat berusaha lebih keras.",
+      "Memfokuskan diri pada siswa yang cepat agar mereka dapat meraih prestasi tertinggi, sementara siswa yang lambat diberikan tugas yang minimal.",
+      "Menggunakan metode pembelajaran berdiferensiasi, seperti menyediakan materi bacaan dengan level berbeda, memberikan pilihan aktivitas yang sesuai minat, dan membentuk kelompok belajar berdasarkan kebutuhan.",
+      "Mengatur ulang tempat duduk siswa berdasarkan tingkat kecerdasan mereka, agar siswa pandai dapat saling membantu dan siswa yang lambat dapat fokus pada pelajaran."
+    ],
+    "answer": "Menggunakan metode pembelajaran berdiferensiasi, seperti menyediakan materi bacaan dengan level berbeda, memberikan pilihan aktivitas yang sesuai minat, dan membentuk kelompok belajar berdasarkan kebutuhan.",
+    "explanation": "Pembelajaran berdiferensiasi adalah jawaban langsung untuk mengelola kelas dengan keragaman kemampuan dan minat. Dengan membedakan konten (materi bacaan), proses (pilihan aktivitas), dan produk, guru dapat memenuhi kebutuhan belajar setiap siswa, baik yang cepat maupun yang butuh bantuan lebih, sehingga semua merasa tertantang dan didukung."
+  }
+]
+,
+
+    // --- Data dinamis ini tidak perlu diubah ---
+    judulHalaman: document.title,
+    url: window.location.href
+};
+
+// ===================================================================================
+// --- FUNGSI PENGIRIMAN DATA KE GOOGLE SHEET (DIPERBARUI) ---
+// ===================================================================================
+async function kirimKeGoogleSheet(data) {
+    const statusEl = document.getElementById('submission-status');
+    statusEl.textContent = 'Mengirim hasil ujian...';
+    
+    const formData = new FormData();
+    // Menambahkan semua data ke dalam objek FormData.
+    formData.append('kategori', data.kategori);
+    formData.append('url', data.url);
+    formData.append('judulHalaman', data.judulHalaman);
+    formData.append('Nama', data.Nama);
+    formData.append('JumlahSoal', data.JumlahSoal);
+    formData.append('JawabanBenar', data.JawabanBenar);
+    formData.append('JawabanSalah', data.JawabanSalah);
+    formData.append('TidakDijawab', data.TidakDijawab);
+    formData.append('Durasi', data.Durasi);
+    formData.append('Nilai', data.Nilai);
+    formData.append('StatusKelulusan', data.StatusKelulusan);
+
+    try {
+        const response = await fetch(EXAM_CONFIG.scriptURL, {
+            method: 'POST',
+            body: formData
+        });
+        
+        // Membaca respons sebagai JSON untuk mendapatkan pesan sukses/error dari server
+        const result = await response.json();
+        
+        if (result.result === "success") {
+            statusEl.innerHTML = `Hasil ujian berhasil disimpan. <b><a href="${EXAM_CONFIG.linkPeringkat}">Cek Peringkat kamu di sini</a></b>`;
+            statusEl.style.color = 'green';
+        } else {
+            // Menampilkan pesan error yang lebih spesifik dari server
+            throw new Error(result.message || 'Terjadi kesalahan dari server.');
+        }
+    } catch (error) {
+        console.error('Error saat mengirim ke Google Sheet:', error);
+        statusEl.textContent = `Gagal menyimpan hasil. Coba lagi nanti. Error: ${error.message}`;
+        statusEl.style.color = 'red';
+    }
+}
+
+// ===================================================================================
+// --- LOGIKA UTAMA UJIAN (DISESUAIKAN, TIDAK PERLU DIUBAH LAGI) ---
+// ===================================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Menggunakan bank soal dari EXAM_CONFIG
+    const questions = EXAM_CONFIG.bankSoal;
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let questionStatus = new Array(questions.length).fill('unanswered');
+    let timerInterval;
+    let startTime;
+    let currentUsername = '';
+
+    const loginContainer = document.getElementById('login-container');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('login-btn');
+    const loginError = document.getElementById('login-error');
+    const appHeader = document.querySelector('.header');
+    const quizContainer = document.querySelector('.quiz-container');
+    const resultPage = document.getElementById('result-page');
+    const subtestTitleEl = document.getElementById('subtest-title');
+    const questionNumberEl = document.getElementById('question-number');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsEl = document.getElementById('options');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const doubtfulBtn = document.getElementById('doubtful-btn');
+    const finishBtn = document.getElementById('finish-btn');
+    const timerEl = document.getElementById('timer');
+    const restartBtn = document.getElementById('restart-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const headerInfo = document.getElementById('header-info');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmYesBtn = document.getElementById('confirm-yes');
+    const confirmNoBtn = document.getElementById('confirm-no');
+    
+    function showLoginPage() {
+        loginContainer.style.display = 'block'; // Diubah dari 'flex' agar sesuai skrip asli
+        appHeader.style.display = 'none';
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'none';
+        passwordInput.value = '';
+        loginError.style.display = 'none';
+    }
+
+    function handleLogin() {
+        const password = passwordInput.value;
+        const username = usernameInput.value.trim();
+        if (username === "") {
+            loginError.textContent = "Username tidak boleh kosong.";
+            loginError.style.display = 'block';
+            return;
+        }
+        // Menggunakan password dari EXAM_CONFIG
+        if (password === EXAM_CONFIG.password) {
+            currentUsername = username;
+            loginContainer.style.display = 'none';
+            appHeader.style.display = 'flex';
+            quizContainer.style.display = 'flex';
+            resultPage.style.display = 'none';
+            headerInfo.textContent = `Peserta: ${currentUsername}`;
+            startQuiz();
+        } else {
+            loginError.textContent = "Password salah. Coba lagi.";
+            loginError.style.display = 'block';
+        }
+    }
+    
+    function handleLogout() {
+        clearInterval(timerInterval);
+        showLoginPage();
+    }
+
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        userAnswers.fill(null);
+        questionStatus.fill('unanswered');
+        quizContainer.style.display = 'flex';
+        resultPage.style.display = 'none';
+        setupQuestionGrids();
+        displayQuestion(currentQuestionIndex);
+        // Menggunakan durasi dari EXAM_CONFIG
+        startTimer(EXAM_CONFIG.durasiMenit * 60);
+        startTime = new Date();
+    }
+
+    function setupQuestionGrids() {
+        const gridContainer = document.getElementById('grid-container');
+        gridContainer.innerHTML = '';
+        const subtests = [...new Set(questions.map(q => q.subtest))];
+        subtests.forEach(subtest => {
+            const group = document.createElement('div');
+            group.className = 'subtest-group';
+            const title = document.createElement('h3');
+            title.textContent = subtest;
+            const grid = document.createElement('div');
+            grid.className = 'question-grid';
+            group.appendChild(title);
+            group.appendChild(grid);
+            gridContainer.appendChild(group);
+            questions.forEach((q, index) => {
+                if (q.subtest === subtest) {
+                    const button = document.createElement('button');
+                    button.className = 'grid-button';
+                    button.textContent = index + 1;
+                    button.onclick = () => jumpToQuestion(index);
+                    grid.appendChild(button);
+                }
+            });
+        });
+    }
+
+    function displayQuestion(index) {
+        document.querySelector('.grid-button.current')?.classList.remove('current');
+        currentQuestionIndex = index;
+        const question = questions[index];
+        subtestTitleEl.textContent = question.subtest;
+        questionNumberEl.textContent = index + 1;
+        questionTextEl.innerHTML = question.question;
+        optionsEl.innerHTML = '';
+        question.options.forEach(option => {
+            const li = document.createElement('li');
+            const label = document.createElement('label');
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = `option-${index}`;
+            radio.value = option;
+            if (userAnswers[index] === option) {
+                radio.checked = true;
+                label.classList.add('selected');
+            }
+            radio.onchange = () => selectAnswer(index, option, label);
+            const span = document.createElement('span');
+            span.innerHTML = option; // Menggunakan innerHTML untuk render jika ada format
+            label.appendChild(radio);
+            label.appendChild(span);
+            li.appendChild(label);
+            optionsEl.appendChild(li);
+        });
+        updateNavButtons();
+        updateGridButtonStatus(index, true);
+    }
+
+    function selectAnswer(index, answer, label) {
+        userAnswers[index] = answer;
+        document.querySelectorAll(`#options li label`).forEach(l => l.classList.remove('selected'));
+        label.classList.add('selected');
+        if (questionStatus[index] !== 'doubtful') {
+            questionStatus[index] = 'answered';
+        }
+        updateGridButtonStatus(index);
+    }
+    
+    function updateNavButtons() {
+        prevBtn.disabled = currentQuestionIndex === 0;
+        nextBtn.disabled = currentQuestionIndex === questions.length - 1;
+    }
+    
+    function updateGridButtonStatus(index, isCurrent = false) {
+        const allGridButtons = document.querySelectorAll('.grid-button');
+        if (isCurrent) {
+            const currentBtn = document.querySelector('.grid-button.current');
+            if (currentBtn) currentBtn.classList.remove('current');
+        }
+        const button = Array.from(allGridButtons).find(btn => parseInt(btn.textContent) === index + 1);
+        if (!button) return;
+        if(isCurrent) button.classList.add('current');
+        button.classList.remove('answered', 'doubtful');
+        switch (questionStatus[index]) {
+            case 'answered': button.classList.add('answered'); break;
+            case 'doubtful': button.classList.add('doubtful'); break;
+        }
+    }
+
+    function jumpToQuestion(index) {
+        displayQuestion(index);
+    }
+
+    function startTimer(duration) {
+        let timer = duration;
+        clearInterval(timerInterval);
+        timerEl.parentElement.classList.remove('low-time');
+        timerInterval = setInterval(() => {
+            let minutes = parseInt(timer / 60, 10);
+            let seconds = parseInt(timer % 60, 10);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            timerEl.textContent = `${minutes}:${seconds}`;
+            if (timer < 300 && !timerEl.parentElement.classList.contains('low-time')) { 
+                timerEl.parentElement.classList.add('low-time'); 
+            }
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                finishQuiz();
+            }
+        }, 1000);
+    }
+    
+    function showConfirmation() {
+        confirmationModal.style.display = 'flex';
+    }
+
+    function formatDuration(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes} menit ${seconds.toString().padStart(2, '0')} detik`;
+}
+
+
+    function finishQuiz() {
+        clearInterval(timerInterval);
+        confirmationModal.style.display = 'none';
+        const endTime = new Date();
+        const durationMs = endTime - startTime;
+        let correctCount = 0;
+        questions.forEach((q, index) => {
+            if (userAnswers[index] === q.answer) correctCount++;
+        });
+        const totalQuestions = questions.length;
+        const answeredCount = userAnswers.filter(a => a !== null).length;
+        const incorrectCount = answeredCount - correctCount;
+        const unansweredCount = totalQuestions - answeredCount;
+        const finalScore = totalQuestions > 0 ? parseFloat(((correctCount / totalQuestions) * 100).toFixed(2)) : 0;
+        const isPassed = finalScore >= EXAM_CONFIG.passingGrade;
+        
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'block';
+        headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
+        
+        const statusEl = document.getElementById('status-lulus');
+        statusEl.textContent = isPassed ? 'SELAMAT, ANDA LULUS!' : 'MAAF, ANDA BELUM LULUS';
+        statusEl.className = `status ${isPassed ? 'lulus' : 'gagal'}`;
+        document.getElementById('final-score').textContent = finalScore;
+        document.getElementById('score-details').textContent = `${correctCount} dari ${totalQuestions} soal benar`;
+        
+        const reviewSection = document.getElementById('review-section');
+        reviewSection.innerHTML = '';
+        questions.forEach((q, index) => {
+            const userAnswer = userAnswers[index];
+            const isCorrect = userAnswer === q.answer;
+            reviewSection.innerHTML += `
+                <div class="review-item">
+                    <p><strong>Soal ${index + 1}:</strong> ${q.question}</p>
+                    <div class="review-answer user-answer ${isCorrect ? '' : 'is-incorrect'}">Jawaban Anda: ${userAnswer || 'Tidak Dijawab'}</div>
+                    ${!isCorrect ? `<div class="review-answer correct-answer">Jawaban Benar: ${q.answer}</div>` : ''}
+                    <div class="explanation"><strong>Pembahasan:</strong> ${q.explanation}</div>
+                </div>
+            `;
+        });
+        
+        const dataForSheet = {
+            kategori: EXAM_CONFIG.kategori,
+            url: EXAM_CONFIG.url,
+            judulHalaman: EXAM_CONFIG.judulHalaman,
+            Nama: currentUsername,
+            JumlahSoal: totalQuestions,
+            JawabanBenar: correctCount,
+            JawabanSalah: incorrectCount,
+            TidakDijawab: unansweredCount,
+            Durasi: formatDuration(durationMs),
+            Nilai: finalScore,
+            StatusKelulusan: isPassed ? 'Lulus' : 'Tidak Lulus'
+        };
+        kirimKeGoogleSheet(dataForSheet);
+    }
+
+    // Event Listeners
+    loginBtn.addEventListener('click', handleLogin);
+    passwordInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
+    logoutBtn.addEventListener('click', handleLogout);
+    prevBtn.addEventListener('click', () => { if (currentQuestionIndex > 0) displayQuestion(currentQuestionIndex - 1) });
+    nextBtn.addEventListener('click', () => { if (currentQuestionIndex < questions.length - 1) displayQuestion(currentQuestionIndex + 1) });
+    doubtfulBtn.addEventListener('click', () => {
+        const currentStatus = questionStatus[currentQuestionIndex];
+        if (currentStatus === 'doubtful') {
+            questionStatus[currentQuestionIndex] = userAnswers[currentQuestionIndex] ? 'answered' : 'unanswered';
+        } else {
+            questionStatus[currentQuestionIndex] = 'doubtful';
+        }
+        updateGridButtonStatus(currentQuestionIndex);
+    });
+    finishBtn.addEventListener('click', showConfirmation);
+    confirmYesBtn.addEventListener('click', finishQuiz);
+    confirmNoBtn.addEventListener('click', () => confirmationModal.style.display = 'none');
+    restartBtn.addEventListener('click', handleLogout);
+
+    showLoginPage();
+});
+</script>
