@@ -68,7 +68,10 @@
     }
   },
   "description": "{{ .Params.description | htmlEscape }}"
+  
 }
 </script>
 {{ end }}
-
+<script type="application/ld+json">
+{{ .Scratch.Get "richSchema" | safeJS }}
+</script>
