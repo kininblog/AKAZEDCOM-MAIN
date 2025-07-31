@@ -40,43 +40,35 @@
 
 
 {{ if eq .Kind "page" }}
-{{- $json := printf `{
+<script type="application/ld+json">
+{
   "@context": "https://schema.org",
   "@type": "Article",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "%s"
+    "@id": "{{ .Permalink }}"
   },
-  "headline": "%s",
-  "image": ["%s"],
-  "datePublished": "%s",
-  "dateModified": "%s",
+  "headline": "{{ .Title | htmlEscape }}",
+  "image": [
+    "{{ with .Params.featured_image }}{{ . | absURL }}{{ else }}https://akazed.com/about/images/default_hudc08dd0da780a7732532b269d66578bd_24598_1024x0_resize_q75_h2_box_2.webp{{ end }}"
+  ],
+  "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
+  "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
   "author": {
     "@type": "Person",
-    "name": "%s",
+    "name": "{{ .Params.author | default "Nanda" }}",
     "url": "https://akazed.com/about/"
   },
   "publisher": {
     "@type": "Organization",
-    "name": "%s",
+    "name": "{{ .Site.Title }}",
     "logo": {
       "@type": "ImageObject",
       "url": "https://akazed.com/img/akazed_hu5275fa5222c3dc8beed2db97f95ceac6_28190_300x0_resize_q75_h2_box_2.webp"
     }
   },
-  "description": "%s"
-}` 
-  .Permalink
-  (.Title | htmlEscape)
-  (cond (isset .Params "featured_image") (.Params.featured_image | absURL) "https://akazed.com/about/images/default_hudc08dd0da780a7732532b269d66578bd_24598_1024x0_resize_q75_h2_box_2.webp")
-  (.Date.Format "2006-01-02T15:04:05Z07:00")
-  (.Lastmod.Format "2006-01-02T15:04:05Z07:00")
-  (.Params.author | default "Nanda")
-  .Site.Title
-  (.Params.description | htmlEscape)
--}}
-
-<script type="application/ld+json">
-{{ $json | safeHTML }}
+  "description": "{{ .Params.description | htmlEscape }}"
+}
 </script>
 {{ end }}
+
