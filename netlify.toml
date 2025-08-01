@@ -26,7 +26,7 @@
         | paste - - | sort -rk2 \
         | grep -vE '/tags/|/categories/|/post/|/page/$|https://akazed.com/$')
 
-      # URL yang diupdate hari ini
+      # Ambil URL yang diupdate hari ini
       URLS_TODAY=$(echo "$URLS_SORTED" | grep "$TODAY" | awk '{print $1}')
 
       if [ -n "$URLS_TODAY" ]; then
@@ -65,14 +65,18 @@ EOF
         -H 'Content-Type: application/json' \
         -d "$JSON_PAYLOAD")
 
+      # Cek status
       if [ "$RESPONSE" -eq 202 ]; then
         echo -e "${GREEN}📡 IndexNow HTTP Status: $RESPONSE (Success)${NC}"
+      elif [ "$RESPONSE" -eq 200 ]; then
+        echo -e "${YELLOW}📡 IndexNow HTTP Status: $RESPONSE (Likely Success - body check below)${NC}"
       else
         echo -e "${RED}📡 IndexNow HTTP Status: $RESPONSE (Failed)${NC}"
       fi
 
       echo -e "${CYAN}📝 Response body:${NC}"
       cat /tmp/indexnow_response.txt
+
     else
       echo -e "${RED}❌ Hugo build failed, skipping IndexNow ping.${NC}"
     fi
