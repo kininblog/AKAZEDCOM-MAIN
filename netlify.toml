@@ -15,50 +15,31 @@
       SITEMAP_PATH="public/sitemap.xml"
       TODAY=$(date -u +"%Y-%m-%d")
 
-      # Cek sitemap ada
       if [ ! -f "$SITEMAP_PATH" ]; then
         echo -e "${RED}❌ sitemap.xml tidak ditemukan, skip IndexNow.${NC}"
         exit 0
       fi
 
-      # Filter sitemap (exclude kategori, tag, pagination)
-      echo -e "${CYAN}📄 Parsing sitemap.xml (filter kategori & tag)...${NC}"
+      echo -e "${CYAN}📄 Parsing sitemap.xml (filter kategori/tag/post)...${NC}"
       URLS_SORTED=$(grep -E '<loc>|<lastmod>' "$SITEMAP_PATH" \
         | sed -e 's/<loc>//;s|</loc>||;s/<lastmod>//;s|</lastmod>||' \
         | paste - - | sort -rk2 \
-        | grep -vE '/tags/|/categories/|/page/')
+        | grep -vE '/tags/|/categories/|/post/|/page/')
 
-      # Normalisasi semua URL pakai slash di akhir
-      URLS_SORTED=$(echo "$URLS_SORTED" | awk '{print gensub(/([^/])$/, "\\1/", "g", $1), $2}')
-
-      # Ambil URL yang diupdate hari ini
+      # URL yang diupdate hari ini
       URLS_TODAY=$(echo "$URLS_SORTED" | grep "$TODAY" | awk '{print $1}')
 
-      # Tentukan URL yang akan dikirim
       if [ -n "$URLS_TODAY" ]; then
         echo -e "${GREEN}📅 Ditemukan $(echo "$URLS_TODAY" | wc -l) artikel baru hari ini.${NC}"
-        URLS_TO_SEND=$(echo -e "$URLS_TODAY\nhttps://akazed.com/" | sort -u)
+        URLS_TO_SEND=$(echo -e "https://akazed.com/\n$URLS_TODAY" | sort -u)
       else
-        echo -e "${YELLOW}ℹ️ Tidak ada artikel baru hari ini, kirim 5 artikel terbaru + homepage.${NC}"
-        URLS_LATEST=$(echo "$URLS_SORTED" | head -n 5 | awk '{print $1}')
-        URLS_TO_SEND=$(echo -e "$URLS_LATEST\nhttps://akazed.com/" | sort -u)
+        echo -e "${YELLOW}ℹ️ Tidak ada artikel baru hari ini, kirim homepage saja.${NC}"
+        URLS_TO_SEND="https://akazed.com/"
       fi
 
       echo "$URLS_TO_SEND" > /tmp/latest_urls.txt
       echo -e "${CYAN}🔍 URLs to send:${NC}"
       cat /tmp/latest_urls.txt
-
-      # Cek environment variable
-      if [ -z "$INDEXNOW_KEY" ] || [ -z "$INDEXNOW_KEY_FILENAME" ]; then
-        echo -e "${RED}❌ INDEXNOW_KEY atau INDEXNOW_KEY_FILENAME belum di-set di Netlify Environment Variables.${NC}"
-        exit 1
-      fi
-
-      # Cek key file di public/
-      if [ ! -f "public/${INDEXNOW_KEY_FILENAME}" ]; then
-        echo -e "${RED}❌ File public/${INDEXNOW_KEY_FILENAME} tidak ditemukan. Pastikan key file di Hugo.${NC}"
-        exit 1
-      fi
 
       # Buat array JSON
       URL_JSON_ARRAY=$(printf '"%s",' $URLS_TO_SEND)
@@ -78,10 +59,9 @@ EOF
       echo -e "${CYAN}📦 JSON payload yang akan dikirim:${NC}"
       echo "$JSON_PAYLOAD"
 
-      # Kirim ke IndexNow
       echo -e "${CYAN}📤 Sending URL list to IndexNow...${NC}"
       RESPONSE=$(curl -s -o /tmp/indexnow_response.txt -w "%{http_code}" \
-        -X POST "https://api.indexnow.org/indexnow" \
+        -X POST https://api.indexnow.org/indexnow \
         -H 'Content-Type: application/json' \
         -d "$JSON_PAYLOAD")
 
