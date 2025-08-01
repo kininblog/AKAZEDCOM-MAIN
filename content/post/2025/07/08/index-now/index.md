@@ -1,9 +1,9 @@
 ---
 title: Cara Integrasi IndexNow Hugo Panduan Lengkap Agar Artikel Cepat Terindeks
-description: 
+description: ingkatkan SEO Hugo Anda dengan panduan lengkap cara integrasi IndexNow. Pelajari cara submit URL otomatis ke Google & Bing untuk indexing cepat setiap kali Anda mempublikasikan artikel baru. Otomatiskan dengan GitHub Actions dan hemat crawl budget Anda
 date: 2025-08-01T08:14:15+08:00 
 #2023年12月27日21:14:15
-lastmod: 2025-08-01T08:28:15+08:00 
+lastmod: 2025-08-01T09:28:15+08:00 
 comments: true
 keywords: 
 license: 
@@ -42,7 +42,8 @@ Prosesnya sangat sederhana namun efisien:
 Berbeda dengan CMS Wordpress, kita tidak menggunakan plugin, melainkan hanya berupa script sederhana di setinggan netlify.
 
 ## Cara Integrasi IndexNow Hugo
-Beberapa tahapan sederhana yang harus kita lakukan
+Beberapa tahapan sederhana yang harus kita lakukan. Namun, pastikan situs website Anda sudah terdaftar di Bing webmaster ataupun Yandex. Pelajari lebih lengkap *cara mendaftarkan blog ke bing* atau *cara mendaftarkan blog ke yandex*.
+
 1. **Dapatkan API Key IndexNow:** Generate dan unduh API key yang dibutuhkan dari situs resmi, kunjungi halaman berikut: *[https://www.bing.com/indexnow/getstarted](https://www.bing.com/indexnow/getstarted)*
 ![cara mendapatkan apikey indexnow](images/api.webp)
 2. **Simpan Kunci di folder *static***
@@ -137,4 +138,21 @@ EOF
 ```
 
 Sesuaikan alamat situs dan HUGO_VERSION yang anda gunakan.
-4. 
+4. **Tambahkan Pengaturan Environment API Key di Netlify**
+`Key: INDEXNOW_KEY -> Value: (Isi dengan nilai kunci Anda)`
+`Key: INDEXNOW_KEY_FILENAME -> Value: (Isi dengan nama file kunci Anda, misal: 2a59...c4a9.txt)`
+![setting netlify hugo indexnow agar valid](images/environment.webp)
+
+5. **Deploy Ulang Situs:** Setelah itu trigger kembali tombol deploy untuk melakukan deploy ulang
+![cara publikasi hugo ke netlify](images/deploy.webp)
+
+## Apakah Cara Ini Berhasil
+Debug console di netlify memang munjukkan **Response Status : 200** namun setelah saya lakukan cek di dashboard Bing search console URL Post berhasil dikirim ke Indexnow. Berarti Script ini sukses, namun kemungkinan ada beberapa kesalahan internal yang tidak saya ketahui yang menyebabkan Response 200. Seperti yang bisa kamu lihat di data berikut.
+![cara cepat terindex bing](images/bing.webp)
+
+## Penutup
+Selamat! Anda baru saja berhasil melakukan integrasi IndexNow Hugo secara penuh dan otomatis. Sekarang, Anda tidak perlu lagi khawatir tentang indexing cepat. Setiap karya yang Anda publikasikan akan segera "dilihat" oleh mesin pencari, memberikan keuntungan kompetitif dan memaksimalkan potensi SEO Hugo Anda.
+
+Dengan sedikit pengaturan di awal, Anda telah membangun sebuah sistem submit URL otomatis yang efisien, menghemat crawl budget, dan memastikan konten Anda tidak pernah ketinggalan di belantara internet.
+
+Punya pertanyaan atau menghadapi kendala? Jangan ragu untuk meninggalkan komentar di bawah!
