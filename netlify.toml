@@ -1,6 +1,8 @@
 [build]
   publish = "public"
-  command = "hugo && curl -X POST 'https://api.indexnow.org/indexnow' -H 'Content-Type: application/json' -d '{\"host\": \"akazed.com\", \"key\": \"${INDEXNOW_KEY}\", \"keyLocation\": \"https://akazed.com/${INDEXNOW_KEY_FILENAME}\", \"urlList\": [\"https://akazed.com/sitemap.xml\"]}'"
+  command = "hugo && curl -X POST https://api.indexnow.org/indexnow \
+  -H 'Content-Type: application/json' \
+  -d '{\"host\": \"akazed.com\", \"key\": \"'$INDEXNOW_KEY'\", \"keyLocation\": \"https://akazed.com/'$INDEXNOW_KEY_FILENAME'\", \"urlList\": [\"https://akazed.com/sitemap.xml\"]}'"
 
 [context.production.environment]
   HUGO_VERSION = "0.123.1"
