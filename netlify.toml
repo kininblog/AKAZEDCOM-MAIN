@@ -12,6 +12,7 @@
     if hugo; then
       echo -e "${GREEN}✅ Hugo build completed.${NC}"
 
+      # Pastikan sitemap ada
       SITEMAP_PATH="public/sitemap.xml"
       TODAY=$(date -u +"%Y-%m-%d")
 
@@ -23,9 +24,7 @@
       echo -e "${CYAN}📄 Parsing sitemap.xml...${NC}"
       URLS_SORTED=$(grep -E '<loc>|<lastmod>' "$SITEMAP_PATH" \
         | sed -e 's/<loc>//;s|</loc>||;s/<lastmod>//;s|</lastmod>||' \
-        | paste - - \
-        | sort -rk2
-      )
+        | paste - - | sort -rk2)
 
       URLS_TODAY=$(echo "$URLS_SORTED" | grep "$TODAY" | awk '{print $1}')
 
@@ -44,6 +43,7 @@
       URL_JSON_ARRAY=$(printf '"%s",' $URLS_TO_SEND)
       URL_JSON_ARRAY=${URL_JSON_ARRAY%,}
 
+      # Payload JSON
       JSON_PAYLOAD=$(cat <<EOF
 {
   "host": "akazed.com",
@@ -54,21 +54,29 @@
 EOF
 )
 
+      echo -e "${CYAN}📦 JSON payload yang akan dikirim:${NC}"
+      echo "$JSON_PAYLOAD"
+
+      # Debug environment variable
+      echo -e "${CYAN}🔑 INDEXNOW_KEY: ${NC}${INDEXNOW_KEY}"
+      echo -e "${CYAN}📄 INDEXNOW_KEY_FILENAME: ${NC}${INDEXNOW_KEY_FILENAME}"
+
       echo -e "${CYAN}📤 Sending URL list to IndexNow...${NC}"
       RESPONSE=$(curl -s -o /tmp/indexnow_response.txt -w "%{http_code}" \
         -X POST https://api.indexnow.org/indexnow \
         -H 'Content-Type: application/json' \
-        -d "$JSON_PAYLOAD"
-      )
+        -d "$JSON_PAYLOAD")
 
       if [ "$RESPONSE" -eq 202 ]; then
         echo -e "${GREEN}📡 IndexNow HTTP Status: $RESPONSE (Success)${NC}"
       else
         echo -e "${RED}📡 IndexNow HTTP Status: $RESPONSE (Failed)${NC}"
+        echo -e "${RED}🛠 Periksa apakah INDEXNOW_KEY dan INDEXNOW_KEY_FILENAME sudah benar di Netlify Environment Variables.${NC}"
       fi
 
       echo -e "${CYAN}📝 Response body:${NC}"
       cat /tmp/indexnow_response.txt
+
     else
       echo -e "${RED}❌ Hugo build failed, skipping IndexNow ping.${NC}"
     fi
