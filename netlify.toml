@@ -27,14 +27,13 @@
 
       URLS_TODAY=$(echo "$URLS_SORTED" | grep "$TODAY" | awk '{print $1}')
 
-      if [ -n "$URLS_TODAY" ]; then
-        echo -e "${GREEN}📅 Ditemukan $(echo "$URLS_TODAY" | wc -l) URL baru hari ini.${NC}"
-        URLS_LATEST=$(echo "$URLS_SORTED" | head -n 5 | awk '{print $1}')
-        URLS_TO_SEND=$(echo -e "$URLS_TODAY\n$URLS_LATEST" | sort -u)
-      else
-        echo -e "${YELLOW}ℹ️ Tidak ada URL baru hari ini, kirim 1 URL homepage saja.${NC}"
-        URLS_TO_SEND="https://akazed.com/"
-      fi
+if [ -n "$URLS_TODAY" ]; then
+  URLS_TO_SEND="$URLS_TODAY"
+else
+  echo -e "${YELLOW}ℹ️ Tidak ada URL baru hari ini, kirim 5 URL dari sitemap.${NC}"
+  URLS_TO_SEND=$(head -n 5 <<< "$(grep -oP '(?<=<loc>).*?(?=</loc>)' "$SITEMAP_PATH")")
+fi
+
 
       echo "$URLS_TO_SEND" > /tmp/latest_urls.txt
       echo -e "${CYAN}🔍 URLs to send:${NC}"
