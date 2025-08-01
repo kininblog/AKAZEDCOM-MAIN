@@ -1,26 +1,49 @@
 [build]
   publish = "public"
   command = """
-    echo '🚀 Starting Hugo build...'
+    # Warna untuk output
+    GREEN='\\033[0;32m'
+    YELLOW='\\033[1;33m'
+    RED='\\033[0;31m'
+    CYAN='\\033[0;36m'
+    NC='\\033[0m' # no color
+
+    echo -e "${CYAN}🚀 Starting Hugo build...${NC}"
     if hugo; then
-      echo '✅ Hugo build completed.'
+      echo -e "${GREEN}✅ Hugo build completed.${NC}"
 
-      # Ambil 5 URL terbaru dari post
-      echo '📄 Collecting latest URLs...'
-      LATEST_URLS=$(find public -name "index.html" | grep -vE "/page/|/tags/|/categories/" \
-        | sed 's|public||;s|index.html$||;s|^/||' \
-        | head -n 5 \
-        | sed 's|^|https://akazed.com/|')
+      SITEMAP_PATH="public/sitemap.xml"
+      TODAY=$(date -u +"%Y-%m-%d")
 
-      echo "$LATEST_URLS" > /tmp/latest_urls.txt
-      echo '🔍 Latest URLs to send:'
+      if [ ! -f "$SITEMAP_PATH" ]; then
+        echo -e "${RED}❌ sitemap.xml tidak ditemukan, skip IndexNow.${NC}"
+        exit 0
+      fi
+
+      echo -e "${CYAN}📄 Parsing sitemap.xml...${NC}"
+      URLS_SORTED=$(grep -E '<loc>|<lastmod>' "$SITEMAP_PATH" \
+        | sed -e 's/<loc>//;s|</loc>||;s/<lastmod>//;s|</lastmod>||' \
+        | paste - - \
+        | sort -rk2
+      )
+
+      URLS_TODAY=$(echo "$URLS_SORTED" | grep "$TODAY" | awk '{print $1}')
+
+      if [ -n "$URLS_TODAY" ]; then
+        echo -e "${GREEN}📅 Ditemukan $(echo "$URLS_TODAY" | wc -l) URL baru hari ini.${NC}"
+        URLS_TO_SEND="$URLS_TODAY"
+      else
+        echo -e "${YELLOW}ℹ️ Tidak ada URL baru hari ini, pakai 5 URL terbaru.${NC}"
+        URLS_TO_SEND=$(echo "$URLS_SORTED" | head -n 5 | awk '{print $1}')
+      fi
+
+      echo "$URLS_TO_SEND" > /tmp/latest_urls.txt
+      echo -e "${CYAN}🔍 URLs to send:${NC}"
       cat /tmp/latest_urls.txt
 
-      # Ubah daftar URL menjadi format JSON array
-      URL_JSON_ARRAY=$(printf '"%s",' $LATEST_URLS)
-      URL_JSON_ARRAY=${URL_JSON_ARRAY%,} # hapus koma terakhir
+      URL_JSON_ARRAY=$(printf '"%s",' $URLS_TO_SEND)
+      URL_JSON_ARRAY=${URL_JSON_ARRAY%,}
 
-      # Buat payload JSON untuk IndexNow
       JSON_PAYLOAD=$(cat <<EOF
 {
   "host": "akazed.com",
@@ -31,19 +54,23 @@
 EOF
 )
 
-      # Kirim ke IndexNow
-      echo '📤 Sending URL list to IndexNow...'
+      echo -e "${CYAN}📤 Sending URL list to IndexNow...${NC}"
       RESPONSE=$(curl -s -o /tmp/indexnow_response.txt -w "%{http_code}" \
         -X POST https://api.indexnow.org/indexnow \
         -H 'Content-Type: application/json' \
         -d "$JSON_PAYLOAD"
       )
 
-      echo "📡 IndexNow HTTP Status: $RESPONSE"
-      echo "📝 Response body:"
+      if [ "$RESPONSE" -eq 202 ]; then
+        echo -e "${GREEN}📡 IndexNow HTTP Status: $RESPONSE (Success)${NC}"
+      else
+        echo -e "${RED}📡 IndexNow HTTP Status: $RESPONSE (Failed)${NC}"
+      fi
+
+      echo -e "${CYAN}📝 Response body:${NC}"
       cat /tmp/indexnow_response.txt
     else
-      echo '❌ Hugo build failed, skipping IndexNow ping.'
+      echo -e "${RED}❌ Hugo build failed, skipping IndexNow ping.${NC}"
     fi
   """
 
