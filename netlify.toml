@@ -1,8 +1,26 @@
 [build]
   publish = "public"
-  command = "hugo && curl -X POST https://api.indexnow.org/indexnow \
-  -H 'Content-Type: application/json' \
-  -d '{\"host\": \"akazed.com\", \"key\": \"'$INDEXNOW_KEY'\", \"keyLocation\": \"https://akazed.com/'$INDEXNOW_KEY_FILENAME'\", \"urlList\": [\"https://akazed.com/sitemap.xml\"]}'"
+  command = """
+    echo '🚀 Starting Hugo build...'
+    hugo
+    echo '✅ Hugo build completed.'
+
+    echo '📤 Sending URL list to IndexNow...'
+    RESPONSE=$(curl -s -o /tmp/indexnow_response.txt -w "%{http_code}" \
+      -X POST https://api.indexnow.org/indexnow \
+      -H 'Content-Type: application/json' \
+      -d '{
+        "host": "akazed.com",
+        "key": "'"$INDEXNOW_KEY"'",
+        "keyLocation": "https://akazed.com/'"$INDEXNOW_KEY_FILENAME"'",
+        "urlList": ["https://akazed.com/sitemap.xml"]
+      }'
+    )
+
+    echo "📡 IndexNow HTTP Status: $RESPONSE"
+    echo "📝 Response body:"
+    cat /tmp/indexnow_response.txt
+  """
 
 [context.production.environment]
   HUGO_VERSION = "0.123.1"
