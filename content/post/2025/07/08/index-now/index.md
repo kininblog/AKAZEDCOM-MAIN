@@ -3,7 +3,7 @@ title: Cara Integrasi IndexNow Hugo Panduan Lengkap Agar Artikel Cepat Terindeks
 description: ingkatkan SEO Hugo Anda dengan panduan lengkap cara integrasi IndexNow. Pelajari cara submit URL otomatis ke Google & Bing untuk indexing cepat setiap kali Anda mempublikasikan artikel baru. Otomatiskan dengan GitHub Actions dan hemat crawl budget Anda
 date: 2025-08-01T08:14:15+08:00 
 #2023年12月27日21:14:15
-lastmod: 2025-08-01T09:28:15+08:00 
+lastmod: 2025-08-01T11:28:15+08:00 
 comments: true
 keywords: 
 license: 
@@ -149,6 +149,17 @@ Sesuaikan alamat situs dan HUGO_VERSION yang anda gunakan.
 ## Apakah Cara Ini Berhasil
 Debug console di netlify memang munjukkan **Response Status : 200** namun setelah saya lakukan cek di dashboard Bing search console URL Post berhasil dikirim ke Indexnow. Berarti Script ini sukses, namun kemungkinan ada beberapa kesalahan internal yang tidak saya ketahui yang menyebabkan Response 200. Seperti yang bisa kamu lihat di data berikut.
 ![cara cepat terindex bing](images/bing.webp)
+
+Setelah saya mempelajari *[dokumentasi IndexNow](https://www.indexnow.org/documentation)*, Response 200 berarti url sukses dikirim. Berikut daftar Respons yang mungkin muncul dan keterangannya
+
+| HTTP Code | Response               | Reasons                                                               |
+| :-------- | :--------------------- | :-------------------------------------------------------------------- |
+| 200       | OK                     | URL submitted successfully                                            |
+| 202       | Accepted               | URL received. IndexNow key validation pending.                        |
+| 400       | Bad request            | Invalid format                                                        |
+| 403       | Forbidden              | In case of key not valid (e.g. key not found, file found but key not in the file) |
+| 422       | Unprocessable Entity   | In case of URLs which don’t belong to the host or the key is not matching the schema in the protocol |
+| 429       | Too Many Requests      | Too Many Requests (potential Spam)                                    |
 
 ## Penutup
 Selamat! Anda baru saja berhasil melakukan integrasi IndexNow Hugo secara penuh dan otomatis. Sekarang, Anda tidak perlu lagi khawatir tentang indexing cepat. Setiap karya yang Anda publikasikan akan segera "dilihat" oleh mesin pencari, memberikan keuntungan kompetitif dan memaksimalkan potensi SEO Hugo Anda.
