@@ -20,21 +20,21 @@
         exit 0
       fi
 
-      echo -e "${CYAN}📄 Parsing sitemap.xml (filter kategori/tag/post)...${NC}"
+      echo -e "${CYAN}📄 Parsing sitemap.xml (filter kategori/tag/post/homepage)...${NC}"
       URLS_SORTED=$(grep -E '<loc>|<lastmod>' "$SITEMAP_PATH" \
         | sed -e 's/<loc>//;s|</loc>||;s/<lastmod>//;s|</lastmod>||' \
         | paste - - | sort -rk2 \
-        | grep -vE '/tags/|/categories/|/post/|/page/')
+        | grep -vE '/tags/|/categories/|/post/|/page/$|https://akazed.com/$')
 
       # URL yang diupdate hari ini
       URLS_TODAY=$(echo "$URLS_SORTED" | grep "$TODAY" | awk '{print $1}')
 
       if [ -n "$URLS_TODAY" ]; then
         echo -e "${GREEN}📅 Ditemukan $(echo "$URLS_TODAY" | wc -l) artikel baru hari ini.${NC}"
-        URLS_TO_SEND=$(echo -e "https://akazed.com/\n$URLS_TODAY" | sort -u)
+        URLS_TO_SEND="$URLS_TODAY"
       else
-        echo -e "${YELLOW}ℹ️ Tidak ada artikel baru hari ini, kirim homepage saja.${NC}"
-        URLS_TO_SEND="https://akazed.com/"
+        echo -e "${YELLOW}ℹ️ Tidak ada artikel baru hari ini, skip pengiriman.${NC}"
+        exit 0
       fi
 
       echo "$URLS_TO_SEND" > /tmp/latest_urls.txt
