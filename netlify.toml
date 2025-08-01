@@ -2,24 +2,49 @@
   publish = "public"
   command = """
     echo '🚀 Starting Hugo build...'
-    hugo
-    echo '✅ Hugo build completed.'
+    if hugo; then
+      echo '✅ Hugo build completed.'
 
-    echo '📤 Sending URL list to IndexNow...'
-    RESPONSE=$(curl -s -o /tmp/indexnow_response.txt -w "%{http_code}" \
-      -X POST https://api.indexnow.org/indexnow \
-      -H 'Content-Type: application/json' \
-      -d '{
-        "host": "akazed.com",
-        "key": "'"$INDEXNOW_KEY"'",
-        "keyLocation": "https://akazed.com/'"$INDEXNOW_KEY_FILENAME"'",
-        "urlList": ["https://akazed.com/sitemap.xml"]
-      }'
-    )
+      # Ambil 5 URL terbaru dari post
+      echo '📄 Collecting latest URLs...'
+      LATEST_URLS=$(find public -name "index.html" | grep -vE "/page/|/tags/|/categories/" \
+        | sed 's|public||;s|index.html$||;s|^/||' \
+        | head -n 5 \
+        | sed 's|^|https://akazed.com/|')
 
-    echo "📡 IndexNow HTTP Status: $RESPONSE"
-    echo "📝 Response body:"
-    cat /tmp/indexnow_response.txt
+      echo "$LATEST_URLS" > /tmp/latest_urls.txt
+      echo '🔍 Latest URLs to send:'
+      cat /tmp/latest_urls.txt
+
+      # Ubah daftar URL menjadi format JSON array
+      URL_JSON_ARRAY=$(printf '"%s",' $LATEST_URLS)
+      URL_JSON_ARRAY=${URL_JSON_ARRAY%,} # hapus koma terakhir
+
+      # Buat payload JSON untuk IndexNow
+      JSON_PAYLOAD=$(cat <<EOF
+{
+  "host": "akazed.com",
+  "key": "${INDEXNOW_KEY}",
+  "keyLocation": "https://akazed.com/${INDEXNOW_KEY_FILENAME}",
+  "urlList": ["https://akazed.com/sitemap.xml", $URL_JSON_ARRAY]
+}
+EOF
+)
+
+      # Kirim ke IndexNow
+      echo '📤 Sending URL list to IndexNow...'
+      RESPONSE=$(curl -s -o /tmp/indexnow_response.txt -w "%{http_code}" \
+        -X POST https://api.indexnow.org/indexnow \
+        -H 'Content-Type: application/json' \
+        -d "$JSON_PAYLOAD"
+      )
+
+      echo "📡 IndexNow HTTP Status: $RESPONSE"
+      echo "📝 Response body:"
+      cat /tmp/indexnow_response.txt
+    else
+      echo '❌ Hugo build failed, skipping IndexNow ping.'
+    fi
   """
 
 [context.production.environment]
