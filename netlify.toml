@@ -21,28 +21,32 @@
         exit 0
       fi
 
-      echo -e "${CYAN}📄 Parsing sitemap.xml...${NC}"
+      echo -e "${CYAN}📄 Parsing sitemap.xml (filter kategori & tag)...${NC}"
       URLS_SORTED=$(grep -E '<loc>|<lastmod>' "$SITEMAP_PATH" \
         | sed -e 's/<loc>//;s|</loc>||;s/<lastmod>//;s|</lastmod>||' \
-        | paste - - | sort -rk2)
+        | paste - - | sort -rk2 \
+        | grep -vE '/tags/|/categories/|/post/|/page/')
 
+      # Cari URL yang diupdate hari ini
       URLS_TODAY=$(echo "$URLS_SORTED" | grep "$TODAY" | awk '{print $1}')
 
       if [ -n "$URLS_TODAY" ]; then
-        echo -e "${GREEN}📅 Ditemukan $(echo "$URLS_TODAY" | wc -l) URL baru hari ini.${NC}"
+        echo -e "${GREEN}📅 Ditemukan $(echo "$URLS_TODAY" | wc -l) artikel baru hari ini.${NC}"
         URLS_TO_SEND="$URLS_TODAY"
       else
-        echo -e "${YELLOW}ℹ️ Tidak ada URL baru hari ini. Skip pengiriman IndexNow.${NC}"
-        exit 0
+        echo -e "${YELLOW}ℹ️ Tidak ada artikel baru hari ini, kirim homepage saja.${NC}"
+        URLS_TO_SEND="https://akazed.com/"
       fi
 
       echo "$URLS_TO_SEND" > /tmp/latest_urls.txt
       echo -e "${CYAN}🔍 URLs to send:${NC}"
       cat /tmp/latest_urls.txt
 
+      # Buat array JSON
       URL_JSON_ARRAY=$(printf '"%s",' $URLS_TO_SEND)
       URL_JSON_ARRAY=${URL_JSON_ARRAY%,}
 
+      # Payload JSON
       JSON_PAYLOAD=$(cat <<EOF
 {
   "host": "akazed.com",
