@@ -3,7 +3,7 @@ title: Selamat Datang di Blog Baru Saya Powered by Hugo
 description: Halo semuanya, selamat datang di Blog baru saya! Saya sangat bersemangat menunjukkan pada kalian semua rumah baru saya, yang kini ditenagai oleh Hugo.
 date: 2024-01-27T21:14:15+08:00 
 #2023年12月27日21:14:15
-lastmod: 2024-10-27T21:14:15+08:00 
+lastmod: 2025-08-01T21:14:15+08:00 
 comments: true
 license: 
 slug: /welcome-to-my-hugo-blog/
@@ -78,3 +78,5 @@ Akazedblog/
 Yap, jadi beginilah tampilan blog baru saya, di build dengan Hugo yang selanjutnya akan dijadikan blog utama saya kedepannya. 
 
 Jangan lupa untuk bergabung di **[Group WA Blogger Indonesia](/)** atau jika kamu ingin menghubungi saya dapat melalui formcontact
+
+Beberapa waktu lalu saya mencoba mengimplementasikan IndexNow. Ya, salah satu plugin wordpress yang populer untuk mempercepat index blog. Kamu bisa baca panduan menggunakan ***[indexnow hugo](/panduan-integrasi-indexnow-hugo/)*** agar situs lebih cepat terindex.

@@ -3,7 +3,7 @@ title: Cara Integrasi IndexNow Hugo Panduan Lengkap Agar Artikel Cepat Terindeks
 description: ingkatkan SEO Hugo Anda dengan panduan lengkap cara integrasi IndexNow. Pelajari cara submit URL otomatis ke Google & Bing untuk indexing cepat setiap kali Anda mempublikasikan artikel baru. Otomatiskan dengan GitHub Actions dan hemat crawl budget Anda
 date: 2025-08-01T08:14:15+08:00 
 #2023年12月27日21:14:15
-lastmod: 2025-08-01T11:28:15+08:00 
+lastmod: 2025-08-02T11:28:15+08:00 
 comments: true
 keywords: 
 license: 
@@ -19,7 +19,7 @@ tags:
 ---
 Wordpress dan CMS besar lainnya menggunakan Indexnow yang canggih untuk membantu mengindex situs mereka. Dan saya penasaran, bagaimana jika kita *[mengintegrasikan indexnow ke blog Hugo](/panduan-integrasi-indexnow-hugo/)* . Bisakah berhasil?
 
-Beberapa waktu lalu saya tidak sengaja menemukan halaman diskusi di gohugo yang membahas topik ini, kamu bisa lihat *[di sini](https://discourse.gohugo.io/t/indexnow/48899)*. Mereka membahas, ***mungkinkah kita mengimplementasikan indexnow ke dalam sebuah blog hugo?***. Pertanyaan ini muncul karena mengingat Hugo merupakan *Static Site Generator* (SSG) tidak menyediakan *Native support* seperti ini. Jadi kita harus mencari solusi lain.
+Beberapa waktu lalu saya tidak sengaja menemukan halaman diskusi di gohugo yang membahas topik ini, kamu bisa lihat *[di sini](https://discourse.gohugo.io/t/indexnow/48899)*. Mereka membahas, ***mungkinkah kita mengimplementasikan indexnow ke dalam sebuah blog hugo?***. Pertanyaan ini muncul karena mengingat *[Hugo merupakan](/welcome-to-my-hugo-blog/)* *Static Site Generator* (SSG) tidak menyediakan *Native support* seperti ini. Jadi kita harus mencari solusi lain.
 
 >Kabar baiknya, ada solusi modern untuk masalah ini: Kita akan memanfaatkan proses build netlify dan memintanya untuk melakukan request ke indexnow dengan menggunakan API.
 
@@ -162,7 +162,7 @@ Setelah saya mempelajari *[dokumentasi IndexNow](https://www.indexnow.org/docume
 | 429       | Too Many Requests      | Too Many Requests (potential Spam)                                    |
 
 ## Penutup
-Selamat! Anda baru saja berhasil melakukan integrasi IndexNow Hugo secara penuh dan otomatis. Sekarang, Anda tidak perlu lagi khawatir tentang indexing cepat. Setiap karya yang Anda publikasikan akan segera "dilihat" oleh mesin pencari, memberikan keuntungan kompetitif dan memaksimalkan potensi SEO Hugo Anda.
+Selamat! Anda baru saja berhasil melakukan implementasi *[IndexNow Hugo](/panduan-integrasi-indexnow-hugo/)* secara penuh dan otomatis. Sekarang, Anda tidak perlu lagi khawatir tentang indexing cepat. Setiap karya yang Anda publikasikan akan segera "dilihat" oleh mesin pencari, memberikan keuntungan kompetitif dan memaksimalkan potensi SEO Hugo Anda.
 
 Dengan sedikit pengaturan di awal, Anda telah membangun sebuah sistem submit URL otomatis yang efisien, menghemat crawl budget, dan memastikan konten Anda tidak pernah ketinggalan di belantara internet.
 
