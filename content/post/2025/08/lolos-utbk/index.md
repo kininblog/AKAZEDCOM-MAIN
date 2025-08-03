@@ -46,7 +46,7 @@ Teknik ini dirancang untuk menjaga tingkat fokus Anda tetap tinggi dan **mencega
 
 Di era digital seperti sekarang, akses ke informasi dan bahan ajar tak terbatas. **Manfaatkan berbagai platform belajar yang dapat diakses secara online**. Sumber daya daring ini bisa berupa video penjelasan, forum diskusi, atau bahkan bank soal latihan. Yang menarik, banyak dari platform ini seringkali **dilengkapi dengan fitur timer** yang akan membantu Anda mengatur waktu saat mengerjakan soal. Dengan begitu, Anda tidak hanya memahami materi, tetapi juga terbiasa dengan tekanan waktu ujian.
 
-![situs simulasi utbk](images/ujian.webp)
+![situs simulasi utbk](images/tryout.webp)
 ### **5. Lakukan Simulasi Ujian Secara Rutin**
 
 Salah satu cara paling efektif untuk mempersiapkan diri menghadapi UTBK 2025 adalah dengan **melakukan simulasi ujian utbk**. Cobalah untuk mengerjakan soal-soal UTBK tahun-tahun sebelumnya atau soal-soal latihan dalam **kondisi yang semirip mungkin dengan ujian sesungguhnya**. Ini berarti Anda harus mencoba menyelesaikan soal dalam waktu yang telah ditentukan, tanpa gangguan, seolah-olah Anda sedang berada di ruang ujian. Berlatih di bawah tekanan waktu akan membantu Anda **terbiasa dengan atmosfer ujian** dan mengurangi kecemasan saat hari-H tiba. Ini juga memungkinkan Anda untuk mengidentifikasi area mana yang masih memerlukan kecepatan lebih.
