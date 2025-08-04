@@ -59,7 +59,7 @@ Salah satu rekomendasi situs try out utbk gratis terbaik yang bisa kamu coba ada
 
 ### **7. Berdiskusi dan Belajar Bersama Teman**
 
-Belajar tidak harus selalu sendiri! **Belajar bersama teman** dapat menjadi solusi jitu dalam meningkatkan pemahaman dan mempercepat proses belajar. Dengan mendiskusikan materi yang sulit dan mengerjakan soal bersama-sama, Anda bisa **mempercepat pemahaman** serta saling mendukung dalam manajemen waktu. Selain itu, interaksi dengan teman juga memungkinkan Anda untuk saling mendukung dalam penerapan manajemen waktu. Anda bisa saling mengingatkan, memotivasi, dan bahkan berkompetisi sehat untuk mencapai tujuan bersama. Perspektif yang berbeda dari teman juga seringkali membuka pemahaman baru.
+Belajar tidak harus selalu sendiri! Belajar bersama teman atau *[belajar kelompok](/strategi-belajar-kelompok-efektif/)* dapat menjadi solusi jitu dalam meningkatkan pemahaman dan mempercepat proses belajar. Dengan mendiskusikan materi yang sulit dan mengerjakan soal bersama-sama, Anda bisa **mempercepat pemahaman** serta saling mendukung dalam manajemen waktu. Selain itu, interaksi dengan teman juga memungkinkan Anda untuk saling mendukung dalam penerapan manajemen waktu. Anda bisa saling mengingatkan, memotivasi, dan bahkan berkompetisi sehat untuk mencapai tujuan bersama. Perspektif yang berbeda dari teman juga seringkali membuka pemahaman baru.
 
 ### **8. Jaga Kesehatan Fisik dan Mental Anda**
 
