@@ -38,7 +38,7 @@ difficulty: "Sulit"
 {{< ujian/BUMN/bumn-analogi >}}
 
 
-**[Akazed](/)**, Apakah Anda sedang mencari panduan lengkap seputar **materi analogi** untuk persiapan Rekrutmen Bersama BUMN? Anda berada di tempat yang tepat. Tes analogi atau padanan kata adalah salah satu rintangan utama dalam Tes Kemampuan Dasar (TKD) yang seringkali menjadi penentu kelulusan. Meskipun terlihat sederhana, banyak peserta yang merasa terjebak karena kurangnya pemahaman konsep dan strategi.
+**[Akazed](/)**, Apakah Anda sedang mencari panduan lengkap seputar **[materi analogi](/ujian/bumn/try-out-bumn-materi-analogi/)** untuk persiapan Rekrutmen Bersama BUMN? Anda berada di tempat yang tepat. Tes analogi atau padanan kata adalah salah satu rintangan utama dalam Tes Kemampuan Dasar (TKD) yang seringkali menjadi penentu kelulusan. Meskipun terlihat sederhana, banyak peserta yang merasa terjebak karena kurangnya pemahaman konsep dan strategi.
 
 Artikel ini adalah panduan pilar Anda. Kami akan mengupas tuntas semua yang perlu Anda ketahui—mulai dari konsep dasar, **jenis-jenis hubungan kata** yang paling sering keluar, hingga strategi jitu untuk mengerjakannya. Dengan panduan ini, Anda akan siap melewati bagian ini dengan percaya diri dan skor maksimal.
 
@@ -57,7 +57,7 @@ Singkatnya, kemampuan menaklukkan **soal analogi verbal** menunjukkan bahwa Anda
 
 ## Pentingnya Latihan: Manfaatkan **Try Out BUMN Gratis**
 
-Teori tanpa praktik akan sia-sia. Cara terbaik untuk menguasai **materi analogi** adalah dengan berlatih secara konsisten. Saat ini, banyak platform menyediakan **try out BUMN gratis** yang bisa Anda manfaatkan.
+Teori tanpa praktik akan sia-sia. Cara terbaik untuk menguasai **materi analogi** adalah dengan berlatih secara konsisten. Saat ini, banyak platform menyediakan **[try out BUMN gratis](/categories/tryout-bumn/)** yang bisa Anda manfaatkan.
 
 Mengikuti **try out BUMN analogi** akan membantu Anda untuk:
 
