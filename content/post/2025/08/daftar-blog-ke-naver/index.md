@@ -1,8 +1,8 @@
 ---
 title: Panduan submit dan Mendaftarkan Blog ke Naver Webmaster Tools
 description: Panduan submit dan mendaftarkan blog ke naver webmaster tools untuk meningkatkan hasil pencarian di korea menggunakan naver webtoon, serta agar blog terdaftar di naver
-date: 2025-08-05T08:14:15+08:00 #2023年12月27日21:14:15
-lastmod: 2025-08-05T21:28:15+08:00 
+date: 2025-08-06T08:14:15+08:00 #2023年12月27日21:14:15
+lastmod: 2025-08-06T17:28:15+08:00 
 comments: true
 keywords: 
 license: 
