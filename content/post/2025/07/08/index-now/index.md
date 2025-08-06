@@ -3,7 +3,7 @@ title: Cara Integrasi IndexNow Hugo Panduan Lengkap Agar Artikel Cepat Terindeks
 description: ingkatkan SEO Hugo Anda dengan panduan lengkap cara integrasi IndexNow. Pelajari cara submit URL otomatis ke Google & Bing untuk indexing cepat setiap kali Anda mempublikasikan artikel baru. Otomatiskan dengan GitHub Actions dan hemat crawl budget Anda
 date: 2025-08-01T08:14:15+08:00 
 #2023年12月27日21:14:15
-lastmod: 2025-08-02T11:28:15+08:00 
+lastmod: 2025-08-06T23:10:15+08:00 
 comments: true
 keywords: 
 license: 
