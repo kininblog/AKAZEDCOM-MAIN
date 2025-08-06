@@ -162,7 +162,7 @@ Setelah saya mempelajari *[dokumentasi IndexNow](https://www.indexnow.org/docume
 | 429       | Too Many Requests      | Too Many Requests (potential Spam)                                    |
 
 ## Penutup
-Selamat! Anda baru saja berhasil melakukan implementasi *[IndexNow Hugo](/panduan-integrasi-indexnow-hugo/)* secara penuh dan otomatis. Sekarang, Anda tidak perlu lagi khawatir tentang indexing cepat. Setiap karya yang Anda publikasikan akan segera "dilihat" oleh mesin pencari, memberikan keuntungan kompetitif dan memaksimalkan potensi SEO Hugo Anda.
+Selamat! Anda baru saja berhasil melakukan implementasi *[IndexNow Hugo](/panduan-integrasi-indexnow-hugo/)* secara penuh dan otomatis. Sekarang, Anda tidak perlu lagi khawatir tentang *[indexing cepat](https://www.farisyudza.com/13-cara-agar-website-terindex-dengan-cepat-di-google-internet-marketer-wajib-tahu/)*. Setiap karya yang Anda publikasikan akan segera "dilihat" oleh mesin pencari, memberikan keuntungan kompetitif dan memaksimalkan potensi SEO Hugo Anda.
 
 Dengan sedikit pengaturan di awal, Anda telah membangun sebuah sistem submit URL otomatis yang efisien, menghemat crawl budget, dan memastikan konten Anda tidak pernah ketinggalan di belantara internet.
 
