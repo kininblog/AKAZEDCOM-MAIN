@@ -36,12 +36,12 @@ Sama seperti Google, agar situs web atau blog Anda muncul dan terindex di Naver,
 >Saya merekomendasikan browser chrome, karena Anda membutuhkan fitur translate untuk menerjemahkan bahasa Korea.
 
 ![cara daftar blog ke naver](images/w1.webp)
-3. Buka [Search Advisor](https://searchadvisor.naver.com/)
-4. Pilih **Alat Master**
-5. Lalu Sign In via Facebook atau Line biar lebih mudah
-6. Masukkan url website atau blog Anda dan klik selanjutnya
-7. Lalu verifikasi kepemilikan dengan menggunakan tag HTML seperti biasa
-8. Selamat blog anda sudah terdaftar di Naver
+1. Buka [Search Advisor](https://searchadvisor.naver.com/)
+2. Pilih **Alat Master**
+3. Lalu Sign In via Facebook atau Line biar lebih mudah
+4. Masukkan url website atau blog Anda dan klik selanjutnya
+5. Lalu verifikasi kepemilikan dengan menggunakan tag HTML seperti biasa
+6. Selamat blog anda sudah terdaftar di Naver
 
 Setelah Anda berhasil mendaftarkan dan memverifikasi kepemilikan blog, agar blog cepat terindeks Anda bisa menambahkan sitemap.xml, dan url rss.
 
@@ -51,9 +51,10 @@ Setelah Anda berhasil mendaftarkan dan memverifikasi kepemilikan blog, agar blog
 
 ![cara mengirim sitemap di naver](images/w2.webp)
 
-5. Pilih menu **Meminta > Kirim RSS** _(untuk mengirim RSS)_ **\> Kirim Peta Situs** _(untuk mengirim sitemap)_
-6. Tunggu proses perayapan robot Naver
+2. Pilih menu **Meminta > Kirim RSS** _(untuk mengirim RSS)_ **\> Kirim Peta Situs** _(untuk mengirim sitemap)_
+3. Tunggu proses perayapan robot Naver
 
+Pastikan robot.txt dan sitemap kamu valid, untuk meningkatkan kecepatan index blog tambahkan juga *[meta tags seo](/meta-tag-seo-blogger-terbaru/)* blogger terbaru.
 ## Mudah Bukan Mendaftarkan Blog ke Naver?
 
 Itu dia *[tutorial](/categories/tutorial/)* kali ini, sangat mudah sekali untuk mendaftarkan blog ke search engine naver.
