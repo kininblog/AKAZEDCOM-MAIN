@@ -42,7 +42,7 @@ Artikel ini akan mengupas tuntas seluk-beluk soal analogi, mulai dari konsep das
 
 ## **Apa Itu Tes Analogi dan Mengapa Penting?**
 
-*Tes analogi adalah* jenis soal yang meminta Anda untuk mengidentifikasi hubungan antara sepasang kata (kata kunci) dan kemudian menemukan pasangan kata lain dari pilihan yang ada yang memiliki hubungan serupa.
+*[Tes analogi](/ujian/bumn/try-out-bumn-materi-analogi-copy/) adalah* jenis soal yang meminta Anda untuk mengidentifikasi hubungan antara sepasang kata (kata kunci) dan kemudian menemukan pasangan kata lain dari pilihan yang ada yang memiliki hubungan serupa.
 
 Tujuannya adalah untuk mengukur kemampuan Anda dalam:
 
