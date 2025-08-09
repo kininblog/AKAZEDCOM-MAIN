@@ -3,7 +3,7 @@ title: Cara Integrasi IndexNow Hugo Panduan Lengkap Agar Artikel Cepat Terindeks
 description: ingkatkan SEO Hugo Anda dengan panduan lengkap cara integrasi IndexNow. Pelajari cara submit URL otomatis ke Google & Bing untuk indexing cepat setiap kali Anda mempublikasikan artikel baru. Otomatiskan dengan GitHub Actions dan hemat crawl budget Anda
 date: 2025-08-01T08:14:15+08:00 
 #2023年12月27日21:14:15
-lastmod: 2025-08-06T23:10:15+08:00 
+lastmod: 2025-08-08T23:10:15+08:00 
 comments: true
 keywords: 
 license: 
@@ -23,7 +23,11 @@ Beberapa waktu lalu saya tidak sengaja menemukan halaman diskusi di gohugo yang 
 
 >Kabar baiknya, ada solusi modern untuk masalah ini: Kita akan memanfaatkan proses build netlify dan memintanya untuk melakukan request ke indexnow dengan menggunakan API.
 
-Dalam panduan lengkap ini, *[akazed](/)* akan membahas lebih dalam bagaimana penerapan dan cara integrasi IndexNow Hugo secara otomatis. Lupakan cara manual submit URL yang melelahkan. Setelah melakukan ini, setiap kali Anda mempublikasikan artikel baru, situs akan secara otomatis ***"memberi tahu"*** mesin pencari seperti Bing, dan Yandex. Hasilnya? **Indexing cepat** dan peningkatan Hugo SEO Anda.
+Dalam panduan lengkap ini, *[akazed](/)* akan membahas lebih dalam bagaimana penerapan dan cara integrasi IndexNow Hugo secara otomatis. Lupakan cara manual submit URL yang melelahkan. Setelah melakukan ini, setiap kali Anda mempublikasikan artikel baru, situs akan secara otomatis ***"memberi tahu"*** mesin pencari seperti Bing,Naver dan Yandex. Hasilnya? **Indexing cepat** dan peningkatan Hugo SEO Anda.
+
+Sebagai tambahan, untuk meningkatkan visibilitas website kamu di mesin pencari daftarkan juga blog ke naver, berikut panduan *[cara mendaftarkan blog ke naver](/submit-blog-ke-naver-webmaster/)*.
+
+## Apa Itu IndexNow
 
 ## Apa Itu IndexNow dan Mengapa Penting untuk Hugo
 *IndexNow adalah sebuah protokol sederhana yang memungkinkan sebuah situs web untuk memberi sinyal kepada mesin pencari bahwa ada konten yang baru dibuat, diperbaharui atau dihapus.* Alih-alih menunggu crawler datang, kita yang proaktif memberitahu mmereka.
@@ -163,6 +167,10 @@ Setelah saya mempelajari *[dokumentasi IndexNow](https://www.indexnow.org/docume
 
 ## Penutup
 Selamat! Anda baru saja berhasil melakukan implementasi *[IndexNow Hugo](/panduan-integrasi-indexnow-hugo/)* secara penuh dan otomatis. Sekarang, Anda tidak perlu lagi khawatir tentang *[indexing cepat](https://www.farisyudza.com/13-cara-agar-website-terindex-dengan-cepat-di-google-internet-marketer-wajib-tahu/)*. Setiap karya yang Anda publikasikan akan segera "dilihat" oleh mesin pencari, memberikan keuntungan kompetitif dan memaksimalkan potensi SEO Hugo Anda.
+
+>Bagi kamu yang menggunakan jekyll, baca juga dokumentasi dan panduan menggunakan indexnow api di jekyll melalui artikel berikut : *[indexnow jekyll plugin](/indexnow-jekyll-plugin/)*
+
+Lebih lengkap, kamu bisa membuka repository github berikut **[indexnow hugo github](https://github.com/kininblog/Indexnow-hugo)**
 
 Dengan sedikit pengaturan di awal, Anda telah membangun sebuah sistem submit URL otomatis yang efisien, menghemat crawl budget, dan memastikan konten Anda tidak pernah ketinggalan di belantara internet.
 
