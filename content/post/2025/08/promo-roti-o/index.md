@@ -1,5 +1,5 @@
 ---
-title: Cara Promo Roti O Cuma 5 Ribu Hari Ini
+title: Cara Dapat Promo Roti O Cuma 5 Ribu Hari Ini
 description: Cobain deh promo roti o hari ini, kamu cuma pelu bayar 5000 atau 7000 doang harga diskon roti o dan kopi. Bisa bayar pakai qris, klaim harga roti o murah dan ada juga promo roti o beli 2 gratis 2. Buruan ambil sebelum diskon bulan ini habis.
 date: 2025-08-10T08:14:15+08:00 #2023年12月27日21:14:15
 lastmod: 2025-08-10T11:28:15+08:00 
