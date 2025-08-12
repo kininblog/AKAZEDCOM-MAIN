@@ -17,22 +17,42 @@ menu:
             icon: user
 ---
 
-![akazed default image](images/default.webp)
-Hi. Saya penulis serta pengelola **Akazed.com**, senang mempelajari hal-hal baru di dunia blogging, saat ini Saya juga menjadi **seorang pendidik**.
+Selamat datang di **Akazed.com** — portal edukasi dan teknologi yang dirancang untuk membantu pelajar, mahasiswa, pendidik, dan pembelajar sepanjang hayat menemukan informasi yang bermanfaat, akurat, dan inspiratif.
 
-**[Akazed.com](/)** merupakan kanal blog yang Saya buat pada mei 2025, yang memuat berbagai konten seputar blogger, teknologi, ekonomi, bahkan topik-topik seputar pendidikan.
+## Siapa Kami?
+Akazed.com dikelola oleh tim yang memiliki minat mendalam pada dunia pendidikan, teknologi, blogging, dan pengembangan diri. Kami percaya bahwa **pengetahuan adalah investasi terbaik**, dan setiap orang berhak mendapat akses informasi yang berkualitas.
 
-**Akazed** Merupakan situs yang membahas topik seputar pendidikan, berita pendidikan, try out online, serta perkembangan teknologi dan dunia blogger.
+Didirikan pada tahun 2024, Akazed.com berkomitmen menyediakan artikel, panduan, dan tips yang:
+- **Original**: Ditulis dengan riset dan pengalaman langsung.
+- **Bermanfaat**: Memberikan solusi nyata untuk pembaca.
+- **Mudah dipahami**: Menggunakan bahasa yang ramah dan tidak berbelit-belit.
 
+## Apa yang Kami Tawarkan?
+- **Panduan Pendidikan** — materi belajar, tips ujian, dan strategi studi efektif.  
+- **Teknologi & Internet** — tutorial blogging, SEO, serta tren teknologi terbaru.  
+- **Berita & Info Terkini** — pembaruan dunia pendidikan, seleksi CPNS/PPG, dan info penting lainnya.  
 
-## CMS yang digunakan Akazed.com
-Sebelumnya Saya membuat blog dengan bantuan blogger, beberapa wordpress dan bahkan jekyll. Tapi, saat ini Akazed.com mencoba hal yang berbeda, Saya memutuskan untuk mencoba menggunakan Hugo. Mirip seperti *Jekyll*, hugo juga membuat situs menjadi Web statis yang ringan.
+## Visi Kami
+Menjadi sumber rujukan terpercaya di bidang pendidikan dan teknologi di Indonesia, yang mampu menginspirasi serta memudahkan pembaca dalam mencapai tujuan belajar dan karier.
 
->Katanya Hugo lebih *powerfull* dibandingkan Jekyll. Mari kita coba dan rasakan sendiri perbedaannya.
+## Misi Kami
+1. Menyediakan konten edukatif dan relevan secara rutin.  
+2. Mengutamakan akurasi, kualitas, dan kejelasan informasi.  
+3. Mendukung pembelajaran mandiri berbasis teknologi.
 
-Mungkin Saya juga akan mencoba membahas topik Hugo dan cara membuat blog hugo di blog ini kedepannya jika sudah semakin terbiasa.
+## Tim Pengelola
+**Nanda Fransiska** — Pendiri & Penulis Utama  
+Bertanggung jawab atas pengelolaan konten, riset topik, serta pengembangan situs.  
 
-### Contact
-Hubungi kamu melalui formulir kontak, klik **[Hubungi Kami](/contact/)**
+Kontributor & Editor Tamu — Membantu dalam penulisan artikel, editing, dan verifikasi data.
+
+## Hubungi Kami
+Jika Anda memiliki pertanyaan, saran, atau ingin bekerja sama, silakan hubungi melalui:  
+**Email:** contact@akazed.com  
+**Halaman Kontak:** [Form Kontak](https://akazed.com/contact/)
+
+---
+
+> _“Berbagi ilmu adalah investasi yang nilainya tidak akan pernah berkurang.”_ — Tim Akazed
 
 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4084066.7762554684!2d100.24492!3d-1.556351!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x834f3721852df327%3A0x51b15a313df83f02!2sAkazed!5e0!3m2!1sen!2sid!4v1754982987595!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
