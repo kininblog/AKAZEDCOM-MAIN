@@ -1,6 +1,6 @@
 ---
 title: 7 Tempat Wisata Edukasi di Indonesia untuk Semua Usia
-description: 
+description: Wisata bersama keluarga lebih ceria dan penuh edukasi, dengan mengunjungi tempat dan destinasi wisata edukasi di Indonesia. Yuk coba lihat rekomendasi tempat wisata pendidikan terbaik
 date: 2025-08-11T08:14:15+08:00 #2023年12月27日21:14:15
 lastmod: 2025-08-11T11:28:15+08:00 
 comments: true
