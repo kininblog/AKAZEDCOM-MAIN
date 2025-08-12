@@ -172,7 +172,7 @@ params:
             #  params:
              #     limit: 100
 
-            - type: ads
+#            - type: ads
             #  params:
               #    limit: 100
             

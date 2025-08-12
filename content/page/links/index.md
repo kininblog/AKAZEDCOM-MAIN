@@ -8,12 +8,12 @@ layout: "links"
 comments: true
 license: false
 image: 
-menu:
-    main: 
-        weight: -80
-        params:
+#menu:
+ #   main: 
+  #      weight: -80
+   #     params:
             #icon: user
-            icon: user
+    #        icon: user
 
 ---
 ## Daftar Teman dan Koneksi Akazed.com

@@ -19,153 +19,115 @@ aliases:
 - /term/
 ---
 
+## **Terms and Conditions**
 
-Halaman **[Terms and Conditions](/terms/)** (Syarat dan Ketentuan) ini mengatur penggunaan **Akazed.com**. Dengan mengakses atau menggunakan Blog ini, Anda menyetujui syarat dan ketentuan berikut. Jika Anda tidak setuju dengan salah satu poin, mohon untuk tidak menggunakan Blog ini. 
+Welcome to Akazed Edu & Tech!
 
->Dokumen ini menjelaskan hak dan kewajiban pengguna serta Author, batasan tanggung jawab, dan *[ketentuan](/policy/)* hukum yang berlaku.
+These terms and conditions outline the rules and regulations for the use of Akazed Edu & Tech's Website, located at [https://akazed.com](https://akazed.com).
 
----
+By accessing this website we assume you accept these terms and conditions. Do not continue to use Akazed Edu & Tech if you do not agree to take all of the terms and conditions stated on this page.
 
-## 1. Definisi
+The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: 'Client', 'You' and 'Your' refers to you, the person log on this website and compliant to the Companys terms and conditions. 'The Company', 'Ourselves', 'We', 'Our' and 'Us', refers to our Company. 'Party', 'Parties', or 'Us', refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Clients needs in respect of provision of the Companys stated services, in accordance with and subject to, prevailing law of Netherlands. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.
 
-1. **“Blog”**  
-   Merujuk pada situs web **[Akazed.com](/)** yang berisi konten tentang blogging, internet, news, gaming, teknologi, dan pendidikan.
+#### **Cookies**
 
-2. **“Author”**  
-   Nanda, pemilik dan pengelola Blog, bertanggung jawab atas konten, update, dan kebijakan yang berlaku.
+We employ the use of cookies. By accessing Akazed Edu & Tech, you agreed to use cookies in agreement with the Akazed Edu & Tech's Privacy Policy.
 
-3. **“Pengguna”**  
-   Setiap individu atau entitas yang mengakses, membaca, atau menggunakan Blog ini.
+Most interactive websites use cookies to let us retrieve the users details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.
 
-4. **“Konten”**  
-   Semua teks, gambar, video, grafik, tautan, dan materi multimedia lain yang dipublikasikan di Blog.
+#### **License**
 
----
+Unless otherwise stated, Akazed Edu & Tech and/or its licensors own the intellectual property rights for all material on Akazed Edu & Tech. All intellectual property rights are reserved. You may access this from Akazed Edu & Tech for your own personal use subjected to restrictions set in these terms and conditions.
 
-## 2. Akses dan Penggunaan
+You must not:
 
-### 2.1 Hak Akses  
-- Pengguna diberikan hak non-eksklusif, tidak dapat dipindahtangankan, untuk mengakses dan menggunakan Blog sesuai dengan syarat ini.  
-- Akses dibatasi hanya untuk keperluan pribadi dan non-komersial, kecuali atas izin tertulis dari Author.
+*   Republish material from Akazed Edu & Tech
+*   Sell, rent or sub-license material from Akazed Edu & Tech
+*   Reproduce, duplicate or copy material from Akazed Edu & Tech
+*   Redistribute content from Akazed Edu & Tech
 
-### 2.2 Penggunaan Terlarang  
-Pengguna dilarang untuk:  
-- Mengubah, menduplikasi, mempublikasikan ulang, atau membuat karya turunan dari Konten tanpa izin tertulis.  
-- Menyebarkan malware, virus, atau kode berbahaya lainnya.  
-- Mengumpulkan data pengguna lain secara otomatis (scraping, crawling) tanpa persetujuan.
-- Mengganggu atau merusak server, jaringan, atau layanan pendukung Blog.
+This Agreement shall begin on the date hereof.
 
----
+Parts of this website offer an opportunity for users to post and exchange opinions and information in certain areas of the website. Akazed Edu & Tech does not filter, edit, publish or review Comments prior to their presence on the website. Comments do not reflect the views and opinions of Akazed Edu & Tech, its agents and/or affiliates. Comments reflect the views and opinions of the person who post their views and opinions. To the extent permitted by applicable laws, Akazed Edu & Tech shall not be liable for the Comments or for any liability, damages or expenses caused and/or suffered as a result of any use of and/or posting of and/or appearance of the Comments on this website.
 
-## 3. Pendaftaran dan Akun
+Akazed Edu & Tech reserves the right to monitor all Comments and to remove any Comments which can be considered inappropriate, offensive or causes breach of these Terms and Conditions.
 
-> *Bagian ini hanya berlaku jika Blog menerapkan fitur pendaftaran/pengguna terdaftar.*
+You warrant and represent that:
 
-1. **Pendaftaran Akun**  
-   - Pengguna yang ingin menulis komentar atau ikut program newsletter wajib mendaftar dengan email valid.  
-   - Data pendaftaran tunduk pada Privacy Policy.
+*   You are entitled to post the Comments on our website and have all necessary licenses and consents to do so;
+*   The Comments do not invade any intellectual property right, including without limitation copyright, patent or trademark of any third party;
+*   The Comments do not contain any defamatory, libelous, offensive, indecent or otherwise unlawful material which is an invasion of privacy
+*   The Comments will not be used to solicit or promote business or custom or present commercial activities or unlawful activity.
 
-2. **Keamanan Akun**  
-   - Pengguna bertanggung jawab penuh atas keamanan kredensial (email dan password).  
-   - Author tidak akan meminta password melalui email apa pun.
+You hereby grant Akazed Edu & Tech a non-exclusive license to use, reproduce, edit and authorize others to use, reproduce and edit any of your Comments in any and all forms, formats or media.
 
-3. **Penangguhan dan Penghapusan**  
-   - Author berhak menangguhkan atau menghapus akun pengguna jika melanggar syarat ini.
+#### **Hyperlinking to our Content**
 
----
+The following organizations may link to our Website without prior written approval:
 
-## 4. Konten Pengguna
+*   Government agencies;
+*   Search engines;
+*   News organizations;
+*   Online directory distributors may link to our Website in the same manner as they hyperlink to the Websites of other listed businesses; and
+*   System wide Accredited Businesses except soliciting non-profit organizations, charity shopping malls, and charity fundraising groups which may not hyperlink to our Web site.
 
-1. **Hak dan Lisensi**  
-   - Dengan memposting komentar, pengunjung memberikan lisensi non-eksklusif, bebas royalti, hak untuk menggunakan, mereproduksi, memodifikasi, dan menampilkan komentar tersebut di seluruh dunia.  
-   - Author berhak menghapus atau mengedit komentar yang dianggap tidak pantas, spam, atau melanggar hukum.
+These organizations may link to our home page, to publications or to other Website information so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking party and its products and/or services; and (c) fits within the context of the linking partys site.
 
-2. **Tanggung Jawab**  
-   - Pengguna bertanggung jawab atas keakuratan dan legalitas konten yang mereka bagikan.  
-   - Blog tidak bertanggung jawab atas kerugian yang ditimbulkan oleh Konten Pengguna.
+We may consider and approve other link requests from the following types of organizations:
 
----
+*   commonly-known consumer and/or business information sources;
+*   dot.com community sites;
+*   associations or other groups representing charities;
+*   online directory distributors;
+*   internet portals;
+*   accounting, law and consulting firms; and
+*   educational institutions and trade associations.
 
-## 5. Hak Cipta dan Kekayaan Intelektual
+We will approve link requests from these organizations if we decide that: (a) the link would not make us look unfavorably to ourselves or to our accredited businesses; (b) the organization does not have any negative records with us; (c) the benefit to us from the visibility of the hyperlink compensates the absence of Akazed Edu & Tech; and (d) the link is in the context of general resource information.
 
-1. **Kepemilikan**  
-   - Semua hak cipta dan kekayaan intelektual atas Konten Blog dimiliki oleh Author, kecuali dinyatakan lain.
+These organizations may link to our home page so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking party and its products or services; and (c) fits within the context of the linking partys site.
 
-2. **Lisensi Penggunaan**  
-   - Pengguna diperbolehkan membaca, menyimpan, dan membagikan tautan ke Konten selama tetap mencantumkan sumber.  
-   - Penggunaan komersial atau modifikasi Konten memerlukan izin tertulis.
+If you are one of the organizations listed in paragraph 2 above and are interested in linking to our website, you must inform us by sending an e-mail to Akazed Edu & Tech. Please include your name, your organization name, contact information as well as the URL of your site, a list of any URLs from which you intend to link to our Website, and a list of the URLs on our site to which you would like to link. Wait 2-3 weeks for a response.
 
-3. **Pemberitahuan Pelanggaran**  
-   - Jika Anda yakin ada konten yang melanggar hak cipta Anda, silakan kirim DMCA takedown notice ke email Author.
+Approved organizations may hyperlink to our Website as follows:
 
----
+*   By use of our corporate name; or
+*   By use of the uniform resource locator being linked to; or
+*   By use of any other description of our Website being linked to that makes sense within the context and format of content on the linking partys site.
 
-## 6. Pembayaran dan Layanan Berbayar
+No use of Akazed Edu & Tech's logo or other artwork will be allowed for linking absent a trademark license agreement.
 
-> *Bagian ini hanya berlaku jika terdapat produk atau layanan berbayar di Blog.*
+#### **iFrames**
 
-1. **Pembayaran**  
-   - Semua pembayaran untuk layanan (ebook, kursus, konsultasi) dilakukan melalui metode yang disediakan (transfer bank, payment gateway).  
-   - Harga sudah termasuk pajak yang berlaku, kecuali dinyatakan lain.
+Without prior approval and written permission, you may not create frames around our Webpages that alter in any way the visual presentation or appearance of our Website.
 
-2. **Kebijakan Pengembalian**  
-   - Pengguna berhak meminta refund dalam jangka waktu 7 hari setelah pembelian, dengan syarat belum mengakses materi berbayar lebih dari 20%.  
-   - Pengembalian dana akan diproses maksimal 14 hari kerja.
+#### **Content Liability**
 
----
+We shall not be hold responsible for any content that appears on your Website. You agree to protect and defend us against all claims that is rising on your Website. No link(s) should appear on any Website that may be interpreted as libelous, obscene or criminal, or which infringes, otherwise violates, or advocates the infringement or other violation of, any third party rights.
 
-## 7. Iklan, Afiliasi, dan Sponsored Content
+#### **Your Privacy**
 
-1. **Iklan**  
-   - Blog dapat menampilkan iklan atau banner dari pihak ketiga.  
-   - Author berusaha menampilkan iklan yang relevan, namun tidak bertanggung jawab atas konten iklan tersebut.
+Please read our Privacy Policy
 
-2. **Program Afiliasi**  
-   - Tautan afiliasi ditandai secara jelas.  
-   - Author akan menerima komisi apabila pengguna melakukan pembelian melalui tautan tersebut.
+#### **Reservation of Rights**
 
-3. **Sponsored Content**  
-   - Konten bersponsor diberi label “Sponsored” atau “Iklan”.  
-   - Sponsor tidak memiliki kendali atas konten editorial.
+We reserve the right to request that you remove all links or any particular link to our Website. You approve to immediately remove all links to our Website upon request. We also reserve the right to amend these terms and conditions and its linking policy at any time. By continuously linking to our Website, you agree to be bound to and follow these linking terms and conditions.
 
----
+#### **Removal of links from our website**
 
-## 8. Batasan Tanggung Jawab
+If you find any link on our Website that is offensive for any reason, you are free to contact and inform us any moment. We will consider requests to remove links but we are not obligated to or so or to respond to you directly.
 
-1. **“As Is”**  
-   - Konten disediakan apa adanya, tanpa jaminan tersurat maupun tersirat.
+We do not ensure that the information on this website is correct, we do not warrant its completeness or accuracy; nor do we promise to ensure that the website remains available or that the material on the website is kept up to date.
 
-2. **Kerugian**  
-   - Blog dan Author tidak bertanggung jawab atas kerugian langsung, tidak langsung, atau konsekuensial yang timbul dari penggunaan Blog.
+#### **Disclaimer**
 
-3. **Gangguan Layanan**  
-   - Author berhak menghentikan, menangguhkan, atau memodifikasi layanan tanpa pemberitahuan sebelumnya.
+To the maximum extent permitted by applicable law, we exclude all representations, warranties and conditions relating to our website and the use of this website. Nothing in this disclaimer will:
 
----
+*   limit or exclude our or your liability for death or personal injury;
+*   limit or exclude our or your liability for fraud or fraudulent misrepresentation;
+*   limit any of our or your liabilities in any way that is not permitted under applicable law; or
+*   exclude any of our or your liabilities that may not be excluded under applicable law.
 
-## 9. Perubahan Syarat
+The limitations and prohibitions of liability set in this Section and elsewhere in this disclaimer: (a) are subject to the preceding paragraph; and (b) govern all liabilities arising under the disclaimer, including liabilities arising in contract, in tort and for breach of statutory duty.
 
-1. **Pembaruan**  
-   - Author dapat mengubah syarat ini sewaktu-waktu.  
-   - Perubahan akan dipublikasikan di halaman ini beserta tanggal efektif.
-
-2. **Pemberitahuan**  
-   - Pengguna disarankan mengunjungi halaman Terms and Conditions secara berkala untuk mengetahui pembaruan.
-
----
-
-## 10. Hukum yang Berlaku
-
-1. **Yurisdiksi**  
-   - Syarat ini diatur oleh hukum Republik Indonesia.
-
-2. **Penyelesaian Sengketa**  
-   - Semua perselisihan akan diselesaikan secara musyawarah untuk mufakat; jika tidak tercapai, dapat dibawa ke pengadilan negeri setempat.
-
----
-
-## 11. Kontak
-
->Jika Anda memiliki pertanyaan atau butuh klarifikasi mengenai syarat dan ketentuan ini, silakan hubungi kami via contact
-
-_Terakhir diperbarui: 3 Mei 2025_  
+As long as the website and the information and services on the website are provided free of charge, we will not be liable for any loss or damage of any nature.

@@ -16,19 +16,29 @@ menu:
             #icon: user
             icon: clipboard-text
 ---
+**Akazed Edu & Tech's Disclaimer**
 
-Hi. Saya penulis serta pengelola **Akazed.com**, senang mempelajari hal-hal baru di dunia blogging, saat ini Saya juga menjadi **seorang pendidik**.
+Akazed Edu & Tech requests you to review the site's Disclaimer. All access to and use of this website is governed by these specific terms and conditions. Continuing to this website indicates that you have reviewed the site’s Disclaimer and you have agreed to be bound by them
 
-[Akazed.com](/) merupakan kanal blog yang Saya buat pada mei 2025, yang memuat berbagai konten seputar blogger, teknologi, ekonomi, bahkan topik-topik seputar pendidikan.
+For further queries or if you need any more information about Akazed Edu & Tech, you are requested to contact us by visiting our Contact Us page. You can also mail us at:contact@akazed.com
 
-Blog ini menjadi salah satu blog terbaik Saya untuk menulis berbagai pengalaman, cerita dan hal menarik lainnya. Saya kembali menulis untuk mengingat apa yang Saya pelajari, sekaligus membagikannya kepada pembaca lain.
+**Accuracy of Information We Provide**
+Akazed Edu & Tech have every right to change any of the information provided to this site without giving notice to users.
 
-## CMS yang digunakan Akazed.com
-Sebelumnya Saya membuat blog dengan bantuan blogger, beberapa wordpress dan bahkan jekyll. Tapi, saat ini Akazed.com mencoba hal yang berbeda, Saya memutuskan untuk mencoba menggunakan Hugo. Mirip seperti *Jekyll*, hugo juga membuat situs menjadi Web statis yang ringan.
+Though https://akazed.com tries to ensure the validity of provided information, it doesn't mean the site warranties about the completeness, reliability or accuracy of all the information.
 
->Katanya Hugo lebih *powerfull* dibandingkan Jekyll. Mari kita coba dan rasakan sendiri perbedaannya.
+Akazed Edu & Tech doesn't warrant the accuracy of the information. Thus, any action you take based on the information you fine on this site, is totally at your risk. We will not be liable for any damages or losses
 
-Mungkin Saya juga akan mencoba membahas topik Hugo dan cara membuat blog hugo di blog ini kedepannya jika sudah semakin terbiasa.
+**Hypertext Links**
 
-### Contact
-Kamu bisa menghubungi Saya via contact, atau *joint* group whatsapp kami untuk berdiskusi lebih bayak.
+Akazed Edu & Tech (https://akazed.com) may have many hyperlinks to such external sites. We add external links to serve you the best. And also, we always tries to give hyperlinks to authorized sites. But still, we have no control over the content we have linked and the nature or other contents of these sites. We are not responsible for any of the contents of those sites. You should also be very much aware when you click to these links to other website that they may have different disclaimer, different privacy policy and others. Please read their terms and condition as well before you continue to these sites.
+
+**Ads**
+
+We show ads by Google AdSense, a web advertising service of Google Inc, US. Google AdSense use cookies that are stored on your computer browser and allows an analysis of the use of the site by you. We have no control over Google. We do not analyze any of your data.
+
+**Content Submission**
+
+We do not want your personal information, and even we don’t want to submit us any of your personal text, ideas, concepts, stories, videos, audios, artwork, photographs or any other personal property. Do not give any of your password to this site. We will not be responsible for the misuse of those.
+
+Note by ToolKib: If your site doesn't shows ads you should remove the part uner subheading of. If your site shows ads from other Advertising service you should mention that on that paragraph
