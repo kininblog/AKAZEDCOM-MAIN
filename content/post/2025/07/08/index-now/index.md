@@ -3,7 +3,7 @@ title: Cara Integrasi IndexNow Hugo Panduan Lengkap Agar Artikel Cepat Terindeks
 description: ingkatkan SEO Hugo Anda dengan panduan lengkap cara integrasi IndexNow. Pelajari cara submit URL otomatis ke Google & Bing untuk indexing cepat setiap kali Anda mempublikasikan artikel baru. Otomatiskan dengan GitHub Actions dan hemat crawl budget Anda
 date: 2025-08-01T08:14:15+08:00 
 #2023年12月27日21:14:15
-lastmod: 2025-08-08T23:10:15+08:00 
+lastmod: 2025-08-13T13:10:15+08:00 
 comments: true
 keywords: 
 license: 
@@ -164,6 +164,20 @@ Setelah saya mempelajari *[dokumentasi IndexNow](https://www.indexnow.org/docume
 | 403       | Forbidden              | In case of key not valid (e.g. key not found, file found but key not in the file) |
 | 422       | Unprocessable Entity   | In case of URLs which don’t belong to the host or the key is not matching the schema in the protocol |
 | 429       | Too Many Requests      | Too Many Requests (potential Spam)                                    |
+
+
+## Integrasi IndexNow Menggunakan CloudFlare Hints
+Crawler Hints adalah layanan yang dikembangkan oleh Cloudflare, yang sebagian mendukung dan terintegrasi dengan *pengiriman URL protokol IndexNow*. Layanan ini gratis digunakan oleh semua pengguna Cloudflare dan menjanjikan revolusi efisiensi web. 
+
+Pengguna juga bisa menggunakan cara ini sebagai alternatif terbaik untuk mengintegrasikan IndexNow dengan blog dengan cara yang sangat simpel dan mudah. Berikut caranya:
+
+1. Masuk ke Akun Cloudflare Anda.
+2. Di dasbor, buka tab Cache.
+3. Klik bagian Konfigurasi.
+4. Pada bagian Crawler Hints dan aktifkan.
+
+![cloudflare indexnow jekyll](images/cloudflare.webp)
+Setelah mengaktifkannya, Cloudflare akan mulai mengirimkan Ping ke mesin pencari kapan mereka harus merayapi bagian tertentu situs web.
 
 ## Penutup
 Selamat! Anda baru saja berhasil melakukan implementasi *[IndexNow Hugo](/panduan-integrasi-indexnow-hugo/)* secara penuh dan otomatis. Sekarang, Anda tidak perlu lagi khawatir tentang *[indexing cepat](https://www.farisyudza.com/13-cara-agar-website-terindex-dengan-cepat-di-google-internet-marketer-wajib-tahu/)*. Setiap karya yang Anda publikasikan akan segera "dilihat" oleh mesin pencari, memberikan keuntungan kompetitif dan memaksimalkan potensi SEO Hugo Anda.

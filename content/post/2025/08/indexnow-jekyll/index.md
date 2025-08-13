@@ -181,6 +181,19 @@ Sesuaikan alamat situs dan HUGO_VERSION yang anda gunakan.
 
 Lihat dokumentasi github ***[Indexnow Jekyll Github](https://github.com/kininblog/indexnow-jekyll)***
 
+## Integrasi IndexNow Menggunakan CloudFlare Hints
+Crawler Hints adalah layanan yang dikembangkan oleh Cloudflare, yang sebagian mendukung dan terintegrasi dengan pengiriman URL protokol IndexNow. Layanan ini gratis digunakan oleh semua pengguna Cloudflare dan menjanjikan revolusi efisiensi web. 
+
+Pengguna juga bisa menggunakan cara ini sebagai alternatif terbaik untuk mengintegrasikan IndexNow dengan blog dengan cara yang sangat simpel dan mudah. Berikut caranya:
+
+1. Masuk ke Akun Cloudflare Anda.
+2. Di dasbor, buka tab Cache.
+3. Klik bagian Konfigurasi.
+4. Pada bagian Crawler Hints dan aktifkan.
+
+![cloudflare indexnow jekyll](images/cloudflare.webp)
+Setelah mengaktifkannya, Cloudflare akan mulai mengirimkan Ping ke mesin pencari kapan mereka harus merayapi bagian tertentu situs web.
+
 ## Penutup
 Seharusnya cara ini berhasil, kamu hanya perlu menyesuaikan beberapa data dan pengaturan pada script di atas. 
 
