@@ -245,6 +245,15 @@ menu:
               newTab: false
               icon: brand-blogger
 
+        - identifier: Berita
+          name: Berita
+          url: /categories/berita/
+          weight: -50
+          params:
+               ### For demonstration purpose, the home link will be open in a new tab
+              newTab: false
+              icon: newspaper-regular
+
         ##- identifier: aa
          ## name: aa
          ## url: https://foreverblog.cn/go.html
