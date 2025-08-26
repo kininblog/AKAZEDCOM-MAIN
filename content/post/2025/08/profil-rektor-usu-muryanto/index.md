@@ -1,5 +1,5 @@
 ---
-title: Jejak Akademis dan Panggilan KPK: Mengupas Tuntas Sosok Rektor USU Muryanto Amin
+title: Jejak Akademis dan Panggilan KPK Mengupas Tuntas Sosok Rektor USU Muryanto Amin
 description: Profil mendalam Rektor USU Muryanto Amin. Mengulas latar belakang pendidikan, perjalanan karir, prestasi, hingga perannya sebagai saksi dalam kasus korupsi yang ditangani KPK.
 date: 2025-08-26T08:14:15+08:00 #2023年12月27日21:14:15
 lastmod: 2025-08-26T11:28:15+08:00 
