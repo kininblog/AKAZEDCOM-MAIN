@@ -28,7 +28,7 @@ Setiap tahun, jumlah lulusan SMA/sederajat yang memenuhi syarat untuk menerima K
 ### **Melambungnya Biaya Hidup dan UKT Menjadi Kendala Serius**
 Persoalan tidak berhenti pada kuota. Bantuan biaya hidup yang diterima mahasiswa KIP Kuliah saat ini dinilai banyak pihak sudah tidak relevan dengan lonjakan inflasi dan biaya sewa di kota-kota besar yang menjadi lokasi universitas unggulan.
 
-"Bantuan biaya hidup sebesar Rp950.000 hingga Rp1.400.000 per bulan seringkali habis hanya untuk biaya indekos. Mahasiswa harus bekerja paruh waktu, yang sayangnya dapat mengganggu fokus akademis mereka," ungkap seorang pengamat kebijakan pendidikan.
+>"Bantuan biaya hidup sebesar Rp950.000 hingga Rp1.400.000 per bulan seringkali habis hanya untuk biaya indekos. Mahasiswa harus bekerja paruh waktu, yang sayangnya dapat mengganggu fokus akademis mereka," ungkap seorang pengamat kebijakan pendidikan.
 
 Selain itu, skema pembiayaan UKT oleh KIP Kuliah juga memiliki batas atas yang terkadang lebih rendah dari ketetapan UKT di beberapa program studi favorit, memaksa mahasiswa atau pihak kampus mencari solusi tambal sulam. Dana tambahan diharapkan dapat digunakan untuk:
 1.  **Penyesuaian Bantuan Biaya Hidup:** Mengkalibrasi ulang besaran bantuan berdasarkan Survei Biaya Hidup (SBH) terbaru dari BPS di setiap klaster wilayah.
@@ -42,7 +42,7 @@ Di sisi lain spektrum *[pendidikan](/categories/pendidikan/)*, usulan anggaran i
 ### **Kondisi Terkini: Antara Potensi Prestasi dan Keterbatasan Sarana**
 Pusat-pusat ini adalah kawah candradimuka bagi atlet, seniman, dan ilmuwan muda yang akan mengharumkan nama bangsa. Namun, banyak dari fasilitas ini yang berjuang dengan sarana dan prasarana yang menua, teknologi pendukung yang tertinggal, serta anggaran nutrisi dan suplemen yang terbatas.
 
-"Kita tidak bisa berharap atlet kita meraih medali emas Olimpiade jika asupan gizi hariannya tidak terjamin atau jika mereka berlatih dengan peralatan dari dekade lalu. Ini adalah investasi, bukan biaya," tegas seorang perwakilan dari Komite Olahraga Nasional.
+>"Kita tidak bisa berharap atlet kita meraih medali emas Olimpiade jika asupan gizi hariannya tidak terjamin atau jika mereka berlatih dengan peralatan dari dekade lalu. Ini adalah investasi, bukan biaya," tegas seorang perwakilan dari Komite Olahraga Nasional.
 
 ### **Rincian Alokasi: Dari Gizi Atlet hingga Teknologi Pelatihan**
 Tambahan anggaran untuk pos ini direncanakan akan dialokasikan untuk:
