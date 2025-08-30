@@ -32,9 +32,9 @@ difficulty: "Sulit"
 
 {{< ujian/PPG/ppg-pai >}}
 
-Sering mengikuti Latihan soal dengan cara *Try out ppg pai agama dan pembahasan* merupakan langkah awal yang sangat baik dalam persiapan mengikuti ujian PPG PAI yang akan segera diadakan KEMENAG. Walaupun kita belum tahu *kapan dibuka ppg prajabatan kemenag* secara pasti dibuka kembali, namun mempersiapkan diri dari awal tetap harus dilakukan
+Sering mengikuti Latihan soal dengan cara *[Try out ppg pai agama dan pembahasan](/ujian/ppg/try-out-ppg-pai/)* merupakan langkah awal yang sangat baik dalam persiapan mengikuti ujian PPG PAI yang akan segera diadakan KEMENAG. Walaupun kita belum tahu *kapan dibuka ppg prajabatan kemenag* secara pasti dibuka kembali, namun mempersiapkan diri dari awal tetap harus dilakukan
 
-Dengan mengikuti berbagai *[ujian](/ujian/)* dan Try out ppg pai online tentu membuat kita jauh lebih familiar dengan berbagai soal ujian ppg pai yang akan dihadapi dalam tes nantinya, sehingga pelaksanaan ujian jauh lebih lancar, dan tentu saja peluang lolos lebih besar.
+Dengan mengikuti berbagai *[ujian](/ujian/)* dan *[Try out ppg pai](/categories/tryout-ppg/)* online tentu membuat kita jauh lebih familiar dengan berbagai soal ujian ppg pai yang akan dihadapi dalam tes nantinya, sehingga pelaksanaan ujian jauh lebih lancar, dan tentu saja peluang lolos lebih besar.
 
 Banyak sekali soal ujian yang bisa kamu ikuti, bahkan ada *Try out ppg pai 2021* dan tentu saja yang terbaru soal-soal tryout 2025 dan 2026 sekarang ini. Dan menariknya lagi, di sini kamu bisa mengikuti dan mengerjakan soal Try out ppg pai app yang mirip dengan CAT tanpa perlu mendownload aplikasi ujian khusus, jadi lansung dari browser kamu.
 
@@ -51,6 +51,15 @@ Bayak sekali keuntungan jika kamu ikut try out ppg pai nasional di akazed.
 1. 100% gratis, Akazed ujian adalah platform try out populer dan terpercaya di Indonesia, yang memberikan akses gratis kepada semua user.
 2. Terdapat ribuan soal yang beragam, tipe soal lebih banyak dan prediksi soal
 3. Pembahasan soal ujian ppg pai setelah selesai mengerjakan try out.
+
+### Tentang Soal dan Kategori 
+Soal ujian pada paket 1 ini terdiri dari kategori sebagai berikut
+
+| Kategori Soal | Jumlah Soal | Waktu Pengerjaan | Keterangan |
+| :--- | :--- | :--- | :--- |
+| **Tes Penguasaan Konten** | 70 Soal | 90 Menit | Berisi soal-soal yang berkaitan dengan materi bidang studi Pendidikan Agama Islam (PAI) secara mendalam, mencakup aspek-aspek seperti Al-Qur'an Hadis, Akidah Akhlak, Fikih, dan Sejarah Kebudayaan Islam. |
+| **Tes Kemampuan Dasar** | 30 Soal | 60 Menit | Terbagi lagi menjadi dua sub-tes, yaitu: <br> • Literasi: 15 soal <br> • Numerasi: 15 soal |
+| **Total** | **100 Soal** | **150 Menit** | |
 
 ## Cara Ikut Try Out PPG PAI Online Gratis
 Gak perlu bingung, untuk mengikuti try out ppg pai kemenag terbaru di akazed caranya sangat mudah:
