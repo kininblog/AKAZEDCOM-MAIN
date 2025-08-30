@@ -1,0 +1,1527 @@
+    <!-- SELURUH KONTEN HTML ANDA DARI SINI -->
+    <div id="login-container">
+        <div class="login-box">
+            <h2>Login Peserta Ujian</h2>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan username Anda">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password">
+            </div>
+            <button id="login-btn">Masuk</button>
+            <p id="login-error">Password salah. Coba lagi.</p>
+            <a href="/ujian/cara-ikut-tryout-online-gratis" style="text-decoration: none;">
+                <button id="cara-btn" type="button">Cara Ikut Try Out</button>
+            </a>
+        </div>
+    </div>
+
+    <header class="header" style="display: none;">
+        <h2>Simulasi Ujian</h2>
+        <div class="user-info">
+            <span id="header-info"></span>
+            <button id="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <div class="quiz-container" style="display: none;">
+        <main class="question-panel">
+            <div class="question-header">
+                <span id="subtest-title">Subtes</span> | Soal No. <span id="question-number">1</span>
+            </div>
+            <div class="question-body">
+                <p id="question-text">Memuat soal...</p>
+                <ul id="options" class="options-list"></ul>
+            </div>
+            <div class="quiz-actions">
+                <button id="prev-btn" class="action-button">Sebelumnya</button>
+                <button id="doubtful-btn" class="action-button">Ragu-ragu</button>
+                <button id="next-btn" class="action-button">Selanjutnya</button>
+            </div>
+        </main>
+        <aside class="navigation-panel">
+            <div class="timer-box">
+                Sisa Waktu
+                <div id="timer">30:00</div>
+            </div>
+            <div id="grid-container" class="question-grid-container"></div>
+            <div class="quiz-actions" style="justify-content: center;">
+                <button id="finish-btn" class="action-button">Selesaikan Ujian</button>
+            </div>
+        </aside>
+    </div>
+
+    <div id="result-page" class="result-container" style="display: none;">
+        <div class="result-card overall-summary">
+            <div id="status-lulus" class="status"></div>
+            <h2>Hasil Akhir Ujian</h2>
+            <div id="final-score" class="score">0</div>
+            <div id="score-details" class="score-details"></div>
+            <div id="submission-status"></div>
+        </div>
+        <div class="result-card">
+            <h3>Tinjauan Jawaban</h3>
+            <div id="review-section"></div>
+        </div>
+        <div style="text-align: center;">
+           <button id="restart-btn" class="action-button">Ulangi Ujian</button>
+        </div>
+    </div>
+    
+    <div id="confirmation-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Selesaikan Ujian?</h2>
+            <p>Apakah Anda yakin ingin menyelesaikan dan mengakhiri sesi ujian ini?</p>
+            <div class="modal-actions">
+                <button id="confirm-no" class="action-button">Batal</button>
+                <button id="confirm-yes" class="action-button">Ya, Selesaikan</button>
+            </div>
+        </div>
+    </div>
+    <!-- HINGGA AKHIR KONTEN HTML ANDA -->
+
+<script>
+// ===================================================================================
+// --- KONFIGURASI UJIAN (HANYA UBAH BAGIAN INI UNTUK UJIAN BARU) ---
+// ===================================================================================
+const EXAM_CONFIG = {
+    // 1. Ganti nama kategori ini sesuai nama sheet di Google Sheets (cth: "TWK", "TKP")
+    kategori: "PPG",
+    
+    // 2. Ganti URL ini dengan URL Web App dari Google Script Anda yang sudah di-deploy ulang.
+    scriptURL: 'https://script.google.com/macros/s/AKfycbxNJ9pOsCPSPAPRQKfoq43AwmVMSIScq6AIa33Q0dxnMI-jb1xuxi1aK3bUBFDstinDiQ/exec',
+    
+    // 3. Ganti link peringkat ini ke halaman peringkat yang sesuai.
+    linkPeringkat: "/ujian/ranking-peserta-tryout/",
+    
+    // 4. Sesuaikan pengaturan ujian jika perlu.
+    durasiMenit: 180,
+    passingGrade: 65,
+    password: "ujian",
+    
+    // 5. Ganti seluruh isi bank soal di bawah ini dengan soal yang sesuai.
+    bankSoal: [
+  {
+    "subtest": "Penguasaan Konten - Al-Qur'an Hadis",
+    "question": "Hukum bacaan nun sukun atau tanwin yang bertemu dengan huruf 'ba' (ب) disebut...",
+    "options": [
+      "Idgham Bighunnah",
+      "Iqlab",
+      "Ikhfa'",
+      "Idzhar"
+    ],
+    "answer": "Iqlab",
+    "explanation": "Iqlab secara harfiah berarti mengganti. Dalam ilmu tajwid, iqlab adalah hukum bacaan di mana suara nun sukun (نْ) atau tanwin (ـًـــٍـــٌ) diganti menjadi suara mim (م) apabila bertemu dengan huruf ba' (ب), disertai dengan dengungan (ghunnah)."
+  },
+  {
+    "subtest": "Penguasaan Konten - Al-Qur'an Hadis",
+    "question": "Hadis yang sanadnya bersambung dari awal hingga akhir, diriwayatkan oleh perawi yang adil dan dhabith, tanpa ada syadz dan 'illat, disebut hadis...",
+    "options": [
+      "Hasan",
+      "Dhaif",
+      "Shahih",
+      "Maudhu'"
+    ],
+    "answer": "Shahih",
+    "explanation": "Hadis Shahih adalah tingkatan hadis tertinggi yang memenuhi lima syarat: sanadnya bersambung, perawinya adil, perawinya dhabith (kuat hafalan), tidak ada syadz (kejanggalan), dan tidak ada 'illat (cacat tersembunyi)."
+  },
+  {
+    "subtest": "Penguasaan Konten - Al-Qur'an Hadis",
+    "question": "Surat dalam Al-Qur'an yang dikenal sebagai 'Qalbul Qur'an' (jantungnya Al-Qur'an) adalah...",
+    "options": [
+      "Al-Fatihah",
+      "Al-Baqarah",
+      "Yasin",
+      "Al-Ikhlas"
+    ],
+    "answer": "Yasin",
+    "explanation": "Surat Yasin sering disebut sebagai 'Qalbul Qur'an' berdasarkan hadis, meskipun sebagian ulama memperdebatkan derajat kesahihannya. Namun, julukan ini sangat populer di kalangan umat Islam karena kandungan surat Yasin yang mencakup pokok-pokok akidah Islam."
+  },
+  {
+    "subtest": "Penguasaan Konten - Al-Qur'an Hadis",
+    "question": "Ilmu yang mempelajari tentang sebab-sebab turunnya ayat Al-Qur'an disebut...",
+    "options": [
+      "Ilmu Tafsir",
+      "Ilmu Qira'at",
+      "Asbabun Nuzul",
+      "Ulumul Qur'an"
+    ],
+    "answer": "Asbabun Nuzul",
+    "explanation": "Asbabun Nuzul adalah ilmu yang khusus membahas latar belakang, peristiwa, atau pertanyaan yang menjadi sebab turunnya satu atau beberapa ayat Al-Qur'an. Memahami Asbabun Nuzul membantu dalam menafsirkan ayat dengan lebih tepat."
+  },
+  {
+    "subtest": "Penguasaan Konten - Al-Qur'an Hadis",
+    "question": "Dalam hukum bacaan mad, apabila 'mad thabi'i' bertemu dengan huruf hamzah dalam satu kata, maka disebut...",
+    "options": [
+      "Mad Wajib Muttashil",
+      "Mad Jaiz Munfashil",
+      "Mad 'Aridh Lissukun",
+      "Mad Lazim Mutsaqqal Kilmi"
+    ],
+    "answer": "Mad Wajib Muttashil",
+    "explanation": "Mad Wajib Muttashil terjadi ketika mad thabi'i (bacaan panjang 2 harakat) bertemu dengan hamzah (ء) dalam satu kata yang sama. Panjang bacaannya adalah 4 atau 5 harakat. Contoh: جَاءَ"
+  },
+  {
+    "subtest": "Penguasaan Konten - Al-Qur'an Hadis",
+    "question": "Hadis yang maknanya berasal dari Allah SWT, namun redaksinya disusun oleh Nabi Muhammad SAW disebut...",
+    "options": [
+      "Hadis Nabawi",
+      "Hadis Qudsi",
+      "Hadis Mauquf",
+      "Hadis Maqthu'"
+    ],
+    "answer": "Hadis Qudsi",
+    "explanation": "Hadis Qudsi adalah hadis yang substansi atau maknanya datang dari Allah, kemudian Nabi Muhammad SAW menyampaikannya dengan redaksi (lafaz) dari beliau sendiri. Biasanya diawali dengan 'Allah berfirman...' atau 'Rasulullah bersabda mengenai apa yang beliau riwayatkan dari Tuhannya...'"
+  },
+  {
+    "subtest": "Penguasaan Konten - Al-Qur'an Hadis",
+    "question": "Tafsir yang dalam penjelasannya lebih banyak menggunakan riwayat dari Nabi, sahabat, atau tabi'in disebut Tafsir...",
+    "options": [
+      "bi al-Ra'yi",
+      "bi al-Ma'tsur",
+      "Isyari",
+      "Maudhu'i"
+    ],
+    "answer": "bi al-Ma'tsur",
+    "explanation": "Tafsir bi al-Ma'tsur (atau Tafsir bi al-Riwayah) adalah metode penafsiran Al-Qur'an dengan menggunakan ayat Al-Qur'an lain, hadis Nabi, perkataan sahabat, atau tabi'in. Contohnya adalah Tafsir Ibnu Katsir."
+  },
+  {
+    "subtest": "Penguasaan Konten - Al-Qur'an Hadis",
+    "question": "Perawi hadis yang terkenal dengan julukan 'Abu Hurairah' merupakan perawi yang paling banyak meriwayatkan hadis. Siapakah nama asli beliau?",
+    "options": [
+      "Abdullah bin Umar",
+      "Anas bin Malik",
+      "Abdurrahman bin Shakhr Ad-Dausi",
+      "Zaid bin Tsabit"
+    ],
+    "answer": "Abdurrahman bin Shakhr Ad-Dausi",
+    "explanation": "Nama asli Abu Hurairah adalah Abdurrahman bin Shakhr Ad-Dausi. Julukan 'Abu Hurairah' (Bapak Kucing Kecil) diberikan karena kecintaannya pada kucing."
+  },
+  {
+    "subtest": "Penguasaan Konten - Al-Qur'an Hadis",
+    "question": "Potongan ayat '...لَكُمْ دِيْنُكُمْ وَلِيَ دِيْنِ' (Bagimu agamamu, dan bagiku agamaku) terdapat dalam surat...",
+    "options": [
+      "Al-Kafirun",
+      "An-Nasr",
+      "Al-Ikhlas",
+      "Al-Lahab"
+    ],
+    "answer": "Al-Kafirun",
+    "explanation": "Ayat tersebut adalah ayat ke-6 dari Surat Al-Kafirun. Ayat ini menegaskan prinsip toleransi dalam beragama, di mana tidak ada paksaan dalam keyakinan dan setiap orang bertanggung jawab atas agamanya masing-masing."
+  },
+  {
+    "subtest": "Penguasaan Konten - Al-Qur'an Hadis",
+    "question": "Fungsi utama hadis terhadap Al-Qur'an adalah sebagai 'bayan'. Manakah di bawah ini yang bukan termasuk fungsi bayan dari hadis?",
+    "options": [
+      "Bayan Taqrir",
+      "Bayan Tafsir",
+      "Bayan Tasyri'",
+      "Bayan Nasakh"
+    ],
+    "answer": "Bayan Nasakh",
+    "explanation": "Fungsi hadis sebagai bayan (penjelas) terhadap Al-Qur'an meliputi: Bayan Taqrir (memperkuat), Bayan Tafsir (menafsirkan), dan Bayan Tasyri' (menetapkan hukum baru yang tidak ada di Al-Qur'an). Adapun Bayan Nasakh (menghapus hukum) adalah fungsi yang diperdebatkan; mayoritas ulama berpendapat hadis tidak bisa menasakh Al-Qur'an."
+  },
+  {
+    "subtest": "Penguasaan Konten - Al-Qur'an Hadis",
+    "question": "Kitab hadis yang disusun berdasarkan bab-bab fikih dan hanya berisi hadis-hadis shahih adalah ciri khas dari kitab...",
+    "options": [
+      "Musnad Ahmad",
+      "Muwatta' Malik",
+      "Shahih Bukhari",
+      "Sunan Abu Dawud"
+    ],
+    "answer": "Shahih Bukhari",
+    "explanation": "Shahih Bukhari yang disusun oleh Imam Bukhari adalah salah satu kitab hadis paling otoritatif. Beliau menyusunnya berdasarkan bab-bab fikih dan menerapkan syarat yang sangat ketat dalam seleksi hadis, sehingga hanya hadis shahih yang termuat di dalamnya."
+  },
+  {
+    "subtest": "Penguasaan Konten - Al-Qur'an Hadis",
+    "question": "Pada lafaz 'مِنْ رَبِّهِمْ', hukum tajwid yang terjadi adalah...",
+    "options": [
+      "Idgham Bighunnah",
+      "Idgham Bilaghunnah",
+      "Iqlab",
+      "Ikhfa'"
+    ],
+    "answer": "Idgham Bilaghunnah",
+    "explanation": "Idgham Bilaghunnah terjadi ketika nun sukun (نْ) atau tanwin bertemu dengan huruf 'lam' (ل) atau 'ra' (ر). Dalam lafaz 'مِنْ رَبِّهِمْ', nun sukun bertemu dengan 'ra', sehingga dibaca dengan memasukkan suara nun ke ra tanpa dengung."
+  },
+  {
+    "subtest": "Penguasaan Konten - Al-Qur'an Hadis",
+    "question": "Hadis 'Innamal a'malu binniyat' (Sesungguhnya segala perbuatan tergantung pada niatnya) diriwayatkan oleh...",
+    "options": [
+      "Imam Bukhari dan Muslim",
+      "Imam Ahmad",
+      "Imam Tirmidzi",
+      "Imam Malik"
+    ],
+    "answer": "Imam Bukhari dan Muslim",
+    "explanation": "Hadis tentang niat ini adalah hadis yang sangat fundamental dalam Islam dan diriwayatkan oleh Imam Bukhari dan Imam Muslim dalam kitab Shahih mereka, yang dikenal dengan sebutan 'Muttafaqun 'alaih'."
+  },
+  {
+    "subtest": "Penguasaan Konten - Al-Qur'an Hadis",
+    "question": "Pembukuan (tadwin) Al-Qur'an secara resmi menjadi satu mushaf dilakukan pada masa khalifah...",
+    "options": [
+      "Abu Bakar Ash-Shiddiq",
+      "Umar bin Khattab",
+      "Utsman bin Affan",
+      "Ali bin Abi Thalib"
+    ],
+    "answer": "Utsman bin Affan",
+    "explanation": "Meskipun pengumpulan awal dilakukan pada masa Abu Bakar, proses pembukuan, standardisasi, dan penyalinan Al-Qur'an menjadi beberapa mushaf yang seragam (dikenal sebagai Mushaf Utsmani) terjadi pada masa kekhalifahan Utsman bin Affan untuk menghindari perbedaan bacaan."
+  },
+  {
+    "subtest": "Penguasaan Konten - Al-Qur'an Hadis",
+    "question": "Rangkaian para perawi yang menyampaikan matan hadis disebut...",
+    "options": [
+      "Matan",
+      "Sanad",
+      "Rawi",
+      "Riwayah"
+    ],
+    "answer": "Sanad",
+    "explanation": "Sanad adalah silsilah atau rangkaian orang-orang (perawi) yang menjadi sandaran suatu hadis sampai kepada Nabi Muhammad SAW. Matan adalah isi atau materi hadis, sedangkan Rawi adalah orang yang meriwayatkan hadis."
+  },
+  {
+    "subtest": "Penguasaan Konten - Akidah Akhlak",
+    "question": "Meyakini dengan sepenuh hati bahwa Allah SWT memiliki sifat-sifat kesempurnaan yang tidak terhingga adalah bagian dari iman kepada Allah. Sifat Allah yang wajib diketahui ada 20, salah satunya 'Qidam' yang berarti...",
+    "options": [
+      "Ada",
+      "Terdahulu",
+      "Kekal",
+      "Berbeda dengan makhluk-Nya"
+    ],
+    "answer": "Terdahulu",
+    "explanation": "Qidam berarti Terdahulu atau Azali, artinya wujud Allah SWT tidak didahului oleh ketiadaan. Allah ada tanpa permulaan. Lawannya adalah 'Huduts' (baru/ada permulaan) yang merupakan sifat mustahil bagi Allah."
+  },
+  {
+    "subtest": "Penguasaan Konten - Akidah Akhlak",
+    "question": "Perilaku seseorang yang senantiasa merasa diawasi oleh Allah SWT sehingga mendorongnya untuk berbuat baik dan menjauhi perbuatan dosa disebut...",
+    "options": [
+      "Ihsan",
+      "Tawakkal",
+      "Syukur",
+      "Ikhlas"
+    ],
+    "answer": "Ihsan",
+    "explanation": "Ihsan adalah puncak dari keimanan, di mana seseorang beribadah seolah-olah melihat Allah, dan jika tidak mampu, ia yakin bahwa Allah melihatnya. Perasaan diawasi inilah yang menjadi landasan akhlak mulia."
+  },
+  {
+    "subtest": "Penguasaan Konten - Akidah Akhlak",
+    "question": "Salah satu nama lain dari hari kiamat adalah 'Yaumul Mizan', yang berarti...",
+    "options": [
+      "Hari Kebangkitan",
+      "Hari Perhitungan",
+      "Hari Penimbangan Amal",
+      "Hari Pembalasan"
+    ],
+    "answer": "Hari Penimbangan Amal",
+    "explanation": "'Mizan' secara bahasa berarti timbangan. Yaumul Mizan adalah hari di mana amal baik dan buruk manusia selama di dunia akan ditimbang secara adil oleh Allah SWT untuk menentukan nasibnya di akhirat."
+  },
+  {
+    "subtest": "Penguasaan Konten - Akidah Akhlak",
+    "question": "Sifat tercela berupa iri dan dengki terhadap nikmat yang diterima orang lain, bahkan berharap nikmat tersebut hilang dari orang itu disebut...",
+    "options": [
+      "Hasad",
+      "Riya'",
+      "Takabbur",
+      "Ghibah"
+    ],
+    "answer": "Hasad",
+    "explanation": "Hasad adalah penyakit hati yang berbahaya, yaitu perasaan tidak suka melihat orang lain mendapatkan nikmat dan berharap nikmat itu lenyap. Sifat ini diibaratkan seperti api yang memakan kayu bakar, karena dapat menghapus amal kebaikan."
+  },
+  {
+    "subtest": "Penguasaan Konten - Akidah Akhlak",
+    "question": "Malaikat yang bertugas mencatat amal baik manusia adalah...",
+    "options": [
+      "Jibril",
+      "Mikail",
+      "Raqib",
+      "Atid"
+    ],
+    "answer": "Raqib",
+    "explanation": "Dalam Al-Qur'an disebutkan ada dua malaikat yang senantiasa menyertai manusia, yaitu Raqib yang mencatat amal baik dan Atid yang mencatat amal buruk. Keduanya dikenal sebagai Malaikat Kiraman Katibin."
+  },
+  {
+    "subtest": "Penguasaan Konten - Akidah Akhlak",
+    "question": "Konsep takdir yang tidak bisa diubah oleh usaha manusia karena ketetapannya sudah mutlak dari Allah SWT disebut...",
+    "options": [
+      "Takdir Mu'allaq",
+      "Takdir Mubram",
+      "Qada'",
+      "Qadar"
+    ],
+    "answer": "Takdir Mubram",
+    "explanation": "Takdir Mubram adalah ketentuan mutlak Allah yang pasti terjadi dan tidak dapat diubah oleh ikhtiar manusia. Contohnya adalah kelahiran, kematian, dan jenis kelamin."
+  },
+  {
+    "subtest": "Penguasaan Konten - Akidah Akhlak",
+    "question": "Menampakkan atau melakukan ibadah dengan tujuan agar dilihat dan dipuji oleh orang lain, bukan karena Allah semata, disebut...",
+    "options": [
+      "Sum'ah",
+      "Ujub",
+      "Riya'",
+      "Kibr"
+    ],
+    "answer": "Riya'",
+    "explanation": "Riya' berasal dari kata 'ra'a' yang berarti melihat. Riya' adalah melakukan suatu amalan agar dilihat orang lain untuk mendapatkan pujian atau sanjungan. Riya' termasuk syirik kecil yang dapat merusak pahala amal."
+  },
+  {
+    "subtest": "Penguasaan Konten - Akidah Akhlak",
+    "question": "Nabi dan Rasul yang mendapatkan gelar 'Ulul Azmi' adalah mereka yang memiliki...",
+    "options": [
+      "Mukjizat yang paling besar",
+      "Umat yang paling banyak",
+      "Ketabahan dan kesabaran yang luar biasa",
+      "Kitab suci yang paling lengkap"
+    ],
+    "answer": "Ketabahan dan kesabaran yang luar biasa",
+    "explanation": "Gelar 'Ulul Azmi' diberikan kepada para rasul yang memiliki keteguhan hati, kesabaran, dan ketabahan yang luar biasa dalam menghadapi tantangan berat saat berdakwah. Mereka adalah Nuh, Ibrahim, Musa, Isa, dan Muhammad SAW."
+  },
+  {
+    "subtest": "Penguasaan Konten - Akidah Akhlak",
+    "question": "Akhlak yang mengajarkan sikap tengah-tengah, tidak berlebihan, dan seimbang dalam segala hal disebut...",
+    "options": [
+      "Tasamuh",
+      "Tawassuth",
+      "Tawazun",
+      "Ta'awun"
+    ],
+    "answer": "Tawassuth",
+    "explanation": "Tawassuth adalah sikap moderat atau tengah-tengah. Ini adalah salah satu prinsip utama ajaran Ahlussunnah wal Jama'ah, yaitu tidak bersikap ekstrem (ghuluw) maupun meremehkan (tafrith) dalam urusan agama dan dunia."
+  },
+  {
+    "subtest": "Penguasaan Konten - Akidah Akhlak",
+    "question": "Paham yang meyakini bahwa manusia tidak memiliki kehendak sendiri dan perbuatannya sepenuhnya diciptakan dan ditentukan oleh Tuhan adalah paham...",
+    "options": [
+      "Qadariyah",
+      "Jabariyah",
+      "Mu'tazilah",
+      "Asy'ariyah"
+    ],
+    "answer": "Jabariyah",
+    "explanation": "Paham Jabariyah berpandangan bahwa manusia terpaksa (majbur) dalam perbuatannya. Segala sesuatu yang dilakukan manusia pada hakikatnya adalah perbuatan Tuhan. Paham ini menafikan adanya kehendak dan pilihan bebas bagi manusia."
+  },
+  {
+    "subtest": "Penguasaan Konten - Akidah Akhlak",
+    "question": "Kitab suci Zabur diturunkan kepada Nabi...",
+    "options": [
+      "Musa AS",
+      "Daud AS",
+      "Isa AS",
+      "Ibrahim AS"
+    ],
+    "answer": "Daud AS",
+    "explanation": "Allah SWT menurunkan empat kitab suci utama kepada para rasul-Nya. Taurat kepada Nabi Musa, Zabur kepada Nabi Daud, Injil kepada Nabi Isa, dan Al-Qur'an kepada Nabi Muhammad SAW."
+  },
+  {
+    "subtest": "Penguasaan Konten - Akidah Akhlak",
+    "question": "Sikap rendah hati, tidak sombong atau angkuh, serta mengakui keterbatasan diri di hadapan Allah dan sesama manusia disebut...",
+    "options": [
+      "Qana'ah",
+      "Wara'",
+      "Tawadhu'",
+      "Zuhud"
+    ],
+    "answer": "Tawadhu'",
+    "explanation": "Tawadhu' adalah sikap rendah hati. Orang yang tawadhu' tidak memandang dirinya lebih baik dari orang lain, meskipun ia memiliki kelebihan. Lawan dari tawadhu' adalah takabbur (sombong)."
+  },
+  {
+    "subtest": "Penguasaan Konten - Akidah Akhlak",
+    "question": "Menjaga lisan dari perkataan yang tidak bermanfaat, dusta, dan menyakiti orang lain adalah wujud dari akhlak...",
+    "options": [
+      "Shidq",
+      "Amanah",
+      "Hifzhu Lisan",
+      "Istiqamah"
+    ],
+    "answer": "Hifzhu Lisan",
+    "explanation": "Hifzhu Lisan secara harfiah berarti menjaga lidah. Ini adalah salah satu akhlak mulia yang sangat ditekankan dalam Islam, karena banyak dosa dan perselisihan yang bersumber dari lisan yang tidak terjaga."
+  },
+  {
+    "subtest": "Penguasaan Konten - Akidah Akhlak",
+    "question": "Salah satu Asmaul Husna adalah Al-Adl, yang memiliki arti...",
+    "options": [
+      "Maha Pengasih",
+      "Maha Penyayang",
+      "Maha Adil",
+      "Maha Bijaksana"
+    ],
+    "answer": "Maha Adil",
+    "explanation": "Al-Adl berarti Allah Maha Adil. Keadilan Allah adalah mutlak, tidak dipengaruhi oleh apapun dan berlaku bagi seluruh makhluk-Nya. Allah meletakkan segala sesuatu pada tempatnya yang semestinya."
+  },
+  {
+    "subtest": "Penguasaan Konten - Akidah Akhlak",
+    "question": "Jalan penyucian jiwa untuk mendekatkan diri kepada Allah SWT yang ditempuh oleh para sufi disebut...",
+    "options": [
+      "Tarbiyah",
+      "Tazkiyatun Nafs",
+      "Tafakkur",
+      "Tadabbur"
+    ],
+    "answer": "Tazkiyatun Nafs",
+    "explanation": "Tazkiyatun Nafs adalah proses membersihkan dan menyucikan jiwa dari sifat-sifat tercela (mazmumah) dan menghiasinya dengan sifat-sifat terpuji (mahmudah). Ini adalah inti dari ajaran tasawuf."
+  },
+  {
+    "subtest": "Penguasaan Konten - Fikih",
+    "question": "Shalat sunnah yang dikerjakan untuk meminta petunjuk kepada Allah dalam menentukan pilihan di antara beberapa alternatif disebut shalat...",
+    "options": [
+      "Tahajud",
+      "Istikharah",
+      "Hajat",
+      "Dhuha"
+    ],
+    "answer": "Istikharah",
+    "explanation": "Shalat Istikharah adalah shalat sunnah dua rakaat yang bertujuan untuk memohon petunjuk (khair) dari Allah SWT ketika seseorang dihadapkan pada pilihan-pilihan penting dan merasa ragu untuk memutuskannya."
+  },
+  {
+    "subtest": "Penguasaan Konten - Fikih",
+    "question": "Berikut ini yang bukan termasuk rukun haji adalah...",
+    "options": [
+      "Ihram",
+      "Wukuf di Arafah",
+      "Thawaf Ifadhah",
+      "Mabit di Muzdalifah"
+    ],
+    "answer": "Mabit di Muzdalifah",
+    "explanation": "Rukun haji adalah amalan yang jika salah satunya ditinggalkan, maka hajinya tidak sah. Rukun haji meliputi: Ihram (niat), Wukuf di Arafah, Thawaf Ifadhah, Sa'i, Tahallul, dan Tertib. Mabit (bermalam) di Muzdalifah termasuk dalam kategori wajib haji, bukan rukun haji."
+  },
+  {
+    "subtest": "Penguasaan Konten - Fikih",
+    "question": "Transaksi jual beli di mana barang yang diperjualbelikan belum ada di tempat, namun spesifikasinya telah dijelaskan secara detail dan pembayaran dilakukan di muka, disebut...",
+    "options": [
+      "Murabahah",
+      "Salam",
+      "Ijarah",
+      "Mudharabah"
+    ],
+    "answer": "Salam",
+    "explanation": "Akad Salam (atau Salaf) adalah jual beli dengan cara pemesanan. Pembeli membayar lunas di awal, sementara barang akan diserahkan kemudian sesuai dengan spesifikasi, jumlah, dan waktu yang telah disepakati."
+  },
+  {
+    "subtest": "Penguasaan Konten - Fikih",
+    "question": "Sumber hukum Islam yang disepakati oleh mayoritas ulama (jumhur ulama) adalah...",
+    "options": [
+      "Al-Qur'an, Hadis, Ijma', dan Qiyas",
+      "Al-Qur'an, Hadis, Istihsan, dan Maslahah Mursalah",
+      "Al-Qur'an, Hadis, 'Urf, dan Syar'u Man Qablana",
+      "Al-Qur'an, Hadis, Ijma', dan Qaul Shahabi"
+    ],
+    "answer": "Al-Qur'an, Hadis, Ijma', dan Qiyas",
+    "explanation": "Empat sumber hukum Islam yang disepakati (muttafaq 'alaih) oleh jumhur ulama adalah Al-Qur'an, Sunnah (Hadis), Ijma' (kesepakatan para ulama mujtahid), dan Qiyas (analogi hukum)."
+  },
+  {
+    "subtest": "Penguasaan Konten - Fikih",
+    "question": "Zakat yang wajib dikeluarkan setahun sekali atas harta yang dimiliki jika telah mencapai nishab dan haul disebut...",
+    "options": [
+      "Zakat Fitrah",
+      "Zakat Mal",
+      "Infaq",
+      "Sedekah"
+    ],
+    "answer": "Zakat Mal",
+    "explanation": "Zakat Mal adalah zakat atas harta kekayaan (seperti emas, perak, uang, hasil perniagaan, pertanian, dll) yang wajib dikeluarkan apabila telah memenuhi dua syarat utama: mencapai batas minimal (nishab) dan telah dimiliki selama satu tahun (haul)."
+  },
+  {
+    "subtest": "Penguasaan Konten - Fikih",
+    "question": "Seorang wanita yang dicerai oleh suaminya harus menjalani masa tunggu sebelum boleh menikah lagi. Masa tunggu ini disebut...",
+    "options": [
+      "Iddah",
+      "Rujuk",
+      "Khulu'",
+      "Fasakh"
+    ],
+    "answer": "Iddah",
+    "explanation": "Iddah adalah masa tunggu bagi seorang perempuan setelah bercerai atau ditinggal mati suaminya, di mana ia tidak boleh menikah dengan laki-laki lain. Tujuannya antara lain untuk memastikan rahimnya kosong dan sebagai masa berkabung."
+  },
+  {
+    "subtest": "Penguasaan Konten - Fikih",
+    "question": "Menyamakan hukum suatu peristiwa baru yang belum ada nashnya dengan peristiwa lama yang sudah ada nashnya karena adanya kesamaan 'illat (sebab hukum) disebut...",
+    "options": [
+      "Ijma'",
+      "Istihsan",
+      "Qiyas",
+      "Maslahah Mursalah"
+    ],
+    "answer": "Qiyas",
+    "explanation": "Qiyas adalah metode ijtihad dengan cara menganalogikan hukum. Contoh populer adalah pengharaman narkoba yang diqiyaskan dengan khamr (minuman keras) karena keduanya memiliki 'illat yang sama, yaitu memabukkan atau merusak akal."
+  },
+  {
+    "subtest": "Penguasaan Konten - Fikih",
+    "question": "Berikut ini yang termasuk dalam hadas besar yang mewajibkan seseorang untuk mandi wajib (junub) adalah...",
+    "options": [
+      "Buang angin",
+      "Menyentuh kemaluan",
+      "Haid dan nifas",
+      "Tidur nyenyak"
+    ],
+    "answer": "Haid dan nifas",
+    "explanation": "Hadas besar adalah keadaan tidak suci yang cara menghilangkannya adalah dengan mandi wajib. Yang termasuk hadas besar antara lain berhubungan suami istri, keluar mani, haid, nifas, dan wiladah (melahirkan)."
+  },
+  {
+    "subtest": "Penguasaan Konten - Fikih",
+    "question": "Puasa pada tanggal 9 Dzulhijjah bagi orang yang tidak sedang melaksanakan ibadah haji sangat dianjurkan. Puasa ini dikenal dengan sebutan puasa...",
+    "options": [
+      "Arafah",
+      "Tarwiyah",
+      "Asyura",
+      "Syawal"
+    ],
+    "answer": "Arafah",
+    "explanation": "Puasa Arafah dilaksanakan pada tanggal 9 Dzulhijjah, bertepatan dengan saat jamaah haji sedang melakukan wukuf di Arafah. Keutamaannya adalah dapat menghapus dosa setahun yang lalu dan setahun yang akan datang."
+  },
+  {
+    "subtest": "Penguasaan Konten - Fikih",
+    "question": "Pembagian harta warisan dalam Islam diatur dalam ilmu...",
+    "options": [
+      "Faraidh",
+      "Muamalah",
+      "Munakahat",
+      "Jinayat"
+    ],
+    "answer": "Faraidh",
+    "explanation": "Ilmu Faraidh atau Mawaris adalah cabang ilmu fikih yang secara khusus membahas tentang aturan dan tata cara pembagian harta peninggalan (warisan) berdasarkan ketentuan yang terdapat dalam Al-Qur'an dan Hadis."
+  },
+  {
+    "subtest": "Penguasaan Konten - Fikih",
+    "question": "Hewan yang disembelih pada hari raya Idul Adha dan hari-hari tasyrik sebagai bentuk ibadah untuk mendekatkan diri kepada Allah disebut...",
+    "options": [
+      "Aqiqah",
+      "Nazar",
+      "Qurban",
+      "Kafarat"
+    ],
+    "answer": "Qurban",
+    "explanation": "Qurban (atau Udhiyah) adalah ibadah penyembelihan hewan ternak tertentu (unta, sapi, kambing/domba) yang dilaksanakan pada tanggal 10, 11, 12, dan 13 Dzulhijjah dengan niat untuk beribadah kepada Allah SWT."
+  },
+  {
+    "subtest": "Penguasaan Konten - Fikih",
+    "question": "Shalat yang dilakukan secara berjamaah minimal oleh 40 orang laki-laki, pada hari Jumat waktu Dzuhur, dan didahului oleh dua khutbah, adalah shalat...",
+    "options": [
+      "Idul Fitri",
+      "Idul Adha",
+      "Jumat",
+      "Tarawih"
+    ],
+    "answer": "Jumat",
+    "explanation": "Shalat Jumat adalah shalat fardhu 'ain (wajib bagi setiap individu) yang dikerjakan oleh laki-laki muslim yang memenuhi syarat. Pelaksanaannya yang spesifik membedakannya dari shalat fardhu lainnya."
+  },
+  {
+    "subtest": "Penguasaan Konten - Fikih",
+    "question": "Dalam shalat, sujud yang dilakukan karena lupa atau ragu-ragu dalam jumlah rakaat disebut...",
+    "options": [
+      "Sujud Syukur",
+      "Sujud Tilawah",
+      "Sujud Sahwi",
+      "Sujud dalam shalat"
+    ],
+    "answer": "Sujud Sahwi",
+    "explanation": "Sujud Sahwi adalah dua kali sujud yang dilakukan sebelum salam (atau setelah salam dalam beberapa mazhab) untuk 'menambal' kekurangan atau kelebihan yang terjadi karena lupa dalam gerakan atau bacaan shalat."
+  },
+  {
+    "subtest": "Penguasaan Konten - Fikih",
+    "question": "Akad kerja sama antara dua pihak, di mana pihak pertama (shahibul mal) menyediakan seluruh modal dan pihak kedua ('amil/mudharib) menjadi pengelola, dengan keuntungan dibagi sesuai kesepakatan, disebut...",
+    "options": [
+      "Musyarakah",
+      "Mudharabah",
+      "Murabahah",
+      "Ijarah"
+    ],
+    "answer": "Mudharabah",
+    "explanation": "Mudharabah adalah akad bagi hasil di mana satu pihak memberikan modal (100%) dan pihak lain memberikan keahlian/tenaga untuk mengelola usaha. Kerugian finansial ditanggung penuh oleh pemilik modal, sementara pengelola rugi tenaga/waktu."
+  },
+  {
+    "subtest": "Penguasaan Konten - Fikih",
+    "question": "Menurut jumhur ulama, hukum melaksanakan shalat jenazah bagi kaum muslimin di suatu wilayah adalah...",
+    "options": [
+      "Fardhu 'Ain",
+      "Fardhu Kifayah",
+      "Sunnah Muakkad",
+      "Mubah"
+    ],
+    "answer": "Fardhu Kifayah",
+    "explanation": "Fardhu Kifayah adalah kewajiban kolektif. Artinya, jika sebagian kaum muslimin di wilayah tersebut sudah melaksanakannya, maka gugurlah kewajiban bagi yang lain. Namun, jika tidak ada satupun yang melaksanakan, maka seluruh penduduk di wilayah itu akan berdosa."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Kebudayaan Islam",
+    "question": "Peristiwa hijrahnya Nabi Muhammad SAW dari Mekkah ke Madinah menjadi titik awal penanggalan kalender Islam, yang dikenal sebagai kalender Hijriyah. Peristiwa ini terjadi pada tahun...",
+    "options": [
+      "610 M",
+      "611 M",
+      "622 M",
+      "632 M"
+    ],
+    "answer": "622 M",
+    "explanation": "Hijrah Nabi Muhammad SAW dan para sahabatnya dari Mekkah ke Yatsrib (yang kemudian bernama Madinah) pada tahun 622 Masehi merupakan tonggak sejarah yang sangat penting. Peristiwa ini menandai dimulainya fase baru dakwah Islam dan pembentukan masyarakat madani."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Kebudayaan Islam",
+    "question": "Khalifah dari Bani Umayyah yang berhasil membangun Kubah Shakhrah (Dome of the Rock) di Yerusalem adalah...",
+    "options": [
+      "Mu'awiyah bin Abi Sufyan",
+      "Abdul Malik bin Marwan",
+      "Walid bin Abdul Malik",
+      "Umar bin Abdul Aziz"
+    ],
+    "answer": "Abdul Malik bin Marwan",
+    "explanation": "Abdul Malik bin Marwan adalah salah satu khalifah terbesar Dinasti Umayyah. Di antara peninggalan arsitekturnya yang monumental adalah pembangunan Kubah Shakhrah (Qubbatush Shakhrah) di kompleks Masjid Al-Aqsa, Yerusalem."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Kebudayaan Islam",
+    "question": "Puncak kejayaan ilmu pengetahuan pada masa Dinasti Abbasiyah ditandai dengan berdirinya lembaga pusat penerjemahan, penelitian, dan perpustakaan di Baghdad yang bernama...",
+    "options": [
+      "Darul Hikmah",
+      "Nizamiyah",
+      "Al-Azhar",
+      "Baitul Hikmah"
+    ],
+    "answer": "Baitul Hikmah",
+    "explanation": "Baitul Hikmah, yang didirikan pada masa Khalifah Harun Ar-Rasyid dan mencapai puncaknya pada masa Al-Ma'mun, adalah pusat intelektual dunia pada masanya. Di sinilah berbagai karya ilmiah dari Yunani, Persia, dan India diterjemahkan ke dalam bahasa Arab dan dikembangkan lebih lanjut."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Kebudayaan Islam",
+    "question": "Salah satu teori masuknya Islam ke Nusantara menyatakan bahwa Islam dibawa oleh para pedagang dari Gujarat, India. Teori ini dikenal sebagai...",
+    "options": [
+      "Teori Mekkah",
+      "Teori Persia",
+      "Teori Gujarat",
+      "Teori Cina"
+    ],
+    "answer": "Teori Gujarat",
+    "explanation": "Teori Gujarat, yang didukung oleh Snouck Hurgronje, berpendapat bahwa Islam masuk ke Nusantara pada abad ke-13 M melalui para pedagang Muslim dari Gujarat, India. Bukti yang diajukan antara lain adalah corak batu nisan Sultan Malik As-Saleh."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Kebudayaan Islam",
+    "question": "Wali Songo yang dikenal sebagai pencipta tembang 'Lir-ilir' dan menggunakan media permainan anak-anak sebagai sarana dakwah adalah...",
+    "options": [
+      "Sunan Gresik",
+      "Sunan Ampel",
+      "Sunan Giri",
+      "Sunan Kalijaga"
+    ],
+    "answer": "Sunan Giri",
+    "explanation": "Meskipun sering dikaitkan juga dengan Sunan Kalijaga, banyak sumber sejarah yang menyebutkan bahwa Sunan Giri adalah pencipta tembang dolanan seperti 'Lir-ilir', 'Jamuran', dan 'Cublak-cublak Suweng' sebagai metode dakwah yang efektif untuk anak-anak."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Kebudayaan Islam",
+    "question": "Perang yang menentukan dalam penaklukan Konstantinopel oleh pasukan Muslim di bawah pimpinan Sultan Muhammad Al-Fatih terjadi pada tahun...",
+    "options": [
+      "1258 M",
+      "1453 M",
+      "1492 M",
+      "1517 M"
+    ],
+    "answer": "1453 M",
+    "explanation": "Pada tahun 1453 M, Sultan Muhammad II (Al-Fatih) dari Kesultanan Utsmaniyah berhasil menaklukkan Konstantinopel, ibu kota Kekaisaran Bizantium. Peristiwa ini dianggap sebagai salah satu titik balik terpenting dalam sejarah dunia."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Kebudayaan Islam",
+    "question": "Organisasi kemasyarakatan Islam di Indonesia yang didirikan oleh K.H. Hasyim Asy'ari pada tahun 1926 adalah...",
+    "options": [
+      "Muhammadiyah",
+      "Nahdlatul Ulama (NU)",
+      "Persatuan Islam (PERSIS)",
+      "Sarekat Islam (SI)"
+    ],
+    "answer": "Nahdlatul Ulama (NU)",
+    "explanation": "Nahdlatul Ulama (Kebangkitan Ulama) didirikan pada 31 Januari 1926 di Surabaya oleh sekelompok ulama pesantren yang dipimpin oleh K.H. Hasyim Asy'ari sebagai respons terhadap gerakan modernisme dan untuk melestarikan ajaran Islam Ahlussunnah wal Jama'ah."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Kebudayaan Islam",
+    "question": "Gelar 'Khulafaur Rasyidin' diberikan kepada empat khalifah pertama setelah Nabi Muhammad SAW wafat. Siapakah khalifah ketiga dari Khulafaur Rasyidin?",
+    "options": [
+      "Abu Bakar Ash-Shiddiq",
+      "Umar bin Khattab",
+      "Utsman bin Affan",
+      "Ali bin Abi Thalib"
+    ],
+    "answer": "Utsman bin Affan",
+    "explanation": "Urutan Khulafaur Rasyidin adalah: 1. Abu Bakar Ash-Shiddiq, 2. Umar bin Khattab, 3. Utsman bin Affan, dan 4. Ali bin Abi Thalib."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Kebudayaan Islam",
+    "question": "Perjanjian yang mengakhiri boikot kaum Quraisy terhadap Bani Hasyim dan Bani Muthalib, yang salah satu isinya adalah gencatan senjata selama 10 tahun, adalah...",
+    "options": [
+      "Perjanjian Hudaibiyah",
+      "Bai'at Aqabah I",
+      "Piagam Madinah",
+      "Fathu Makkah"
+    ],
+    "answer": "Perjanjian Hudaibiyah",
+    "explanation": "Perjanjian Hudaibiyah terjadi pada tahun 6 H antara kaum Muslimin Madinah dengan kaum Quraisy Mekkah. Meskipun beberapa pasalnya terlihat merugikan umat Islam pada awalnya, perjanjian ini terbukti menjadi kemenangan strategis yang membuka jalan bagi Fathu Makkah."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Kebudayaan Islam",
+    "question": "Tokoh pembaharu Islam dari Mesir yang terkenal dengan gagasannya tentang Pan-Islamisme (penyatuan umat Islam sedunia) adalah...",
+    "options": [
+      "Muhammad Abduh",
+      "Rasyid Ridha",
+      "Jamaluddin Al-Afghani",
+      "Hasan Al-Banna"
+    ],
+    "answer": "Jamaluddin Al-Afghani",
+    "explanation": "Jamaluddin Al-Afghani adalah seorang aktivis politik dan pemikir yang gencar menyuarakan ide Pan-Islamisme untuk membangkitkan kesadaran umat Islam agar bersatu melawan kolonialisme Barat pada abad ke-19."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Kebudayaan Islam",
+    "question": "Kerajaan Islam pertama di Pulau Jawa adalah...",
+    "options": [
+      "Kerajaan Samudera Pasai",
+      "Kerajaan Demak",
+      "Kerajaan Mataram Islam",
+      "Kerajaan Banten"
+    ],
+    "answer": "Kerajaan Demak",
+    "explanation": "Kerajaan Demak yang didirikan oleh Raden Patah sekitar akhir abad ke-15 dianggap sebagai kerajaan Islam pertama di Pulau Jawa. Demak menjadi pusat penyebaran Islam di Jawa dengan dukungan dari Wali Songo."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Kebudayaan Islam",
+    "question": "Wahyu pertama yang diterima Nabi Muhammad SAW di Gua Hira adalah surat...",
+    "options": [
+      "Al-Fatihah ayat 1-7",
+      "Al-Muddassir ayat 1-7",
+      "Al-'Alaq ayat 1-5",
+      "Al-Qalam ayat 1-4"
+    ],
+    "answer": "Al-'Alaq ayat 1-5",
+    "explanation": "Peristiwa turunnya wahyu pertama ini menandai diangkatnya Muhammad bin Abdullah menjadi seorang Nabi dan Rasul. Malaikat Jibril datang dan menyampaikan lima ayat pertama dari Surat Al-'Alaq, yang diawali dengan perintah 'Iqra' (Bacalah)."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Kebudayaan Islam",
+    "question": "Panglima perang Muslim yang memimpin penaklukan Andalusia (Spanyol) pada tahun 711 M adalah...",
+    "options": [
+      "Khalid bin Walid",
+      "Sa'ad bin Abi Waqqas",
+      "Thariq bin Ziyad",
+      "Musa bin Nusayr"
+    ],
+    "answer": "Thariq bin Ziyad",
+    "explanation": "Thariq bin Ziyad adalah seorang jenderal dari Dinasti Umayyah yang memimpin pasukan Muslim menyeberangi selat antara Afrika dan Eropa. Selat itu kemudian dinamai Jabal Thariq (Gunung Thariq) atau Gibraltar."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Kebudayaan Islam",
+    "question": "Langkah pertama yang dilakukan Nabi Muhammad SAW setibanya di Madinah adalah...",
+    "options": [
+      "Membangun pasar",
+      "Membangun masjid",
+      "Menyusun Piagam Madinah",
+      "Mempersaudarakan kaum Muhajirin dan Anshar"
+    ],
+    "answer": "Membangun masjid",
+    "explanation": "Setibanya di Madinah, hal pertama yang menjadi prioritas Nabi Muhammad SAW adalah membangun masjid (Masjid Nabawi). Masjid ini tidak hanya berfungsi sebagai tempat ibadah, tetapi juga sebagai pusat pemerintahan, pendidikan, dan kegiatan sosial umat Islam."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Kebudayaan Islam",
+    "question": "Perang Badar, sebagai perang besar pertama antara kaum Muslimin dan kaum Quraisy, terjadi pada tanggal...",
+    "options": [
+      "17 Ramadhan 2 H",
+      "10 Muharram 3 H",
+      "27 Rajab 1 H",
+      "Syawal 5 H"
+    ],
+    "answer": "17 Ramadhan 2 H",
+    "explanation": "Perang Badar terjadi pada 17 Ramadhan tahun ke-2 Hijriyah. Meskipun jumlah pasukan Muslim jauh lebih sedikit, mereka berhasil meraih kemenangan gemilang atas izin Allah SWT. Peristiwa ini sangat meningkatkan posisi tawar dan moral kaum Muslimin."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Literasi",
+    "question": "Bacalah teks berikut dengan saksama!\n\nPendidikan karakter di era digital menghadapi tantangan yang kompleks. Arus informasi yang tak terbendung dari internet dapat membawa dampak positif sekaligus negatif. Di satu sisi, siswa dapat mengakses sumber belajar yang melimpah. Di sisi lain, paparan konten negatif seperti hoaks, perundungan siber, dan radikalisme menjadi ancaman serius. Oleh karena itu, peran guru dan orang tua sebagai filter dan pendamping menjadi krusial. Mereka harus membekali generasi muda dengan kemampuan berpikir kritis dan literasi digital yang mumpuni agar tidak mudah terpengaruh oleh konten negatif.\n\nGagasan utama paragraf tersebut adalah...",
+    "options": [
+      "Dampak positif dan negatif internet",
+      "Pentingnya pendidikan karakter",
+      "Tantangan pendidikan karakter di era digital dan peran penting guru serta orang tua",
+      "Ancaman hoaks dan radikalisme di kalangan siswa"
+    ],
+    "answer": "Tantangan pendidikan karakter di era digital dan peran penting guru serta orang tua",
+    "explanation": "Gagasan utama paragraf tersebut mencakup keseluruhan isi teks, yaitu adanya tantangan kompleks dalam pendidikan karakter di era digital (kalimat pertama) dan solusi berupa peran krusial guru serta orang tua (kalimat keempat dan kelima)."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Literasi",
+    "question": "Bacalah kutipan berikut!\n\nProgram 'Merdeka Belajar' yang digagas oleh Kementerian Pendidikan dan Kebudayaan bertujuan memberikan otonomi lebih besar kepada satuan pendidikan. Salah satu kebijakannya adalah penghapusan Ujian Nasional (UN) dan menggantinya dengan Asesmen Kompetensi Minimum (AKM) dan Survei Karakter. Kebijakan ini diharapkan dapat menggeser fokus pendidikan dari sekadar penguasaan konten menjadi pengembangan kompetensi penalaran dan karakter siswa.\n\nMakna kata 'otonomi' dalam kutipan tersebut adalah...",
+    "options": [
+      "Bantuan dana",
+      "Pengawasan ketat",
+      "Kewenangan atau kemandirian untuk mengatur sendiri",
+      "Kurikulum terpusat"
+    ],
+    "answer": "Kewenangan atau kemandirian untuk mengatur sendiri",
+    "explanation": "Otonomi dalam konteks tersebut berarti satuan pendidikan (sekolah) diberikan kebebasan atau kewenangan yang lebih besar untuk mengelola dan mengatur urusannya sendiri, tidak lagi sepenuhnya diatur secara terpusat."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Literasi",
+    "question": "Perhatikan teks berikut!\n\n(1) Tingkat literasi masyarakat Indonesia masih perlu ditingkatkan. (2) Berdasarkan data PISA, peringkat Indonesia masih berada di bawah rata-rata negara OECD. (3) Salah satu penyebabnya adalah minimnya akses terhadap buku bacaan berkualitas di daerah-daerah terpencil. (4) Namun, perkembangan teknologi digital sebenarnya membuka peluang baru untuk mengatasi masalah ini melalui buku elektronik (e-book) dan perpustakaan digital.\n\nKalimat yang menyatakan hubungan sebab-akibat ditunjukkan oleh nomor...",
+    "options": [
+      "(1)",
+      "(2)",
+      "(3)",
+      "(4)"
+    ],
+    "answer": "(3)",
+    "explanation": "Kalimat (3) menunjukkan hubungan sebab-akibat. 'Minimnya akses terhadap buku bacaan berkualitas' (sebab) menjadi 'salah satu penyebab' dari rendahnya tingkat literasi (akibat yang disebutkan di kalimat 1 dan 2)."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Literasi",
+    "question": "Cermati paragraf berikut!\n\nUpaya pelestarian lingkungan hidup tidak bisa hanya mengandalkan pemerintah. Partisipasi aktif dari seluruh lapisan masyarakat sangat diperlukan. Dimulai dari hal-hal kecil seperti memilah sampah, mengurangi penggunaan plastik sekali pakai, hingga menanam pohon di lingkungan sekitar. Jika setiap individu memiliki kesadaran dan berkontribusi, dampak kolektif yang dihasilkan akan sangat signifikan untuk keberlangsungan planet ini.\n\nSimpulan yang tepat untuk paragraf tersebut adalah...",
+    "options": [
+      "Pemerintah adalah satu-satunya pihak yang bertanggung jawab atas lingkungan.",
+      "Memilah sampah adalah cara paling efektif untuk menjaga lingkungan.",
+      "Kesadaran dan partisipasi aktif setiap individu sangat penting dalam pelestarian lingkungan untuk menciptakan dampak kolektif yang besar.",
+      "Penggunaan plastik sekali pakai harus segera dihentikan oleh pemerintah."
+    ],
+    "answer": "Kesadaran dan partisipasi aktif setiap individu sangat penting dalam pelestarian lingkungan untuk menciptakan dampak kolektif yang besar.",
+    "explanation": "Simpulan tersebut merangkum seluruh isi paragraf, yang menekankan pentingnya peran serta masyarakat (partisipasi aktif) yang dimulai dari kesadaran individu untuk menghasilkan dampak kolektif (gabungan) yang signifikan."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Literasi",
+    "question": "Tujuan penulis dalam teks berikut adalah...\n\n'Banyak orang tua khawatir dengan dampak negatif gawai pada anak. Namun, dengan pengawasan yang tepat, gawai bisa menjadi alat pembelajaran yang efektif. Ada banyak aplikasi edukatif yang dirancang untuk merangsang kreativitas dan kemampuan kognitif anak. Kuncinya adalah durasi penggunaan (screen time) yang seimbang dan pemilihan konten yang sesuai dengan usia. Jadi, daripada melarang sepenuhnya, lebih bijaksana bagi orang tua untuk mendampingi dan mengarahkan anak dalam menggunakan gawai.'",
+    "options": [
+      "Melarang penggunaan gawai pada anak-anak.",
+      "Menjelaskan bahaya gawai bagi perkembangan anak.",
+      "Mengajak orang tua untuk tidak khawatir dan membiarkan anak bebas menggunakan gawai.",
+      "Meyakinkan orang tua bahwa gawai bisa berdampak positif jika digunakan secara bijak dengan pendampingan."
+    ],
+    "answer": "Meyakinkan orang tua bahwa gawai bisa berdampak positif jika digunakan secara bijak dengan pendampingan.",
+    "explanation": "Penulis tidak melarang atau membebaskan penggunaan gawai, melainkan memberikan perspektif yang seimbang. Tujuannya adalah untuk mengubah kekhawatiran orang tua menjadi sikap yang lebih bijaksana, yaitu mendampingi dan mengarahkan agar gawai bisa dimanfaatkan secara positif."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Literasi",
+    "question": "Perhatikan teks prosedur berikut!\n\nCara Membuat Kompos Sederhana:\n1. Siapkan wadah besar dengan lubang di bagian bawahnya.\n2. Pisahkan sampah organik (sisa sayuran, buah) dan sampah anorganik.\n3. Masukkan sampah organik ke dalam wadah.\n4. [...]\n5. Siram dengan air secukupnya untuk menjaga kelembapan.\n6. Tutup wadah dan aduk kompos setiap beberapa hari sekali.\n\nKalimat yang paling tepat untuk melengkapi bagian rumpang (nomor 4) adalah...",
+    "options": [
+      "Bakar sampah hingga menjadi abu.",
+      "Campurkan dengan tanah atau serbuk gergaji untuk menyeimbangkan karbon dan nitrogen.",
+      "Buang sampah anorganik ke tempat sampah.",
+      "Tambahkan deterjen untuk mempercepat pembusukan."
+    ],
+    "answer": "Campurkan dengan tanah atau serbuk gergaji untuk menyeimbangkan karbon dan nitrogen.",
+    "explanation": "Dalam proses pembuatan kompos, setelah sampah organik (sumber nitrogen) dimasukkan, langkah logis berikutnya adalah menambahkan bahan kering seperti tanah, daun kering, atau serbuk gergaji (sumber karbon) untuk menciptakan keseimbangan yang ideal bagi mikroorganisme pengurai."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Literasi",
+    "question": "Fakta yang terdapat dalam paragraf berikut adalah...\n\n'Menurut data Badan Pusat Statistik (BPS) yang dirilis pada Februari 2025, tingkat pengangguran terbuka (TPT) di Indonesia mengalami sedikit penurunan menjadi 5,2%. Angka ini lebih rendah dibandingkan periode yang sama tahun sebelumnya. Pemerintah optimis bahwa dengan adanya proyek-proyek strategis nasional yang baru, angka pengangguran akan terus menurun. Fenomena ini seharusnya menjadi angin segar bagi para pencari kerja.'",
+    "options": [
+      "Pemerintah optimis angka pengangguran akan terus menurun.",
+      "Fenomena ini seharusnya menjadi angin segar bagi pencari kerja.",
+      "TPT di Indonesia pada Februari 2025 adalah 5,2% menurut BPS.",
+      "Proyek strategis nasional adalah solusi terbaik."
+    ],
+    "answer": "TPT di Indonesia pada Februari 2025 adalah 5,2% menurut BPS.",
+    "explanation": "Fakta adalah pernyataan yang dapat dibuktikan kebenarannya dan biasanya didukung oleh data. Kalimat tersebut menyajikan data konkret (angka 5,2%) dari sumber yang jelas (BPS). Pilihan lain merupakan opini atau harapan."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Literasi",
+    "question": "Bacalah puisi berikut!\n\nDi Pagi Hari\nEmbun menetes di ujung daun\nMenyapa mentari yang baru bangun\nAngin berbisik lembut, syahdu\nMembangunkan jiwa dari tidur semu\n\nMakna dari baris 'Membangunkan jiwa dari tidur semu' adalah...",
+    "options": [
+      "Orang-orang bangun dari tidurnya.",
+      "Memberikan semangat dan harapan baru setelah malam yang gelap.",
+      "Suara angin yang sangat kencang.",
+      "Jiwa manusia yang tertidur."
+    ],
+    "answer": "Memberikan semangat dan harapan baru setelah malam yang gelap.",
+    "explanation": "Baris tersebut menggunakan bahasa kiasan (metafora). 'Tidur semu' melambangkan keadaan lesu, putus asa, atau kegelapan malam. Suasana pagi yang digambarkan (embun, mentari, angin) 'membangunkan jiwa', artinya memberikan semangat, optimisme, dan awal yang baru."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Literasi",
+    "question": "Kata yang TIDAK baku dalam kalimat berikut adalah...\n\n'Untuk menganalisa suatu masalah, kita perlu mengumpulkan data yang akurat dan sistimatis.'",
+    "options": [
+      "menganalisa",
+      "masalah",
+      "akurat",
+      "data"
+    ],
+    "answer": "menganalisa",
+    "explanation": "Bentuk baku dari kata 'menganalisa' adalah 'menganalisis'. Kata baku lainnya yang sering salah tulis adalah 'sistimatis', seharusnya 'sistematis'."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Literasi",
+    "question": "Pernyataan yang sesuai dengan isi teks berikut adalah...\n\n'Gerhana matahari total adalah fenomena alam yang terjadi ketika posisi bulan terletak di antara bumi dan matahari, sehingga menutup seluruh cahaya matahari. Meskipun indah, melihat gerhana matahari secara langsung tanpa pelindung mata khusus sangat berbahaya. Radiasi ultraviolet dari matahari dapat merusak retina secara permanen dan menyebabkan kebutaan.'",
+    "options": [
+      "Gerhana matahari terjadi saat bumi berada di antara bulan dan matahari.",
+      "Melihat gerhana matahari dengan mata telanjang adalah aman.",
+      "Posisi bulan di antara bumi dan matahari menyebabkan gerhana matahari total.",
+      "Kerusakan retina akibat melihat gerhana hanya bersifat sementara."
+    ],
+    "answer": "Posisi bulan di antara bumi dan matahari menyebabkan gerhana matahari total.",
+    "explanation": "Pernyataan ini secara akurat menjelaskan mekanisme terjadinya gerhana matahari total seperti yang dideskripsikan pada kalimat pertama teks. Pilihan lain mengandung informasi yang salah atau bertentangan dengan isi teks."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Literasi",
+    "question": "Cermati kalimat-kalimat berikut!\n\n(1) Setelah itu, aduk adonan hingga kalis.\n(2) Pertama, campurkan tepung, gula, dan ragi dalam satu wadah.\n(3) Terakhir, panggang adonan dalam oven selama 20 menit.\n(4) Kemudian, tambahkan telur dan air sedikit demi sedikit.\n(5) Diamkan adonan selama 1 jam hingga mengembang.\n\nUrutan yang logis untuk kalimat-kalimat tersebut agar menjadi paragraf yang padu adalah...",
+    "options": [
+      "(2)-(1)-(4)-(5)-(3)",
+      "(2)-(4)-(1)-(5)-(3)",
+      "(1)-(2)-(4)-(3)-(5)",
+      "(4)-(2)-(1)-(5)-(3)"
+    ],
+    "answer": "(2)-(4)-(1)-(5)-(3)",
+    "explanation": "Urutan yang logis dalam membuat adonan adalah: (2) mencampurkan bahan kering, (4) menambahkan bahan cair, (1) mengaduk hingga kalis, (5) mendiamkan/fermentasi, dan (3) memanggang. Urutan ini sesuai dengan proses pembuatan kue atau roti pada umumnya."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Literasi",
+    "question": "Perbedaan utama antara biografi dan autobiografi adalah...",
+    "options": [
+      "Biografi lebih panjang daripada autobiografi.",
+      "Biografi hanya menceritakan tokoh yang sudah meninggal.",
+      "Biografi ditulis oleh orang lain, sedangkan autobiografi ditulis oleh tokoh itu sendiri.",
+      "Autobiografi berisi lebih banyak fakta daripada biografi."
+    ],
+    "answer": "Biografi ditulis oleh orang lain, sedangkan autobiografi ditulis oleh tokoh itu sendiri.",
+    "explanation": "Perbedaan mendasar terletak pada penulisnya. 'Bio' berarti kehidupan dan 'grafi' berarti tulisan. 'Auto' berarti sendiri. Jadi, biografi adalah riwayat hidup seseorang yang ditulis orang lain, sementara autobiografi adalah riwayat hidup yang ditulis sendiri oleh subjeknya."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Literasi",
+    "question": "Penggunaan tanda baca yang salah terdapat pada kalimat...",
+    "options": [
+      "Ayah membeli buah-buahan: apel, jeruk, dan mangga.",
+      "Dia bertanya, 'Kapan kita akan berangkat?'",
+      "Karena sakit, ia tidak masuk sekolah.",
+      "Saya ingin pergi, tetapi tidak diizinkan."
+    ],
+    "answer": "Ayah membeli buah-buahan: apel, jeruk, dan mangga.",
+    "explanation": "Tanda titik dua (:) tidak digunakan jika perincian itu merupakan pelengkap yang mengakhiri pernyataan. Kalimat yang benar seharusnya: 'Ayah membeli buah-buahan, yaitu apel, jeruk, dan mangga' atau 'Ayah membeli apel, jeruk, dan mangga'. Tanda titik dua digunakan jika ada pernyataan umum yang diikuti perincian, contoh: 'Kita memerlukan perabot rumah tangga: kursi, meja, dan lemari'."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Literasi",
+    "question": "Antonim (lawan kata) dari kata 'NISBI' adalah...",
+    "options": [
+      "Relatif",
+      "Pasti",
+      "Mutlak",
+      "Kira-kira"
+    ],
+    "answer": "Mutlak",
+    "explanation": "Nisbi atau relatif berarti tidak mutlak, atau bergantung pada pembanding atau sudut pandang tertentu. Lawan katanya adalah mutlak, yang berarti absolut, pasti, dan tidak terbatas oleh apa pun."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Literasi",
+    "question": "Kalimat berikut yang paling efektif adalah...",
+    "options": [
+      "Bagi para siswa-siswi diharap untuk segera berkumpul di lapangan.",
+      "Para siswa diharap segera berkumpul di lapangan.",
+      "Semua para siswa-siswi diharap agar supaya segera berkumpul.",
+      "Demi untuk kelancaran acara, para siswa berkumpul."
+    ],
+    "answer": "Para siswa diharap segera berkumpul di lapangan.",
+    "explanation": "Kalimat efektif menghindari penggunaan kata yang berlebihan (pleonasme). 'Para' sudah menunjukkan jamak, jadi tidak perlu 'siswa-siswi'. 'Bagi' di awal kalimat sering kali tidak diperlukan. Pilihan lain menggunakan kata-kata yang mubazir seperti 'semua para', 'agar supaya', dan 'demi untuk'."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Numerasi",
+    "question": "Sebuah madrasah memiliki 120 siswa. Sebanyak 40% dari siswa tersebut adalah laki-laki. Berapa jumlah siswa perempuan di madrasah tersebut?",
+    "options": [
+      "48 siswa",
+      "60 siswa",
+      "72 siswa",
+      "80 siswa"
+    ],
+    "answer": "72 siswa",
+    "explanation": "Jumlah siswa laki-laki = 40% x 120 = (40/100) x 120 = 48 siswa. Jumlah siswa perempuan = Jumlah total siswa - Jumlah siswa laki-laki = 120 - 48 = 72 siswa."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Numerasi",
+    "question": "Perhatikan data nilai ujian PAI kelas 6 berikut: 80, 85, 75, 90, 80, 70, 95, 85, 80. Rata-rata (mean) dari nilai tersebut adalah...",
+    "options": [
+      "80",
+      "81.1",
+      "82.2",
+      "85"
+    ],
+    "answer": "82.2",
+    "explanation": "Jumlah semua nilai = 80 + 85 + 75 + 90 + 80 + 70 + 95 + 85 + 80 = 740. Jumlah data = 9. Rata-rata = Jumlah semua nilai / Jumlah data = 740 / 9 = 82.22... (dibulatkan menjadi 82.2)."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Numerasi",
+    "question": "Pak Ahmad membagikan 60 buku tulis dan 40 pensil kepada anak-anak yatim. Setiap anak menerima buku tulis dan pensil dengan jumlah yang sama banyak. Berapa jumlah anak yatim paling banyak yang dapat menerima bantuan tersebut?",
+    "options": [
+      "10 anak",
+      "15 anak",
+      "20 anak",
+      "30 anak"
+    ],
+    "answer": "20 anak",
+    "explanation": "Soal ini mencari Faktor Persekutuan Terbesar (FPB) dari 60 dan 40. Faktor dari 60: 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60. Faktor dari 40: 1, 2, 4, 5, 8, 10, 20, 40. FPB dari 60 dan 40 adalah 20. Jadi, jumlah anak paling banyak adalah 20 anak."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Numerasi",
+    "question": "Sebuah acara pengajian dimulai pukul 19.30 dan selesai pukul 21.15. Berapa lama acara pengajian tersebut berlangsung?",
+    "options": [
+      "1 jam 15 menit",
+      "1 jam 30 menit",
+      "1 jam 45 menit",
+      "2 jam 15 menit"
+    ],
+    "answer": "1 jam 45 menit",
+    "explanation": "Waktu selesai: 21.15. Waktu mulai: 19.30. Cara menghitung: Dari 19.30 ke 20.00 = 30 menit. Dari 20.00 ke 21.00 = 1 jam. Dari 21.00 ke 21.15 = 15 menit. Total waktu = 30 menit + 1 jam + 15 menit = 1 jam 45 menit."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Numerasi",
+    "question": "Harga sebuah buku Al-Qur'an adalah Rp75.000. Jika toko memberikan diskon sebesar 20%, berapakah harga yang harus dibayar?",
+    "options": [
+      "Rp55.000",
+      "Rp60.000",
+      "Rp65.000",
+      "Rp70.000"
+    ],
+    "answer": "Rp60.000",
+    "explanation": "Besar diskon = 20% x Rp75.000 = (20/100) x 75.000 = Rp15.000. Harga yang harus dibayar = Harga awal - Diskon = Rp75.000 - Rp15.000 = Rp60.000."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Numerasi",
+    "question": "Perhatikan diagram lingkaran berikut yang menunjukkan data 200 hewan qurban di Desa Sukamakmur.\n[Diagram lingkaran: Sapi 45%, Kambing 35%, Domba 15%, Kerbau 5%]\n\nBerapa jumlah kambing yang diqurbankan?",
+    "options": [
+      "50 ekor",
+      "60 ekor",
+      "70 ekor",
+      "80 ekor"
+    ],
+    "answer": "70 ekor",
+    "explanation": "Persentase kambing adalah 35%. Jumlah total hewan qurban adalah 200 ekor. Jumlah kambing = 35% x 200 = (35/100) x 200 = 70 ekor."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Numerasi",
+    "question": "Jarak antara kota A dan kota B adalah 150 km. Jika Budi berkendara dengan kecepatan rata-rata 60 km/jam, berapa waktu yang dibutuhkan Budi untuk sampai di kota B?",
+    "options": [
+      "2 jam",
+      "2 jam 15 menit",
+      "2 jam 30 menit",
+      "3 jam"
+    ],
+    "answer": "2 jam 30 menit",
+    "explanation": "Waktu = Jarak / Kecepatan. Waktu = 150 km / 60 km/jam = 2,5 jam. 2,5 jam sama dengan 2 jam + 0,5 jam. 0,5 jam = 0,5 x 60 menit = 30 menit. Jadi, waktu yang dibutuhkan adalah 2 jam 30 menit."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Numerasi",
+    "question": "Perbandingan jumlah guru laki-laki dan perempuan di sebuah sekolah adalah 2 : 3. Jika jumlah seluruh guru adalah 45 orang, maka jumlah guru perempuan adalah...",
+    "options": [
+      "18 orang",
+      "25 orang",
+      "27 orang",
+      "30 orang"
+    ],
+    "answer": "27 orang",
+    "explanation": "Total perbandingan = 2 + 3 = 5. Jumlah guru perempuan = (perbandingan perempuan / total perbandingan) x jumlah seluruh guru = (3 / 5) x 45 = 27 orang."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Numerasi",
+    "question": "Sebuah pekarangan masjid berbentuk persegi panjang dengan panjang 30 meter dan lebar 20 meter. Berapakah keliling pekarangan masjid tersebut?",
+    "options": [
+      "50 meter",
+      "100 meter",
+      "600 meter",
+      "1200 meter"
+    ],
+    "answer": "100 meter",
+    "explanation": "Keliling persegi panjang dihitung dengan rumus K = 2 x (panjang + lebar). K = 2 x (30 m + 20 m) = 2 x (50 m) = 100 meter."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Numerasi",
+    "question": "Data infaq mingguan Masjid Al-Ikhlas (dalam ribuan rupiah): 500, 650, 450, 700, 550. Berapakah median dari data tersebut?",
+    "options": [
+      "500",
+      "550",
+      "570",
+      "650"
+    ],
+    "answer": "550",
+    "explanation": "Median adalah nilai tengah setelah data diurutkan. Urutkan data terlebih dahulu: 450, 500, 550, 650, 700. Nilai yang berada di tengah adalah 550."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Numerasi",
+    "question": "Jika 3/5 dari peserta sebuah seminar adalah wanita, maka persentase peserta pria adalah...",
+    "options": [
+      "20%",
+      "30%",
+      "40%",
+      "60%"
+    ],
+    "answer": "40%",
+    "explanation": "Jika 3/5 adalah wanita, maka sisanya adalah pria. Bagian pria = 1 - 3/5 = 5/5 - 3/5 = 2/5. Untuk mengubahnya menjadi persentase: (2/5) x 100% = 40%."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Numerasi",
+    "question": "Sebuah perpustakaan memiliki 2.500 buku. Sebanyak 15% adalah buku fiksi, 40% buku pelajaran, dan sisanya adalah buku referensi PAI. Berapa jumlah buku referensi PAI?",
+    "options": [
+      "375 buku",
+      "1000 buku",
+      "1125 buku",
+      "1375 buku"
+    ],
+    "answer": "1125 buku",
+    "explanation": "Total persentase buku fiksi dan pelajaran = 15% + 40% = 55%. Persentase buku referensi PAI = 100% - 55% = 45%. Jumlah buku referensi PAI = 45% x 2.500 = (45/100) x 2.500 = 1.125 buku."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Numerasi",
+    "question": "Panitia qurban membeli 3 ekor sapi. Berat rata-rata sapi tersebut adalah 0,35 ton. Berapa total berat ketiga sapi tersebut dalam kilogram?",
+    "options": [
+      "105 kg",
+      "350 kg",
+      "1050 kg",
+      "3500 kg"
+    ],
+    "answer": "1050 kg",
+    "explanation": "Total berat dalam ton = 3 x 0,35 ton = 1,05 ton. Karena 1 ton = 1000 kg, maka total berat dalam kg = 1,05 x 1000 = 1050 kg."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Numerasi",
+    "question": "Perhatikan tabel berikut:\n\n| Hari    | Jumlah Hafalan Ayat |\n|---------|---------------------|\n| Senin   | 5                   |\n| Selasa  | 7                   |\n| Rabu    | 4                   |\n| Kamis   | 8                   |\n| Jumat   | 6                   |\n\nBerapa selisih jumlah hafalan pada hari dengan hafalan terbanyak dan paling sedikit?",
+    "options": [
+      "2 ayat",
+      "3 ayat",
+      "4 ayat",
+      "5 ayat"
+    ],
+    "answer": "4 ayat",
+    "explanation": "Jumlah hafalan terbanyak adalah 8 ayat (Kamis). Jumlah hafalan paling sedikit adalah 4 ayat (Rabu). Selisih = 8 - 4 = 4 ayat."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Numerasi",
+    "question": "Umar membaca buku dari halaman 25 sampai halaman 55. Berapa total halaman yang dibaca oleh Umar?",
+    "options": [
+      "29 halaman",
+      "30 halaman",
+      "31 halaman",
+      "32 halaman"
+    ],
+    "answer": "31 halaman",
+    "explanation": "Untuk menghitung jumlah halaman yang dibaca dari halaman A sampai B, rumusnya adalah (B - A) + 1. Jadi, (55 - 25) + 1 = 30 + 1 = 31 halaman."
+  }
+],
+
+    // --- Data dinamis ini tidak perlu diubah ---
+    judulHalaman: document.title,
+    url: window.location.href
+};
+
+// ===================================================================================
+// --- FUNGSI PENGIRIMAN DATA KE GOOGLE SHEET (DIPERBARUI) ---
+// ===================================================================================
+async function kirimKeGoogleSheet(data) {
+    const statusEl = document.getElementById('submission-status');
+    statusEl.textContent = 'Mengirim hasil ujian...';
+    
+    const formData = new FormData();
+    // Menambahkan semua data ke dalam objek FormData.
+    formData.append('kategori', data.kategori);
+    formData.append('url', data.url);
+    formData.append('judulHalaman', data.judulHalaman);
+    formData.append('Nama', data.Nama);
+    formData.append('JumlahSoal', data.JumlahSoal);
+    formData.append('JawabanBenar', data.JawabanBenar);
+    formData.append('JawabanSalah', data.JawabanSalah);
+    formData.append('TidakDijawab', data.TidakDijawab);
+    formData.append('Durasi', data.Durasi);
+    formData.append('Nilai', data.Nilai);
+    formData.append('StatusKelulusan', data.StatusKelulusan);
+
+    try {
+        const response = await fetch(EXAM_CONFIG.scriptURL, {
+            method: 'POST',
+            body: formData
+        });
+        
+        // Membaca respons sebagai JSON untuk mendapatkan pesan sukses/error dari server
+        const result = await response.json();
+        
+        if (result.result === "success") {
+            statusEl.innerHTML = `Hasil ujian berhasil disimpan. <b><a href="${EXAM_CONFIG.linkPeringkat}">Cek Peringkat kamu di sini</a></b>`;
+            statusEl.style.color = 'green';
+        } else {
+            // Menampilkan pesan error yang lebih spesifik dari server
+            throw new Error(result.message || 'Terjadi kesalahan dari server.');
+        }
+    } catch (error) {
+        console.error('Error saat mengirim ke Google Sheet:', error);
+        statusEl.textContent = `Gagal menyimpan hasil. Coba lagi nanti. Error: ${error.message}`;
+        statusEl.style.color = 'red';
+    }
+}
+
+// ===================================================================================
+// --- LOGIKA UTAMA UJIAN (DISESUAIKAN, TIDAK PERLU DIUBAH LAGI) ---
+// ===================================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Menggunakan bank soal dari EXAM_CONFIG
+    const questions = EXAM_CONFIG.bankSoal;
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let questionStatus = new Array(questions.length).fill('unanswered');
+    let timerInterval;
+    let startTime;
+    let currentUsername = '';
+
+    const loginContainer = document.getElementById('login-container');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('login-btn');
+    const loginError = document.getElementById('login-error');
+    const appHeader = document.querySelector('.header');
+    const quizContainer = document.querySelector('.quiz-container');
+    const resultPage = document.getElementById('result-page');
+    const subtestTitleEl = document.getElementById('subtest-title');
+    const questionNumberEl = document.getElementById('question-number');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsEl = document.getElementById('options');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const doubtfulBtn = document.getElementById('doubtful-btn');
+    const finishBtn = document.getElementById('finish-btn');
+    const timerEl = document.getElementById('timer');
+    const restartBtn = document.getElementById('restart-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const headerInfo = document.getElementById('header-info');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmYesBtn = document.getElementById('confirm-yes');
+    const confirmNoBtn = document.getElementById('confirm-no');
+    
+    function showLoginPage() {
+        loginContainer.style.display = 'block'; // Diubah dari 'flex' agar sesuai skrip asli
+        appHeader.style.display = 'none';
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'none';
+        passwordInput.value = '';
+        loginError.style.display = 'none';
+    }
+
+    function handleLogin() {
+        const password = passwordInput.value;
+        const username = usernameInput.value.trim();
+        if (username === "") {
+            loginError.textContent = "Username tidak boleh kosong.";
+            loginError.style.display = 'block';
+            return;
+        }
+        // Menggunakan password dari EXAM_CONFIG
+        if (password === EXAM_CONFIG.password) {
+            currentUsername = username;
+            loginContainer.style.display = 'none';
+            appHeader.style.display = 'flex';
+            quizContainer.style.display = 'flex';
+            resultPage.style.display = 'none';
+            headerInfo.textContent = `Peserta: ${currentUsername}`;
+            startQuiz();
+        } else {
+            loginError.textContent = "Password salah. Coba lagi.";
+            loginError.style.display = 'block';
+        }
+    }
+    
+    function handleLogout() {
+        clearInterval(timerInterval);
+        showLoginPage();
+    }
+
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        userAnswers.fill(null);
+        questionStatus.fill('unanswered');
+        quizContainer.style.display = 'flex';
+        resultPage.style.display = 'none';
+        setupQuestionGrids();
+        displayQuestion(currentQuestionIndex);
+        // Menggunakan durasi dari EXAM_CONFIG
+        startTimer(EXAM_CONFIG.durasiMenit * 60);
+        startTime = new Date();
+    }
+
+    function setupQuestionGrids() {
+        const gridContainer = document.getElementById('grid-container');
+        gridContainer.innerHTML = '';
+        const subtests = [...new Set(questions.map(q => q.subtest))];
+        subtests.forEach(subtest => {
+            const group = document.createElement('div');
+            group.className = 'subtest-group';
+            const title = document.createElement('h3');
+            title.textContent = subtest;
+            const grid = document.createElement('div');
+            grid.className = 'question-grid';
+            group.appendChild(title);
+            group.appendChild(grid);
+            gridContainer.appendChild(group);
+            questions.forEach((q, index) => {
+                if (q.subtest === subtest) {
+                    const button = document.createElement('button');
+                    button.className = 'grid-button';
+                    button.textContent = index + 1;
+                    button.onclick = () => jumpToQuestion(index);
+                    grid.appendChild(button);
+                }
+            });
+        });
+    }
+
+    function displayQuestion(index) {
+        document.querySelector('.grid-button.current')?.classList.remove('current');
+        currentQuestionIndex = index;
+        const question = questions[index];
+        subtestTitleEl.textContent = question.subtest;
+        questionNumberEl.textContent = index + 1;
+        questionTextEl.innerHTML = question.question;
+        optionsEl.innerHTML = '';
+        question.options.forEach(option => {
+            const li = document.createElement('li');
+            const label = document.createElement('label');
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = `option-${index}`;
+            radio.value = option;
+            if (userAnswers[index] === option) {
+                radio.checked = true;
+                label.classList.add('selected');
+            }
+            radio.onchange = () => selectAnswer(index, option, label);
+            const span = document.createElement('span');
+            span.innerHTML = option; // Menggunakan innerHTML untuk render jika ada format
+            label.appendChild(radio);
+            label.appendChild(span);
+            li.appendChild(label);
+            optionsEl.appendChild(li);
+        });
+        updateNavButtons();
+        updateGridButtonStatus(index, true);
+    }
+
+    function selectAnswer(index, answer, label) {
+        userAnswers[index] = answer;
+        document.querySelectorAll(`#options li label`).forEach(l => l.classList.remove('selected'));
+        label.classList.add('selected');
+        if (questionStatus[index] !== 'doubtful') {
+            questionStatus[index] = 'answered';
+        }
+        updateGridButtonStatus(index);
+    }
+    
+    function updateNavButtons() {
+        prevBtn.disabled = currentQuestionIndex === 0;
+        nextBtn.disabled = currentQuestionIndex === questions.length - 1;
+    }
+    
+    function updateGridButtonStatus(index, isCurrent = false) {
+        const allGridButtons = document.querySelectorAll('.grid-button');
+        if (isCurrent) {
+            const currentBtn = document.querySelector('.grid-button.current');
+            if (currentBtn) currentBtn.classList.remove('current');
+        }
+        const button = Array.from(allGridButtons).find(btn => parseInt(btn.textContent) === index + 1);
+        if (!button) return;
+        if(isCurrent) button.classList.add('current');
+        button.classList.remove('answered', 'doubtful');
+        switch (questionStatus[index]) {
+            case 'answered': button.classList.add('answered'); break;
+            case 'doubtful': button.classList.add('doubtful'); break;
+        }
+    }
+
+    function jumpToQuestion(index) {
+        displayQuestion(index);
+    }
+
+    function startTimer(duration) {
+        let timer = duration;
+        clearInterval(timerInterval);
+        timerEl.parentElement.classList.remove('low-time');
+        timerInterval = setInterval(() => {
+            let minutes = parseInt(timer / 60, 10);
+            let seconds = parseInt(timer % 60, 10);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            timerEl.textContent = `${minutes}:${seconds}`;
+            if (timer < 300 && !timerEl.parentElement.classList.contains('low-time')) { 
+                timerEl.parentElement.classList.add('low-time'); 
+            }
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                finishQuiz();
+            }
+        }, 1000);
+    }
+    
+    function showConfirmation() {
+        confirmationModal.style.display = 'flex';
+    }
+
+    function formatDuration(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes} menit ${seconds.toString().padStart(2, '0')} detik`;
+}
+
+
+    function finishQuiz() {
+        clearInterval(timerInterval);
+        confirmationModal.style.display = 'none';
+        const endTime = new Date();
+        const durationMs = endTime - startTime;
+        let correctCount = 0;
+        questions.forEach((q, index) => {
+            if (userAnswers[index] === q.answer) correctCount++;
+        });
+        const totalQuestions = questions.length;
+        const answeredCount = userAnswers.filter(a => a !== null).length;
+        const incorrectCount = answeredCount - correctCount;
+        const unansweredCount = totalQuestions - answeredCount;
+        const finalScore = totalQuestions > 0 ? parseFloat(((correctCount / totalQuestions) * 100).toFixed(2)) : 0;
+        const isPassed = finalScore >= EXAM_CONFIG.passingGrade;
+        
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'block';
+        headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
+        
+        const statusEl = document.getElementById('status-lulus');
+        statusEl.textContent = isPassed ? 'SELAMAT, ANDA LULUS!' : 'MAAF, ANDA BELUM LULUS';
+        statusEl.className = `status ${isPassed ? 'lulus' : 'gagal'}`;
+        document.getElementById('final-score').textContent = finalScore;
+        document.getElementById('score-details').textContent = `${correctCount} dari ${totalQuestions} soal benar`;
+        
+        const reviewSection = document.getElementById('review-section');
+        reviewSection.innerHTML = '';
+        questions.forEach((q, index) => {
+            const userAnswer = userAnswers[index];
+            const isCorrect = userAnswer === q.answer;
+            reviewSection.innerHTML += `
+                <div class="review-item">
+                    <p><strong>Soal ${index + 1}:</strong> ${q.question}</p>
+                    <div class="review-answer user-answer ${isCorrect ? '' : 'is-incorrect'}">Jawaban Anda: ${userAnswer || 'Tidak Dijawab'}</div>
+                    ${!isCorrect ? `<div class="review-answer correct-answer">Jawaban Benar: ${q.answer}</div>` : ''}
+                    <div class="explanation"><strong>Pembahasan:</strong> ${q.explanation}</div>
+                </div>
+            `;
+        });
+        
+        const dataForSheet = {
+            kategori: EXAM_CONFIG.kategori,
+            url: EXAM_CONFIG.url,
+            judulHalaman: EXAM_CONFIG.judulHalaman,
+            Nama: currentUsername,
+            JumlahSoal: totalQuestions,
+            JawabanBenar: correctCount,
+            JawabanSalah: incorrectCount,
+            TidakDijawab: unansweredCount,
+            Durasi: formatDuration(durationMs),
+            Nilai: finalScore,
+            StatusKelulusan: isPassed ? 'Lulus' : 'Tidak Lulus'
+        };
+        kirimKeGoogleSheet(dataForSheet);
+    }
+
+    // Event Listeners
+    loginBtn.addEventListener('click', handleLogin);
+    passwordInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
+    logoutBtn.addEventListener('click', handleLogout);
+    prevBtn.addEventListener('click', () => { if (currentQuestionIndex > 0) displayQuestion(currentQuestionIndex - 1) });
+    nextBtn.addEventListener('click', () => { if (currentQuestionIndex < questions.length - 1) displayQuestion(currentQuestionIndex + 1) });
+    doubtfulBtn.addEventListener('click', () => {
+        const currentStatus = questionStatus[currentQuestionIndex];
+        if (currentStatus === 'doubtful') {
+            questionStatus[currentQuestionIndex] = userAnswers[currentQuestionIndex] ? 'answered' : 'unanswered';
+        } else {
+            questionStatus[currentQuestionIndex] = 'doubtful';
+        }
+        updateGridButtonStatus(currentQuestionIndex);
+    });
+    finishBtn.addEventListener('click', showConfirmation);
+    confirmYesBtn.addEventListener('click', finishQuiz);
+    confirmNoBtn.addEventListener('click', () => confirmationModal.style.display = 'none');
+    restartBtn.addEventListener('click', handleLogout);
+
+    showLoginPage();
+});
+</script>
