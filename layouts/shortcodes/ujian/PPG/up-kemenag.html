@@ -1,0 +1,1792 @@
+    <!-- SELURUH KONTEN HTML ANDA DARI SINI -->
+    <div id="login-container">
+        <div class="login-box">
+            <h2>Login Peserta Ujian</h2>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan username Anda">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password">
+            </div>
+            <button id="login-btn">Masuk</button>
+            <p id="login-error">Password salah. Coba lagi.</p>
+            <a href="/ujian/cara-ikut-tryout-online-gratis" style="text-decoration: none;">
+                <button id="cara-btn" type="button">Cara Ikut Try Out</button>
+            </a>
+        </div>
+    </div>
+
+    <header class="header" style="display: none;">
+        <h2>Simulasi Ujian</h2>
+        <div class="user-info">
+            <span id="header-info"></span>
+            <button id="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <div class="quiz-container" style="display: none;">
+        <main class="question-panel">
+            <div class="question-header">
+                <span id="subtest-title">Subtes</span> | Soal No. <span id="question-number">1</span>
+            </div>
+            <div class="question-body">
+                <p id="question-text">Memuat soal...</p>
+                <ul id="options" class="options-list"></ul>
+            </div>
+            <div class="quiz-actions">
+                <button id="prev-btn" class="action-button">Sebelumnya</button>
+                <button id="doubtful-btn" class="action-button">Ragu-ragu</button>
+                <button id="next-btn" class="action-button">Selanjutnya</button>
+            </div>
+        </main>
+        <aside class="navigation-panel">
+            <div class="timer-box">
+                Sisa Waktu
+                <div id="timer">30:00</div>
+            </div>
+            <div id="grid-container" class="question-grid-container"></div>
+            <div class="quiz-actions" style="justify-content: center;">
+                <button id="finish-btn" class="action-button">Selesaikan Ujian</button>
+            </div>
+        </aside>
+    </div>
+
+    <div id="result-page" class="result-container" style="display: none;">
+        <div class="result-card overall-summary">
+            <div id="status-lulus" class="status"></div>
+            <h2>Hasil Akhir Ujian</h2>
+            <div id="final-score" class="score">0</div>
+            <div id="score-details" class="score-details"></div>
+            <div id="submission-status"></div>
+        </div>
+        <div class="result-card">
+            <h3>Tinjauan Jawaban</h3>
+            <div id="review-section"></div>
+        </div>
+        <div style="text-align: center;">
+           <button id="restart-btn" class="action-button">Ulangi Ujian</button>
+        </div>
+    </div>
+    
+    <div id="confirmation-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Selesaikan Ujian?</h2>
+            <p>Apakah Anda yakin ingin menyelesaikan dan mengakhiri sesi ujian ini?</p>
+            <div class="modal-actions">
+                <button id="confirm-no" class="action-button">Batal</button>
+                <button id="confirm-yes" class="action-button">Ya, Selesaikan</button>
+            </div>
+        </div>
+    </div>
+    <!-- HINGGA AKHIR KONTEN HTML ANDA -->
+
+<script>
+// ===================================================================================
+// --- KONFIGURASI UJIAN (HANYA UBAH BAGIAN INI UNTUK UJIAN BARU) ---
+// ===================================================================================
+const EXAM_CONFIG = {
+    // 1. Ganti nama kategori ini sesuai nama sheet di Google Sheets (cth: "TWK", "TKP")
+    kategori: "PPG",
+    
+    // 2. Ganti URL ini dengan URL Web App dari Google Script Anda yang sudah di-deploy ulang.
+    scriptURL: 'https://script.google.com/macros/s/AKfycbxNJ9pOsCPSPAPRQKfoq43AwmVMSIScq6AIa33Q0dxnMI-jb1xuxi1aK3bUBFDstinDiQ/exec',
+    
+    // 3. Ganti link peringkat ini ke halaman peringkat yang sesuai.
+    linkPeringkat: "/ujian/ranking-peserta-tryout/",
+    
+    // 4. Sesuaikan pengaturan ujian jika perlu.
+    durasiMenit: 180,
+    passingGrade: 65,
+    password: "ujian",
+    
+    // 5. Ganti seluruh isi bank soal di bawah ini dengan soal yang sesuai.
+    bankSoal: [
+  {
+    "subtest": "Kompetensi Pedagogik - Teori Belajar",
+    "question": "Pak Ali, seorang guru PAI, memulai pembelajaran dengan menyajikan sebuah masalah kontekstual tentang pembagian waris di masyarakat. Ia kemudian membagi siswa menjadi beberapa kelompok untuk mendiskusikan dan mencari solusi atas masalah tersebut. Siswa didorong untuk membangun pemahaman mereka sendiri melalui diskusi dan presentasi. Pendekatan yang diterapkan oleh Pak Ali sejalan dengan teori belajar...",
+    "options": [
+      "Behavioristik",
+      "Kognitivistik",
+      "Konstruktivistik",
+      "Humanistik"
+    ],
+    "answer": "Konstruktivistik",
+    "explanation": "Teori belajar konstruktivistik menekankan bahwa pengetahuan dibangun oleh siswa sendiri melalui pengalaman dan interaksi dengan lingkungannya. Guru berperan sebagai fasilitator. Skenario ini menunjukkan siswa secara aktif membangun pengetahuan mereka untuk memecahkan masalah, yang merupakan ciri utama konstruktivisme."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Evaluasi Pembelajaran",
+    "question": "Bu Fatimah ingin mengukur kemampuan siswa dalam mempraktikkan shalat jenazah secara langsung. Bentuk penilaian yang paling tepat untuk digunakan oleh Bu Fatimah adalah...",
+    "options": [
+      "Tes tulis pilihan ganda",
+      "Penilaian portolio",
+      "Penilaian unjuk kerja (kinerja)",
+      "Tes lisan"
+    ],
+    "answer": "Penilaian unjuk kerja (kinerja)",
+    "explanation": "Penilaian unjuk kerja (performance assessment) adalah metode yang paling tepat untuk mengukur keterampilan psikomotorik atau praktik langsung, seperti pelaksanaan ibadah shalat jenazah. Metode ini menilai proses dan hasil dari apa yang dilakukan siswa, bukan hanya pengetahuan teoritisnya."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Model Pembelajaran",
+    "question": "Dalam mengajarkan materi tentang sejarah Walisongo, seorang guru menugaskan setiap kelompok siswa untuk menjadi 'ahli' pada satu tokoh Walisongo. Kemudian, setiap 'ahli' dari berbagai kelompok berkumpul untuk berdiskusi dan kembali ke kelompok asalnya untuk membagikan informasi. Model pembelajaran kooperatif yang diterapkan adalah...",
+    "options": [
+      "Problem Based Learning (PBL)",
+      "Jigsaw",
+      "Think-Pair-Share (TPS)",
+      "Discovery Learning"
+    ],
+    "answer": "Jigsaw",
+    "explanation": "Model Jigsaw adalah tipe pembelajaran kooperatif di mana siswa bekerja dalam kelompok asal, kemudian membentuk 'kelompok ahli' untuk mendalami topik spesifik, dan akhirnya kembali ke kelompok asal untuk berbagi pengetahuan. Ini persis seperti skenario yang digambarkan."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Al-Qur'an & Hadis",
+    "question": "Surat-surat Al-Qur'an yang turun sebelum peristiwa Hijrah Nabi Muhammad SAW ke Madinah dan umumnya berisi tentang dasar-dasar akidah, tauhid, serta kisah umat terdahulu disebut sebagai surat...",
+    "options": [
+      "Madaniyah",
+      "Makkiyah",
+      "Mutasyabihat",
+      "Muhkamat"
+    ],
+    "answer": "Makkiyah",
+    "explanation": "Surat Makkiyah adalah surat-surat yang diturunkan di Mekah sebelum hijrah. Ciri utamanya adalah ayatnya yang pendek-pendek, fokus pada penguatan akidah dan tauhid, serta banyak menceritakan kisah para nabi sebagai pelajaran."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Al-Qur'an & Hadis",
+    "question": "Sebuah hadis yang sanadnya bersambung, diriwayatkan oleh perawi yang adil dan dhabit (kuat hafalan), serta tidak memiliki kejanggalan (syadz) maupun cacat tersembunyi ('illat), diklasifikasikan sebagai hadis...",
+    "options": [
+      "Hasan",
+      "Dha'if",
+      "Maudhu'",
+      "Sahih"
+    ],
+    "answer": "Sahih",
+    "explanation": "Hadis Sahih adalah tingkatan hadis yang paling tinggi dan memenuhi lima syarat: sanadnya bersambung, perawinya adil, perawinya dhabit, tidak syadz, dan tidak memiliki 'illat. Ini adalah definisi standar untuk hadis yang dapat dijadikan hujah."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Akidah Akhlak",
+    "question": "Sikap menerima perbedaan keyakinan dengan tetap meyakini kebenaran agama sendiri, tanpa mencampuradukkan urusan akidah dan ibadah, merupakan implementasi dari konsep...",
+    "options": [
+      "Tawassuth (Moderat)",
+      "Tasamuh (Toleransi)",
+      "Tawazun (Seimbang)",
+      "Ta'awun (Tolong-menolong)"
+    ],
+    "answer": "Tasamuh (Toleransi)",
+    "explanation": "Tasamuh atau toleransi dalam Islam berarti menghargai dan menghormati perbedaan, khususnya dalam hal keyakinan, dengan memberikan kebebasan bagi orang lain untuk menjalankan agamanya. Hal ini tercermin dalam prinsip 'bagimu agamamu, dan bagiku agamaku'."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Akidah Akhlak",
+    "question": "Meyakini bahwa hanya Allah SWT yang menciptakan, memiliki, dan mengatur seluruh alam semesta adalah bagian dari tauhid...",
+    "options": [
+      "Uluhiyah",
+      "Rububiyah",
+      "Asma' wa Sifat",
+      "Mulkiah"
+    ],
+    "answer": "Rububiyah",
+    "explanation": "Tauhid Rububiyah adalah mengesakan Allah dalam segala perbuatan-Nya, yaitu meyakini hanya Allah satu-satunya Pencipta (Rabb), Pengatur, Pemberi rezeki, dan Penguasa alam semesta."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Ahmad bekerja sebagai seorang profesional dengan penghasilan bersih Rp 10.000.000 per bulan. Nisab zakat emas adalah 85 gram. Jika harga emas saat ini Rp 1.000.000 per gram, maka status kewajiban zakat profesi Ahmad setelah satu tahun bekerja adalah...",
+    "options": [
+      "Wajib mengeluarkan zakat sebesar 2,5% dari total penghasilan tahunan",
+      "Tidak wajib mengeluarkan zakat karena belum mencapai nisab tahunan",
+      "Wajib mengeluarkan zakat sebesar 5% dari penghasilan bulanan",
+      "Tidak wajib zakat karena zakat profesi tidak ada dalilnya"
+    ],
+    "answer": "Wajib mengeluarkan zakat sebesar 2,5% dari total penghasilan tahunan",
+    "explanation": "Nisab zakat penghasilan diqiyaskan pada zakat emas (85 gram). Nisab tahunan: 85 x Rp 1.000.000 = Rp 85.000.000. Penghasilan Ahmad per tahun adalah Rp 10.000.000 x 12 = Rp 120.000.000. Karena penghasilan tahunannya melebihi nisab dan telah mencapai haul (1 tahun), ia wajib mengeluarkan zakat sebesar 2,5% dari Rp 120.000.000."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Seorang wanita yang diceraikan oleh suaminya dalam keadaan suci dan belum digauli, maka masa iddahnya adalah...",
+    "options": [
+      "Tiga kali suci (quru')",
+      "Empat bulan sepuluh hari",
+      "Tidak memiliki masa iddah",
+      "Sampai melahirkan"
+    ],
+    "answer": "Tidak memiliki masa iddah",
+    "explanation": "Berdasarkan firman Allah dalam QS. Al-Ahzab ayat 49, wanita yang ditalak sebelum dicampuri (digauli) tidak memiliki masa iddah. Ia boleh langsung menikah lagi setelah diceraikan."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Sejarah Kebudayaan Islam",
+    "question": "Strategi dakwah yang dilakukan oleh Walisongo di Nusantara yang memadukan ajaran Islam dengan budaya lokal yang sudah ada selama tidak bertentangan dengan akidah disebut pendekatan...",
+    "options": [
+      "Purifikasi",
+      "Konfrontasi",
+      "Akulturasi",
+      "Sinkretisme"
+    ],
+    "answer": "Akulturasi",
+    "explanation": "Akulturasi adalah proses perpaduan dua kebudayaan atau lebih yang menghasilkan kebudayaan baru tanpa menghilangkan unsur-unsur asli kebudayaan tersebut. Walisongo menggunakan media seperti wayang, gamelan, dan tembang untuk menyebarkan Islam, yang merupakan contoh nyata dari pendekatan akulturasi budaya."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Sejarah Kebudayaan Islam",
+    "question": "Pusat keilmuan dan penerjemahan besar yang didirikan pada masa Dinasti Abbasiyah di Baghdad dan menjadi simbol puncak kejayaan peradaban Islam adalah...",
+    "options": [
+      "Darul Hikmah",
+      "Baitul Hikmah",
+      "Universitas Al-Azhar",
+      "Nizamiyah"
+    ],
+    "answer": "Baitul Hikmah",
+    "explanation": "Baitul Hikmah (Rumah Kebijaksanaan) didirikan oleh Khalifah Harun al-Rasyid dan mencapai puncaknya pada masa Khalifah Al-Ma'mun. Lembaga ini berfungsi sebagai perpustakaan, pusat penerjemahan karya-karya Yunani, Persia, dan India ke dalam bahasa Arab, serta tempat berkumpulnya para ilmuwan."
+  },
+  {
+    "subtest": "Wawasan Kebangsaan",
+    "question": "Sebagai seorang guru PAI, Pak Ridwan selalu mengajarkan kepada muridnya bahwa mencintai tanah air adalah bagian dari iman (hubbul wathan minal iman). Implementasi dari konsep ini dalam kehidupan berbangsa dan bernegara adalah...",
+    "options": [
+      "Menganggap budaya Indonesia lebih unggul dari semua budaya asing",
+      "Menolak semua bentuk modernisasi yang berasal dari luar negeri",
+      "Berpartisipasi aktif dalam pembangunan dan menjaga persatuan NKRI",
+      "Hanya berteman dengan orang-orang yang seagama dan sesuku"
+    ],
+    "answer": "Berpartisipasi aktif dalam pembangunan dan menjaga persatuan NKRI",
+    "explanation": "Cinta tanah air sebagai bagian dari iman diwujudkan dengan menjadi warga negara yang baik, yaitu dengan berkontribusi pada kemajuan negara, menjaga kerukunan dan persatuan, serta mematuhi hukum yang berlaku. Ini adalah wujud nyata dari rasa syukur atas nikmat berupa tanah air."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Perancangan Pembelajaran",
+    "question": "Indikator Pencapaian Kompetensi (IPK) yang dirumuskan oleh seorang guru harus mengacu pada...",
+    "options": [
+      "Standar Kompetensi Lulusan (SKL)",
+      "Kompetensi Inti (KI)",
+      "Kompetensi Dasar (KD)",
+      "Materi Pembelajaran"
+    ],
+    "answer": "Kompetensi Dasar (KD)",
+    "explanation": "IPK merupakan penanda pencapaian KD yang ditandai oleh perubahan perilaku yang dapat diukur. Oleh karena itu, perumusan IPK harus selalu mengacu dan dijabarkan dari Kompetensi Dasar pada kurikulum yang berlaku."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Profesionalisme Guru",
+    "question": "Seorang guru menemukan bahwa nilai siswa pada materi munakahat secara konsisten rendah. Guru tersebut kemudian merancang sebuah metode pembelajaran baru dan menerapkannya di kelasnya sendiri, lalu mengukur dampaknya terhadap hasil belajar siswa. Kegiatan yang dilakukan guru ini merupakan contoh dari...",
+    "options": [
+      "Studi Komparatif",
+      "Penelitian Tindakan Kelas (PTK)",
+      "Penelitian Eksperimen",
+      "Evaluasi Program"
+    ],
+    "answer": "Penelitian Tindakan Kelas (PTK)",
+    "explanation": "PTK adalah penelitian praktis yang dilakukan oleh guru di kelasnya sendiri dengan tujuan untuk memecahkan masalah pembelajaran dan meningkatkan kualitas praktik mengajarnya. Ciri utamanya adalah adanya tindakan (treatment) yang diterapkan dan refleksi atas hasilnya secara bersiklus."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Al-Qur'an & Hadis",
+    "question": "Ilmu yang mempelajari tentang sebab-sebab turunnya ayat Al-Qur'an disebut...",
+    "options": [
+      "Ilmu Nasikh wal Mansukh",
+      "Ilmu Munasabah",
+      "Asbabun Nuzul",
+      "Ilmu Gharibil Qur'an"
+    ],
+    "answer": "Asbabun Nuzul",
+    "explanation": "Asbabun Nuzul secara harfiah berarti 'sebab-sebab turunnya (ayat)'. Memahami ilmu ini membantu dalam menafsirkan ayat Al-Qur'an sesuai dengan konteks historisnya, sehingga pemahamannya menjadi lebih tepat."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Jual beli di mana penjual dan pembeli melakukan transaksi untuk barang yang belum ada di tempat dengan sistem pesanan dan pembayaran di muka disebut...",
+    "options": [
+      "Murabahah",
+      "Salam",
+      "Ijarah",
+      "Mudharabah"
+    ],
+    "answer": "Salam",
+    "explanation": "Akad Salam adalah jual beli pesanan di mana barang yang diperjualbelikan belum ada (diserahkan di kemudian hari), namun pembayarannya dilakukan secara tunai di awal akad. Akad ini diperbolehkan untuk memudahkan transaksi pertanian dan industri."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Akidah Akhlak",
+    "question": "Perilaku tercela berupa keinginan agar nikmat yang dimiliki orang lain hilang atau berpindah kepadanya disebut...",
+    "options": [
+      "Hasad",
+      "Ghibah",
+      "Takabur",
+      "Riya'"
+    ],
+    "answer": "Hasad",
+    "explanation": "Hasad (dengki) adalah penyakit hati yang berbahaya karena tidak hanya membenci nikmat pada orang lain, tetapi juga berharap nikmat tersebut lenyap. Ini berbeda dengan 'ghibthah' yang hanya berkeinginan memiliki nikmat serupa tanpa berharap nikmat orang lain hilang."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Teori Belajar",
+    "question": "Bu Aisyah memberikan pujian dan tambahan poin setiap kali seorang siswa berhasil menghafal satu ayat baru dengan lancar. Tindakan Bu Aisyah ini merupakan penerapan dari prinsip penguatan (reinforcement) yang menjadi inti dari teori belajar...",
+    "options": [
+      "Konstruktivistik",
+      "Humanistik",
+      "Kognitivistik",
+      "Behavioristik"
+    ],
+    "answer": "Behavioristik",
+    "explanation": "Teori behavioristik memandang belajar sebagai perubahan tingkah laku sebagai akibat dari adanya interaksi antara stimulus dan respons. Pemberian penguatan positif (pujian, poin) bertujuan untuk meningkatkan frekuensi perilaku yang diinginkan (menghafal dengan lancar)."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Evaluasi Pembelajaran",
+    "question": "Penilaian yang dilakukan oleh guru selama proses pembelajaran berlangsung untuk memantau kemajuan siswa dan memberikan umpan balik disebut penilaian...",
+    "options": [
+      "Sumatif",
+      "Diagnostik",
+      "Formatif",
+      "Penempatan"
+    ],
+    "answer": "Formatif",
+    "explanation": "Penilaian formatif (assessment for learning) bertujuan untuk memperbaiki dan meningkatkan proses belajar mengajar. Dilakukan secara berkala di tengah-tengah kegiatan pembelajaran, contohnya melalui kuis, observasi, atau tanya jawab."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Model Pembelajaran",
+    "question": "Pak Budi menugaskan siswanya untuk membuat sebuah film pendek tentang kisah Nabi Yusuf AS. Siswa harus merencanakan, melaksanakan, dan mempresentasikan hasil proyek mereka dalam jangka waktu tertentu. Model pembelajaran yang diterapkan adalah...",
+    "options": [
+      "Inquiry Learning",
+      "Discovery Learning",
+      "Project Based Learning (PjBL)",
+      "Cooperative Script"
+    ],
+    "answer": "Project Based Learning (PjBL)",
+    "explanation": "PjBL adalah model pembelajaran yang menggunakan proyek atau kegiatan sebagai media. Siswa melakukan eksplorasi, penilaian, interpretasi, sintesis, dan informasi untuk menghasilkan berbagai bentuk hasil belajar. Ciri utamanya adalah adanya produk akhir yang dihasilkan dalam kurun waktu tertentu."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Al-Qur'an & Hadis",
+    "question": "Dalam ilmu tajwid, hukum bacaan nun sukun atau tanwin bertemu dengan huruf ba' (ب) adalah...",
+    "options": [
+      "Idgham Bighunnah",
+      "Iqlab",
+      "Ikhfa' Syafawi",
+      "Izhar Halqi"
+    ],
+    "answer": "Iqlab",
+    "explanation": "Iqlab secara bahasa berarti mengubah. Dalam tajwid, Iqlab adalah mengubah bunyi nun sukun atau tanwin menjadi mim (م) yang disertai dengan ghunnah (dengung) ketika bertemu dengan huruf ba' (ب)."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Al-Qur'an & Hadis",
+    "question": "Hadis yang diriwayatkan oleh sejumlah besar perawi pada setiap tingkatan sanadnya, yang menurut akal tidak mungkin mereka bersepakat untuk berdusta, disebut hadis...",
+    "options": [
+      "Ahad",
+      "Masyhur",
+      "Mutawatir",
+      "Aziz"
+    ],
+    "answer": "Mutawatir",
+    "explanation": "Hadis Mutawatir memberikan faedah ilmu dharuri (pengetahuan yang pasti dan meyakinkan) karena saking banyaknya jumlah perawi di setiap generasi (thabaqah) yang meriwayatkannya. Kebenarannya setara dengan Al-Qur'an dari segi kepastian sumbernya."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Akidah Akhlak",
+    "question": "Iman kepada Qada dan Qadar mengandung makna bahwa seorang muslim harus...",
+    "options": [
+      "Pasrah total tanpa berusaha karena semua sudah ditakdirkan",
+      "Berusaha sekuat tenaga dan menyerahkan hasilnya (tawakal) kepada Allah",
+      "Menolak takdir buruk dan hanya menerima takdir baik",
+      "Bebas berbuat apa saja karena takdir bisa diubah"
+    ],
+    "answer": "Berusaha sekuat tenaga dan menyerahkan hasilnya (tawakal) kepada Allah",
+    "explanation": "Pemahaman yang benar tentang Qada dan Qadar adalah meyakini bahwa segala sesuatu terjadi atas ketetapan Allah, namun manusia diberi kehendak dan kemampuan untuk berusaha (ikhtiar). Setelah berusaha maksimal, hasilnya diserahkan sepenuhnya kepada Allah (tawakal)."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Shalat sunnah yang mengiringi shalat fardhu, baik yang dilakukan sebelum (qabliyah) maupun sesudah (ba'diyah), disebut shalat...",
+    "options": [
+      "Tahajud",
+      "Dhuha",
+      "Istikharah",
+      "Rawatib"
+    ],
+    "answer": "Rawatib",
+    "explanation": "Shalat Rawatib adalah shalat sunnah yang dikerjakan secara rutin sebelum atau sesudah shalat fardhu lima waktu. Ada yang hukumnya mu'akkad (sangat dianjurkan) dan ghairu mu'akkad (dianjurkan)."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Sejarah Kebudayaan Islam",
+    "question": "Khalifah dari Bani Umayyah yang terkenal dengan kebijakannya menghapuskan pajak jizyah bagi kaum mawali (muslim non-Arab) dan melakukan kodifikasi hadis secara resmi adalah...",
+    "options": [
+      "Muawiyah bin Abi Sufyan",
+      "Abdul Malik bin Marwan",
+      "Al-Walid bin Abdul Malik",
+      "Umar bin Abdul Aziz"
+    ],
+    "answer": "Umar bin Abdul Aziz",
+    "explanation": "Umar bin Abdul Aziz sering dianggap sebagai Khulafaur Rasyidin kelima karena keadilan dan kebijakannya yang pro-rakyat. Beliau memerintahkan pengumpulan dan penulisan hadis secara resmi untuk pertama kalinya dan menerapkan kebijakan fiskal yang adil, termasuk kepada kaum mawali."
+  },
+  {
+    "subtest": "Wawasan Kebangsaan",
+    "question": "Prinsip moderasi beragama (wasathiyah) yang berarti mengambil jalan tengah, tidak ekstrem kanan (radikal) maupun ekstrem kiri (liberal), sejalan dengan sila Pancasila yaitu...",
+    "options": [
+      "Ketuhanan Yang Maha Esa",
+      "Kemanusiaan yang adil dan beradab",
+      "Persatuan Indonesia",
+      "Keadilan sosial bagi seluruh rakyat Indonesia"
+    ],
+    "answer": "Persatuan Indonesia",
+    "explanation": "Sikap moderat, mengambil jalan tengah, dan toleran (tasamuh) adalah kunci untuk menjaga keharmonisan di tengah masyarakat Indonesia yang majemuk. Sikap ini secara langsung mendukung terwujudnya Persatuan Indonesia dengan menghindari perpecahan akibat paham-paham ekstrem."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Pengembangan Peserta Didik",
+    "question": "Seorang siswa di kelas Anda menunjukkan kesulitan dalam memahami konsep-konsep abstrak PAI, namun sangat terampil saat diminta membuat kaligrafi atau maket masjid. Menurut teori kecerdasan majemuk Howard Gardner, siswa tersebut memiliki kecerdasan yang menonjol pada aspek...",
+    "options": [
+      "Linguistik",
+      "Logis-matematis",
+      "Spasial-visual",
+      "Interpersonal"
+    ],
+    "answer": "Spasial-visual",
+    "explanation": "Kecerdasan spasial-visual berkaitan dengan kemampuan untuk berpikir dalam gambar, memvisualisasikan, dan memahami hubungan ruang. Keterampilan dalam membuat kaligrafi dan maket adalah manifestasi dari kecerdasan ini."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Berikut ini yang termasuk dalam rukun haji dan menyebabkan hajinya tidak sah jika ditinggalkan adalah...",
+    "options": [
+      "Melempar jumrah",
+      "Mabit di Muzdalifah",
+      "Wukuf di Arafah",
+      "Thawaf wada'"
+    ],
+    "answer": "Wukuf di Arafah",
+    "explanation": "Wukuf di Arafah pada tanggal 9 Dzulhijjah adalah rukun haji yang paling utama. Nabi Muhammad SAW bersabda, 'Haji itu adalah Arafah'. Meninggalkannya akan membatalkan haji seseorang. Sementara yang lain ada yang termasuk wajib haji (jika ditinggal bisa diganti dam) atau sunnah haji."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Al-Qur'an & Hadis",
+    "question": "Proses menghapus suatu hukum syar'i dengan dalil syar'i yang datang kemudian disebut...",
+    "options": [
+      "Takwil",
+      "Tafsir",
+      "Nasakh",
+      "Jarh"
+    ],
+    "answer": "Nasakh",
+    "explanation": "Nasakh adalah pembatalan atau penghapusan hukum yang telah ditetapkan oleh dalil syara' sebelumnya dengan dalil syara' yang baru. Dalil yang menghapus disebut 'nasikh' dan hukum yang dihapus disebut 'mansukh'."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Sejarah Kebudayaan Islam",
+    "question": "Panglima perang muslim yang memimpin penaklukan Andalusia (Spanyol) pada masa Dinasti Umayyah adalah...",
+    "options": [
+      "Sa'ad bin Abi Waqqash",
+      "Khalid bin Walid",
+      "Thariq bin Ziyad",
+      "Muhammad Al-Fatih"
+    ],
+    "answer": "Thariq bin Ziyad",
+    "explanation": "Thariq bin Ziyad adalah panglima yang diutus oleh Musa bin Nushair, gubernur Afrika Utara, untuk memimpin pasukan muslim menyeberangi selat dan memulai penaklukan Andalusia pada tahun 711 M. Nama selat Gibraltar berasal dari namanya (Jabal Thariq)."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Perancangan Pembelajaran",
+    "question": "Dalam merumuskan tujuan pembelajaran, seorang guru harus memperhatikan komponen ABCD, di mana 'C' merupakan singkatan dari...",
+    "options": [
+      "Competency (Kompetensi)",
+      "Condition (Kondisi)",
+      "Criteria (Kriteria)",
+      "Content (Isi)"
+    ],
+    "answer": "Condition (Kondisi)",
+    "explanation": "Komponen ABCD dalam tujuan pembelajaran adalah: Audience (Siswa), Behavior (Perilaku yang diharapkan), Condition (Kondisi atau situasi di mana perilaku ditunjukkan, misal: 'melalui diskusi kelompok'), dan Degree (Tingkat keberhasilan, misal: 'dengan benar')."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Pernikahan antara seorang laki-laki dengan seorang perempuan yang masih dalam masa iddah karena talak raj'i dari suami sebelumnya, hukumnya adalah...",
+    "options": [
+      "Sah",
+      "Makruh",
+      "Haram dan tidak sah",
+      "Sunnah"
+    ],
+    "answer": "Haram dan tidak sah",
+    "explanation": "Wanita dalam masa iddah talak raj'i masih berstatus sebagai istri dari suami pertamanya dan suaminya masih berhak untuk merujuknya. Oleh karena itu, haram dan tidak sah bagi laki-laki lain untuk meminang apalagi menikahinya hingga masa iddahnya selesai."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Akidah Akhlak",
+    "question": "Sifat wajib bagi rasul yang berarti cerdas atau pintar adalah...",
+    "options": [
+      "Siddiq",
+      "Amanah",
+      "Tabligh",
+      "Fathanah"
+    ],
+    "answer": "Fathanah",
+    "explanation": "Sifat wajib bagi rasul ada empat: Siddiq (benar/jujur), Amanah (dapat dipercaya), Tabligh (menyampaikan wahyu), dan Fathanah (cerdas/bijaksana). Kecerdasan ini mutlak diperlukan untuk menghadapi dan mematahkan argumen kaumnya."
+  },
+  {
+    "subtest": "Wawasan Kebangsaan",
+    "question": "Konsep 'Ukhuwah Wathaniyah' dalam konteks keindonesiaan bermakna...",
+    "options": [
+      "Persaudaraan sesama umat Islam",
+      "Persaudaraan sesama umat manusia",
+      "Persaudaraan dalam ikatan kebangsaan dan tanah air",
+      "Persaudaraan hanya dengan suku sendiri"
+    ],
+    "answer": "Persaudaraan dalam ikatan kebangsaan dan tanah air",
+    "explanation": "Ukhuwah Wathaniyah adalah semangat persaudaraan yang diikat oleh rasa cinta tanah air dan kebangsaan, melintasi batas-batas suku, agama, dan ras. Ini adalah pilar penting untuk menjaga keutuhan NKRI."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Profesionalisme Guru",
+    "question": "Seorang guru PAI secara rutin mengikuti kegiatan KKG (Kelompok Kerja Guru) untuk berdiskusi dan mencari solusi atas masalah-masalah pembelajaran. Kegiatan ini merupakan bagian dari upaya guru dalam...",
+    "options": [
+      "Melaksanakan penelitian tindakan kelas",
+      "Mengembangkan kurikulum sendiri",
+      "Melakukan pengembangan keprofesian berkelanjutan (PKB)",
+      "Mencari tambahan penghasilan"
+    ],
+    "answer": "Melakukan pengembangan keprofesian berkelanjutan (PKB)",
+    "explanation": "PKB adalah proses pengembangan kompetensi guru yang dilaksanakan secara berkelanjutan untuk meningkatkan profesionalismenya. Salah satu unsurnya adalah pengembangan diri, yang dapat dilakukan melalui kegiatan kolektif seperti KKG/MGMP."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Al-Qur'an & Hadis",
+    "question": "Ayat-ayat Al-Qur'an yang maknanya jelas, tegas, dan tidak mengandung kemungkinan makna lain disebut ayat...",
+    "options": [
+      "Mutasyabihat",
+      "Muhkamat",
+      "Makkiyah",
+      "Madaniyah"
+    ],
+    "answer": "Muhkamat",
+    "explanation": "Ayat Muhkamat adalah ayat-ayat yang menjadi pokok atau dasar dari Al-Qur'an. Maknanya sangat jelas dan menjadi rujukan utama dalam hukum dan akidah. Kebalikannya adalah ayat Mutasyabihat yang maknanya samar dan memerlukan penafsiran lebih dalam."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Dalam shalat berjamaah, seorang makmum yang tertinggal beberapa rakaat dari imam disebut...",
+    "options": [
+      "Muafiq",
+      "Masbuq",
+      "Munfarid",
+      "Murtad"
+    ],
+    "answer": "Masbuq",
+    "explanation": "Makmum Masbuq adalah makmum yang tidak sempat membaca Al-Fatihah bersama imam di rakaat pertama atau tertinggal satu rakaat atau lebih. Ia harus menyempurnakan rakaat yang tertinggal setelah imam selesai salam."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Sejarah Kebudayaan Islam",
+    "question": "Tokoh pembaharu Islam dari Mesir yang terkenal dengan gagasannya tentang Pan-Islamisme atau penyatuan seluruh umat Islam di bawah satu kepemimpinan adalah...",
+    "options": [
+      "Muhammad Abduh",
+      "Rasyid Ridha",
+      "Jamaluddin Al-Afghani",
+      "Hasan Al-Banna"
+    ],
+    "answer": "Jamaluddin Al-Afghani",
+    "explanation": "Jamaluddin Al-Afghani adalah tokoh sentral dalam gerakan modernisme Islam pada abad ke-19. Gagasan utamanya adalah Pan-Islamisme (Al-Jamiah Al-Islamiyah) untuk membangkitkan kesadaran politik umat Islam dan melawan imperialisme Barat."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Evaluasi Pembelajaran",
+    "question": "Soal yang menuntut siswa untuk menganalisis, mengevaluasi, dan mencipta termasuk dalam kategori soal...",
+    "options": [
+      "Lower Order Thinking Skills (LOTS)",
+      "Higher Order Thinking Skills (HOTS)",
+      "Recall Questions",
+      "Procedural Questions"
+    ],
+    "answer": "Higher Order Thinking Skills (HOTS)",
+    "explanation": "Berdasarkan taksonomi Bloom revisi, level kognitif C4 (menganalisis), C5 (mengevaluasi), dan C6 (mencipta) diklasifikasikan sebagai Keterampilan Berpikir Tingkat Tinggi (HOTS) karena melibatkan proses berpikir kritis, logis, dan kreatif."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Akidah Akhlak",
+    "question": "Memperlihatkan amal ibadah atau kebaikan kepada orang lain dengan tujuan ingin mendapatkan pujian disebut...",
+    "options": [
+      "Sum'ah",
+      "Ujub",
+      "Riya'",
+      "Takabur"
+    ],
+    "answer": "Riya'",
+    "explanation": "Riya' adalah melakukan suatu amalan agar dilihat dan dipuji oleh manusia. Ini termasuk syirik kecil (syirkul ashghar) karena menodai niat ikhlas yang seharusnya hanya ditujukan kepada Allah SWT."
+  },
+  {
+    "subtest": "Wawasan Kebangsaan",
+    "question": "Piagam Jakarta yang menjadi cikal bakal Pembukaan UUD 1945 memuat rumusan sila pertama 'Ketuhanan, dengan kewajiban menjalankan syariat Islam bagi pemeluk-pemeluknya'. Penghapusan tujuh kata tersebut demi persatuan bangsa menunjukkan sikap...",
+    "options": [
+      "Kompromi demi kepentingan sesaat",
+      "Mengalah pada tekanan kelompok minoritas",
+      "Para pendiri bangsa yang berjiwa besar dan mengutamakan kepentingan nasional",
+      "Tidak konsisten dalam memperjuangkan aspirasi umat Islam"
+    ],
+    "answer": "Para pendiri bangsa yang berjiwa besar dan mengutamakan kepentingan nasional",
+    "explanation": "Peristiwa ini menunjukkan kelapangan dada dan visi kebangsaan yang luar biasa dari para tokoh Islam saat itu. Mereka rela mengubah rumusan tersebut demi menjaga keutuhan dan persatuan Indonesia yang baru merdeka, yang terdiri dari berbagai macam agama dan kepercayaan."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Teori Belajar",
+    "question": "Seorang guru PAI membebaskan siswanya untuk memilih topik riset tentang akhlak terpuji yang paling mereka minati. Guru hanya bertindak sebagai fasilitator dan motivator, dengan tujuan utama mengembangkan potensi dan aktualisasi diri siswa. Pendekatan ini paling sesuai dengan teori belajar...",
+    "options": [
+      "Behavioristik",
+      "Konstruktivistik",
+      "Sibernetik",
+      "Humanistik"
+    ],
+    "answer": "Humanistik",
+    "explanation": "Teori humanistik berfokus pada pengembangan pribadi dan aktualisasi diri individu. Pembelajaran dianggap berhasil jika siswa memahami lingkungannya dan dirinya sendiri. Guru berperan memanusiakan manusia dengan memberikan kebebasan dan memotivasi."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Kerja sama antara pemilik modal (shahibul mal) dan pengelola modal (mudharib) di mana keuntungan dibagi berdasarkan kesepakatan di awal, sedangkan kerugian ditanggung oleh pemilik modal, disebut akad...",
+    "options": [
+      "Musyarakah",
+      "Mudharabah",
+      "Murabahah",
+      "Ijarah"
+    ],
+    "answer": "Mudharabah",
+    "explanation": "Mudharabah adalah akad bagi hasil di mana satu pihak menyediakan modal (100%) dan pihak lain menyediakan keahlian/tenaga. Ini adalah bentuk kerja sama yang adil untuk mendorong kegiatan ekonomi produktif."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Al-Qur'an & Hadis",
+    "question": "Menurut jumhur ulama, wahyu pertama yang diterima oleh Nabi Muhammad SAW adalah...",
+    "options": [
+      "QS. Al-Muddassir ayat 1-7",
+      "QS. Al-Fatihah ayat 1-7",
+      "QS. Al-'Alaq ayat 1-5",
+      "QS. Al-Qalam ayat 1-4"
+    ],
+    "answer": "QS. Al-'Alaq ayat 1-5",
+    "explanation": "Pendapat yang paling kuat dan populer di kalangan ulama adalah bahwa wahyu pertama yang turun di Gua Hira adalah Surat Al-'Alaq ayat 1 sampai 5, yang dimulai dengan perintah 'Iqra' (Bacalah)."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Sejarah Kebudayaan Islam",
+    "question": "Kerajaan Islam pertama di Nusantara yang menjadi pusat studi Islam dan perdagangan adalah...",
+    "options": [
+      "Kerajaan Demak",
+      "Kerajaan Mataram Islam",
+      "Kerajaan Samudera Pasai",
+      "Kerajaan Ternate"
+    ],
+    "answer": "Kerajaan Samudera Pasai",
+    "explanation": "Kerajaan Samudera Pasai yang terletak di pesisir utara Sumatera (sekitar Lhokseumawe, Aceh) diyakini sebagai kerajaan Islam pertama di Indonesia. Bukti arkeologis dan catatan perjalanan Ibnu Battutah menunjukkan perannya sebagai pusat peradaban Islam yang maju pada abad ke-13 M."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Pengembangan Peserta Didik",
+    "question": "Ketika seorang siswa terus-menerus gagal memahami pelajaran meskipun memiliki tingkat kecerdasan normal dan tidak memiliki gangguan fisik, langkah pertama yang harus dilakukan guru adalah...",
+    "options": [
+      "Memberikan hukuman agar siswa lebih rajin",
+      "Memindahkannya ke kelas dengan siswa yang kurang pandai",
+      "Melakukan diagnosis kesulitan belajar untuk mengidentifikasi penyebabnya",
+      "Mengabaikannya dan fokus pada siswa yang lebih cepat paham"
+    ],
+    "answer": "Melakukan diagnosis kesulitan belajar untuk mengidentifikasi penyebabnya",
+    "explanation": "Tindakan profesional pertama adalah mencari tahu akar masalah. Diagnosis bisa meliputi identifikasi gaya belajar siswa, masalah motivasi, atau faktor eksternal lainnya. Berdasarkan diagnosis, guru baru bisa menentukan intervensi yang tepat."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Akidah Akhlak",
+    "question": "Dalam tasawuf, tingkatan tertinggi yang dicapai seorang hamba di mana ia merasa lebur dan hanya 'menyaksikan' Allah dalam hatinya disebut...",
+    "options": [
+      "Ma'rifat",
+      "Mahabbah",
+      "Zuhud",
+      "Fana'"
+    ],
+    "answer": "Fana'",
+    "explanation": "Fana' adalah kondisi di mana kesadaran seorang sufi akan dirinya sendiri lenyap, dan yang ada hanyalah kesadaran akan Allah. Ini adalah salah satu tingkatan (maqam) atau keadaan (hal) yang dicapai dalam perjalanan spiritual menuju Allah."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Sembelihan yang dilakukan selain atas nama Allah, meskipun hewannya halal, hukum memakan dagingnya adalah...",
+    "options": [
+      "Halal",
+      "Haram",
+      "Makruh",
+      "Mubah"
+    ],
+    "answer": "Haram",
+    "explanation": "Kehalalan daging sembelihan disyaratkan harus disembelih dengan menyebut nama Allah (basmalah). Allah SWT secara tegas mengharamkan dalam QS. Al-An'am ayat 121 memakan binatang yang disembelih tidak atas nama-Nya, karena perbuatan itu adalah kefasikan."
+  },
+  {
+    "subtest": "Wawasan Kebangsaan",
+    "question": "Seorang guru PAI yang baik harus mampu menjelaskan kepada siswanya bahwa ajaran Islam tentang keadilan sosial (al-'adalah al-ijtima'iyyah) sangat selaras dengan sila Pancasila yaitu...",
+    "options": [
+      "Sila Pertama",
+      "Sila Kedua",
+      "Sila Ketiga",
+      "Sila Kelima"
+    ],
+    "answer": "Sila Kelima",
+    "explanation": "Ajaran Islam sangat menekankan pentingnya keadilan, pemerataan ekonomi (melalui zakat, infak), dan kesejahteraan sosial. Konsep ini beresonansi kuat dengan sila 'Keadilan sosial bagi seluruh rakyat Indonesia', yang menjadi cita-cita luhur bangsa."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Model Pembelajaran",
+    "question": "Model pembelajaran yang mendorong siswa untuk mengidentifikasi pertanyaan atau masalah, merumuskan hipotesis, mengumpulkan data, dan menarik kesimpulan disebut...",
+    "options": [
+      "Contextual Teaching and Learning (CTL)",
+      "Inquiry Learning",
+      "Snowball Throwing",
+      "Expository"
+    ],
+    "answer": "Inquiry Learning",
+    "explanation": "Pembelajaran inkuiri menempatkan siswa seolah-olah menjadi seorang 'ilmuwan'. Prosesnya berpusat pada kegiatan bertanya, menyelidiki, dan mencari tahu sendiri, sehingga membangun pemahaman yang mendalam dan kritis."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Al-Qur'an & Hadis",
+    "question": "Hadis yang berisi perkataan, perbuatan, atau ketetapan dari Nabi Muhammad SAW disebut hadis...",
+    "options": [
+      "Qudsi",
+      "Marfu'",
+      "Mauquf",
+      "Maqthu'"
+    ],
+    "answer": "Marfu'",
+    "explanation": "Hadis Marfu' adalah hadis yang sanadnya disandarkan secara langsung kepada Nabi Muhammad SAW. Ini adalah jenis hadis yang menjadi sumber hukum utama setelah Al-Qur'an. Hadis Qudsi adalah firman Allah yang redaksinya dari Nabi, Mauquf adalah perkataan sahabat, dan Maqthu' perkataan tabi'in."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Sejarah Kebudayaan Islam",
+    "question": "Perjanjian antara Nabi Muhammad SAW dengan kaum Quraisy di Mekah yang isinya antara lain menyepakati gencatan senjata selama 10 tahun dikenal dengan sebutan...",
+    "options": [
+      "Bai'at Aqabah",
+      "Piagam Madinah",
+      "Perjanjian Hudaibiyah",
+      "Fathu Makkah"
+    ],
+    "answer": "Perjanjian Hudaibiyah",
+    "explanation": "Perjanjian Hudaibiyah terjadi pada tahun ke-6 Hijriah. Meskipun beberapa pasalnya terlihat merugikan umat Islam pada awalnya, perjanjian ini secara strategis menjadi kemenangan besar yang membuka jalan bagi dakwah Islam secara lebih luas dan puncaknya adalah Fathu Makkah."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Harta warisan tidak boleh dibagikan sebelum ditunaikan kewajiban-kewajiban yang melekat pada si mayit. Urutan kewajiban yang harus didahulukan adalah...",
+    "options": [
+      "Wasiat - Utang - Biaya Perawatan Jenazah",
+      "Utang - Wasiat - Biaya Perawatan Jenazah",
+      "Biaya Perawatan Jenazah - Utang - Wasiat",
+      "Wasiat - Biaya Perawatan Jenazah - Utang"
+    ],
+    "answer": "Biaya Perawatan Jenazah - Utang - Wasiat",
+    "explanation": "Menurut jumhur ulama, urutan hak yang harus ditunaikan dari harta peninggalan (tirkah) sebelum dibagi waris adalah: 1. Biaya pengurusan jenazah; 2. Pelunasan utang-utang si mayit; 3. Pelaksanaan wasiat (maksimal 1/3 harta); 4. Pembagian kepada ahli waris."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Perancangan Pembelajaran",
+    "question": "Dalam menyusun Rencana Pelaksanaan Pembelajaran (RPP), seorang guru harus memastikan adanya keselarasan antara tujuan pembelajaran, materi, kegiatan pembelajaran, dan...",
+    "options": [
+      "Alokasi waktu",
+      "Penilaian hasil belajar",
+      "Sumber belajar",
+      "Semua jawaban benar"
+    ],
+    "answer": "Semua jawaban benar",
+    "explanation": "RPP yang baik memiliki prinsip keterpaduan atau keselarasan (koherensi) antar semua komponennya. Penilaian harus mengukur ketercapaian tujuan, kegiatan pembelajaran harus dirancang untuk mencapai tujuan, dan semua itu harus didukung oleh sumber belajar dan alokasi waktu yang memadai."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Akidah Akhlak",
+    "question": "Keyakinan bahwa alam dapat memberikan pengaruh baik atau buruk sehingga seseorang menggantungkan nasibnya pada sesuatu selain Allah, seperti ramalan bintang, merupakan bentuk perbuatan...",
+    "options": [
+      "Syirik",
+      "Kufur",
+      "Fasik",
+      "Bid'ah"
+    ],
+    "answer": "Syirik",
+    "explanation": "Perbuatan ini termasuk syirik karena meyakini adanya kekuatan lain yang dapat mengatur nasib dan memberikan manfaat atau mudarat selain Allah SWT. Ini menodai kemurnian tauhid Rububiyah."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Al-Qur'an & Hadis",
+    "question": "Tafsir Al-Qur'an yang penjelasannya didasarkan pada riwayat dari Al-Qur'an, hadis Nabi, atau pendapat para sahabat dan tabi'in disebut...",
+    "options": [
+      "Tafsir bil Ra'yi",
+      "Tafsir bil Ma'tsur",
+      "Tafsir Isyari",
+      "Tafsir Maudhu'i"
+    ],
+    "answer": "Tafsir bil Ma'tsur",
+    "explanation": "Tafsir bil Ma'tsur (atau Tafsir bir-Riwayah) adalah metode tafsir yang bersandar pada riwayat-riwayat yang sahih. Ini dianggap sebagai metode tafsir yang paling aman karena meminimalkan masuknya opini pribadi mufassir. Contohnya adalah Tafsir Ibnu Katsir."
+  },
+  {
+    "subtest": "Wawasan Kebangsaan",
+    "question": "Dalam menghadapi era globalisasi, seorang guru PAI harus menanamkan sikap kepada siswa untuk dapat menyaring budaya asing, yaitu menerima yang positif dan sesuai dengan nilai-nilai Pancasila serta ajaran Islam, dan menolak yang negatif. Sikap ini disebut...",
+    "options": [
+      "Eksklusif",
+      "Apatis",
+      "Selektif",
+      "Primordial"
+    ],
+    "answer": "Selektif",
+    "explanation": "Sikap selektif adalah kemampuan untuk memilih dan memilah pengaruh dari luar. Ini adalah sikap yang cerdas dan moderat, tidak menolak semua hal baru (apatis/eksklusif) tetapi juga tidak menerima semuanya tanpa filter."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Profesionalisme Guru",
+    "question": "Siklus dalam Penelitian Tindakan Kelas (PTK) secara umum terdiri dari empat tahapan, yaitu...",
+    "options": [
+      "Perencanaan, Pengamatan, Tindakan, Refleksi",
+      "Perencanaan, Tindakan, Pengamatan, Refleksi",
+      "Pengamatan, Perencanaan, Tindakan, Refleksi",
+      "Tindakan, Refleksi, Perencanaan, Pengamatan"
+    ],
+    "answer": "Perencanaan, Tindakan, Pengamatan, Refleksi",
+    "explanation": "Siklus PTK yang benar menurut model Kemmis & Taggart dan lainnya adalah: 1. Planning (Merencanakan tindakan); 2. Acting (Melaksanakan tindakan); 3. Observing (Mengamati proses dan hasil tindakan); 4. Reflecting (Mengevaluasi dan merenungkan hasil untuk perencanaan siklus berikutnya)."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Puasa yang wajib dilaksanakan karena adanya suatu janji atau nazar disebut puasa...",
+    "options": [
+      "Syawal",
+      "Kifarat",
+      "Nazar",
+      "Arafah"
+    ],
+    "answer": "Nazar",
+    "explanation": "Nazar adalah janji untuk melakukan suatu ibadah (yang bukan wajib) untuk Allah SWT. Jika seseorang bernazar untuk berpuasa, maka hukum puasa tersebut menjadi wajib baginya untuk ditunaikan."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Sejarah Kebudayaan Islam",
+    "question": "Organisasi Islam modernis di Indonesia yang didirikan oleh K.H. Ahmad Dahlan pada tahun 1912 dengan fokus pada pemurnian ajaran Islam (purifikasi) dan pengembangan bidang pendidikan serta sosial adalah...",
+    "options": [
+      "Nahdlatul Ulama (NU)",
+      "Sarekat Islam (SI)",
+      "Muhammadiyah",
+      "Persatuan Islam (PERSIS)"
+    ],
+    "answer": "Muhammadiyah",
+    "explanation": "Muhammadiyah lahir sebagai gerakan tajdid (pembaharuan) yang ingin mengembalikan umat Islam kepada Al-Qur'an dan Sunnah yang murni, serta memberantas TBC (Takhayul, Bid'ah, Churafat). Gerakannya sangat menonjol di bidang pendidikan, kesehatan, dan pelayanan sosial."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Akidah Akhlak",
+    "question": "Keadaan di alam kubur di mana seseorang akan mendapatkan nikmat atau siksa sebagai balasan awal atas perbuatannya di dunia disebut...",
+    "options": [
+      "Yaumul Ba'ats",
+      "Yaumul Mahsyar",
+      "Barzakh",
+      "Mizan"
+    ],
+    "answer": "Barzakh",
+    "explanation": "Alam Barzakh adalah alam penantian antara kematian dan hari kebangkitan. Di alam inilah manusia akan mengalami fase pertama dari pertanggungjawaban amalnya, yaitu berupa nikmat kubur atau siksa kubur."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Evaluasi Pembelajaran",
+    "question": "Untuk menilai aspek afektif (sikap) siswa, seperti sikap jujur, disiplin, dan tanggung jawab, instrumen yang paling sesuai untuk digunakan guru adalah...",
+    "options": [
+      "Soal pilihan ganda",
+      "Soal uraian",
+      "Lembar observasi atau jurnal sikap",
+      "Tes praktik"
+    ],
+    "answer": "Lembar observasi atau jurnal sikap",
+    "explanation": "Sikap tidak dapat diukur secara akurat melalui tes tulis. Penilaian sikap dilakukan melalui pengamatan (observasi) terhadap perilaku siswa sehari-hari, penilaian diri, penilaian antarteman, dan catatan dalam jurnal sikap oleh guru."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Al-Qur'an & Hadis",
+    "question": "Kritik terhadap perawi hadis, baik yang bersifat positif (ta'dil) maupun negatif (jarh), dipelajari dalam cabang ilmu hadis yang disebut...",
+    "options": [
+      "Ilmu Rijalul Hadis",
+      "Ilmu Asbab Wurudil Hadis",
+      "Ilmu Fiqhul Hadis",
+      "Ilmu Mukhtaliful Hadis"
+    ],
+    "answer": "Ilmu Rijalul Hadis",
+    "explanation": "Ilmu Rijalul Hadis atau lebih spesifiknya 'Ilmu Jarh wa Ta'dil' adalah ilmu yang membahas tentang biografi, kredibilitas, dan kualitas para perawi hadis untuk menentukan apakah riwayat mereka dapat diterima atau ditolak."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Menurut mazhab Syafi'i, menyentuh kulit antara laki-laki dan perempuan yang bukan mahram tanpa penghalang akan...",
+    "options": [
+      "Membatalkan puasa",
+      "Membatalkan wudhu",
+      "Membatalkan shalat",
+      "Tidak membatalkan apapun"
+    ],
+    "answer": "Membatalkan wudhu",
+    "explanation": "Dalam fiqih Syafi'iyah, bersentuhan kulit secara langsung antara laki-laki dan perempuan dewasa yang bukan mahram termasuk salah satu hal yang membatalkan wudhu kedua belah pihak."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Akidah Akhlak",
+    "question": "Berusaha keras dengan sungguh-sungguh untuk mencapai suatu kebaikan atau melawan hawa nafsu dalam ajaran Islam disebut...",
+    "options": [
+      "Jihad",
+      "Ijtihad",
+      "Mujahadah",
+      "Istiqamah"
+    ],
+    "answer": "Mujahadah",
+    "explanation": "Mujahadah an-nafs adalah perjuangan melawan hawa nafsu. Ini adalah bentuk 'jihad akbar' (jihad yang lebih besar) sebagaimana disebutkan dalam hadis, yaitu perjuangan internal untuk membersihkan jiwa dan mendekatkan diri kepada Allah."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Pengembangan Peserta Didik",
+    "question": "Teori perkembangan kognitif yang membagi tahapan berpikir anak menjadi sensorimotor, praoperasional, operasional konkret, dan operasional formal dikemukakan oleh...",
+    "options": [
+      "B.F. Skinner",
+      "Lev Vygotsky",
+      "Jean Piaget",
+      "Abraham Maslow"
+    ],
+    "answer": "Jean Piaget",
+    "explanation": "Jean Piaget adalah psikolog Swiss yang sangat berpengaruh dalam studi perkembangan kognitif anak. Teorinya tentang empat tahapan perkembangan ini menjadi landasan penting dalam dunia pendidikan untuk menyesuaikan metode pembelajaran dengan kemampuan berpikir siswa."
+  },
+  {
+    "subtest": "Wawasan Kebangsaan",
+    "question": "Sikap seorang muslim yang menolak budaya lokal seperti kenduri atau tahlilan karena dianggap tidak ada pada zaman Nabi (bid'ah) tanpa mempertimbangkan aspek sosial dan kulturalnya menunjukkan pemahaman keagamaan yang bersifat...",
+    "options": [
+      "Moderat",
+      "Inklusif",
+      "Puritan dan eksklusif",
+      "Substansialis"
+    ],
+    "answer": "Puritan dan eksklusif",
+    "explanation": "Sikap puritan cenderung ingin memurnikan ajaran agama secara tekstual dan menolak segala hal yang dianggap baru (bid'ah) secara kaku. Sikap ini bisa menjadi eksklusif jika tidak diimbangi dengan pemahaman terhadap realitas budaya dan sosial (fiqh al-waqi')."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Batas minimal jumlah harta yang wajib dizakati disebut...",
+    "options": [
+      "Haul",
+      "Nisab",
+      "Kadar",
+      "Rikaz"
+    ],
+    "answer": "Nisab",
+    "explanation": "Nisab adalah syarat kuantitas harta yang harus terpenuhi sebelum kewajiban zakat melekat padanya. Setiap jenis harta (emas, perak, perdagangan, pertanian, ternak) memiliki nisabnya masing-masing. Haul adalah syarat waktu (kepemilikan selama satu tahun)."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Sejarah Kebudayaan Islam",
+    "question": "Perang Salib adalah serangkaian konflik militer antara Kristen Eropa dengan kekuatan Muslim yang memperebutkan kota suci...",
+    "options": [
+      "Mekah",
+      "Madinah",
+      "Baghdad",
+      "Yerusalem (Al-Quds)"
+    ],
+    "answer": "Yerusalem (Al-Quds)",
+    "explanation": "Yerusalem menjadi titik fokus utama Perang Salib karena kota ini dianggap suci oleh tiga agama samawi: Yahudi, Kristen, dan Islam. Perebutan kontrol atas kota ini menjadi pemicu utama perang yang berlangsung selama beberapa abad."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Al-Qur'an & Hadis",
+    "question": "Penafsiran Al-Qur'an dengan menggunakan pendekatan analisis rasional atau ijtihad dari seorang mufassir disebut...",
+    "options": [
+      "Tafsir bil Ma'tsur",
+      "Tafsir bil Ra'yi",
+      "Tafsir Tahlili",
+      "Tafsir Ijmali"
+    ],
+    "answer": "Tafsir bil Ra'yi",
+    "explanation": "Tafsir bil Ra'yi (atau Tafsir bid-Dirayah) adalah metode tafsir yang mengandalkan ijtihad dan pemikiran (ra'yu) mufassir dalam menjelaskan makna Al-Qur'an, tentunya dengan tetap berpegang pada kaidah-kaidah bahasa Arab dan ilmu-ilmu Al-Qur'an. Tafsir ini dibagi lagi menjadi yang terpuji (mahmud) dan tercela (madzmum)."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Teori Belajar",
+    "question": "Menurut Vygotsky, area antara apa yang dapat dilakukan siswa secara mandiri dan apa yang dapat dicapainya dengan bantuan orang dewasa atau teman sebaya yang lebih kompeten disebut...",
+    "options": [
+      "Scaffolding",
+      "Zone of Proximal Development (ZPD)",
+      "Equilibrium",
+      "Self-regulation"
+    ],
+    "answer": "Zone of Proximal Development (ZPD)",
+    "explanation": "ZPD adalah konsep kunci dalam teori sosio-kultural Vygotsky. Pembelajaran yang efektif terjadi di dalam zona ini, di mana guru atau teman sebaya memberikan bantuan (scaffolding) agar siswa dapat mencapai tingkat perkembangan yang lebih tinggi."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Seorang musafir (dalam perjalanan) diperbolehkan untuk menggabungkan dua shalat fardhu dalam satu waktu, misalnya Dzuhur dengan Ashar. Keringanan (rukhsah) ini disebut...",
+    "options": [
+      "Qashar",
+      "Jama'",
+      "Qadha'",
+      "Fidyah"
+    ],
+    "answer": "Jama'",
+    "explanation": "Shalat Jama' adalah menggabungkan (menjamak) dua shalat. Ada jama' taqdim (dilakukan di waktu shalat pertama) dan jama' ta'khir (dilakukan di waktu shalat kedua). Ini berbeda dengan Qashar yang berarti meringkas shalat 4 rakaat menjadi 2."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Akidah Akhlak",
+    "question": "Malaikat yang bertugas mencatat amal baik manusia adalah...",
+    "options": [
+      "Jibril",
+      "Mikail",
+      "Raqib",
+      "Izrail"
+    ],
+
+    "answer": "Raqib",
+    "explanation": "Dalam Al-Qur'an disebutkan bahwa setiap manusia didampingi oleh dua malaikat pencatat amal, yaitu Raqib yang mencatat amal baik dan Atid yang mencatat amal buruk. Mereka adalah bagian dari malaikat Kiraman Katibin."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Sejarah Kebudayaan Islam",
+    "question": "Ilmuwan muslim yang dikenal sebagai Bapak Kedokteran Modern dan karyanya 'Al-Qanun fi al-Tibb' menjadi rujukan utama di universitas-universitas Eropa selama berabad-abad adalah...",
+    "options": [
+      "Al-Khawarizmi",
+      "Ibnu Sina (Avicenna)",
+      "Ibnu Rusyd (Averroes)",
+      "Al-Ghazali"
+    ],
+    "answer": "Ibnu Sina (Avicenna)",
+    "explanation": "Ibnu Sina adalah seorang polymath dari Persia yang menguasai berbagai bidang ilmu, namun kontribusinya yang paling monumental adalah di bidang kedokteran. Karyanya merupakan sintesis dari pengetahuan kedokteran Yunani, India, dan Arab yang sangat sistematis."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Perancangan Pembelajaran",
+    "question": "Kegiatan awal (apersepsi) dalam pembelajaran PAI bertujuan untuk...",
+    "options": [
+      "Menguji pemahaman akhir siswa",
+      "Memberikan tugas rumah kepada siswa",
+      "Menyiapkan mental siswa dan mengaitkan materi sebelumnya dengan materi baru",
+      "Menyampaikan kesimpulan pembelajaran"
+    ],
+    "answer": "Menyiapkan mental siswa dan mengaitkan materi sebelumnya dengan materi baru",
+    "explanation": "Apersepsi adalah bagian krusial dari pendahuluan pembelajaran. Fungsinya adalah untuk memusatkan perhatian siswa, membangkitkan motivasi, dan membuat jembatan kognitif antara pengetahuan yang sudah dimiliki siswa dengan pengetahuan baru yang akan dipelajari."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Suami yang mentalak istrinya dengan talak tiga, maka ia...",
+    "options": [
+      "Boleh langsung merujuknya kembali",
+      "Tidak boleh menikahinya lagi selamanya",
+      "Boleh menikahinya lagi setelah mantan istrinya menikah dengan laki-laki lain, bercerai, dan habis masa iddahnya",
+      "Boleh menikahinya lagi dengan syarat membayar denda yang besar"
+    ],
+    "answer": "Boleh menikahinya lagi setelah mantan istrinya menikah dengan laki-laki lain, bercerai, dan habis masa iddahnya",
+    "explanation": "Ini disebut talak ba'in kubra. Syarat agar bisa kembali kepada suami pertama sangat berat, yaitu mantan istrinya harus menikah dengan pria lain (muhallil) secara sah, terjadi hubungan suami istri, kemudian bercerai (bukan karena rekayasa), dan telah selesai masa iddahnya."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Al-Qur'an & Hadis",
+    "question": "Perawi hadis yang paling banyak meriwayatkan hadis adalah sahabat Nabi yang bernama...",
+    "options": [
+      "Abdullah bin Umar",
+      "Anas bin Malik",
+      "Aisyah binti Abu Bakar",
+      "Abu Hurairah"
+    ],
+    "answer": "Abu Hurairah",
+    "explanation": "Abu Hurairah tercatat meriwayatkan lebih dari 5.000 hadis. Kedekatan dan kebersamaannya yang intensif dengan Nabi Muhammad SAW setelah ia masuk Islam memungkinkannya untuk menghafal dan meriwayatkan hadis dalam jumlah yang sangat besar."
+  },
+  {
+    "subtest": "Wawasan Kebangsaan",
+    "question": "Salah satu pilar moderasi beragama adalah 'I'tidal', yang berarti...",
+    "options": [
+      "Mengambil jalan tengah",
+      "Toleran terhadap perbedaan",
+      "Berlaku lurus dan adil",
+      "Menjaga keseimbangan"
+    ],
+    "answer": "Berlaku lurus dan adil",
+    "explanation": "I'tidal berarti tegak lurus, tidak condong ke kanan atau ke kiri, yang esensinya adalah berlaku adil dan proporsional dalam menyikapi suatu persoalan. Ini adalah sikap yang penting untuk menghindari keberpihakan yang tidak berdasar."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Profesionalisme Guru",
+    "question": "Kemampuan guru untuk merefleksikan praktik mengajarnya, mengidentifikasi kekurangan, dan terus belajar untuk memperbaikinya adalah bagian dari kompetensi...",
+    "options": [
+      "Pedagogik",
+      "Kepribadian",
+      "Profesional",
+      "Sosial"
+    ],
+    "answer": "Profesional",
+    "explanation": "Kompetensi profesional tidak hanya mencakup penguasaan materi, tetapi juga kemampuan untuk mengembangkan diri secara berkelanjutan. Guru yang profesional adalah pembelajar seumur hidup yang selalu berusaha meningkatkan kualitas pengajarannya."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Denda (kifarat) bagi orang yang melanggar sumpah atas nama Allah adalah...",
+    "options": [
+      "Puasa 3 hari",
+      "Memberi makan 10 orang miskin atau memberi mereka pakaian, atau memerdekakan budak; jika tidak mampu baru berpuasa 3 hari",
+      "Menyembelih seekor kambing",
+      "Bersedekah semampunya"
+    ],
+    "answer": "Memberi makan 10 orang miskin atau memberi mereka pakaian, atau memerdekakan budak; jika tidak mampu baru berpuasa 3 hari",
+    "explanation": "Hal ini dijelaskan dalam QS. Al-Maidah ayat 89. Ada tiga pilihan utama yang setara, dan puasa menjadi alternatif terakhir jika seseorang tidak mampu melaksanakan salah satu dari tiga pilihan tersebut."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Akidah Akhlak",
+    "question": "Perantara antara manusia dengan jin atau setan untuk melakukan perbuatan yang dapat membahayakan orang lain, seperti teluh atau santet, disebut...",
+    "options": [
+      "Mukjizat",
+      "Karamah",
+      "Sihir",
+      "Ma'unah"
+    ],
+    "answer": "Sihir",
+    "explanation": "Sihir adalah perbuatan yang diharamkan dalam Islam dan termasuk dosa besar. Praktik ini melibatkan bantuan dari setan dan bertujuan untuk mencelakai atau mengubah sesuatu di luar kewajaran dengan cara-cara gaib."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Sejarah Kebudayaan Islam",
+    "question": "Khalifah Harun al-Rasyid adalah pemimpin ikonik yang membawa Dinasti Abbasiyah ke puncak zaman keemasan. Ia adalah khalifah yang ke...",
+    "options": [
+      "Pertama",
+      "Ketiga",
+      "Kelima",
+      "Ketujuh"
+    ],
+    "answer": "Kelima",
+    "explanation": "Harun al-Rasyid adalah khalifah kelima dari Dinasti Abbasiyah. Masa pemerintahannya (786-809 M) ditandai dengan kemakmuran ekonomi, stabilitas politik, dan perkembangan pesat dalam bidang ilmu pengetahuan dan seni."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Evaluasi Pembelajaran",
+    "question": "Sebuah tes dikatakan memiliki validitas yang tinggi jika...",
+    "options": [
+      "Hasilnya konsisten ketika diujikan berulang kali",
+      "Mampu mengukur apa yang seharusnya diukur",
+      "Soalnya mudah dikerjakan oleh semua siswa",
+      "Dapat membedakan antara siswa pintar dan kurang pintar"
+    ],
+    "answer": "Mampu mengukur apa yang seharusnya diukur",
+    "explanation": "Validitas adalah ketepatan alat ukur. Tes PAI yang valid adalah tes yang benar-benar mengukur pemahaman PAI siswa, bukan mengukur kemampuan membaca cepat atau kemampuan menghafal soal. Jika hasilnya konsisten, itu disebut reliabilitas."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Hewan yang disembelih untuk aqiqah anak laki-laki berjumlah...",
+    "options": [
+      "Satu ekor kambing",
+      "Dua ekor kambing",
+      "Satu ekor sapi",
+      "Tujuh ekor kambing"
+    ],
+    "answer": "Dua ekor kambing",
+    "explanation": "Sesuai sunnah, aqiqah untuk anak laki-laki adalah dua ekor kambing yang setara (sepadan), sedangkan untuk anak perempuan adalah satu ekor kambing. Pelaksanaannya dianjurkan pada hari ketujuh setelah kelahiran."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Al-Qur'an & Hadis",
+    "question": "Dalam hukum bacaan Mad, panjang bacaan Mad Wajib Muttasil adalah...",
+    "options": [
+      "2 harakat",
+      "2, 4, atau 6 harakat",
+      "4 atau 5 harakat",
+      "6 harakat"
+    ],
+    "answer": "4 atau 5 harakat",
+    "explanation": "Mad Wajib Muttasil terjadi apabila mad thabi'i bertemu dengan hamzah dalam satu kata. Panjang bacaannya disepakati oleh para ulama qira'at adalah 4 atau 5 harakat (ketukan) ketika washal (bersambung)."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Akidah Akhlak",
+    "question": "Berikut ini yang bukan termasuk tanda-tanda kiamat besar (kubra) adalah...",
+    "options": [
+      "Munculnya Dajjal",
+      "Matahari terbit dari barat",
+      "Wafatnya para ulama",
+      "Turunnya Nabi Isa AS"
+    ],
+    "answer": "Wafatnya para ulama",
+    "explanation": "Wafatnya ulama, menyebarnya kebodohan, dan merebaknya perzinaan adalah contoh tanda-tanda kiamat kecil (sughra). Sedangkan munculnya Dajjal, turunnya Nabi Isa, terbitnya matahari dari barat, dan keluarnya Ya'juj dan Ma'juj adalah tanda-tanda kiamat besar."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Model Pembelajaran",
+    "question": "Seorang guru memulai pelajaran dengan memberikan sebuah pertanyaan menantang (challenge) kepada siswa. Siswa kemudian bekerja dalam tim untuk mencari berbagai sumber dan data untuk menjawab pertanyaan tersebut dan mempresentasikannya. Model pembelajaran ini adalah...",
+    "options": [
+      "Problem Based Learning (PBL)",
+      "Discovery Learning",
+      "Expository",
+      "Contextual Teaching and Learning (CTL)"
+    ],
+    "answer": "Problem Based Learning (PBL)",
+    "explanation": "Ciri khas PBL adalah pembelajaran yang diawali dari suatu masalah (problem) atau pertanyaan yang autentik. Siswa belajar dengan cara memecahkan masalah tersebut, yang mendorong mereka untuk belajar konsep dan prinsip yang relevan."
+  },
+  {
+    "subtest": "Wawasan Kebangsaan",
+    "question": "Sebagai seorang ASN, guru PAI harus memegang teguh prinsip netralitas dalam kontestasi politik. Hal ini penting untuk...",
+    "options": [
+      "Menjaga kewibawaan dan menghindari perpecahan di lingkungan sekolah dan masyarakat",
+      "Mendapatkan simpati dari semua pihak yang berkompetisi",
+      "Menunjukkan bahwa ASN tidak peduli dengan politik",
+      "Agar bisa mendukung calon mana pun secara diam-diam"
+    ],
+    "answer": "Menjaga kewibawaan dan menghindari perpecahan di lingkungan sekolah dan masyarakat",
+    "explanation": "Netralitas ASN, termasuk guru, adalah amanat undang-undang. Tujuannya adalah untuk memastikan pelayanan publik tetap berjalan profesional dan tidak terpengaruh oleh kepentingan politik praktis, serta menjaga agar institusi pendidikan tidak menjadi arena konflik politik."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Saat tidak ditemukan air untuk berwudhu atau dalam kondisi sakit yang tidak boleh terkena air, seorang muslim dapat bersuci dengan cara...",
+    "options": [
+      "Istinja'",
+      "Tayamum",
+      "Mandi wajib",
+      "Istihadhah"
+    ],
+    "answer": "Tayamum",
+    "explanation": "Tayamum adalah rukhshah (keringanan) dari Allah untuk bersuci dari hadas kecil maupun besar dengan menggunakan debu yang suci. Caranya adalah dengan mengusap wajah dan kedua tangan dengan debu sesuai syarat dan rukunnya."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Sejarah Kebudayaan Islam",
+    "question": "Pemimpin Dinasti Ayyubiyah yang berhasil merebut kembali Yerusalem dari tangan Pasukan Salib dan dikenal sebagai pahlawan besar dalam sejarah Islam adalah...",
+    "options": [
+      "Nuruddin Zanki",
+      "Shalahuddin Al-Ayyubi (Saladin)",
+      "Baybars",
+      "Muhammad Al-Fatih"
+    ],
+    "answer": "Shalahuddin Al-Ayyubi (Saladin)",
+    "explanation": "Shalahuddin Al-Ayyubi adalah tokoh sentral dalam Perang Salib periode kedua. Kemenangannya dalam Pertempuran Hattin pada tahun 1187 menjadi kunci untuk merebut kembali Yerusalem, dan ia dikenal oleh kawan maupun lawan sebagai pemimpin yang adil dan ksatria."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Akidah Akhlak",
+    "question": "Sikap selalu merasa cukup dengan apa yang dimiliki dan mensyukuri nikmat Allah disebut...",
+    "options": [
+      "Qana'ah",
+      "Wara'",
+      "Tawadhu'",
+      "Zuhud"
+    ],
+    "answer": "Qana'ah",
+    "explanation": "Qana'ah adalah kekayaan hati, yaitu merasa cukup dan ridha atas karunia Allah setelah berusaha. Sikap ini menentramkan jiwa dan menghindarkan seseorang dari sifat tamak dan hasad."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Pengembangan Peserta Didik",
+    "question": "Seorang siswa mampu menyelesaikan masalah fikih muamalah yang kompleks dan berdebat secara logis tentang dalil-dalilnya. Menurut Taksonomi Bloom, kemampuan siswa ini berada pada level...",
+    "options": [
+      "Mengingat (C1)",
+      "Memahami (C2)",
+      "Menerapkan (C3)",
+      "Menganalisis (C4) dan Mengevaluasi (C5)"
+    ],
+    "answer": "Menganalisis (C4) dan Mengevaluasi (C5)",
+    "explanation": "Menyelesaikan masalah kompleks melibatkan kemampuan memilah-milah informasi dan menghubungkannya (menganalisis). Sedangkan berdebat secara logis tentang dalil memerlukan kemampuan memberikan penilaian atau justifikasi terhadap kekuatan argumen (mengevaluasi). Keduanya adalah level berpikir tingkat tinggi (HOTS)."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Al-Qur'an & Hadis",
+    "question": "Metode penafsiran Al-Qur'an dengan cara menjelaskan ayat-ayat berdasarkan urutannya dalam mushaf, surat per surat, ayat per ayat, disebut tafsir...",
+    "options": [
+      "Maudhu'i (Tematik)",
+      "Muqaran (Perbandingan)",
+      "Tahlili (Analitis)",
+      "Ijmali (Global)"
+    ],
+    "answer": "Tahlili (Analitis)",
+    "explanation": "Metode tahlili adalah metode tafsir yang paling umum digunakan. Mufassir akan mengurai dan menganalisis ayat secara berurutan, membahas berbagai aspeknya mulai dari kosakata, asbabun nuzul, munasabah, hingga hukum yang terkandung di dalamnya."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Salah satu syarat sahnya shalat adalah menghadap kiblat. Bagi orang yang berada di dalam Ka'bah, maka ia shalat menghadap...",
+    "options": [
+      "Ke arah pintu Ka'bah",
+      "Ke arah Maqam Ibrahim",
+      "Ke arah mana saja di dalam Ka'bah",
+      "Tidak sah shalat di dalam Ka'bah"
+    ],
+    "answer": "Ke arah mana saja di dalam Ka'bah",
+    "explanation": "Seluruh bangunan Ka'bah adalah kiblat. Maka, bagi orang yang berada di dalamnya, ia boleh menghadap ke arah dinding mana pun, dan shalatnya tetap sah."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Akidah Akhlak",
+    "question": "Sikap berbaik sangka, baik kepada Allah, kepada diri sendiri, maupun kepada sesama manusia disebut...",
+    "options": [
+      "Husnuzan",
+      "Sabar",
+      "Syukur",
+      "Ikhlas"
+    ],
+    "answer": "Husnuzan",
+    "explanation": "Husnuzan adalah akhlak terpuji yang menjadi dasar dari hubungan yang harmonis. Berbaik sangka kepada Allah melahirkan optimisme, kepada diri sendiri melahirkan kepercayaan diri, dan kepada sesama manusia melahirkan kedamaian sosial."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Profesionalisme Guru",
+    "question": "Seorang guru PAI menggunakan media sosial untuk menyebarkan konten dakwah yang menyejukkan dan edukatif. Tindakan ini menunjukkan bahwa guru tersebut memiliki kompetensi...",
+    "options": [
+      "Pedagogik dalam memanfaatkan TIK",
+      "Sosial dalam berkomunikasi dengan masyarakat luas",
+      "Profesional dalam penguasaan materi dakwah",
+      "Semua jawaban benar"
+    ],
+    "answer": "Semua jawaban benar",
+    "explanation": "Tindakan tersebut mencakup: 1) Pedagogik, karena ia menggunakan teknologi (TIK) untuk pembelajaran/dakwah. 2) Sosial, karena ia berinteraksi dan berkomunikasi efektif dengan masyarakat luas. 3) Profesional, karena konten yang disampaikan harus didasari penguasaan materi yang benar dan mendalam."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Riba yang terjadi akibat adanya tambahan pembayaran karena penundaan waktu pelunasan utang disebut riba...",
+    "options": [
+      "Fadhl",
+      "Nasi'ah",
+      "Yad",
+      "Qardh"
+    ],
+    "answer": "Nasi'ah",
+    "explanation": "Riba Nasi'ah adalah jenis riba yang paling umum terjadi pada zaman jahiliyah dan dilarang keras dalam Al-Qur'an. Ciri utamanya adalah adanya tambahan (bunga) yang disyaratkan atas penundaan pembayaran (tempo)."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Sejarah Kebudayaan Islam",
+    "question": "Piagam yang berisi kesepakatan antara Nabi Muhammad SAW dengan seluruh penduduk Madinah, baik kaum Muslimin, Yahudi, maupun kelompok lainnya, untuk hidup berdampingan secara damai disebut...",
+    "options": [
+      "Perjanjian Hudaibiyah",
+      "Bai'at Aqabah",
+      "Piagam Madinah (Konstitusi Madinah)",
+      "Piagam Jakarta"
+    ],
+    "answer": "Piagam Madinah (Konstitusi Madinah)",
+    "explanation": "Piagam Madinah adalah konstitusi tertulis pertama di dunia. Isinya mengatur hak dan kewajiban setiap kelompok masyarakat di Madinah, meletakkan dasar-dasar negara yang pluralistik, dan menjamin kebebasan beragama."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Akidah Akhlak",
+    "question": "Peristiwa luar biasa yang terjadi pada seorang calon nabi sebelum diangkat menjadi rasul disebut...",
+    "options": [
+      "Mukjizat",
+      "Karamah",
+      "Ma'unah",
+      "Irhas"
+    ],
+    "answer": "Irhas",
+    "explanation": "Irhas adalah tanda-tanda kenabian yang Allah tunjukkan pada diri seorang calon nabi untuk mempersiapkan dan menguatkan kenabiannya kelak. Contohnya adalah peristiwa-peristiwa ajaib pada masa kecil Nabi Muhammad SAW atau Nabi Isa AS."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Perancangan Pembelajaran",
+    "question": "Ketika merancang kegiatan pembelajaran, guru harus memperhatikan prinsip dari yang mudah ke yang sulit, dan dari yang konkret ke yang abstrak. Prinsip ini disebut...",
+    "options": [
+      "Prinsip relevansi",
+      "Prinsip kontinuitas",
+      "Prinsip fleksibilitas",
+      "Prinsip gradualisme dan hierarki"
+    ],
+    "answer": "Prinsip gradualisme dan hierarki",
+    "explanation": "Pembelajaran yang efektif harus disajikan secara bertahap (gradual) dan berurutan (hierarkis). Siswa harus menguasai konsep dasar yang lebih mudah dan konkret terlebih dahulu sebelum melangkah ke konsep yang lebih kompleks dan abstrak."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Al-Qur'an & Hadis",
+    "question": "Hadis yang sanadnya terputus pada generasi setelah sahabat (yaitu pada seorang tabi'in) disebut hadis...",
+    "options": [
+      "Mursal",
+      "Munqathi'",
+      "Mu'dhal",
+      "Mudallas"
+    ],
+    "answer": "Munqathi'",
+    "explanation": "Hadis Munqathi' (terputus) adalah hadis yang dalam sanadnya gugur seorang perawi di satu tempat (selain sahabat) atau lebih, tetapi tidak secara berturut-turut. Ini termasuk kategori hadis dha'if."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Menyucikan harta dengan cara mengeluarkan sebagian kecil untuk diberikan kepada yang berhak menerimanya sesuai ketentuan syariat disebut...",
+    "options": [
+      "Infak",
+      "Sedekah",
+      "Wakaf",
+      "Zakat"
+    ],
+    "answer": "Zakat",
+    "explanation": "Zakat secara bahasa berarti 'suci', 'tumbuh', atau 'berkah'. Secara istilah, zakat adalah ibadah maliyah (harta) yang hukumnya wajib, dengan kadar dan sasaran (mustahik) yang telah ditentukan secara spesifik oleh syariat untuk menyucikan harta dan jiwa."
+  },
+  {
+    "subtest": "Wawasan Kebangsaan",
+    "question": "Gerakan keagamaan yang bertujuan mengganti ideologi Pancasila dengan ideologi lain yang dianggap lebih Islami bertentangan dengan prinsip...",
+    "options": [
+      "Komitmen kebangsaan (Mitsaqan Ghalizha)",
+      "Toleransi antarumat beragama",
+      "Kebebasan berpendapat",
+      "Demokrasi"
+    ],
+    "answer": "Komitmen kebangsaan (Mitsaqan Ghalizha)",
+    "explanation": "Para ulama dan pendiri bangsa telah bersepakat bahwa Pancasila dan NKRI adalah bentuk final negara Indonesia. Kesepakatan ini adalah 'Mitsaqan Ghalizha' atau perjanjian luhur yang harus dijaga oleh seluruh komponen bangsa. Merongrong Pancasila berarti mengkhianati kesepakatan ini."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Evaluasi Pembelajaran",
+    "question": "Program pembelajaran yang diberikan kepada siswa yang telah mencapai atau melampaui Kriteria Ketuntasan Minimal (KKM) disebut...",
+    "options": [
+      "Remedial",
+      "Pengayaan",
+      "Akselerasi",
+      "Klasikal"
+    ],
+    "answer": "Pengayaan",
+    "explanation": "Pembelajaran pengayaan (enrichment) bertujuan untuk memperluas atau memperdalam pengetahuan dan keterampilan yang telah dikuasai siswa. Ini memberikan tantangan tambahan bagi siswa yang lebih cepat belajar agar potensi mereka terus berkembang."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Sejarah Kebudayaan Islam",
+    "question": "Peristiwa hijrahnya Nabi Muhammad SAW dan para sahabat dari Mekah ke Madinah terjadi pada tahun...",
+    "options": [
+      "620 M",
+      "621 M",
+      "622 M",
+      "623 M"
+    ],
+    "answer": "622 M",
+    "explanation": "Peristiwa hijrah merupakan titik balik yang sangat fundamental dalam sejarah Islam. Momen inilah yang kemudian ditetapkan oleh Khalifah Umar bin Khattab sebagai awal dari penanggalan kalender Hijriah."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Akidah Akhlak",
+    "question": "Kitab suci yang diturunkan kepada Nabi Daud AS berisi puji-pujian dan zikir kepada Allah adalah...",
+    "options": [
+      "Taurat",
+      "Zabur",
+      "Injil",
+      "Al-Qur'an"
+    ],
+    "answer": "Zabur",
+    "explanation": "Beriman kepada kitab-kitab Allah sebelum Al-Qur'an adalah bagian dari rukun iman. Al-Qur'an menyebutkan bahwa Zabur diturunkan kepada Nabi Daud, Taurat kepada Nabi Musa, dan Injil kepada Nabi Isa."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Talak yang diucapkan oleh suami dalam keadaan sangat marah hingga tidak sadar apa yang diucapkannya, menurut sebagian besar ulama hukumnya...",
+    "options": [
+      "Sah dan jatuh talak tiga",
+      "Sah dan jatuh talak satu",
+      "Tidak jatuh talak (tidak sah)",
+      "Makruh"
+    ],
+    "answer": "Tidak jatuh talak (tidak sah)",
+    "explanation": "Marah yang sampai menghilangkan kesadaran dan akal (ighlaq) termasuk kondisi yang menyebabkan ucapan seseorang tidak memiliki konsekuensi hukum, termasuk talak. Hal ini didasarkan pada hadis 'Tidak ada talak dan pembebasan budak dalam keadaan ighlaq'."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Pengembangan Peserta Didik",
+    "question": "Tindakan guru memberikan hukuman fisik (misalnya menjewer atau memukul) kepada siswa yang tidak mengerjakan PR adalah...",
+    "options": [
+      "Diperbolehkan untuk mendisiplinkan siswa",
+      "Melanggar kode etik guru dan hak anak",
+      "Efektif untuk meningkatkan motivasi belajar",
+      "Tergantung pada tingkat kesalahan siswa"
+    ],
+    "answer": "Melanggar kode etik guru dan hak anak",
+    "explanation": "Pendekatan pendidikan modern dan peraturan perundangan (seperti UU Perlindungan Anak) melarang segala bentuk kekerasan di lingkungan sekolah. Hukuman harus bersifat edukatif dan tidak menyakiti fisik maupun psikis siswa."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Al-Qur'an & Hadis",
+    "question": "Cabang ilmu Al-Qur'an yang membahas tentang keserasian hubungan antara satu ayat dengan ayat lain, atau antara satu surat dengan surat lain disebut...",
+    "options": [
+      "Ilmu Qira'at",
+      "Ilmu Fawatihus Suwar",
+      "Ilmu Munasabah",
+      "Ilmu I'jazil Qur'an"
+    ],
+    "answer": "Ilmu Munasabah",
+    "explanation": "Ilmu Munasabah membantu mufassir untuk memahami Al-Qur'an sebagai satu kesatuan yang koheren. Dengan melihat korelasi antar ayat/surat, makna yang terkandung di dalamnya akan terlihat lebih utuh dan mendalam."
+  },
+  {
+    "subtest": "Kompetensi Profesional - Fikih",
+    "question": "Hukum asal dari segala bentuk muamalah (transaksi) dalam Islam adalah...",
+    "options": [
+      "Haram sampai ada dalil yang menghalalkan",
+      "Wajib sampai ada dalil yang melarang",
+      "Mubah (boleh) sampai ada dalil yang melarang",
+      "Makruh sampai ada dalil yang menganjurkan"
+    ],
+    "answer": "Mubah (boleh) sampai ada dalil yang melarang",
+    "explanation": "Ini adalah kaidah fiqih yang sangat penting: 'Al-ashlu fil mu'amalah al-ibahah hatta yadulla ad-dalilu 'ala at-tahrim'. Berbeda dengan ibadah yang hukum asalnya haram sampai ada dalil yang memerintahkan, muamalah memberikan ruang inovasi yang luas selama tidak melanggar prinsip syariah seperti riba, gharar, dan maysir."
+  },
+  {
+    "subtest": "Wawasan Kebangsaan",
+    "question": "Peran ulama dalam perjuangan kemerdekaan Indonesia menunjukkan bahwa Islam dan nasionalisme...",
+    "options": [
+      "Selalu bertentangan satu sama lain",
+      "Dapat berjalan selaras dan saling menguatkan",
+      "Hanya bisa bersatu jika negara berdasarkan syariat Islam",
+      "Tidak memiliki hubungan sama sekali"
+    ],
+    "answer": "Dapat berjalan selaras dan saling menguatkan",
+    "explanation": "Sejarah membuktikan peran sentral para kiai dan santri dalam merebut dan mempertahankan kemerdekaan, puncaknya adalah Resolusi Jihad. Ini menunjukkan bahwa semangat keagamaan (Islam) dapat menjadi sumber energi bagi semangat kebangsaan (nasionalisme)."
+  },
+  {
+    "subtest": "Kompetensi Pedagogik - Profesionalisme Guru",
+    "question": "Kompetensi yang harus dimiliki guru terkait kemampuan berkomunikasi dan bergaul secara efektif dengan peserta didik, sesama pendidik, tenaga kependidikan, orang tua/wali, dan masyarakat sekitar disebut kompetensi...",
+    "options": [
+      "Pedagogik",
+      "Kepribadian",
+      "Profesional",
+      "Sosial"
+    ],
+    "answer": "Sosial",
+    "explanation": "Kompetensi sosial adalah salah satu dari empat kompetensi utama guru. Guru yang memiliki kompetensi sosial yang baik mampu membangun hubungan yang positif dan konstruktif dengan semua pihak yang terkait dengan ekosistem pendidikan."
+  }
+],
+
+    // --- Data dinamis ini tidak perlu diubah ---
+    judulHalaman: document.title,
+    url: window.location.href
+};
+
+// ===================================================================================
+// --- FUNGSI PENGIRIMAN DATA KE GOOGLE SHEET (DIPERBARUI) ---
+// ===================================================================================
+async function kirimKeGoogleSheet(data) {
+    const statusEl = document.getElementById('submission-status');
+    statusEl.textContent = 'Mengirim hasil ujian...';
+    
+    const formData = new FormData();
+    // Menambahkan semua data ke dalam objek FormData.
+    formData.append('kategori', data.kategori);
+    formData.append('url', data.url);
+    formData.append('judulHalaman', data.judulHalaman);
+    formData.append('Nama', data.Nama);
+    formData.append('JumlahSoal', data.JumlahSoal);
+    formData.append('JawabanBenar', data.JawabanBenar);
+    formData.append('JawabanSalah', data.JawabanSalah);
+    formData.append('TidakDijawab', data.TidakDijawab);
+    formData.append('Durasi', data.Durasi);
+    formData.append('Nilai', data.Nilai);
+    formData.append('StatusKelulusan', data.StatusKelulusan);
+
+    try {
+        const response = await fetch(EXAM_CONFIG.scriptURL, {
+            method: 'POST',
+            body: formData
+        });
+        
+        // Membaca respons sebagai JSON untuk mendapatkan pesan sukses/error dari server
+        const result = await response.json();
+        
+        if (result.result === "success") {
+            statusEl.innerHTML = `Hasil ujian berhasil disimpan. <b><a href="${EXAM_CONFIG.linkPeringkat}">Cek Peringkat kamu di sini</a></b>`;
+            statusEl.style.color = 'green';
+        } else {
+            // Menampilkan pesan error yang lebih spesifik dari server
+            throw new Error(result.message || 'Terjadi kesalahan dari server.');
+        }
+    } catch (error) {
+        console.error('Error saat mengirim ke Google Sheet:', error);
+        statusEl.textContent = `Gagal menyimpan hasil. Coba lagi nanti. Error: ${error.message}`;
+        statusEl.style.color = 'red';
+    }
+}
+
+// ===================================================================================
+// --- LOGIKA UTAMA UJIAN (DISESUAIKAN, TIDAK PERLU DIUBAH LAGI) ---
+// ===================================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Menggunakan bank soal dari EXAM_CONFIG
+    const questions = EXAM_CONFIG.bankSoal;
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let questionStatus = new Array(questions.length).fill('unanswered');
+    let timerInterval;
+    let startTime;
+    let currentUsername = '';
+
+    const loginContainer = document.getElementById('login-container');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('login-btn');
+    const loginError = document.getElementById('login-error');
+    const appHeader = document.querySelector('.header');
+    const quizContainer = document.querySelector('.quiz-container');
+    const resultPage = document.getElementById('result-page');
+    const subtestTitleEl = document.getElementById('subtest-title');
+    const questionNumberEl = document.getElementById('question-number');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsEl = document.getElementById('options');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const doubtfulBtn = document.getElementById('doubtful-btn');
+    const finishBtn = document.getElementById('finish-btn');
+    const timerEl = document.getElementById('timer');
+    const restartBtn = document.getElementById('restart-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const headerInfo = document.getElementById('header-info');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmYesBtn = document.getElementById('confirm-yes');
+    const confirmNoBtn = document.getElementById('confirm-no');
+    
+    function showLoginPage() {
+        loginContainer.style.display = 'block'; // Diubah dari 'flex' agar sesuai skrip asli
+        appHeader.style.display = 'none';
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'none';
+        passwordInput.value = '';
+        loginError.style.display = 'none';
+    }
+
+    function handleLogin() {
+        const password = passwordInput.value;
+        const username = usernameInput.value.trim();
+        if (username === "") {
+            loginError.textContent = "Username tidak boleh kosong.";
+            loginError.style.display = 'block';
+            return;
+        }
+        // Menggunakan password dari EXAM_CONFIG
+        if (password === EXAM_CONFIG.password) {
+            currentUsername = username;
+            loginContainer.style.display = 'none';
+            appHeader.style.display = 'flex';
+            quizContainer.style.display = 'flex';
+            resultPage.style.display = 'none';
+            headerInfo.textContent = `Peserta: ${currentUsername}`;
+            startQuiz();
+        } else {
+            loginError.textContent = "Password salah. Coba lagi.";
+            loginError.style.display = 'block';
+        }
+    }
+    
+    function handleLogout() {
+        clearInterval(timerInterval);
+        showLoginPage();
+    }
+
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        userAnswers.fill(null);
+        questionStatus.fill('unanswered');
+        quizContainer.style.display = 'flex';
+        resultPage.style.display = 'none';
+        setupQuestionGrids();
+        displayQuestion(currentQuestionIndex);
+        // Menggunakan durasi dari EXAM_CONFIG
+        startTimer(EXAM_CONFIG.durasiMenit * 60);
+        startTime = new Date();
+    }
+
+    function setupQuestionGrids() {
+        const gridContainer = document.getElementById('grid-container');
+        gridContainer.innerHTML = '';
+        const subtests = [...new Set(questions.map(q => q.subtest))];
+        subtests.forEach(subtest => {
+            const group = document.createElement('div');
+            group.className = 'subtest-group';
+            const title = document.createElement('h3');
+            title.textContent = subtest;
+            const grid = document.createElement('div');
+            grid.className = 'question-grid';
+            group.appendChild(title);
+            group.appendChild(grid);
+            gridContainer.appendChild(group);
+            questions.forEach((q, index) => {
+                if (q.subtest === subtest) {
+                    const button = document.createElement('button');
+                    button.className = 'grid-button';
+                    button.textContent = index + 1;
+                    button.onclick = () => jumpToQuestion(index);
+                    grid.appendChild(button);
+                }
+            });
+        });
+    }
+
+    function displayQuestion(index) {
+        document.querySelector('.grid-button.current')?.classList.remove('current');
+        currentQuestionIndex = index;
+        const question = questions[index];
+        subtestTitleEl.textContent = question.subtest;
+        questionNumberEl.textContent = index + 1;
+        questionTextEl.innerHTML = question.question;
+        optionsEl.innerHTML = '';
+        question.options.forEach(option => {
+            const li = document.createElement('li');
+            const label = document.createElement('label');
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = `option-${index}`;
+            radio.value = option;
+            if (userAnswers[index] === option) {
+                radio.checked = true;
+                label.classList.add('selected');
+            }
+            radio.onchange = () => selectAnswer(index, option, label);
+            const span = document.createElement('span');
+            span.innerHTML = option; // Menggunakan innerHTML untuk render jika ada format
+            label.appendChild(radio);
+            label.appendChild(span);
+            li.appendChild(label);
+            optionsEl.appendChild(li);
+        });
+        updateNavButtons();
+        updateGridButtonStatus(index, true);
+    }
+
+    function selectAnswer(index, answer, label) {
+        userAnswers[index] = answer;
+        document.querySelectorAll(`#options li label`).forEach(l => l.classList.remove('selected'));
+        label.classList.add('selected');
+        if (questionStatus[index] !== 'doubtful') {
+            questionStatus[index] = 'answered';
+        }
+        updateGridButtonStatus(index);
+    }
+    
+    function updateNavButtons() {
+        prevBtn.disabled = currentQuestionIndex === 0;
+        nextBtn.disabled = currentQuestionIndex === questions.length - 1;
+    }
+    
+    function updateGridButtonStatus(index, isCurrent = false) {
+        const allGridButtons = document.querySelectorAll('.grid-button');
+        if (isCurrent) {
+            const currentBtn = document.querySelector('.grid-button.current');
+            if (currentBtn) currentBtn.classList.remove('current');
+        }
+        const button = Array.from(allGridButtons).find(btn => parseInt(btn.textContent) === index + 1);
+        if (!button) return;
+        if(isCurrent) button.classList.add('current');
+        button.classList.remove('answered', 'doubtful');
+        switch (questionStatus[index]) {
+            case 'answered': button.classList.add('answered'); break;
+            case 'doubtful': button.classList.add('doubtful'); break;
+        }
+    }
+
+    function jumpToQuestion(index) {
+        displayQuestion(index);
+    }
+
+    function startTimer(duration) {
+        let timer = duration;
+        clearInterval(timerInterval);
+        timerEl.parentElement.classList.remove('low-time');
+        timerInterval = setInterval(() => {
+            let minutes = parseInt(timer / 60, 10);
+            let seconds = parseInt(timer % 60, 10);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            timerEl.textContent = `${minutes}:${seconds}`;
+            if (timer < 300 && !timerEl.parentElement.classList.contains('low-time')) { 
+                timerEl.parentElement.classList.add('low-time'); 
+            }
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                finishQuiz();
+            }
+        }, 1000);
+    }
+    
+    function showConfirmation() {
+        confirmationModal.style.display = 'flex';
+    }
+
+    function formatDuration(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes} menit ${seconds.toString().padStart(2, '0')} detik`;
+}
+
+
+    function finishQuiz() {
+        clearInterval(timerInterval);
+        confirmationModal.style.display = 'none';
+        const endTime = new Date();
+        const durationMs = endTime - startTime;
+        let correctCount = 0;
+        questions.forEach((q, index) => {
+            if (userAnswers[index] === q.answer) correctCount++;
+        });
+        const totalQuestions = questions.length;
+        const answeredCount = userAnswers.filter(a => a !== null).length;
+        const incorrectCount = answeredCount - correctCount;
+        const unansweredCount = totalQuestions - answeredCount;
+        const finalScore = totalQuestions > 0 ? parseFloat(((correctCount / totalQuestions) * 100).toFixed(2)) : 0;
+        const isPassed = finalScore >= EXAM_CONFIG.passingGrade;
+        
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'block';
+        headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
+        
+        const statusEl = document.getElementById('status-lulus');
+        statusEl.textContent = isPassed ? 'SELAMAT, ANDA LULUS!' : 'MAAF, ANDA BELUM LULUS';
+        statusEl.className = `status ${isPassed ? 'lulus' : 'gagal'}`;
+        document.getElementById('final-score').textContent = finalScore;
+        document.getElementById('score-details').textContent = `${correctCount} dari ${totalQuestions} soal benar`;
+        
+        const reviewSection = document.getElementById('review-section');
+        reviewSection.innerHTML = '';
+        questions.forEach((q, index) => {
+            const userAnswer = userAnswers[index];
+            const isCorrect = userAnswer === q.answer;
+            reviewSection.innerHTML += `
+                <div class="review-item">
+                    <p><strong>Soal ${index + 1}:</strong> ${q.question}</p>
+                    <div class="review-answer user-answer ${isCorrect ? '' : 'is-incorrect'}">Jawaban Anda: ${userAnswer || 'Tidak Dijawab'}</div>
+                    ${!isCorrect ? `<div class="review-answer correct-answer">Jawaban Benar: ${q.answer}</div>` : ''}
+                    <div class="explanation"><strong>Pembahasan:</strong> ${q.explanation}</div>
+                </div>
+            `;
+        });
+        
+        const dataForSheet = {
+            kategori: EXAM_CONFIG.kategori,
+            url: EXAM_CONFIG.url,
+            judulHalaman: EXAM_CONFIG.judulHalaman,
+            Nama: currentUsername,
+            JumlahSoal: totalQuestions,
+            JawabanBenar: correctCount,
+            JawabanSalah: incorrectCount,
+            TidakDijawab: unansweredCount,
+            Durasi: formatDuration(durationMs),
+            Nilai: finalScore,
+            StatusKelulusan: isPassed ? 'Lulus' : 'Tidak Lulus'
+        };
+        kirimKeGoogleSheet(dataForSheet);
+    }
+
+    // Event Listeners
+    loginBtn.addEventListener('click', handleLogin);
+    passwordInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
+    logoutBtn.addEventListener('click', handleLogout);
+    prevBtn.addEventListener('click', () => { if (currentQuestionIndex > 0) displayQuestion(currentQuestionIndex - 1) });
+    nextBtn.addEventListener('click', () => { if (currentQuestionIndex < questions.length - 1) displayQuestion(currentQuestionIndex + 1) });
+    doubtfulBtn.addEventListener('click', () => {
+        const currentStatus = questionStatus[currentQuestionIndex];
+        if (currentStatus === 'doubtful') {
+            questionStatus[currentQuestionIndex] = userAnswers[currentQuestionIndex] ? 'answered' : 'unanswered';
+        } else {
+            questionStatus[currentQuestionIndex] = 'doubtful';
+        }
+        updateGridButtonStatus(currentQuestionIndex);
+    });
+    finishBtn.addEventListener('click', showConfirmation);
+    confirmYesBtn.addEventListener('click', finishQuiz);
+    confirmNoBtn.addEventListener('click', () => confirmationModal.style.display = 'none');
+    restartBtn.addEventListener('click', handleLogout);
+
+    showLoginPage();
+});
+</script>
