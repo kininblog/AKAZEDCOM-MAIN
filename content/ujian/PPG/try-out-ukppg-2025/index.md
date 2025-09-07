@@ -32,7 +32,7 @@ difficulty: "Sulit"
 
 {{< ujian/PPG/ukppg-2025 >}}
 
-Gak terasa jadwal ujian UKPPG guru tertentu periode 2 tahun 2025 sudah terbit, tepatnya tanggal 3 agustus 2025 mendatang. Gimana, udah mulai terasa deg degan? Biar lebih tenang saat ujian tentu kamu harus persiapin diri semaksimal mungkin. salah satunya dengan ikut try out ukppg 2025 ini
+Gak terasa jadwal ujian *[UKPPG guru](/mengenal-apa-itu-ppg-guru/)* tertentu periode 2 tahun 2025 sudah terbit, tepatnya tanggal 3 agustus 2025 mendatang. Gimana, udah mulai terasa deg degan? Biar lebih tenang saat ujian tentu kamu harus persiapin diri semaksimal mungkin. salah satunya dengan ikut try out ukppg 2025 ini
 
 *[Akazed](/)* memberikan akses 30 Soal *[Try Out UKPPPG 2025](/ujian/ppg/try-out-ukppg-2025/)* dan Kunci Jawaban Uji Kompetensi Peserta PPG 2025 sebagai Bahan Latihan yang dapat dibuka secara gratis. selain itu, sudah ada kunci jawaban dan pembahasan soal.
 

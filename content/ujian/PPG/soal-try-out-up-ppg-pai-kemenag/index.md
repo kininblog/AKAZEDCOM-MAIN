@@ -32,7 +32,7 @@ difficulty: "Sulit"
 
 {{< ujian/PPG/up-kemenag >}}
 
-Ini adalah halaman ujian yang akan menjadi panduan komprehensif Anda dalam menghadapi Ujian Pengetahuan (UP) dalam program Pendidikan Profesi Guru (PPG) untuk bidang studi Pendidikan Agama Islam (PAI) yang diselenggarakan oleh Kementerian Agama. Menjadi guru PAI profesional bersertifikat adalah impian banyak pendidik, dan ujian ini adalah gerbang penentunya.
+Ini adalah halaman ujian yang akan menjadi panduan komprehensif Anda dalam menghadapi Ujian Pengetahuan (UP) dalam program *[Pendidikan Profesi Guru](/mengenal-apa-itu-ppg-guru/)* (PPG) untuk bidang studi Pendidikan Agama Islam (PAI) yang diselenggarakan oleh Kementerian Agama. Menjadi guru PAI profesional bersertifikat adalah impian banyak pendidik, dan ujian ini adalah gerbang penentunya.
 
 Artikel ini akan mengupas tuntas seluk-beluk seleksi, mulai dari pemahaman mendasar tentang ujian, materi yang diujikan, hingga strategi jitu untuk memastikan kelulusan Anda. Mari kita bedah bersama setiap tahapannya.
 
@@ -58,7 +58,7 @@ Persiapan tanpa latihan ibarat berperang tanpa simulasi. Mengikuti **[try out PP
 * **Adaptasi Format Soal:** Anda akan terbiasa dengan struktur dan tipe **soal UP PPG PAI** yang sering keluar, termasuk soal-soal berbasis studi kasus dan analisis.
 * **Manajemen Waktu:** Mengerjakan **[simulasi UP PPG](/categories/tryout-ppg/)** membantu Anda melatih kecepatan dan ketepatan dalam menjawab 120 soal dalam 180 menit. Anda bisa belajar mengalokasikan waktu secara efektif.
 * **Identifikasi Kelemahan:** Hasil try out akan menjadi cermin yang menunjukkan materi mana yang sudah Anda kuasai dan mana yang masih perlu pendalaman lebih lanjut.
-* **Meningkatkan Kepercayaan Diri:** Semakin sering berlatih dengan **latihan soal PPG PAI**, semakin siap mental Anda. Ini akan mengurangi tingkat kecemasan saat hari H ujian tiba.
+* **Meningkatkan Kepercayaan Diri:** Semakin sering berlatih dengan **[latihan soal PPG PAI](/ujian/ppg/soal-try-out-up-ppg-pai-kemenag/)**, semakin siap mental Anda. Ini akan mengurangi tingkat kecemasan saat hari H ujian tiba.
 
 ### Tips mengerjakan soal up ppg pai terbaru
 
@@ -102,7 +102,7 @@ Berdasarkan pola tahun-tahun sebelumnya, pendaftaran sering kali dibuka pada awa
 
 ### syarat mengikuti ppg kemenag
 
-Meskipun dapat sedikit bervariasi setiap tahunnya, **syarat pendaftaran PPG Kemenag** secara umum meliputi:
+Meskipun dapat sedikit bervariasi setiap tahunnya, **[syarat pendaftaran PPG Kemenag](/cara-daftar-ppg-prajab-2025/)** secara umum meliputi:
 
 * Guru aktif di lingkungan Kementerian Agama dan terdaftar di SIMPATIKA.
 * Memiliki kualifikasi akademik S-1/D-IV yang linear dengan bidang studi PAI.
