@@ -54,6 +54,8 @@ Kemampuan ini sangat relevan di dunia kerja BUMN yang menuntut karyawan untuk da
 
 ## **Tipe-Tipe Hubungan Kata dalam Soal Analogi**
 
+{{< ujian/read-also >}}
+
 Untuk bisa menjawab dengan cepat dan tepat, kenali berbagai jenis hubungan kata yang umum muncul:
 
 * **Antonim (Lawan Kata):** Hubungan perlawanan.

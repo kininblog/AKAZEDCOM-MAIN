@@ -48,6 +48,9 @@ Sebelum melangkah lebih jauh ke strategi dan latihan soal, sangat penting untuk 
 
 PPPK adalah Warga Negara Indonesia yang memenuhi syarat tertentu dan diangkat berdasarkan perjanjian kerja untuk jangka waktu tertentu dalam rangka melaksanakan tugas pemerintahan. Status ini diatur dalam **Undang-Undang No. 20 Tahun 2023 tentang Aparatur Sipil Negara**.
 
+{{< ujian/read-also >}}
+
+
 Meskipun sering disandingkan dengan PNS, PPPK memiliki karakteristiknya sendiri. Mereka adalah para profesional yang direkrut untuk mengisi jabatan-jabatan fungsional tertentu sesuai dengan kebutuhan instansi pemerintah.
 
 ### Perbedaan Mendasar PPPK dan PNS

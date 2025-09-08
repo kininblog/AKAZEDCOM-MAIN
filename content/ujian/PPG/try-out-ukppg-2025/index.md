@@ -36,6 +36,8 @@ Gak terasa jadwal ujian *[UKPPG guru](/mengenal-apa-itu-ppg-guru/)* tertentu per
 
 *[Akazed](/)* memberikan akses 30 Soal *[Try Out UKPPPG 2025](/ujian/ppg/try-out-ukppg-2025/)* dan Kunci Jawaban Uji Kompetensi Peserta PPG 2025 sebagai Bahan Latihan yang dapat dibuka secara gratis. selain itu, sudah ada kunci jawaban dan pembahasan soal.
 
+{{< ujian/read-also >}}
+
 Sistem *[try out online](/ujian/)* inipun disesuaikan seperti sistem CAT BKN dari segi tampilan, biar lebih terbiasa dengan dashboard ujian nantinya.
 
 ## Cara Akses 30 Soal Try Out UKPPPG 2025

@@ -65,6 +65,8 @@ Untuk bisa menaklukkan musuh, kita harus mengenalnya terlebih dahulu. Sesuai kis
     * **Ketidaksamaan (Perbedaan):** Menemukan satu gambar yang berbeda polanya dari yang lain.
     * **Serial (Irama Gambar):** Melanjutkan urutan gambar sesuai polanya.
 
+{{< ujian/read-also >}}
+
 ## Kenapa Harus Fokus Latihan Soal TIU Secara Terpisah?
 
 Mungkin Anda bertanya, "Mengapa tidak langsung *[tryout SKD](/ujian/cpns/tryout-cpns-gratis/)* lengkap saja?" ***[latihan soal cpns](/categories/tryout-cpns/)*** seperti Berlatih TIU secara spesifik memberikan keuntungan yang tidak didapatkan dari tryout gabungan:

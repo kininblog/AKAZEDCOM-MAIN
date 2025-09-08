@@ -43,6 +43,8 @@ Lulus **[Seleksi Kompetensi Dasar (SKD) CPNS](/ujian/cpns/try-out-skd-cpns-grati
 
 Untuk itulah, halaman ini menyediakan **[Tryout CAT Seleksi CPNS BKN](/ujian/cpns/tryout-cat-cpns-gratis/)** yang dirancang khusus untuk menyimulasikan pengalaman ujian yang sesungguhnya. Pahami sistemnya, latih kecepatan Anda, dan pastikan tidak ada kesalahan teknis yang merugikan di hari H.
 
+{{< ujian/read-also >}}
+
 ## Apa Itu Sistem CAT BKN Sebenarnya?
 
 Bagi yang pertama kali mengikuti, CAT BKN adalah sistem ujian berbasis komputer yang digunakan dalam rekrutmen CPNS. Sistem ini memiliki beberapa karakteristik utama:

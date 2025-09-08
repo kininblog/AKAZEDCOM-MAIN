@@ -47,6 +47,9 @@ Bagi kalian yang belum tahu, ***Tes Intelegensi Umum (TIU)*** adalah salah satu 
 Perlu diingat, TIU hanyalah salah satu bagian atau topik dalam *[try out cpns](/categories/tryout-cpns/)*, Selain *[try out tiu](/categories/tryout-tiu/)*, kamu juga harus mempelajari jenis soal dan prediksi soal cpns yang akan datang lainnya, seperti *[try out tkp cpns](/ujian/cpns/tryout-tkp-cpns/)*, dan lainnya.
 
 
+{{< ujian/read-also >}}
+
+
 ### Tujuan TIU:
 Beberapa tujuan ujian TIU adalah untuk 
 - Mengukur kemampuan kognitif peserta dalam berbagai aspek seperti kemampuan berpikir logis, kemampuan memecahkan masalah, kemampuan berhitung, dan kemampuan memahami pola gambar atau rangkaian kata. 

@@ -44,6 +44,7 @@ Artikel ini adalah panduan pilar Anda. Kami akan mengupas tuntas semua yang perl
 
 ## Apa Itu Tes Analogi
 Tes analogi adalah suatu jenis tes yang mengukur kemampuan seseorang dalam memahami hubungan antara dua konsep atau kata, kemudian menerapkan hubungan tersebut pada pasangan kata atau konsep lain yang serupa. Tes ini bertujuan untuk menguji daya nalar, kemampuan berpikir logis, dan pemahaman bahasa seseorang. 
+{{< ujian/read-also >}}
 
 ## Mengapa Soal Analogi Penting dan Sering Muncul di Tes BUMN?
 

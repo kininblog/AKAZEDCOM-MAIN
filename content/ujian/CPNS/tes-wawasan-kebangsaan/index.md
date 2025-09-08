@@ -55,6 +55,9 @@ difficulty: "Sulit"
 
 Menghadapi gerbang seleksi Calon Pegawai Negeri Sipil (CPNS) seringkali memunculkan satu tantangan besar yang dikenal sebagai **[Tes Wawasan Kebangsaan](/ujian/cpns/tes-wawasan-kebangsaan/) (TWK)**. Bagi banyak calon peserta, termasuk Anda para calon guru, sarjana pendidikan, dan pejuang CPNS lainnya, bagian ini bisa terasa menegangkan. Mungkin Anda bertanya-tanya, bagaimana cara terbaik menaklukkan **soal-soal wawasan kebangsaan** yang kini semakin menuntut penalaran? Jawabannya terletak pada satu strategi ampuh: **[try out TWK](/categories/tryout-twk/)**. Ini bukan sekadar ajang **latihan soal**, melainkan sebuah laboratorium pribadi untuk menguji, menganalisis, dan menyempurnakan persiapan Anda. Melalui panduan ini, kita akan mengupas tuntas seluk-beluk *[try out CPNS](/categories/tryout-cpns/)*, mengubahnya dari sekadar **ulangan try out** menjadi alat bantu paling strategis untuk memastikan nama Anda tercantum dalam daftar yang lulus. Mari kita mulai perjalanan ini bersama.
 
+{{< ujian/read-also >}}
+
+
 ## BAB 1: Fondasi Utama - Memahami Esensi Tes Wawasan Kebangsaan (TWK)
 
 Sebelum menyelam lebih dalam ke strategi try out soal, kita perlu menyamakan persepsi tentang medan perang yang akan kita hadapi: *Tes Wawasan Kebangsaan* itu sendiri.
@@ -139,6 +142,7 @@ Selain 4 pilar, materi ini juga sangat penting dan sering muncul dalam **soal so
 ### 2.3. Materi Penalaran dan Isu Terkini
 
 Ini adalah level tertinggi dari **wawasan kebangsaan tes**. Anda harus mampu mengaitkan isu-isu yang sedang hangat dibicarakan (misalnya, pemindahan ibu kota, kebijakan ekonomi, UU Cipta Kerja, peran Indonesia di G20) dengan nilai-nilai fundamental yang telah Anda pelajari di atas. Cara terbaik melatihnya adalah dengan rajin membaca berita dari sumber kredibel dan mencoba menganalisisnya dari kacamata seorang abdi negara.
+
 
 ## BAB 3: Strategi Eksekusi Try Out TWK (The How-To Guide)
 

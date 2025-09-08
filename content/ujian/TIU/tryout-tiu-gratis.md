@@ -72,6 +72,8 @@ Kemampuan Penalaran: Berpikir logis, pemecahan masalah, dan penalaran analitis.
 
 >Jadi, jika Anda akan mengikuti tes CPNS, penting untuk memahami apa itu TIU dan mempersiapkan diri untuk menghadapi berbagai jenis soal yang diujikan dalam tes ini, seperti soal analogi, silogisme, deret angka, dan lain-lain. 
 
+{{< ujian/read-also >}}
+
 ### Mengapa Ikut Try Out TIU Adalah Keharusan, Bukan Pilihan?
 
 Banyak calon peserta yang meremehkan kekuatan dari sebuah simulasi. Mereka berpikir cukup dengan belajar materi saja. Padahal, **[try out tiu](/categories/tryout-tiu/)** menawarkan keuntungan strategis yang tidak bisa didapatkan dari sekadar membaca buku.

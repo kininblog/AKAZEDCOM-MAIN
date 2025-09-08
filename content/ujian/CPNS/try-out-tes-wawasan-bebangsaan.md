@@ -74,6 +74,8 @@ TWK singkatan dari **Tes Wawasan Kebangsaan**, yaitu salah satu jenis tes dalam 
 - Passing Grade: Pada *[try out SKD CPNS](/ujian/cpns/try-out-skd-cpns-gratis/)*, passing grade untuk TWK adalah 65. Peserta harus benar minimal 13 soal (setara dengan 65 poin) untuk dinyatakan lulus. 
 - TWK dalam Seleksi BUMN: Tes TWK juga diterapkan dalam seleksi penerimaan karyawan di Badan Usaha Milik Negara (BUMN). Materi TWK BUMN mencakup pemahaman tentang Pancasila, UUD 1945, Bhinneka Tunggal Ika, dan Negara Kesatuan Republik Indonesia. 
 
+{{< ujian/read-also >}}
+
 ## Try Out TWK Online di Akazed Ujian
 *Akazed Ujian* mengadakan try out online materi TWK CPNS yang dapat diakses oleh semua orang, *[try out gratis](/link-tryout-ppg-gratis/)* diharapkan dapat membantu semua orang yang sedang berlatih soal CPNS khususnya materi dan topik seputar TWK (Tes Wawasan Kebangsaan).
 

@@ -70,6 +70,8 @@ Sebagai calon guru SD, Anda dituntut memiliki pemahaman yang holistik. Tryout me
 * **Manajemen Waktu yang Efektif:** Dengan tiga materi berbeda dalam satu ujian, alokasi waktu menjadi sangat penting. Simulasi membantu Anda menyusun strategi agar semua soal terjawab.
 * **Identifikasi Materi Lemah:** Mungkin Anda kuat di penguasaan konten, tetapi lemah di tes literasi. Tryout akan menunjukkan dengan jelas di mana Anda perlu belajar lebih giat.
 
+{{< ujian/read-also >}}
+
 ## Strategi Menghadapi Seleksi PPG Prajabatan PGSD
 
 * **Review Materi Kuliah:** Buka kembali catatan dan buku-buku inti dari masa kuliah S1 PGSD Anda.

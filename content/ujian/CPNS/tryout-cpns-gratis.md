@@ -47,6 +47,8 @@ Pendaftaran *[Seleksi CPNS](/categories/tryout-cpns/)* 2025 semakin dekat! Persa
 
 Halaman ini bukan hanya artikel, tapi ini adalah sesi latihan Anda. Di sini Anda bisa langsung mengerjakan soal-soal *[simulasi SKD](/ujian/cpns/try-out-skd-cpns-gratis/)* yang dirancang semirip mungkin dengan *[ujian CAT BKN](/ujian/)* yang sebenarnya. Jangan lewatkan kesempatan emas ini untuk mengukur kemampuan awal Anda.
 
+{{< ujian/read-also >}}
+
 ## Mengapa Tryout CPNS Begitu Penting?
 
 Banyak pejuang CPNS yang gagal bukan karena tidak pintar, tetapi karena kurang persiapan dan tidak terbiasa dengan format ujian. Inilah mengapa **[simulasi CAT CPNS gratis](/ujian/cpns/tryout-cat-cpns-gratis/)** sangat krusial:

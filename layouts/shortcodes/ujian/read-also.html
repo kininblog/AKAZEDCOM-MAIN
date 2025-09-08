@@ -1,0 +1,167 @@
+{{/*
+================================================================================
+| Partial Template: also-read.html
+| Deskripsi: Menampilkan hingga 4 postingan terkait berdasarkan kategori.
+| Cara Penggunaan: Panggil di template single.html dengan {{ partial "also-read.html" . }}
+================================================================================
+*/}}
+
+{{/* Mencari 4 halaman terkait teratas.
+    Logika ini mengandalkan konfigurasi 'related' di config Hugo Anda.
+    Hugo akan mencocokkan berdasarkan taksonomi seperti 'tags' atau 'categories'.
+    Menggunakan .Page untuk mendapatkan konteks halaman saat dipanggil dari shortcode.
+*/}}
+{{ $related := first 4 (.Site.RegularPages.Related .Page) }}
+
+{{/* Hanya tampilkan seksi ini jika ada halaman terkait yang ditemukan */}}
+{{ with $related }}
+<style>
+    /* Kontainer utama untuk seluruh komponen */
+    .unique-also-read-wrapper {
+        background-color: #faf7f5;
+        width: 100%;
+        padding: 24px;
+        margin: 48px auto; /* Memberi jarak atas dan bawah */
+    }
+
+    /* Judul "Also read" */
+    .unique-section-title {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+        color: #111827;
+        margin: 0;
+        padding-bottom: 16px;
+    }
+
+    /* Grid untuk menampung artikel */
+    .unique-article-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px 32px;
+    }
+
+    /* Setiap item artikel dalam grid */
+    .unique-article-item {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding-bottom: 24px;
+        border-bottom: 1px dashed #d1d5db;
+    }
+    
+    /* Menghilangkan garis bawah untuk dua item terakhir di tampilan desktop */
+    .unique-article-item:nth-last-child(-n+2) {
+       border-bottom: none;
+       padding-bottom: 0;
+    }
+
+
+    /* Kontainer untuk teks (judul dan tanggal) */
+    .unique-article-text-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Judul artikel (sebagai H2) */
+    h2.unique-article-heading {
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1.4;
+        margin: 0 0 8px 0;
+    }
+
+    /* Tautan di dalam judul artikel */
+    h2.unique-article-heading a {
+        text-decoration: none;
+        color: #111827;
+        transition: color 0.2s ease-in-out;
+    }
+
+    h2.unique-article-heading a:hover {
+        color: #3b82f6;
+    }
+
+    /* Tanggal publikasi artikel */
+    .unique-article-publish-date {
+        font-size: 12px;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-top: auto; /* Mendorong tanggal ke bawah */
+    }
+
+    /* Gambar thumbnail artikel */
+    .unique-article-thumbnail {
+        width: 100px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 4px;
+        flex-shrink: 0;
+    }
+
+    /* Aturan untuk layar yang lebih kecil (mobile) */
+    @media (max-width: 768px) {
+        .unique-article-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        /* Pada mobile, hanya item terakhir yang tidak punya garis bawah */
+        .unique-article-item:nth-last-child(-n+2) {
+            border-bottom: 1px dashed #d1d5db;
+            padding-bottom: 24px;
+        }
+
+        .unique-article-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+    }
+</style>
+
+<div class="unique-also-read-wrapper">
+    <div class="unique-section-title">Ikuti Try Out Lainnya</div>
+    <div class="unique-article-grid">
+        {{/* Looping melalui setiap artikel yang terkait */}}
+        {{ range . }}
+            {{ $relatedPage := . }} {{/* Simpan konteks halaman saat ini ke dalam variabel */}}
+            <div class="unique-article-item">
+                <div class="unique-article-text-content">
+                    <h2 class="unique-article-heading">
+                        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                    </h2>
+                    <div class="unique-article-publish-date">{{ .Date.Format "Jan 2, 2006" }}</div>
+                </div>
+
+                {{/* Logika yang diperbarui untuk menemukan dan memproses gambar */}}
+                {{ with .Params.image }}
+                    {{ $imagePath := . }}
+                    {{ $image := "" }}
+
+                    {{/* Langkah 1: Coba temukan gambar sebagai Page Resource menggunakan variabel $relatedPage */}}
+                    {{ $image = $relatedPage.Resources.GetMatch $imagePath }}
+
+                    {{/* Langkah 2: Jika tidak ketemu, coba temukan sebagai global resource (dari folder /assets) */}}
+                    {{ if not $image }}
+                        {{ $image = resources.Get $imagePath }}
+                    {{ end }}
+
+                    {{ if $image }}
+                        {{/* SUKSES: Gambar ditemukan sebagai resource, kita proses untuk thumbnail */}}
+                        {{ $thumb := $image.Fill "100x80" }}
+                        <img src="{{ $thumb.RelPermalink }}" alt="Thumbnail untuk {{ $.Page.Title }}" class="unique-article-thumbnail">
+                    {{ else }}
+                        {{/* GAGAL: Gambar bukan resource. Asumsikan ini adalah path dari /static. */}}
+                        <img src="{{ $imagePath | absURL }}" alt="Thumbnail untuk {{ $.Page.Title }}" class="unique-article-thumbnail" onerror="this.onerror=null;this.src='https://placehold.co/100x80/eeeeee/999999?text=Not+Found';">
+                    {{ end }}
+                {{ else }}
+                    {{/* Fallback jika parameter 'image' tidak ada di front matter */}}
+                    <img src="https://placehold.co/100x80/faf7f5/999999?text=No+Image" alt="Tidak ada gambar" class="unique-article-thumbnail">
+                {{ end }}
+            </div>
+        {{ end }}
+    </div>
+</div>
+{{ end }}
+

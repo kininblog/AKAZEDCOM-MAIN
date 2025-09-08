@@ -56,6 +56,8 @@ Materi TWK dalam seleksi CPNS umumnya mencakup beberapa aspek penting:
 **Integritas:** Menjunjung tinggi kejujuran dan konsistensi.
 **Bahasa Indonesia:** Fungsi bahasa Indonesia sebagai alat komunikasi dan pemersatu.
 
+{{< ujian/read-also >}}
+
 ## Pentingnya TWK
 TWK merupakan salah satu dari tiga tes dalam SKD, bersama dengan Tes Intelegensia Umum (TIU) dan Tes Karakteristik Pribadi (TKP), yang wajib diikuti untuk lolos seleksi CPNS. 
 

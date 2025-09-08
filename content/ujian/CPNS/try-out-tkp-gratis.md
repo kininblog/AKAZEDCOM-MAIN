@@ -41,6 +41,7 @@ jumlah: 45
 Persiapan menghadapi Seleksi Kompetensi Dasar (SKD) Calon Pegawai Negeri Sipil (CPNS) adalah kunci utama untuk meraih impian menjadi seorang Aparatur Sipil Negara (ASN). Di antara ketiga *[materi SKD](/ujian/cpns/tryout-cpns-gratis/)* – *[Tes Wawasan Kebangsaan](/ujian/cpns/tes-wawasan-kebangsaan/)* (TWK), Tes Intelegensia Umum (TIU), dan Tes Karakteristik Pribadi (TKP) – TKP seringkali menjadi bagian yang paling unik dan menantang. Mengapa demikian? Karena TKP tidak hanya menguji pengetahuan, melainkan juga menilai seberapa sesuai karakter dan perilaku Anda dengan nilai-nilai dasar ASN.
 
 Inilah mengapa mengikuti **[try out TKP CPNS](/ujian/cpns/try-out-tkp-gratis/)** menjadi langkah yang sangat krusial dalam strategi persiapan Anda. Try out bukan sekadar latihan mengerjakan soal, melainkan simulasi lengkap yang akan membiasakan Anda dengan atmosfer *[ujian](/ujian/)* sesungguhnya, melatih manajemen waktu, dan membantu Anda memahami pola penilaian TKP yang berbeda.
+{{< ujian/read-also >}}
 
 ### Apa itu Try Out TKP CPNS dan Mengapa Penting?
 

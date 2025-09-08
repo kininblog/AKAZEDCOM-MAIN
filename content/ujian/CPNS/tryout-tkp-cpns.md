@@ -51,6 +51,8 @@ Kunci utamanya adalah: **Posisikan diri Anda sebagai ASN profesional yang soluti
 
 > Selain mempersiapkan *[soal-soal TKP](/ujian/cpns/try-out-tkp-gratis/)*, kamu juga harus mempersiapkan diri dengan latihan *[soal SKD CPNS](/ujian/cpns/try-out-skd-cpns-gratis/)* agar persiapan lebih matang
 
+{{< ujian/read-also >}}
+
 ## Aspek-Aspek Kunci yang Diuji dalam TKP
 
 Untuk bisa memilih jawaban dengan skor 5, Anda harus memahami dimensi apa saja yang sedang diukur. Berdasarkan kisi-kisi terbaru, berikut adalah beberapa aspek utama dalam penilaian TKP:

@@ -66,6 +66,8 @@ Topik yang diangkat sangat beragam, mulai dari:
 * Menerapkan prinsip Kurikulum Merdeka.
 * Memilih media pembelajaran yang efektif.
 
+{{< ujian/read-also >}}
+
 Kunci untuk menjawabnya adalah dengan menempatkan diri Anda sebagai guru dalam skenario tersebut dan selalu berpegang pada prinsip pembelajaran yang berpusat pada anak (*child-centered*).
 
 ### Contoh Soal Tryout PPG PAUD dan Pembahasannya

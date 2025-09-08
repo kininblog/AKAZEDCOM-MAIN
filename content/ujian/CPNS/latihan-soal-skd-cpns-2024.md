@@ -69,6 +69,8 @@ Berikut adalah rinciannya sesuai **kisi-kisi SKD CPNS terbaru**:
     * **Tujuan:** Menilai karakter Anda dalam berbagai situasi kerja. Aspek yang diuji antara lain pelayanan publik, profesionalisme, jejaring kerja, sosial budaya, TIK, dan yang terbaru adalah **[soal TKP anti radikalisme](/ujian/cpns/try-out-tkp-gratis/)**.
     * **Tantangan:** Tidak ada jawaban benar atau salah, yang ada hanyalah skor (1-5). Anda harus memilih jawaban yang paling ideal dan mencerminkan karakter seorang ASN profesional.
 
+{{< ujian/read-also >}}
+
 ## Latihan Soal SKD CPNS Pilihan & Pembahasannya
 
 Teori saja tidak cukup. Mari langsung praktik dengan beberapa soal pilihan dari **bank [soal SKD CPNS](/ujian/cpns/tryout-cpns-gratis/)** kami.

@@ -69,6 +69,9 @@ Saat berhadapan langsung dengan *[soal ujian](/ujian/)*, diperlukan strategi yan
 3.  **Dahulukan yang Mudah:** Jangan terpaku terlalu lama pada satu soal yang sulit. Kerjakan soal-soal yang Anda anggap mudah terlebih dahulu untuk mengamankan poin dan membangun momentum.
 4.  **Perhatikan Alokasi Waktu:** Secara kasar, Anda memiliki waktu 1.5 menit untuk setiap soal. Jika sebuah soal memakan waktu lebih dari 2 menit, tandai dan lanjutkan ke soal berikutnya.
 
+{{< ujian/read-also >}}
+
+
 ### tips lolos ujian pendidikan profesi guru pai
 
 Kelulusan tidak datang dari kebetulan, melainkan dari persiapan yang matang dan terstruktur. Berikut adalah beberapa **tips lolos UP PPG** yang bisa Anda terapkan:

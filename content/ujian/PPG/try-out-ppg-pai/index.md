@@ -42,6 +42,9 @@ Soal Try Out *[PPG](/mengenal-apa-itu-ppg-guru/)* PAI 2025 ini ditulis dan dised
 
 Ada juga soal-soal dari Try out ppg pai 2022 yang membuat tipe soal yang jauh lebih beragam dan tentu saja lebih banyak.
 
+{{< ujian/read-also >}}
+
+
 PPG Kemenag 2025, memang menjadi salah satu tujuan utama bagi guru-guru agama khususnya dibawah lingkungan kemenag, kita sama-sama menunggu dan berusaha dengan ikhtiar yang sungguh-sungguh.
 
 ![kapan jadwal ppg prajab daljab kemenag](images/ppg-kemenag.webp)
