@@ -36,6 +36,7 @@ Sebagai tambahan, untuk meningkatkan visibilitas website kamu di mesin pencari d
 1. **Indexing Cepat:** Konten Anda berpotensi muncul di hasil pencarian dalam hitungan menit atau jam setelah dipublikasikan.
 2. **Menghemat Crawl Budget:** Mesin pencari (*search engine)* tidak perlu lagi merayapi seluruh situs Anda untuk mencari perubahan.
 3. **Peningkatan SEO Teknis:** Banyak tools SEO seperti All In One SEO Pack, Yoast SEO dan sebagainya sudah menyediakan fitur otomatis ini. Adalah pilihan bagus untuk menggunakannya.
+{{< ujian/read-also >}}
 
 ## Bagaimana Cara Kerja IndexNow Hugo?
 Prosesnya sangat sederhana namun efisien:

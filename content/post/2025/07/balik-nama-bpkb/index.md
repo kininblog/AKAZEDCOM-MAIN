@@ -28,6 +28,7 @@ Beberapa hal yang saya bawa sebagai amunisi ke sini antara lain
 2. STNK motor asli
 3. KTP (foto copy)
 4. Kwitansi jual beli
+{{< ujian/read-also >}}
 
 ### Cerita Unik Syarat Balik Nama Motor yang Saya Bawa
 1. **BPKB dan STNK asli**, untungnya saya masih menyimpan BPKB dan STNK kendaraan ini, walau udah agar robek, tapi ini adalah syarat utama. Jadi ga bisa kalau ga bawa

@@ -31,6 +31,7 @@ Sertifikat Hasil TKA (SHTKA) yang akan diperoleh siswa setelah mengikuti tes mem
 * **Keunggulan di Jalur Mandiri:** Banyak Perguruan Tinggi Negeri (PTN) dan Perguruan Tinggi Swasta (PTS) yang menjadikan skor TKA sebagai salah satu komponen penting dalam penilaian di jalur seleksi mandiri.
 * **Peta Kompetensi Diri:** Hasil tes memberikan gambaran yang akurat mengenai kekuatan akademik siswa, membantu dalam menentukan pilihan jurusan kuliah yang paling sesuai.
 * **Syarat Jalur Prestasi:** Sertifikat TKA juga dapat dilampirkan saat mendaftar Penerimaan Peserta Didik Baru (PPDB) untuk jenjang selanjutnya melalui jalur prestasi, sesuai kebijakan daerah.
+{{< ujian/read-also >}}
 
 ## Jadwal Resmi dan Tahapan Penting TKA SMA 2025
 

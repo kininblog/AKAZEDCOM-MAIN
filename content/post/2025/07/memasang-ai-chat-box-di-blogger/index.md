@@ -27,6 +27,7 @@ Selamat datang di dunia super cepat, di mana kecepatan informasi diutamakan. Seb
 ## Pengenalan Chat AI Box untuk Blogger
 ### Apa Itu AI Chat Box? (Bukan Sekadar Live Chat Biasa)
 Mungkin kamu sudah familiar dengan fitur *live chat blog*, di mana kamu harus online untuk membalas pesan. Nah, ***AI Chat box*** atau ***chatbot blogger*** adalah versi yang lebih canggih dari live chat blog tadi. 
+{{< ujian/read-also >}}
 
 Dengan memanfaatkan teknologi Artificial Intelegency (AI) yang super canggih, seperti Gemini AI ataupun Chat GPT membuat chatbot lebih powerfull. Sebagai seorang blogger, *memasang ai chat bot* di artikel meningkatkan pengalaman pengguna secara signifikan, yap salah satu fitur nya kita bisa membuat AI untuk membantu meringkas artikel yang sedang dibaca. Jadi pengguna ga perlu lagi membaca artikel panjangnya sampai seributa kata lebih.
 

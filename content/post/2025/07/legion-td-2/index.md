@@ -32,6 +32,7 @@ Tidak seperti *[game tower defense](/categories/games/)* pada umumnya, Legion TD
 1. **Mode Permainan Beragam:** Dapat dimainkan sendiri (single-player), kooperatif (co-op), hingga pertarungan tim 2v2 dan 4v4 yang intens.
 2. **Kombinasi Tanpa Batas:** Pilih dari berbagai faksi dan lebih dari 100 jenis unit petarung untuk menciptakan formasi pertahanan dan serangan yang unik di setiap permainan.
 3. **Komunitas Aktif:** Game ini memiliki basis pemain yang kuat dan terus mendapatkan pembaruan rutin, memastikan permainan tetap seimbang dan menarik.
+{{< ujian/read-also >}}
 
 ### *System Requirements*
 Permainan *tower defense* ini tidak terlalu membutuhkan perangkat gratifis yang berat, Adapaun untuk spesifikasi minimum untuk dapat memainkan game ini adalah sebagai berikut:

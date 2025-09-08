@@ -32,6 +32,7 @@ Keberhasilan tim Tiongkok bukanlah keajaiban sesaat, melainkan puncak dari riset
 
 ### **Sang Resipien: Etika dan Sains dalam Tubuh yang Telah Tiada**
 Prosedur ini dilakukan pada pasien yang mengalami cedera otak parah dan telah dinyatakan mati batang otak. Secara medis dan hukum, pasien tersebut telah meninggal dunia. Namun, dengan izin penuh dari keluarga, fungsi tubuhnya dipertahankan oleh mesin ventilator untuk tujuan penelitian. Model ini dianggap sebagai langkah etis yang krusial sebelum melakukan uji coba pada pasien hidup, memungkinkan para ilmuwan untuk mempelajari respons biologis secara langsung tanpa membahayakan nyawa.
+{{< ujian/read-also >}}
 
 ### **Donor Spesial: Babi yang Direkayasa Secara Genetika**
 Kunci utama dari keberhasilan ini terletak pada donornya: seekor babi yang bukan babi biasa. Menggunakan *[teknologi](/categories/tech/)* penyuntingan gen presisi tinggi seperti CRISPR-Cas9, para ilmuwan melakukan beberapa modifikasi genetika krusial:

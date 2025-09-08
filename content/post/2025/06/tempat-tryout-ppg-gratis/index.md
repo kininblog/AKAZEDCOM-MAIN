@@ -34,6 +34,7 @@ Saat ini pendaftaran *[Pendidikan Profesi Guru](/mengenal-apa-itu-ppg-guru/)* at
 >Gimana, penasaran link tryout ppg prajab daljab gratinya di mana? Kamu bisa akses di *[https://akazed.com/ujian/](https://akazed.com/ujian/)*
 
 Akazed Ujian berisikan simulasi CAT dan tryout soal PPG, serta prediksi soal PPG. dan akan selalu update berdasarkan kebutuhan dan saran dari pengguna. Sehingga menjadi salah satu situs *[try out online](/ujian/)* populer saat ini.
+{{< ujian/read-also >}}
 
 ### Fitur Ujian Tryout PPG  dan Materi
 

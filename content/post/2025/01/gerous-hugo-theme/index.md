@@ -61,6 +61,8 @@ Beberapa fitur utama template hugo terbaik ini seperti;
 | Font Awesome icons            | ✔           |
 | Free Google fonts             | ✔           |
 
+{{< ujian/read-also >}}
+
 
 ### *Gerous* Theme Details
 | **Kategori**      | **Deskripsi**                                                                                      |

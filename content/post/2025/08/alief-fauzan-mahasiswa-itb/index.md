@@ -36,6 +36,7 @@ Dedikasi dan kerja keras Alief di bidang akademik dan non-akademik membuahkan ha
 Kesempatan Alief untuk magang di Taiwan terbuka melalui Taiwan Experience Education Program (TEEP), sebuah program yang digagas oleh Kementerian Pendidikan Taiwan sejak tahun 2015. Program ini dirancang untuk memberikan pengalaman profesional dan riset bagi para pemuda internasional berprestasi, sekaligus memperkenalkan mereka pada pasar kerja di Asia.
 
 Alief tidak berangkat sendiri. Ia bersama lima mahasiswa ITB lainnya berhasil lolos seleksi ketat program ini. Mereka adalah James Patrick, Justin Aprio Chan, dan Rafi Ananta Alden dari Teknik Elektro 2022, serta Nadya Saski dan Rossi Putri dari Teknik Telekomunikasi 2022. Keberangkatan mereka menunjukkan kualitas mahasiswa ITB yang mampu bersaing di tingkat internasional.
+{{< ujian/read-also >}}
 
 ## Mendalami Teknologi 5G O-RAN di GoMore
 

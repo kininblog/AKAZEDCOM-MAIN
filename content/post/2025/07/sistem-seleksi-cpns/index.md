@@ -30,6 +30,7 @@ Kepala BKN, **Prof. Zudan Arif Fakrulloh**, mengungkapkan bahwa sistem seleksi s
 ## 7 Perubahan Kunci dalam Sistem Seleksi CPNS 2025 yang Wajib Anda Pahami
 
 Sistem rekrutmen Aparatur Sipil Negara (ASN) tahun anggaran 2025/2026 ini membawa* perubahan CPNS yang signifikan*. Prof. Zudan Arif Fakrulloh menjelaskan bahwa perubahan ini bertujuan untuk menciptakan seleksi yang lebih adil dan proporsional. Berikut adalah poin-poin pentingnya:
+{{< ujian/read-also >}}
 
 1. ***Ujian CPNS Tidak Lagi Digelar Serempak Nasional*** Lupakan jadwal ujian serentak nasional yang seringkali menimbulkan stres bagi jutaan peserta. Salah satu perubahan besar CPNS 2025 adalah jadwal ujian kini bisa berbeda-beda antar daerah atau instansi. Sistem ini dirancang untuk lebih fleksibel dan efisien, serta untuk menghemat anggaran. Ini berarti Anda harus lebih proaktif dalam memantau jadwal masing-masing instansi yang Anda incar agar tidak ketinggalan informasi.
 2. ***AI dan Big Data Ambil Alih Proses Seleksi***, Menjamin Transparansi Sistem seleksi CPNS 2025 terbaru akan sangat mengandalkan teknologi canggih seperti Artificial Intelligence (AI) dan Big Data. Mulai dari proses verifikasi data pelamar hingga analisis hasil ujian, semuanya akan diawasi secara ketat oleh teknologi. Ini berarti tidak akan ada lagi celah untuk "orang dalam" atau praktik manipulasi. Semua data diolah secara real-time, transparan, dan terintegrasi, menjadikan proses seleksi lebih objektif dan bebas manipulasi. Ini adalah langkah besar menuju proses rekrutmen ASN yang benar-benar bersih dan adil.

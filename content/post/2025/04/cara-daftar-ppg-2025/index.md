@@ -43,6 +43,7 @@ Pendaftaran PPG Prajabatan 2025 dilakukan secara daring (*online*) melalui situs
 7.  **Submit pendaftaran.** Periksa kembali seluruh data dan berkas yang diunggah. Tanda tangani pakta integritas secara elektronik jika diminta, lalu klik **Submit** untuk menyelesaikan pendaftaran.
 8.  **Pembayaran biaya seleksi.** Setelah pengajuan pendaftaran Anda lulus seleksi administrasi, lakukan pembayaran biaya seleksi sekitar **Rp300.000**. Bukti pembayaran biasanya diunggah atau diverifikasi oleh panitia.
 9.  **Persiapan tes lanjutan.** Jika lolos administrasi, Anda akan dijadwalkan **tes substantif** (ujian materi) dan **wawancara**. Pastikan mempersiapkan diri untuk mengikuti ujian dan wawancara sesuai jadwal yang diumumkan.
+{{< ujian/read-also >}}
 
 Setelah semua proses di atas selesai, Anda akan dinyatakan sebagai Mahasiswa **[PPG Prajabatan](/categories/ppg/)** dan dapat mengikuti perkuliahan di LPTK (Lembaga Pendidikan Tenaga Kependidikan) penyelenggara sesuai bidang studi.
 

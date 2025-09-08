@@ -21,6 +21,7 @@ Inisiatif yang terdengar sederhana ini sejatinya adalah sebuah respons cerdas te
 ## **Di Balik Gagasan: Menjawab Keresahan Finansial Mahasiswa**
 
 Gerakan wakaf uang ini lahir dari pemahaman mendalam atas realitas yang dihadapi mahasiswa. Banyak calon intelektual bangsa yang terpaksa berjuang keras, bahkan terancam putus kuliah, bukan karena kurangnya kapasitas akademik, melainkan karena kendala ekonomi yang datang tiba-tiba. Musibah seperti orang tua yang meninggal dunia, terkena PHK, atau kebangkrutan usaha menjadi pukulan telak yang dapat memupus mimpi mereka.
+{{< ujian/read-also >}}
 
 "Bantuan dari pemerintah dan beasiswa konvensional memang ada, namun seringkali bersifat terbatas, birokratis, dan tidak selalu dapat merespons kebutuhan darurat dengan cepat," ungkap seorang pejabat universitas. "Kita perlu membangun sebuah 'jaring pengaman finansial' internal yang fleksibel, berkelanjutan, dan dimiliki oleh seluruh sivitas akademika. Wakaf adalah instrumen yang paling tepat untuk tujuan ini karena sifatnya yang abadi."
 

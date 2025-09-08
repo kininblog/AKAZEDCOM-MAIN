@@ -64,6 +64,7 @@ Akazedblog/
                     └── index.md
 ```
 
+{{< ujian/read-also >}}
 
 ## Isi Pembahasan Blog Akazed Apa Saja Sih?
 **[Akazed](/)** ini akan dijadikan blog utama saya kedepannya, dan tentunya akan diisi dengan berbagai macam konten. Baik itu **[Blogger](/categories/blogger/)**, SEO, perkembangan teknologi, berita bisnis bahkan dunia pendidikan.

@@ -33,6 +33,7 @@ Jadi, apa sebenarnya **Pendidikan Profesi Guru** itu? Gampangnya, PPG adalah pro
 Bayangkan begini: kalau kamu mau jadi dokter, setelah lulus kedokteran, kamu perlu ikut koas dan program residensi, kan? Nah, PPG ini semacam "koasnya" para calon guru. Ini bukan cuma sekadar nambah gelar, tapi lebih ke mempersiapkan kamu secara matang untuk menghadapi dunia nyata di kelas. Di PPG, kamu akan diasah berbagai **kompetensi guru** yang dibutuhkan, mulai dari pedagogik (cara mengajar), profesional (penguasaan materi pelajaran), sosial (interaksi dengan siswa dan lingkungan), sampai kepribadian (sikap dan etika sebagai guru).
 
 Intinya, **[PPG Guru](/categories/ppg/)** ini adalah jembatan yang menghubungkan antara pengetahuan teoritis yang kamu dapat di bangku kuliah dengan praktik mengajar yang sesungguhnya. Program ini dirancang untuk memastikan bahwa setiap lulusan PPG punya standar kualifikasi yang tinggi dan siap menjadi pendidik yang inspiratif.
+{{< ujian/read-also >}}
 
 
 ## Kenapa PPG Penting? Menguak Tujuan Mulia di Baliknya

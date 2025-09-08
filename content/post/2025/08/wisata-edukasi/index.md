@@ -32,6 +32,7 @@ Mulai dari fisika, kimia, hingga *[teknologi](/)*. Tempat wisata ini menggabungk
 Tempat ini sangat cocok untuk dikunjungi bersama keluarga karena memiliki fasilitas lengkap dan ramah anak. 
 
 Yang paling menarik dari destinasi wisata di Jogja ini adalah tersedianya area bermain, teater 4D, dan ruang pameran tematik yang terus diperbarui. 
+{{< ujian/read-also >}}
 
 ### 2. Museum Nasional di Jakarta
 Museum Nasional Indonesia di Jakarta merupakan tempat wisata edukasi yang wajib Anda kunjungi. Tempat wisata ini menyuguhkan informasi lengkap tentang sejarah dan budaya Nusantara secara mendalam. 

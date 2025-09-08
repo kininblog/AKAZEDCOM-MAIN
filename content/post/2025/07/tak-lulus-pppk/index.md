@@ -28,6 +28,7 @@ Aksi penggembokan ini diduga kuat dilakukan oleh Yulisman, penjaga sekolah setem
 Aksi nekat yang dimulai sejak Kamis, 24 Juli 2025 ini sontak mengganggu aktivitas belajar 140 siswa. Ironisnya, sekolah tersebut berdiri di atas tanah yang dihibahkan oleh pihak keluarga Yulisman. Fakta inilah yang diyakini memperdalam luka kekecewaan sang penjaga sekolah, yang merasa pengabdian dan kontribusi keluarganya tidak menjadi pertimbangan.
 
 Meskipun dihadapkan pada situasi sulit, semangat para guru tidak surut. Mereka tetap memberikan materi pelajaran kepada para siswa di ruang terbuka dengan segala keterbatasan yang ada, beralaskan lantai teras sebagai pengganti kursi dan meja.
+{{< ujian/read-also >}}
 
 ### **Suara Hati Orang Tua Murid**
 

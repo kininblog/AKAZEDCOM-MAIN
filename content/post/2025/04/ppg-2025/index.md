@@ -52,6 +52,8 @@ Berikut ini perkiraan alur seleksi PPG Prajabatan berdasarkan jadwal tahun lalu:
 - **Lapor Diri di LPTK**: ditentukan tempat studi di LPTK penyelenggara, lapor diri sesuai jadwal.
 - **Orientasi dan Awal Perkuliahan**: orientasi mahasiswa baru dan perkuliahan PPG selama satu semester.
 
+{{< ujian/read-also >}}
+
 *Catatan: Jadwal di atas hanya ilustrasi. Jadwal resmi PPG Prajabatan 2025 akan diumumkan Kemendikbudristek melalui situs resmi PPG dan Dapodik.* ### Persyaratan Peserta PPG Prajabatan 2025
 
 Sebelum mendaftar PPG Prajabatan, pastikan Anda memenuhi **syarat utama** berikut (mengacu pada pengumuman Kemendikbudristek): 

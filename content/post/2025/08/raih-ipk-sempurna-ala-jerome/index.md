@@ -19,6 +19,7 @@ tags:
 Lulus dari program studi Matematika Terapan di salah satu universitas paling prestisius di Jepang, Waseda University, dengan IPK yang nyaris menyentuh angka 4.0, Jerome melakukannya sambil merintis dan membesarkan kanal YouTube "*Nihongo Mantappu*" yang kini memiliki puluhan juta pelanggan. Keberhasilannya bukanlah keajaiban atau keberuntungan semata. Di baliknya, terdapat serangkaian prinsip, strategi, dan etos kerja yang disiplin yang bisa menjadi cetak biru bagi mahasiswa mana pun yang ingin mengoptimalkan potensi mereka.
 
 Berikut adalah analisis mendalam dari tips-tips yang sering dibagikan oleh Jerome, diuraikan menjadi sebuah panduan strategis yang bisa Anda terapkan.
+{{< ujian/read-also >}}
 
 ### **1. Fondasi Utama: Tetapkan Tujuan dan Bangun 'Growth Mindset'**
 

@@ -37,6 +37,7 @@ Per bulan Mei 2025 di daerah Pasaman Barat, harga nilam 1 kg nya berkisar antara
 
 >Harga nilam saat ini sudah turun cukup banyak dari bulan-bulan sebelumnya yang bisa mencapai 2 juta rupiah per kg. Cukup untuk membantu *[ekonomi](/categories/ekonomi/)* keluarga
 
+{{< ujian/read-also >}}
 
 ## Rencana Tanaman Kebun Lain Pengganti Nilam
 Setelah kebun nilam ini, kami berencana untuk menggantinya dengan tanaman jagung. Namun, dibeberapa lokasi kebun saat ini masih ditanami nilam usia 2 bulan-an butuh sekitar 3 bulan paling lama untuk kembali panen.

@@ -58,6 +58,7 @@ the list pages h1 is the frontmatter title property<br/>
 I tried to modified the template files, but I always fall into Issue 1 or 2...<br/>
 Thanks for your additional help. 
 — <cite>JeremieLitzler[^2]</cite>
+{{< ujian/read-also >}}
 
 [^2]: *[SEO - h1 must be unique on all and across pages #869](/solusi-tag-h1-hugo-stack-theme/)* - Ditanyakan oleh JeremieLitzler pada Aug 24, 2023. Diskusi lengkap lihat *[di sini](https://github.com/CaiJimmy/hugo-theme-stack/discussions/869)*
 

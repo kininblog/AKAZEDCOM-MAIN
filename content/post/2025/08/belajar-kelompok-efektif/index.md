@@ -24,6 +24,7 @@ Meskipun setiap individu memiliki gaya belajar yang berbeda—ada yang suka bela
 ## Apa Itu Belajar Kelompok?
 
 Menurut Hamalik dalam buku karangannya yang berjudul “Psikologi Belajar dan Mengajar”, belajar kelompok adalah **metode belajar di mana para anggota kelompok saling berhubungan dan berpartisipasi, serta memberikan sumbangan untuk mencapai tujuan bersama**. Proses kelompok ini memiliki beberapa karakteristik, antara lain: setiap individu saling berhubungan, saling mempengaruhi, memberikan pendapat dan pemikiran, aktif, memiliki tugas masing-masing, dan mengembangkan sikap sosial. Ini bukan sekadar berkumpul, melainkan sebuah **aktivitas kolaboratif yang terstruktur**.
+{{< ujian/read-also >}}
 
 ### Beragam Manfaat Belajar Kelompok
 

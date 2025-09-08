@@ -169,6 +169,7 @@ EOF
 # [build.environment]
 #   RUBY_VERSION = "3.0.2"
 ```
+{{< ujian/read-also >}}
 
 Sesuaikan alamat situs dan HUGO_VERSION yang anda gunakan.
 4. **Tambahkan Pengaturan Environment API Key di Netlify**

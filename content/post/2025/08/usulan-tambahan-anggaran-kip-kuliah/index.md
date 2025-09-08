@@ -24,6 +24,7 @@ Program KIP Kuliah selama ini telah menjadi instrumen utama negara untuk membuka
 
 ### **Realitas di Lapangan: Kesenjangan Kuota dan Kebutuhan Riil**
 Setiap tahun, jumlah lulusan SMA/sederajat yang memenuhi syarat untuk menerima KIP Kuliah jauh melampaui kuota yang tersedia. Akibatnya, banyak siswa potensial terpaksa mengubur mimpi mereka untuk kuliah karena tidak lolos seleksi beasiswa yang sangat kompetitif. Usulan tambahan anggaran bertujuan untuk memperluas jangkauan penerima manfaat secara signifikan, mengurangi angka putus jenjang pendidikan dari menengah ke tinggi.
+{{< ujian/read-also >}}
 
 ### **Melambungnya Biaya Hidup dan UKT Menjadi Kendala Serius**
 Persoalan tidak berhenti pada kuota. Bantuan biaya hidup yang diterima mahasiswa KIP Kuliah saat ini dinilai banyak pihak sudah tidak relevan dengan lonjakan inflasi dan biaya sewa di kota-kota besar yang menjadi lokasi universitas unggulan.

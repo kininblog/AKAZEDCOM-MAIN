@@ -54,6 +54,7 @@ Uniknya, Top link destinasi dari naver malah ke google, dan youtube.
 Sama seperti Google, agar situs web atau blog Anda muncul dan terindex di Naver, Anda perlu mendaftarkannya ke webmaster terlebih dahulu. atau di Naver dikenal sebagai _Search Advisor_. Lebih jelasnya ikuti panduan mendaftarkan dan submit web di naver berikut
 
 >Saya merekomendasikan browser chrome, karena Anda membutuhkan fitur translate untuk menerjemahkan bahasa Korea.
+{{< ujian/read-also >}}
 
 ![cara daftar blog ke naver](images/w1.webp)
 1. Buka [Search Advisor](https://searchadvisor.naver.com/)

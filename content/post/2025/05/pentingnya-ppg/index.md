@@ -42,6 +42,7 @@ Program ini bertujuan untuk membekali calon guru dengan empat pilar **kompetensi
 * **Kompetensi Profesional:** Penguasaan materi pembelajaran secara luas dan mendalam. Ini termasuk penguasaan kurikulum dan substansi keilmuan yang relevan.
 * **Kompetensi Kepribadian:** Kemampuan personal yang mencerminkan kepribadian yang mantap, stabil, dewasa, arif, berwibawa, menjadi teladan bagi peserta didik, dan berakhlak mulia.
 * **Kompetensi Sosial:** Kemampuan berkomunikasi dan berinteraksi secara efektif dan santun dengan peserta didik, sesama pendidik, tenaga kependidikan, orang tua/wali, dan masyarakat sekitar.
+{{< ujian/read-also >}}
 
 Di Indonesia, ada dua jalur utama dalam **program PPG**:
 1.  **PPG Prajabatan:** Ini untuk Anda yang *belum* menjadi guru. Anda baru lulus S1 non-kependidikan atau kependidikan dan ingin langsung berkarir sebagai guru profesional. Program ini biasanya lebih komprehensif, mencakup perkuliahan intensif dan praktik mengajar di sekolah.

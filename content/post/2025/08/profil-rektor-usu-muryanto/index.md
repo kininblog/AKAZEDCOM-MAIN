@@ -39,6 +39,7 @@ Memiliki perjalanan *[pendidikan](/categories/pendidikan/)* yang baik:
 Perjalanan karirnya di USU dimulai sebagai dosen di Departemen Ilmu Politik FISIP. Dedikasi dan kapabilitasnya membawanya ke berbagai posisi strategis. Sebelum terpilih menjadi rektor, ia menjabat sebagai Dekan FISIP USU untuk periode 2016-2021.
 
 Pada 28 Januari 2021, Muryanto Amin resmi dilantik sebagai Rektor ke-16 USU untuk periode 2021-2026. Pelantikannya menandai era kepemimpinan baru dengan visi membawa USU menjadi perguruan tinggi berstandar internasional.
+{{< ujian/read-also >}}
 
 ### Visi dan Gebrakan Sebagai Rektor USU
 

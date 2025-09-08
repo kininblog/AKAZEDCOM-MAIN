@@ -33,6 +33,7 @@ Roti O adalah merek roti yang populer di Indonesia, dikenal dengan roti berbentu
 
 Roti O sering ditemukan di stasiun, bandara, dan pusat perbelanjaan karena strategi pemasarannya yang unik, yaitu dengan menempatkan outlet di lokasi strategis dan memanfaatkan aroma roti sebagai daya tarik. 
 
+{{< ujian/read-also >}}
 
 ### Berikut adalah beberapa poin penting tentang Roti O:
 * **Produk:** Roti O adalah roti berbentuk bulat dengan aroma kopi dan isian mentega. 
