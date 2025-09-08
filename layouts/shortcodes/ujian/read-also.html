@@ -1,7 +1,7 @@
 {{/*
 ================================================================================
 | Partial Template: also-read.html
-| Deskripsi: Menampilkan hingga 4 postingan terkait berdasarkan kategori.
+| Deskripsi: Menampilkan hingga 4 postingan terkait dalam format daftar.
 | Cara Penggunaan: Panggil di template single.html dengan {{ partial "also-read.html" . }}
 ================================================================================
 */}}
@@ -22,6 +22,7 @@
         width: 100%;
         padding: 24px;
         margin: 48px auto; /* Memberi jarak atas dan bawah */
+        box-sizing: border-box; /* Memastikan padding tidak menambah lebar total */
     }
 
     /* Judul "Also read" */
@@ -34,14 +35,14 @@
         padding-bottom: 16px;
     }
 
-    /* Grid untuk menampung artikel */
-    .unique-article-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 24px 32px;
+    /* Kontainer untuk list artikel */
+    .unique-article-list {
+        display: flex;
+        flex-direction: column;
+        gap: 24px; /* Jarak antar item */
     }
 
-    /* Setiap item artikel dalam grid */
+    /* Setiap item artikel dalam daftar */
     .unique-article-item {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         display: flex;
@@ -51,12 +52,11 @@
         border-bottom: 1px dashed #d1d5db;
     }
     
-    /* Menghilangkan garis bawah untuk dua item terakhir di tampilan desktop */
-    .unique-article-item:nth-last-child(-n+2) {
+    /* Menghilangkan garis bawah dari item terakhir */
+    .unique-article-item:last-child {
        border-bottom: none;
        padding-bottom: 0;
     }
-
 
     /* Kontainer untuk teks (judul dan tanggal) */
     .unique-article-text-content {
@@ -100,29 +100,11 @@
         border-radius: 4px;
         flex-shrink: 0;
     }
-
-    /* Aturan untuk layar yang lebih kecil (mobile) */
-    @media (max-width: 768px) {
-        .unique-article-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        /* Pada mobile, hanya item terakhir yang tidak punya garis bawah */
-        .unique-article-item:nth-last-child(-n+2) {
-            border-bottom: 1px dashed #d1d5db;
-            padding-bottom: 24px;
-        }
-
-        .unique-article-item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-    }
 </style>
 
 <div class="unique-also-read-wrapper">
-    <div class="unique-section-title">Baca Juga:</div>
-    <div class="unique-article-grid">
+    <div class="unique-section-title">Also read</div>
+    <div class="unique-article-list">
         {{/* Looping melalui setiap artikel yang terkait */}}
         {{ range . }}
             {{ $relatedPage := . }} {{/* Simpan konteks halaman saat ini ke dalam variabel */}}
