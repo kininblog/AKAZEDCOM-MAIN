@@ -15,6 +15,7 @@ tags:
 - berita pendidikan
 ---
 **JAKARTA** – Bagi banyak mahasiswa, *[meraih Indeks Prestasi Kumulatif (IPK) sempurna](/rumus-sukses-jerome-polin-ipk-sempurna-mahasiswa/)* adalah sebuah impian. Namun, impian itu seringkali terasa jauh panggang dari api ketika dihadapkan pada realitas: tumpukan tugas, kegiatan organisasi, tuntutan sosial, bahkan keharusan untuk bekerja paruh waktu. Namun, seorang Jerome Polin Sijabat telah membuktikan bahwa menyeimbangkan prestasi akademik tingkat atas dengan kesibukan non-akademik yang luar biasa bukan hanya mungkin, tapi bisa dilakukan dengan gemilang.
+{{< adsense/in-article >}}
 
 Lulus dari program studi Matematika Terapan di salah satu universitas paling prestisius di Jepang, Waseda University, dengan IPK yang nyaris menyentuh angka 4.0, Jerome melakukannya sambil merintis dan membesarkan kanal YouTube "*Nihongo Mantappu*" yang kini memiliki puluhan juta pelanggan. Keberhasilannya bukanlah keajaiban atau keberuntungan semata. Di baliknya, terdapat serangkaian prinsip, strategi, dan etos kerja yang disiplin yang bisa menjadi cetak biru bagi mahasiswa mana pun yang ingin mengoptimalkan potensi mereka.
 

@@ -22,6 +22,7 @@ tags:
 **PADANG PARIAMAN** - Pemandangan memprihatinkan terjadi di Sekolah Dasar Negeri (SDN) 05 Sungai Limau, Kabupaten Padang Pariaman. Ratusan siswa terpaksa melangsungkan kegiatan belajar mengajar (KBM) di teras dan halaman sekolah setelah seluruh ruang kelas mereka terkunci rapat oleh gembok.
 
 Aksi penggembokan ini diduga kuat dilakukan oleh Yulisman, penjaga sekolah setempat, sebagai bentuk protes dan luapan kekecewaan mendalam karena tidak berhasil lolos dalam seleksi Pegawai Pemerintah dengan Perjanjian Kerja (*[PPPK](/categories/pppk/)*) tahun ini.
+{{< adsense/in-article >}}
 
 ### **Puncak Kekecewaan di Atas Tanah Hibah**
 

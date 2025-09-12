@@ -24,6 +24,7 @@ tags:
 Pernahkah Anda bertanya-tanya, apa yang sebenarnya membedakan guru biasa dengan guru profesional sejati? Di era digital ini, tuntutan terhadap kualitas guru semakin tinggi. Kita semua tahu, guru adalah ujung tombak *[pendidikan](/categories/pendidikan/)*, kunci masa depan bangsa. Tapi, apakah cukup hanya punya gelar sarjana untuk jadi guru yang hebat?
 
 Nah, di sinilah **[Pendidikan Profesi Guru (PPG)](/categories/ppg/)** dan **Sertifikasi Guru** berperan penting. Dua hal ini bukan lagi sekadar pilihan, melainkan sebuah **kewajiban bagi guru** di Indonesia. Pemerintah serius ingin meningkatkan **mutu pendidikan** kita, dan salah satu caranya adalah dengan memastikan setiap guru memiliki standar kompetensi yang mumpuni.
+{{< adsense/in-article >}}
 
 Melalui artikel ini, kita akan mengupas tuntas mengapa **guru wajib ikut PPG**, apa saja **manfaat PPG bagi guru**, dan seberapa **[pentingnya sertifikasi guru](/pentingnya-sertifikasi-guru/)** untuk karir dan kesejahteraan mereka, serta bagaimana semua ini berdampak pada **kualitas pendidikan nasional** secara keseluruhan. Yuk, kita selami lebih dalam!
 

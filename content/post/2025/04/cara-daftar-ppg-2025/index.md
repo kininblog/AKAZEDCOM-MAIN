@@ -29,6 +29,7 @@ Program **[PPG Prajabatan 2025](/jadwal-ppg-2025-kapan-dibuka/)** kembali dibuka
 
 
 >Belajar soal PPG gratis sekarang, pelajari **[soal ppg pdf](/contoh-soal-pretest-ppg-dalam-jabatan/)**
+{{< adsense/in-article >}}
 
 ## Panduan Teknis Pendaftaran Online PPG Prajabatan 2025
 

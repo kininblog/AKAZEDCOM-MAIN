@@ -20,6 +20,7 @@ Berkunjung ke *[tempat wisata edukasi](/destinasi-wisata-edukasi-di-indonesia/)*
 Konsep ini cocok dinikmati oleh semua kalangan, mulai dari anak-anak, remaja, hingga orang dewasa. Karena menawarkan pengalaman belajar yang menyenangkan di luar kelas. 
 
 Selain menambah wawasan, *[wisata edukasi](/categories/wisata/)* juga menjadi sarana untuk mempererat hubungan keluarga melalui aktivitas bersama yang interaktif dan penuh makna.
+{{< adsense/in-article >}}
 
 ## Rekomendasi Tempat Wisata Edukasi di Indonesia
 ### 1. Taman Pintar di Yogyakarta

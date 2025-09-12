@@ -20,6 +20,7 @@ tags:
 Wordpress dan CMS besar lainnya menggunakan Indexnow yang canggih untuk membantu mengindex situs mereka. Dan saya penasaran, bagaimana jika kita *[mengintegrasikan indexnow ke blog Hugo](/panduan-integrasi-indexnow-hugo/)* . Bisakah berhasil?
 
 Beberapa waktu lalu saya tidak sengaja menemukan halaman diskusi di gohugo yang membahas topik ini, kamu bisa lihat *[di sini](https://discourse.gohugo.io/t/indexnow/48899)*. Mereka membahas, ***mungkinkah kita mengimplementasikan indexnow ke dalam sebuah blog hugo?***. Pertanyaan ini muncul karena mengingat *[Hugo merupakan](/welcome-to-my-hugo-blog/)* *Static Site Generator* (SSG) tidak menyediakan *Native support* seperti ini. Jadi kita harus mencari solusi lain.
+{{< adsense/in-article >}}
 
 >Kabar baiknya, ada solusi modern untuk masalah ini: Kita akan memanfaatkan proses build netlify dan memintanya untuk melakukan request ke indexnow dengan menggunakan API.
 

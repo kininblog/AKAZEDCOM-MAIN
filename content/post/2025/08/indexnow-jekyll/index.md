@@ -70,6 +70,7 @@ Sama seperti *[blog hugo](/welcome-to-my-hugo-blog/)*, Jekyll merupakan Static S
 Plugin IndexNow Jekyll menggunakan script API sederhana, yang cara integrasinya pun sangat mudah. 
 
 Perlu dicatat, di sini saya menggunakan Netlify sebagai hosting, kamu bisa menyesuaikan script yang ada.
+{{< adsense/in-article >}}
 
 
 

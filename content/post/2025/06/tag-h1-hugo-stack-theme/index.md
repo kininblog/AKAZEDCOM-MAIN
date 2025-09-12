@@ -28,6 +28,7 @@ Bagi pengguna template *hugo stack theme* mungkin akan mengalami masalah *issue*
 Masalah ini saya sadari ketika pertama kali iseng menguji score SEO blog *[akazed](/)*, muncul masalah praktik `Tag H1` yang tidak tepat.
 1. **Masalah 1 :** Hal ini menyalahkan praktik SEO yang dianjurkan Google, yang mana harus menggunakan kata kunci *(keywords)* dalam H1 (judul) di semua halaman. Sementara template ini *menampilkan Title blog sebagai H1 di semua halaman*, maka kemungkinan besar akan terjadi duplikat konten dan masalah SEO yang lebih besar. Kamu bisa baca pedoman penggunaan kata kunci di judul *[di sini](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls?hl=en&visit_id=638284882507299608-1675376168&rd=1)*
 2. **Masalah 2 :**  Praktik terbaik dan standar aksesibilitas menyarankan agar kita menggunakan satu h1per halaman. Lihat *[di sini](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements)*. Masalahnya adalah, jika kita mengedit script yang menampilkan H1 yaitu `details.html` maka akan muncul lebih dari 1 tag h1 ini. 
+{{< adsense/in-article >}}
 
 ### Diskusi Terkait Permasalahan H1 Hugo Stack Theme
 Beberapa orang juga menyadari masalah yang sama, dan menanyakannya di forum

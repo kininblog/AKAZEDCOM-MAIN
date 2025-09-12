@@ -15,6 +15,7 @@ tags:
 - berita pendidikan
 ---
 **JAKARTA** – Sebuah usulan krusial untuk masa depan pendidikan tinggi dan pembibitan talenta unggul nasional mengemuka dalam rapat pembahasan Rancangan Anggaran Pendapatan dan Belanja Negara (RAPBN) 2026. Pemerintah, melalui kementerian terkait, mengajukan *[permintaan tambahan anggaran](/usulan-tambahan-anggaran-kip-kuliah-sekolah-garuda-2026/)* sebesar Rp5,9 triliun yang akan difokuskan pada dua program vital: Kartu Indonesia Pintar (KIP) Kuliah dan program pembinaan di Sekolah Garuda Cendekia.
+{{< adsense/in-article >}}
 
 Usulan yang diajukan dalam Rapat Dengar Pendapat (RDP) dengan Komisi X DPR RI ini bukan sekadar permintaan rutin, melainkan sebuah sinyal darurat. Angka tersebut mencerminkan adanya kesenjangan yang semakin lebar antara alokasi dana saat ini dengan kebutuhan riil di lapangan. Di satu sisi, KIP Kuliah berjuang untuk mengejar kenaikan biaya hidup dan Uang Kuliah Tunggal (UKT), sementara di sisi lain, pusat pembibitan talenta bangsa membutuhkan investasi serius untuk dapat bersaing di tingkat global.
 

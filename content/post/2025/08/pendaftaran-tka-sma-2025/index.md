@@ -22,6 +22,7 @@ tags:
 TKA merupakan asesmen standarisasi nasional yang bersifat sukarela, dirancang untuk mengukur capaian akademik siswa secara objektif. Meskipun tidak wajib, sertifikat hasil TKA memiliki bobot penting sebagai nilai tambah dalam seleksi masuk perguruan tinggi, baik melalui Seleksi Nasional Berdasarkan Prestasi (SNBP) maupun jalur mandiri.
 
 Bagi siswa kelas 12, ini adalah kesempatan emas untuk mendapatkan pengakuan atas kompetensi akademik yang dapat memperkuat portofolio *[pendidikan](/categories/pendidikan/)* mereka. Berikut adalah panduan lengkap yang telah diperbarui sesuai *[informasi terkini](/categories/berita/)*.
+{{< adsense/in-article >}}
 
 ## Mengapa TKA 2025 Penting untuk Diikuti?
 

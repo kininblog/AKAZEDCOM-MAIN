@@ -25,6 +25,7 @@ Untuk memahami betapa pentingnya terobosan ini, kita harus melihat data yang sur
 
 ### **Data yang Mendorong Inovasi**
 Di negara maju seperti Amerika Serikat, belasan orang meninggal setiap hari sambil menunggu organ yang tak kunjung datang. Paru-paru adalah salah satu organ yang paling sulit didapatkan karena kerentanannya terhadap kerusakan. Kondisi inilah yang mendorong para ilmuwan selama puluhan tahun untuk mencari alternatif radikal: memanfaatkan organ dari hewan. Babi menjadi kandidat utama karena ukuran organ dan fisiologinya yang memiliki banyak kemiripan dengan manusia.
+{{< adsense/in-article >}}
 
 ## **Terobosan di Tiongkok: Menganalisis Momen Bersejarah Pembedahan**
 

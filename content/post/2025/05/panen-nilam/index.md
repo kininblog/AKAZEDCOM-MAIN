@@ -18,6 +18,7 @@ tags:
 Setelah menunggu beberapa bulan, minggu ini Saya akhirnya dapat memanen tanaman nilam setelah lima setengah bulan berlalu.  Berbeda dengan [cara panen nilam](/cara-panen-nilam/) konvensional yang sering dilakukan petani lain, kami sepakat untuk memanen nilan dengan cara dicabut seluruh batang dan akarnya. 
 
 >Panen nilam dengan cara dicabut memang jauh lebih cepat dibandingkan harus dipangkas satu-persatu, terlebih lagi karena kontur tanah yang gembur dan perakaran serabut yang dinilai tidak terlalu kuat maka pencabutan dirasa pilihan lebih tepat.
+{{< adsense/in-article >}}
 
 ## Alasan Kenapa Saya Mencabut Nilam
 Beberapa hal yang membuat Saya dan keluarga memilih untuk mencabut nilam seluruhnya dikarenakan beberapa hal berikut:

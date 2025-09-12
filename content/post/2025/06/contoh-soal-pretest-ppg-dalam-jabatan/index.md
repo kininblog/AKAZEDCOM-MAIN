@@ -33,6 +33,7 @@ tags:
 > <a href="https://chat.whatsapp.com/CxtsSVXqIw4IUdnxAor0of" class="button add-to-cart">GABUNG GROUP INFO PPG 2025 SEKARANG</a>  
 
 *[Program Pendidikan Profesi Guru](/categories/ppg/)* (PPG), baik yang diselenggarakan oleh Kemendikbudristek maupun Kemenag, merupakan jenjang pendidikan tinggi krusial setelah seorang individu menyelesaikan program sarjana kependidikan atau non-kependidikan yang relevan. Untuk menjadi guru profesional, setiap calon guru, termasuk mereka yang sudah mengabdi melalui jalur **[PPG Dalam Jabatan](/mengenal-apa-itu-ppg-guru/)**, perlu mengikuti program ini. Penting untuk dipahami bahwa **PPG Dalam Jabatan** berbeda dengan *[program sertifikasi guru](/pentingnya-sertifikasi-guru/)* yang pernah ada sebelumnya; PPG, yang dulu dikenal sebagai program Akta IV, kini menjadi standar untuk mencetak pendidik berkualitas.
+{{< adsense/in-article >}}
 
 Umumnya, program **PPG Daljab 2025** akan berlangsung selama satu hingga dua tahun, tergantung pada kebijakan dan struktur kurikulum yang ditetapkan. Landasan utama penyelenggaraan PPG ini merujuk pada Peraturan Pemerintah Republik Indonesia Nomor 74 tahun 2008 tentang Guru. Regulasi ini menegaskan bahwa seorang guru wajib memiliki kualifikasi akademik, **kompetensi guru** (pedagogik, profesional, kepribadian, dan sosial), sertifikat pendidik, sehat jasmani dan rohani, serta kemampuan untuk mewujudkan tujuan pendidikan nasional.
 

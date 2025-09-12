@@ -15,6 +15,7 @@ tags:
 - berita pendidikan
 ---
 **TANGERANG SELATAN** – Di tengah hiruk pikuk Pengenalan Budaya Akademik dan Kemahasiswaan (PBAK) 2025, Universitas Islam Negeri (UIN) Syarif Hidayatullah Jakarta tidak hanya menyambut ribuan mahasiswa baru dengan seremoni. Sebuah gagasan fundamental dan strategis disebarkan dengan kesungguhan: sebuah gerakan kolektif untuk membangun **[dana abadi (endowment fund) berbasis wakaf uang](/pbak-uin-jakarta-2025-wakaf-uang-beasiswa/)** yang dihimpun dari, oleh, dan untuk mahasiswa.
+{{< adsense/in-article >}}
 
 Inisiatif yang terdengar sederhana ini sejatinya adalah sebuah respons cerdas terhadap tantangan zaman yang semakin kompleks. Di saat biaya pendidikan tinggi terus merangkak naik dan isu Uang Kuliah Tunggal (UKT) menjadi perdebatan nasional, UIN Jakarta mencoba merintis jalan kemandirian finansial yang berakar pada nilai-nilai filantropi Islam. Ini bukan sekadar penggalangan dana, melainkan sebuah proyek peradaban untuk menanamkan kesadaran dan membentuk ekosistem kepedulian di jantung institusi pendidikan.
 

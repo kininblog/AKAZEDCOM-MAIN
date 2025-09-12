@@ -25,6 +25,7 @@ Halo teman-teman calon guru hebat! Atau mungkin kamu *[mahasiswa](/categories/pe
 
 Tenang saja, di artikel ini kita akan kupas tuntas semua tentang PPG dengan gaya bahasa yang santai, mudah dimengerti, dan pastinya nggak bikin kening berkerut. Anggap saja kita lagi ngobrol ngopi-ngopi sore, membahas salah satu gerbang penting menuju profesi guru yang profesional dan kompeten. Kita bakal bahas mulai dari definisinya, tujuannya, manfaatnya, sampai tips-tips biar kamu sukses menjalaninya. Yuk, langsung saja kita mulai petualangan kita!
 
+{{< adsense/in-article >}}
 
 ## Apa Itu PPG Guru? Lebih dari Sekadar Tambahan Gelar!
 

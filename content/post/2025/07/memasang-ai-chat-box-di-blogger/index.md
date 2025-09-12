@@ -19,6 +19,7 @@ tags:
 Melihat perkembangan AI yang makin masif semua orang bisa dengan mudah menemukan informasi yang mereka butuhkan dengan sangat cepat, dan itupun lansung *to the point*, dengan menggunakan *AI Chat bot* kita bisa menanyakan apapun tanpa perlu membaca artikel blog yang panjang nya bisa sampai seribu kata. 
 
 Sebagai seorang blogger yang berusaha mendatangkan pengunjung untuk membaca artikel kita, *AI bisa menjadi ancaman serius*, namun ini adalah perkembangan teknologi yang tidak akan bisa dibendung, **solusinya**, ya tentu saja dengan berinovasi, dan memanfaatkannya dengan baik.
+{{< adsense/in-article >}}
 
 >Banyak situs sekarang mengintegrasikan *chat bot ai* di situs dan aplikasi mereka. memasang chat bot ai membuat Anda bisa menjawab pertanyaan pembaca 24 jam/7 hari non stop.
 

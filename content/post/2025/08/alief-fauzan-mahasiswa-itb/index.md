@@ -24,6 +24,7 @@ Kisah Alief adalah cerminan dari potensi besar generasi muda Indonesia dalam men
 Jauh sebelum menjejakkan kaki di Taiwan, Alief Fauzan telah dikenal sebagai mahasiswa yang aktif dan berprestasi di lingkungan kampusnya. Selain berprestasi di bidang akademik, ia juga mendedikasikan waktunya untuk berbagi ilmu dengan menjadi asisten dosen di beberapa mata kuliah Teknik Telekomunikasi.
 
 ### Aktif di Komunitas Riset Internasional
+{{< adsense/in-article >}}
 
 Tidak hanya di dalam kelas, semangat Alief untuk belajar dan berjejaring membawanya bergabung dengan komunitas riset internasional, APIE (Asia Pacific Internet Engineering). Di komunitas ini, ia terlibat dalam berbagai kegiatan yang bertujuan untuk memberikan edukasi publik mengenai jaringan komputer. Keterlibatannya di APIE membuktikan minatnya yang mendalam pada dunia jaringan dan keinginannya untuk terus berkembang.
 

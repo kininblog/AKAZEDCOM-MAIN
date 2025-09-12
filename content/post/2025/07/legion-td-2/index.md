@@ -25,6 +25,7 @@ tags:
 
 ## Sekilas tentang Apa Itu Legion TD 2
 **Legion TD 2 adalah** sebuah *game tower defense multiplayer* dengan unsur elemen strategi, *auto-batler*, dan kerjasama tim. Bagi para veteran game Warcraft 3, nama Legion TD mungkin sudah tidak asing lagi. Ya, *Legion TD 2* adalah sekuel dan versi mandiri *(standalone)* yang dikembangkan dari salah satu custom map paling populer di masanya. Dibuat oleh developer yang sama, AutoAttack Games, game ini membawa konsep tower defense ke level berikutnya.
+{{< adsense/in-article >}}
 
 Tidak seperti *[game tower defense](/categories/games/)* pada umumnya, Legion TD 2 memadukan elemen strategi, taktik tim, dan prediksi. Anda tidak hanya pasif bertahan dari gelombang musuh, tetapi juga harus aktif mengirim pasukan bayaran (mercenaries) untuk menyerang dan meruntuhkan pertahanan raja lawan.
 

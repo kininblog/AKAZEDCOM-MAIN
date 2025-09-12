@@ -20,6 +20,7 @@ tags:
 Lagi viral *[promo roti o hari ini cuma 5 ribu](/promo-roti-o-hari-ini/)*, ya kamu ga salah denger kok roti O memang sedang mengadakan promo besar-besaran yang mana 1 Roti O + Es cream / Kopi cuma seharga 5000 rupiah. Saya sendiripun sudah klaim 2 kali dan ya, ini hemat banget. Bagi pecinta kuliner kamu gak boleh ketinggalan *[Diskon roti O](/)*  kali ini.
 
 Kamu pasti udah gak asing lagi dengan roti O. Mereka punya lebih dari 700 gerai diseluruh Indonesia, salah satu merk roti yang populer dan lagi trend hari ini. Bahkan, hampir setiap gerainya penuh sesak pembeli saat jam istirahat, terutama dekat sekolah seperti SMA, kaget sih banyak banget yang fomo buat beli dan ngerasain enaknya roti o ini. Termasuk saya,
+{{< adsense/in-article >}}
 
 Gak heran lagi, pencarian dengan keyword `roti o` sedang naik di google trends, seperti yang ditunjukkan data statistik berikut.
 ![keyword promo roti o](images/keyword.webp)

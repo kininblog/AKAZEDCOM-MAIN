@@ -23,6 +23,7 @@ Nama Rektor Universitas Sumatera Utara (USU), Dr. Muryanto Amin, S.Sos., M.Si., 
 Pada akhir Juli 2024, Komisi Pemberantasan Korupsi (KPK) mengagendakan pemeriksaan terhadap Muryanto Amin. Juru Bicara KPK, Tessa Mahardhika Sugiarto, mengonfirmasi bahwa pemanggilan tersebut dilakukan dalam kapasitasnya sebagai saksi untuk melengkapi berkas perkara tersangka lain dalam kasus dugaan korupsi pengadaan barang dan jasa di lingkungan Pemerintah Provinsi Maluku Utara.
 
 Kasus ini berpusat pada Gubernur Maluku Utara nonaktif, Abdul Gani Kasuba. Muryanto Amin dipanggil untuk memberikan keterangan terkait dugaan aliran dana dalam kasus yang menjerat sang gubernur. Pihak KPK menegaskan bahwa pemanggilan ini adalah bagian dari prosedur standar untuk membuat terang sebuah perkara dan mendalami pengetahuan saksi terkait kasus yang sedang diusut.
+{{< adsense/in-article >}}
 
 Menanggapi pemanggilan tersebut, Muryanto Amin melalui Kepala Humas, Promosi, dan Protokoler USU, Amalia Meutia, menyatakan kesiapannya untuk bersikap kooperatif dan akan memenuhi panggilan KPK. Ia menegaskan komitmennya untuk membantu proses penegakan hukum yang sedang berjalan.
 

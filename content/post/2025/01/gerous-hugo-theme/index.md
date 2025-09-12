@@ -28,6 +28,7 @@ Gerous adalah sebuah tema portofolio untuk **[Hugo](/categories/hugo/)**, didesa
 >*[Tema hugo](/categories/template/)* gerous memiliki performa yang sangat baik dengan score Lighthouse Speed yang tinggi.
 
 Fitur lain template hugo gerous seperti showcase project yang menggunakan *build-in slider*, dan fitur *dark mode*. 
+{{< adsense/in-article >}}
 
 ### 💡 Fitur *Gerous Hugo Theme Premium*
 Beberapa fitur utama template hugo terbaik ini seperti;

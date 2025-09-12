@@ -34,6 +34,7 @@ PPG adalah program pendidikan profesional untuk mencetak guru bersertifikat pend
 *[PPG penting karena](/pentingnya-sertifikasi-guru/)* sesuai Undang-Undang, guru wajib memiliki sertifikat pendidik. Dengan mengikuti PPG, peserta akan mengikuti perkuliahan, praktik lapangan (PPL), *<u>[ujian kompetensi PPG](/contoh-soal-pretest-ppg-dalam-jabatan/)</u>*, dan various kegiatan pendukung lainnya. Setelah lulus PPG, guru akan mendapatkan sertifikat pendidik resmi.
 
 ---
+{{< adsense/in-article >}}
 
 ## PPG Prajabatan 2025: Kapan Pendaftaran Dibuka?
 
