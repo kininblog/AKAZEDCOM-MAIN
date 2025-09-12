@@ -39,6 +39,7 @@ Artikel ini akan mengupas tuntas seluk-beluk seleksi, mulai dari pemahaman menda
 ## Apa itu Ujian UP PPG PAI Kemenag
 
 Ujian Pengetahuan (UP) adalah tahap evaluasi akhir dalam rangkaian PPG Dalam Jabatan di lingkungan Kemenag. Tujuannya adalah untuk mengukur penguasaan kompetensi peserta secara holistik setelah mengikuti seluruh proses perkuliahan dan praktik mengajar. Ujian ini berbasis komputer dan terdiri dari 120 soal pilihan ganda yang harus diselesaikan dalam waktu 180 menit.
+{{< adsense/in-article >}}
 
 Secara garis besar, **materi PPG Kemenag** yang diujikan terbagi menjadi dua pilar utama:
 

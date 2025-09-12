@@ -40,6 +40,7 @@ jumlah: 110
 {{< ujian/CPNS/prediksi-soal-cpns2 >}}
 
 Lulus **[Seleksi Kompetensi Dasar (SKD) CPNS](/ujian/cpns/try-out-skd-cpns-gratis/)** bukan hanya soal menguasai *[materi TWK](/ujian/cpns/tes-wawasan-kebangsaan/)*, *tryout TIU*, dan *[tryout TKP](/ujian/cpns/tryout-tkp-cpns/)*. Lebih dari itu, ini adalah tentang menaklukkan "medan perangnya", yaitu sistem **Computer Assisted Test (CAT)** yang diselenggarakan oleh Badan Kepegawaian Negara (BKN). Kegagalan karena panik atau tidak familiar dengan antarmuka *[ujian cpns](/ujian/)* adalah hal yang sangat disayangkan.
+{{< adsense/in-article >}}
 
 Untuk itulah, halaman ini menyediakan **[Tryout CAT Seleksi CPNS BKN](/ujian/cpns/tryout-cat-cpns-gratis/)** yang dirancang khusus untuk menyimulasikan pengalaman ujian yang sesungguhnya. Pahami sistemnya, latih kecepatan Anda, dan pastikan tidak ada kesalahan teknis yang merugikan di hari H.
 

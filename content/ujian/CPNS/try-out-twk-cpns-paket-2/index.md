@@ -35,6 +35,7 @@ difficulty: "Sulit"
 
 ## Apa Itu Tes Wawasan Kebangsaan?
 *TWK adalah Tes Wawasan Kebangsaan*, salah satu tes dalam Seleksi Kompetensi Dasar (SKD) untuk calon pegawai negeri sipil (CPNS) di Indonesia yang mengukur pemahaman peserta terhadap nilai-nilai kebangsaan, seperti Pancasila, UUD 1945, Bhinneka Tunggal Ika, dan Negara Kesatuan Republik Indonesia (NKRI), serta aspek nasionalisme, bela negara, integritas, dan bahasa Indonesia. 
+{{< adsense/in-article >}}
 
 ### Tujuan TWK
 Tujuan utama dari *[soal Tes Wawasan Kebangsaan](/ujian/cpns/tes-wawasan-kebangsaan/)* adalah untuk memastikan calon ASN memiliki: 

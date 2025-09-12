@@ -44,6 +44,7 @@ Banyak calon peserta **[seleksi CPNS](/categories/tryout-cpns/)** menganggap Tes
 *[try out TKP](/ujian/cpns/tryout-tkp-cpns/)* bukanlah tes akademis, melainkan sebuah ujian untuk menilai sejauh mana karakter Anda selaras dengan nilai-nilai yang dibutuhkan seorang Aparatur Sipil Negara (ASN). Untuk bisa meraih skor tinggi, Anda perlu berlatih mengkalibrasi pola pikir Anda. Halaman ini menyediakan **[Tryout TKP CPNS Gratis](/ujian/cpns/tryout-tkp-cpns/)** sebagai sarana latihan Anda.
 
 ## Memahami Filosofi di Balik Soal TKP
+{{< adsense/in-article >}}
 
 Tujuan utama TKP adalah untuk menyaring calon ASN yang memiliki integritas, profesionalisme, dan orientasi pelayanan yang kuat. Soal-soalnya dirancang dalam bentuk studi kasus yang akan Anda hadapi di dunia kerja.
 

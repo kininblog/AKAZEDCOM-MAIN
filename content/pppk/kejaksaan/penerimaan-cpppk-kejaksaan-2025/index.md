@@ -28,6 +28,7 @@ tags:
 Kabar gembira bagi para pencari **lowongan ASN**! Kejaksaan Republik Indonesia secara resmi telah membuka **[rekrutmen PPPK 2025](/pppk/kejaksaan/penerimaan-cpppk-kejaksaan-2025/)**, sebuah kesempatan emas untuk berkarir sebagai Aparatur Sipil Negara. Pengumuman ini menjadi angin segar, khususnya bagi para **tenaga kesehatan (nakes)** profesional yang ingin mengabdikan diri di instansi pemerintah.
 
 >Berdasarkan Pengumuman resmi Nomor: PENG - 4/C/Cp.2/07/2025, **[seleksi PPPK Kejaksaan](/categories/pppk/)** tahun ini membuka ribuan formasi. Artikel ini akan mengupas tuntas semua **info lowongan ASN** ini, mulai dari rincian **formasi PPPK Kejaksaan 2025**, **syarat pendaftaran CASN** yang wajib dipenuhi, panduan **cara daftar PPPK online**, hingga **jadwal seleksi** lengkap. Simak baik-baik agar persiapan Anda untuk seleksi **CASN 2025** ini maksimal!
+{{< adsense/in-article >}}
 
 ### Dasar Hukum Pelaksanaan Seleksi PPPK Kejaksaan 2025
 

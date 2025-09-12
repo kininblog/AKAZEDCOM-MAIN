@@ -39,6 +39,7 @@ difficulty: "Sulit"
 Menghadapi seleksi masuk Badan Usaha Milik Negara (BUMN) membutuhkan persiapan matang, terutama pada Tes Kemampuan Dasar (TKD). Salah satu subtes yang seringkali menjadi tantangan adalah tes analogi verbal. Tes ini bukan sekadar menguji kosakata, tetapi kemampuan Anda dalam menalar dan menemukan hubungan logis antar kata.
 
 Artikel ini akan mengupas tuntas seluk-beluk soal analogi, mulai dari konsep dasar, tipe-tipe hubungan kata yang sering keluar, strategi pengerjaan, hingga contoh soal HOTS *(High-Order Thinking Skills)* yang diambil dari bank soal *[try out BUMN](/categories/tryout-bumn/)*.
+{{< adsense/in-article >}}
 
 ## **Apa Itu Tes Analogi dan Mengapa Penting?**
 

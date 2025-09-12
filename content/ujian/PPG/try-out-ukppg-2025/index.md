@@ -39,6 +39,7 @@ Gak terasa jadwal ujian *[UKPPG guru](/mengenal-apa-itu-ppg-guru/)* tertentu per
 {{< ujian/read-also >}}
 
 Sistem *[try out online](/ujian/)* inipun disesuaikan seperti sistem CAT BKN dari segi tampilan, biar lebih terbiasa dengan dashboard ujian nantinya.
+{{< adsense/in-article >}}
 
 ## Cara Akses 30 Soal Try Out UKPPPG 2025
 Mau ikut joint ujian PPPG 2025 ini? Caranya mudah kok

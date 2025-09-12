@@ -56,6 +56,7 @@ jumlah: 30
 Kemarin saya iseng mencoba **[try out twk cpns online](/ujian/cpns/try-out-tes-wawasan-bebangsaan/)** , dan yap ternyata pengetahuan saya tentang kebangsaan masih minim sekali, saya yakin ini karna kurangnya literasi dan pemahaman.
 
 Kamu yang dapat nilai rendah, berarti kamu gak sendirian nih. Tapi jangan cuma diam, yuk belajar bareng, saya buatkan ujian *[TWK online CPNS](/ujian/)* lengkap dengan pembahasanya. Kita kerjakan aja dulu, nanti pembahasannya akan muncul diakhir setelah menyelesaikan try out TWK CPNS ini. 
+{{< adsense/in-article >}}
 
 Keunggulannya dibanding try out ditempat lain karena di Akazed Ujian nanti akan diberikan pembahasan soalnya. Jadi bisa deh kita mengetahui kesalahan dan jawaban yang benarnya.
 

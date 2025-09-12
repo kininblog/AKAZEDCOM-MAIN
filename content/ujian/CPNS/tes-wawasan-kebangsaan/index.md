@@ -61,6 +61,7 @@ Menghadapi gerbang seleksi Calon Pegawai Negeri Sipil (CPNS) seringkali memuncul
 ## BAB 1: Fondasi Utama - Memahami Esensi Tes Wawasan Kebangsaan (TWK)
 
 Sebelum menyelam lebih dalam ke strategi try out soal, kita perlu menyamakan persepsi tentang medan perang yang akan kita hadapi: *Tes Wawasan Kebangsaan* itu sendiri.
+{{< adsense/in-article >}}
 
 ### 1.1. Apa Itu TWK? Lebih dari Sekadar Hafalan Sejarah
 

@@ -22,6 +22,7 @@ tags:
 
 ## Kenapa Saya Memilih Hugo untuk Kembali Memulai Blog Baru?
 Sebelumnya, saya sudah sering membuat berbagai macam blog dari berbagai tema dan tentunya menggunakan CMS Instan yang mudah seperti membuat blog di Blogger, dan sesekali menggunakan Wordpress. Tapi, setelah sering mengalami dampak perubahan *algoritma Google* ketika menggunakan platform blogger saya-pun berpikir untuk migrasi ke platform lain.
+{{< adsense/in-article >}}
 
 ### Hugo itu Gratis dan Rasa Wordpress
 >Bikin blog dengan Hugo itu gratis dan rasa wordpress yang bisa kita kostumisasi, cepat dan ramah pemula.
