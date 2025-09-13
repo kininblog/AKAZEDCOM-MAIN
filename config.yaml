@@ -172,9 +172,9 @@ params:
             #  params:
              #     limit: 100
 
-#            - type: ads
-            #  params:
-              #    limit: 100
+            - type: ads
+              #params:
+               #   limit: 100
             
             #- type: typeform-widget
         page:
