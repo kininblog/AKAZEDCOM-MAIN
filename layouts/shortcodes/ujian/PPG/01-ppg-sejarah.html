@@ -1,0 +1,695 @@
+    <!-- SELURUH KONTEN HTML ANDA DARI SINI -->
+    <div id="login-container">
+        <div class="login-box">
+            <h2>Login Peserta Ujian</h2>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan username Anda">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password">
+            </div>
+            <button id="login-btn">Masuk</button>
+            <p id="login-error">Password salah. Coba lagi.</p>
+            <a href="/ujian/cara-ikut-tryout-online-gratis" style="text-decoration: none;">
+                <button id="cara-btn" type="button">Cara Ikut Try Out</button>
+            </a>
+        </div>
+    </div>
+
+    <header class="header" style="display: none;">
+        <h2>Simulasi Ujian</h2>
+        <div class="user-info">
+            <span id="header-info"></span>
+            <button id="logout-btn">Logout</button>
+        </div>
+    </header>
+{{ partial "adsense/display-ad.html" . }}
+
+    <div class="quiz-container" style="display: none;">
+        <main class="question-panel">
+            <div class="question-header">
+                <span id="subtest-title">Subtes</span> | Soal No. <span id="question-number">1</span>
+            </div>
+            <div class="question-body">
+                <p id="question-text">Memuat soal...</p>
+                <ul id="options" class="options-list"></ul>
+            </div>
+            <div class="quiz-actions">
+                <button id="prev-btn" class="action-button">Sebelumnya</button>
+                <button id="doubtful-btn" class="action-button">Ragu-ragu</button>
+                <button id="next-btn" class="action-button">Selanjutnya</button>
+            </div>
+        </main>
+        <aside class="navigation-panel">
+            <div class="timer-box">
+                Sisa Waktu
+                <div id="timer">30:00</div>
+            </div>
+            <div id="grid-container" class="question-grid-container"></div>
+            <div class="quiz-actions" style="justify-content: center;">
+                <button id="finish-btn" class="action-button">Selesaikan Ujian</button>
+            </div>
+        </aside>
+    </div>
+
+    <div id="result-page" class="result-container" style="display: none;">
+        <div class="result-card overall-summary">
+            <div id="status-lulus" class="status"></div>
+            <h2>Hasil Akhir Ujian</h2>
+            <div id="final-score" class="score">0</div>
+            <div id="score-details" class="score-details"></div>
+            <div id="submission-status"></div>
+        </div>
+        <div class="result-card">
+            <h3>Tinjauan Jawaban</h3>
+            <div id="review-section"></div>
+        </div>
+        <div style="text-align: center;">
+           <button id="restart-btn" class="action-button">Ulangi Ujian</button>
+        </div>
+    </div>
+    
+    <div id="confirmation-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Selesaikan Ujian?</h2>
+            <p>Apakah Anda yakin ingin menyelesaikan dan mengakhiri sesi ujian ini?</p>
+            <div class="modal-actions">
+                <button id="confirm-no" class="action-button">Batal</button>
+                <button id="confirm-yes" class="action-button">Ya, Selesaikan</button>
+            </div>
+        </div>
+    </div>
+    <!-- HINGGA AKHIR KONTEN HTML ANDA -->
+
+<script>
+// ===================================================================================
+// --- KONFIGURASI UJIAN (HANYA UBAH BAGIAN INI UNTUK UJIAN BARU) ---
+// ===================================================================================
+const EXAM_CONFIG = {
+    // 1. Ganti nama kategori ini sesuai nama sheet di Google Sheets (cth: "TWK", "TKP")
+    kategori: "PPG SEJARAH",
+    
+    // 2. Ganti URL ini dengan URL Web App dari Google Script Anda yang sudah di-deploy ulang.
+    scriptURL: 'https://script.google.com/macros/s/AKfycbxNJ9pOsCPSPAPRQKfoq43AwmVMSIScq6AIa33Q0dxnMI-jb1xuxi1aK3bUBFDstinDiQ/exec',
+    
+    // 3. Ganti link peringkat ini ke halaman peringkat yang sesuai.
+    linkPeringkat: "/ujian/ranking-peserta-tryout/",
+    
+    // 4. Sesuaikan pengaturan ujian jika perlu.
+    durasiMenit: 180,
+    passingGrade: 65,
+    password: "ujian",
+    
+    // 5. Ganti seluruh isi bank soal di bawah ini dengan soal yang sesuai.
+    bankSoal: [
+  {
+    "subtest": "Penguasaan Konten - Metodologi Sejarah",
+    "question": "Seorang sejarawan menemukan sebuah catatan harian seorang prajurit KNIL yang bertugas di Aceh pada tahun 1890. Dalam proses penelitian sejarah, tindakan menganalisis tulisan tangan, jenis kertas yang digunakan, dan membandingkannya dengan dokumen lain dari periode yang sama untuk memastikan keasliannya termasuk dalam tahap...",
+    "options": [
+      "Heuristik",
+      "Interpretasi",
+      "Kritik Eksternal",
+      "Kritik Internal",
+      "Historiografi"
+    ],
+    "answer": "Kritik Eksternal",
+    "explanation": "Tahap ini adalah Kritik Eksternal. Heuristik adalah tahap pengumpulan sumber. Kritik Eksternal berfokus pada keaslian (otentisitas) sumber sejarah dari aspek fisiknya, seperti bahan, waktu pembuatan, dan bentuknya. Kritik Internal menganalisis kredibilitas (keterpercayaan) isi sumber. Interpretasi adalah penafsiran, dan Historiografi adalah penulisan."
+  },
+  {
+    "subtest": "Penguasaan Konten - Metodologi Sejarah",
+    "question": "Sejarawan sering menghadapi tantangan dalam menggunakan sumber lisan (oral history) untuk merekonstruksi peristiwa kontroversial seperti G30S/PKI. Kelemahan paling fundamental dari sumber lisan dalam konteks ini adalah...",
+    "options": [
+      "Bahasa yang digunakan penutur seringkali sulit dipahami.",
+      "Jumlah penutur yang masih hidup sangat terbatas.",
+      "Sifatnya yang sangat subjektif, dipengaruhi oleh memori, trauma, dan keberpihakan politik.",
+      "Tidak adanya transkrip resmi yang bisa dijadikan arsip negara.",
+      "Sulit untuk diverifikasi dengan sumber-sumber tertulis dari periode yang sama."
+    ],
+    "answer": "Sifatnya yang sangat subjektif, dipengaruhi oleh memori, trauma, dan keberpihakan politik.",
+    "explanation": "Kelemahan utama sumber lisan adalah subjektivitasnya. Memori manusia bisa berubah, dipengaruhi oleh pengalaman personal (trauma), agenda politik, atau narasi dominan yang berkembang di masyarakat. Hal ini membuat objektivitasnya perlu diuji secara ketat dengan membandingkannya dengan berbagai sumber lain."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Indonesia Pra-aksara",
+    "question": "Penemuan Kjokkenmoddinger (sampah dapur purba) di sepanjang pantai timur Sumatra memberikan bukti paling kuat tentang aspek kehidupan manusia purba pada masa Mesolitikum, yaitu...",
+    "options": [
+      "Kemampuan membuat alat-alat dari perunggu.",
+      "Sistem kepercayaan animisme dan dinamisme yang kompleks.",
+      "Pola hidup menetap dan mulai mengenal tradisi bercocok tanam.",
+      "Pola hidup semi-sedenter (semi-menetap) dengan mata pencaharian utama meramu dan berburu hasil laut.",
+      "Adanya struktur masyarakat dengan sistem kepemimpinan primus inter pares."
+    ],
+    "answer": "Pola hidup semi-sedenter (semi-menetap) dengan mata pencaharian utama meramu dan berburu hasil laut.",
+    "explanation": "Kjokkenmoddinger adalah tumpukan kulit kerang dan siput yang menunjukkan bahwa manusia purba pada masa itu tinggal di sekitar pantai untuk waktu yang cukup lama (semi-sedenter) dan memanfaatkan hasil laut sebagai sumber makanan utama. Ini adalah ciri khas kehidupan masa Mesolitikum, sebelum tradisi bercocok tanam (Neolitikum) berkembang pesat."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Indonesia Pra-aksara",
+    "question": "Transisi dari masa berburu-meramu (food gathering) ke bercocok tanam (food producing) pada zaman Neolitikum dianggap sebagai sebuah revolusi kebudayaan karena...",
+    "options": [
+        "Manusia mulai menggunakan alat-alat yang terbuat dari logam.",
+        "Terjadi perubahan mendasar dari pola hidup nomaden menjadi menetap (sedenter) yang melahirkan sistem sosial lebih kompleks.",
+        "Sistem kepercayaan masyarakat beralih dari animisme ke dinamisme.",
+        "Manusia purba mulai mengenal sistem perdagangan barter antar pulau.",
+        "Ukuran otak manusia pendukung kebudayaan ini mengalami evolusi signifikan."
+    ],
+    "answer": "Terjadi perubahan mendasar dari pola hidup nomaden menjadi menetap (sedenter) yang melahirkan sistem sosial lebih kompleks.",
+    "explanation": "Disebut revolusi karena perubahan ini sangat fundamental. Dengan bercocok tanam, manusia tidak perlu lagi berpindah-pindah (nomaden) mencari makanan. Mereka mulai hidup menetap, membangun perkampungan, mengembangkan sistem pembagian kerja, menciptakan aturan sosial, dan membentuk struktur masyarakat yang lebih kompleks. Ini adalah fondasi bagi lahirnya peradaban."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Hindu-Buddha & Islam",
+    "question": "Akulturasi budaya yang paling menonjol antara kebudayaan Islam dengan kebudayaan lokal pra-Islam di Indonesia dalam bidang arsitektur dapat dilihat pada...",
+    "options": [
+      "Penggunaan kubah besar pada bangunan masjid seperti di Timur Tengah.",
+      "Bentuk menara masjid yang menyerupai punden berundak-undak.",
+      "Adanya mimbar di dalam masjid sebagai tempat khatib berkhutbah.",
+      "Ornamen kaligrafi yang menghiasi dinding-dinding keraton.",
+      "Tata letak keraton yang selalu berdekatan dengan alun-alun dan masjid."
+    ],
+    "answer": "Bentuk menara masjid yang menyerupai punden berundak-undak.",
+    "explanation": "Bentuk menara Masjid Kudus dan beberapa masjid kuno lainnya yang menyerupai bangunan candi atau punden berundak adalah contoh akulturasi paling jelas. Ini menunjukkan adanya perpaduan unsur arsitektur Islam dengan konsep bangunan suci dari masa pra-Islam (Hindu-Buddha) yang sudah ada sebelumnya di Nusantara."
+  },
+    {
+    "subtest": "Penguasaan Konten - Sejarah Hindu-Buddha & Islam",
+    "question": "Kemunduran Kerajaan Sriwijaya sebagai pusat kekuatan maritim di Asia Tenggara pada abad ke-11 disebabkan oleh kombinasi beberapa faktor. Faktor eksternal yang paling menentukan dalam proses kemunduran tersebut adalah...",
+    "options": [
+        "Bencana alam letusan gunung berapi yang merusak pusat kerajaan.",
+        "Terjadinya perang saudara di antara para pangeran istana.",
+        "Serangan militer dari Kerajaan Cola (Colamandala) dari India Selatan.",
+        "Munculnya kerajaan-kerajaan kecil di pesisir yang melepaskan diri.",
+        "Menurunnya minat perdagangan internasional melalui Selat Malaka."
+    ],
+    "answer": "Serangan militer dari Kerajaan Cola (Colamandala) dari India Selatan.",
+    "explanation": "Meskipun ada faktor internal, serangan dari Kerajaan Cola pada tahun 1025 di bawah pimpinan Rajendra Chola I menjadi pukulan telak bagi Sriwijaya. Serangan ini berhasil menawan raja Sriwijaya dan melumpuhkan kekuatan armada lautnya. Peristiwa ini secara drastis melemahkan kontrol Sriwijaya atas jalur perdagangan Selat Malaka, yang merupakan sumber utama kekayaan dan kekuasaannya."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kolonialisme & Pergerakan Nasional",
+    "question": "Perbedaan mendasar antara strategi perjuangan yang diusung oleh Budi Utomo pada awal berdirinya dengan Sarekat Islam adalah...",
+    "options": [
+      "Budi Utomo bersifat radikal dan non-kooperatif, sedangkan Sarekat Islam moderat.",
+      "Budi Utomo berfokus pada bidang politik, sedangkan Sarekat Islam pada bidang ekonomi.",
+      "Budi Utomo bersifat eksklusif untuk kalangan priyayi Jawa, sedangkan Sarekat Islam lebih terbuka dan merakyat.",
+      "Budi Utomo bertujuan untuk mencapai kemerdekaan Indonesia, sedangkan Sarekat Islam hanya menuntut perbaikan sosial.",
+      "Budi Utomo didominasi oleh kaum pedagang, sedangkan Sarekat Islam oleh kaum terpelajar."
+    ],
+    "answer": "Budi Utomo bersifat eksklusif untuk kalangan priyayi Jawa, sedangkan Sarekat Islam lebih terbuka dan merakyat.",
+    "explanation": "Pada awalnya, Budi Utomo (1908) memiliki fokus pada kemajuan pendidikan dan kebudayaan bagi kaum priyayi Jawa dan Madura, sehingga keanggotaannya terbatas (eksklusif). Sebaliknya, Sarekat Islam (awalnya Sarekat Dagang Islam, 1911) dengan cepat berkembang menjadi organisasi massa yang keanggotaannya terbuka untuk seluruh lapisan masyarakat muslim tanpa memandang suku dan status sosial."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kolonialisme & Pergerakan Nasional",
+    "question": "Kebijakan Politik Etis yang diterapkan pemerintah kolonial Belanda pada awal abad ke-20 sering disebut sebagai 'pedang bermata dua' bagi Belanda sendiri. Dampak yang paling signifikan dari kebijakan ini yang berbalik merugikan kepentingan kolonialisme adalah...",
+    "options": [
+      "Meningkatnya kesejahteraan rakyat secara masif sehingga mereka tidak lagi mau bekerja di perkebunan.",
+      "Pembangunan irigasi yang justru menyuburkan lahan-lahan milik kaum pribumi, bukan milik swasta Belanda.",
+      "Terjadinya transmigrasi besar-besaran yang mengurangi jumlah tenaga kerja murah di Pulau Jawa.",
+      "Lahirnya golongan elite terpelajar (kaum intelektual) pribumi yang kemudian menjadi pelopor pergerakan nasional.",
+      "Munculnya pemberontakan bersenjata yang dipimpin oleh para bangsawan lokal yang terdidik."
+    ],
+    "answer": "Lahirnya golongan elite terpelajar (kaum intelektual) pribumi yang kemudian menjadi pelopor pergerakan nasional.",
+    "explanation": "Salah satu program Politik Etis adalah Edukasi (pendidikan). Meskipun bertujuan untuk menghasilkan tenaga administrasi murah, program ini justru melahirkan kaum terpelajar pribumi. Mereka kemudian sadar akan kondisi bangsanya yang terjajah dan menjadi motor penggerak organisasi-organisasi pergerakan nasional yang menuntut kemerdekaan, sebuah konsekuensi yang tidak diinginkan oleh Belanda."
+  },
+  {
+    "subtest": "Penguasaan Konten - Pasca-Kemerdekaan",
+    "question": "Salah satu faktor utama yang menyebabkan seringnya terjadi pergantian kabinet pada masa Demokrasi Liberal (1950-1959) di Indonesia adalah...",
+    "options": [
+      "Intervensi kuat dari Presiden Soekarno dalam urusan legislatif.",
+      "Dominasi mutlak satu partai politik dalam parlemen.",
+      "Sistem multipartai yang menghasilkan parlemen terfragmentasi tanpa adanya mayoritas tunggal.",
+      "Kuatnya pengaruh militer dalam menentukan arah kebijakan kabinet.",
+      "Adanya mosi tidak percaya yang hanya bisa diajukan oleh dewan konstituante."
+    ],
+    "answer": "Sistem multipartai yang menghasilkan parlemen terfragmentasi tanpa adanya mayoritas tunggal.",
+    "explanation": "Sistem multipartai pada masa Demokrasi Liberal membuat tidak ada satu pun partai yang memenangkan suara mayoritas di parlemen. Akibatnya, kabinet yang terbentuk adalah kabinet koalisi yang sangat rentan. Jika salah satu partai menarik dukungannya, kabinet akan kehilangan mayoritas dan jatuh melalui 'mosi tidak percaya' dari parlemen. Ini menyebabkan instabilitas politik dan seringnya pergantian kabinet."
+  },
+  {
+    "subtest": "Penguasaan Konten - Pasca-Kemerdekaan",
+    "question": "Latar belakang utama dikeluarkannya Dekrit Presiden 5 Juli 1959 oleh Presiden Soekarno adalah...",
+    "options": [
+        "Keinginan Presiden Soekarno untuk menerapkan sistem pemerintahan parlementer.",
+        "Kemenangan mutlak Partai Komunis Indonesia dalam Pemilu 1955.",
+        "Keberhasilan Dewan Konstituante dalam merumuskan UUD baru pengganti UUDS 1950.",
+        "Kegagalan Dewan Konstituante mencapai mufakat dalam menyusun UUD baru yang memicu instabilitas politik.",
+        "Adanya desakan dari pihak militer untuk mengambil alih kekuasaan secara penuh."
+    ],
+    "answer": "Kegagalan Dewan Konstituante mencapai mufakat dalam menyusun UUD baru yang memicu instabilitas politik.",
+    "explanation": "Dewan Konstituante, yang bertugas menyusun UUD tetap, mengalami kebuntuan selama bertahun-tahun karena adanya perdebatan sengit antar fraksi mengenai dasar negara. Kegagalan ini menciptakan ketidakpastian dan krisis politik yang membahayakan persatuan nasional. Dekrit Presiden dikeluarkan sebagai jalan pintas untuk mengakhiri krisis tersebut dengan menyatakan kembali ke UUD 1945."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Dunia",
+    "question": "Pengaruh Revolusi Industri di Inggris pada abad ke-18 terhadap praktik kolonialisme bangsa Eropa di Asia dan Afrika pada abad ke-19 adalah...",
+    "options": [
+      "Mendorong penyebaran paham liberalisme dan demokrasi di negara-negara jajahan.",
+      "Menurunkan minat bangsa Eropa untuk mencari daerah jajahan karena fokus pada industri dalam negeri.",
+      "Memicu perlombaan mencari daerah jajahan baru sebagai sumber bahan mentah dan pasar bagi hasil industri.",
+      "Menyebabkan bangsa Eropa meninggalkan praktik eksploitasi dan menggantinya dengan kerja sama ekonomi.",
+      "Menumbuhkan gerakan anti-perbudakan di seluruh dunia karena tidak sesuai dengan prinsip industri."
+    ],
+    "answer": "Memicu perlombaan mencari daerah jajahan baru sebagai sumber bahan mentah dan pasar bagi hasil industri.",
+    "explanation": "Revolusi Industri menciptakan kebutuhan besar akan bahan mentah (kapas, karet, timah, dll.) untuk pabrik-pabrik di Eropa. Selain itu, produksi massal membutuhkan pasar baru untuk menjual barang-barang hasil industri. Hal ini mendorong gelombang baru imperialisme dan kolonialisme pada abad ke-19, di mana bangsa Eropa berlomba-lomba menguasai wilayah di Asia dan Afrika untuk memenuhi dua kebutuhan tersebut."
+  },
+    {
+    "subtest": "Penguasaan Konten - Sejarah Dunia",
+    "question": "Perang Dingin antara Amerika Serikat (Blok Barat) dan Uni Soviet (Blok Timur) memberikan dampak signifikan terhadap konstelasi politik di negara-negara berkembang, termasuk Indonesia. Dampak yang paling nyata bagi Indonesia adalah...",
+    "options": [
+        "Indonesia sepenuhnya bergabung dengan blok militer SEATO yang dipimpin AS.",
+        "Terjadinya polarisasi kekuatan politik dalam negeri yang cenderung berkiblat ke salah satu dari dua blok tersebut.",
+        "Uni Soviet memberikan bantuan ekonomi tanpa syarat untuk pembangunan Indonesia.",
+        "Indonesia berhasil menjadi penengah dalam konflik langsung antara AS dan Uni Soviet.",
+        "Terhentinya semua hubungan diplomatik Indonesia dengan negara-negara Blok Barat."
+    ],
+    "answer": "Terjadinya polarisasi kekuatan politik dalam negeri yang cenderung berkiblat ke salah satu dari dua blok tersebut.",
+    "explanation": "Meskipun Indonesia menganut politik Luar Negeri Bebas Aktif dan menjadi pelopor Gerakan Non-Blok, realitas politik dalam negeri tidak bisa lepas dari pengaruh Perang Dingin. Terjadi persaingan tajam antara kekuatan politik, misalnya antara militer (AD) yang cenderung dekat dengan Barat dengan PKI yang berkiblat ke Blok Timur. Polarisasi ini mencapai puncaknya pada peristiwa G30S/PKI tahun 1965."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Literasi",
+    "question": "Perhatikan kutipan berikut dari pidato Soekarno:\n'Janganlah mengira kita semua sudah cukup berjasa dengan turunnya bendera triwarna. Selama rakyat marhaen Indonesia masih memeras keringat, perjuangan kita belum selesai.'\n\nMakna utama yang ingin disampaikan Soekarno melalui kutipan tersebut adalah...",
+    "options": [
+      "Perjuangan fisik merebut kemerdekaan dari Belanda sudah berakhir.",
+      "Kemerdekaan sejati bukan hanya pengakuan kedaulatan, tetapi juga tercapainya keadilan sosial dan ekonomi bagi seluruh rakyat.",
+      "Bendera triwarna (merah-putih-biru) Belanda adalah simbol utama penindasan yang harus dilenyapkan.",
+      "Kaum marhaen harus berhenti bekerja keras setelah Indonesia merdeka.",
+      "Fokus perjuangan setelah merdeka adalah meningkatkan produksi pertanian."
+    ],
+    "answer": "Kemerdekaan sejati bukan hanya pengakuan kedaulatan, tetapi juga tercapainya keadilan sosial dan ekonomi bagi seluruh rakyat.",
+    "explanation": "Soekarno menekankan bahwa 'turunnya bendera triwarna' (berakhirnya kekuasaan Belanda) hanyalah awal. Perjuangan sesungguhnya ('belum selesai') adalah perjuangan untuk mensejahterakan rakyat kecil ('rakyat marhaen'). Ini menunjukkan pandangannya bahwa kemerdekaan politis harus dilanjutkan dengan perjuangan untuk mencapai kemerdekaan ekonomi dan sosial."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Literasi",
+    "question": "Bacalah teks berikut:\n'Cultuurstelsel, atau Sistem Tanam Paksa, yang diperkenalkan oleh Gubernur Jenderal Van den Bosch pada 1830, secara efektif mengubah sebagian besar lahan pertanian produktif di Jawa menjadi pabrik komoditas ekspor untuk pasar Eropa. Meskipun secara resmi petani hanya diwajibkan menyisihkan seperlima lahannya, praktiknya seringkali melebihi ketentuan. Di satu sisi, sistem ini berhasil menyelamatkan Belanda dari kebangkrutan, namun di sisi lain menyebabkan penderitaan hebat dan kelaparan bagi rakyat pribumi.'\n\nKesimpulan yang paling tepat untuk menggambarkan dualisme dampak Cultuurstelsel berdasarkan teks tersebut adalah...",
+    "options": [
+        "Cultuurstelsel hanya menguntungkan para pejabat pribumi dan Belanda.",
+        "Petani Jawa menolak sistem ini sejak awal karena tidak adil.",
+        "Sistem ini menjadi instrumen kemakmuran bagi Belanda yang dibangun di atas eksploitasi dan kemiskinan rakyat jajahannya.",
+        "Belanda mengalami kebangkrutan finansial akibat penerapan sistem tanam paksa.",
+        "Sistem ini mengajarkan cara-cara pertanian modern kepada rakyat pribumi."
+    ],
+    "answer": "Sistem ini menjadi instrumen kemakmuran bagi Belanda yang dibangun di atas eksploitasi dan kemiskinan rakyat jajahannya.",
+    "explanation": "Teks tersebut secara jelas menunjukkan dua sisi yang kontras (dualisme): 'menyelamatkan Belanda dari kebangkrutan' (kemakmuran) dan 'menyebabkan penderitaan hebat dan kelaparan bagi rakyat pribumi' (eksploitasi dan kemiskinan). Pilihan jawaban ini secara akurat merangkum kedua dampak tersebut dalam satu kesimpulan."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Numerasi",
+    "question": "Data sensus penduduk Batavia pada masa kolonial menunjukkan:\n- Tahun 1880: 95.000 jiwa\n- Tahun 1900: 116.000 jiwa\n- Tahun 1920: 235.000 jiwa\n\nBerdasarkan data tersebut, kesimpulan yang paling tepat mengenai pertumbuhan penduduk Batavia adalah...",
+    "options": [
+      "Pertumbuhan penduduk antara 1900-1920 lebih lambat dibandingkan periode 1880-1900.",
+      "Terjadi penurunan jumlah penduduk setelah tahun 1900.",
+      "Laju pertumbuhan penduduk pada periode 1900-1920 lebih dari dua kali lipat laju pertumbuhan pada periode 1880-1900.",
+      "Jumlah penduduk Batavia mengalami pertumbuhan yang konstan setiap 20 tahun.",
+      "Peningkatan jumlah penduduk terbesar terjadi pada periode 1880-1900."
+    ],
+    "answer": "Laju pertumbuhan penduduk pada periode 1900-1920 lebih dari dua kali lipat laju pertumbuhan pada periode 1880-1900.",
+    "explanation": "Analisis data:\n- Pertumbuhan 1880-1900: 116.000 - 95.000 = 21.000 jiwa.\n- Pertumbuhan 1900-1920: 235.000 - 116.000 = 119.000 jiwa.\nAngka pertumbuhan pada periode kedua (119.000) jauh lebih besar, bahkan lebih dari lima kali lipat pertumbuhan pada periode pertama (21.000). Pilihan C adalah yang paling akurat menggambarkan lonjakan pertumbuhan yang sangat signifikan ini."
+  },
+  {
+    "subtest": "Kemampuan Dasar - Numerasi",
+    "question": "Pada tahun 1930, total nilai ekspor Hindia Belanda adalah 1,2 miliar gulden. Dari jumlah tersebut, 40% berasal dari komoditas karet dan 25% berasal dari komoditas gula. Berapa total nilai ekspor dari komoditas karet dan gula jika digabungkan?",
+    "options": [
+        "650 juta gulden",
+        "720 juta gulden",
+        "780 juta gulden",
+        "840 juta gulden",
+        "900 juta gulden"
+    ],
+    "answer": "780 juta gulden",
+    "explanation": "Langkah-langkah perhitungan:\n1. Total persentase karet dan gula: 40% + 25% = 65%.\n2. Total nilai ekspor gabungan: 65% dari 1,2 miliar gulden.\n3. Perhitungan: (65 / 100) * 1.200.000.000 = 0,65 * 1.200.000.000 = 780.000.000 gulden.\nJadi, total nilainya adalah 780 juta gulden."
+  },
+  {
+    "subtest": "Penguasaan Konten - Metodologi Sejarah",
+    "question": "Dalam penulisan sejarah (historiografi), seringkali ditemukan perbedaan narasi antara versi sejarah yang ditulis oleh pemerintah kolonial dengan sejarah yang ditulis oleh sejarawan nasional pasca-kemerdekaan mengenai peristiwa yang sama. Perbedaan ini utamanya disebabkan oleh...",
+    "options": [
+        "Keterbatasan sumber sejarah yang dimiliki oleh sejarawan nasional.",
+        "Perbedaan sudut pandang (point of view) dan keberpihakan penulis.",
+        "Penggunaan metodologi penelitian yang sama sekali berbeda.",
+        "Kurangnya kemampuan sejarawan nasional dalam menafsirkan data.",
+        "Sumber sejarah dari era kolonial yang seluruhnya tidak dapat dipercaya."
+    ],
+    "answer": "Perbedaan sudut pandang (point of view) dan keberpihakan penulis.",
+    "explanation": "Setiap penulisan sejarah bersifat subjektif dan dipengaruhi oleh latar belakang, ideologi, dan tujuan penulisnya. Historiografi kolonial (misalnya, 'neerlando-sentris') cenderung membenarkan tindakan kolonialisme dan memandang perlawanan pribumi sebagai pemberontakan. Sebaliknya, historiografi nasional ('indonesia-sentris') akan menonjolkan semangat kepahlawanan dan anti-penjajahan. Perbedaan ini lahir dari sudut pandang dan kepentingan yang berbeda."
+  },
+  {
+    "subtest": "Penguasaan Konten - Pasca-Kemerdekaan",
+    "question": "Salah satu agenda utama Gerakan Reformasi 1998 adalah amandemen UUD 1945. Tujuan paling mendasar dari dilakukannya amandemen tersebut, terutama yang berkaitan dengan kekuasaan presiden, adalah...",
+    "options": [
+        "Menambah kewenangan lembaga Majelis Permusyawaratan Rakyat (MPR).",
+        "Membatasi masa jabatan dan kekuasaan presiden untuk mencegah absolutisme.",
+        "Menghapuskan sistem pemilihan umum dan menggantinya dengan penunjukan langsung.",
+        "Memberikan hak otonomi seluas-luasnya kepada setiap provinsi.",
+        "Mengembalikan fungsi ABRI (TNI/Polri) dalam kancah politik praktis."
+    ],
+    "answer": "Membatasi masa jabatan dan kekuasaan presiden untuk mencegah absolutisme.",
+    "explanation": "Pengalaman masa Orde Baru, di mana kekuasaan presiden sangat besar dan tanpa batas masa jabatan yang jelas (power tends to corrupt), menjadi pelajaran utama bagi gerakan reformasi. Oleh karena itu, salah satu fokus utama amandemen UUD 1945 adalah untuk membangun sistem 'checks and balances' dengan membatasi kekuasaan eksekutif, termasuk pembatasan masa jabatan presiden menjadi maksimal dua periode, untuk mencegah terulangnya pemerintahan yang otoriter."
+  },
+  {
+    "subtest": "Penguasaan Konten - Sejarah Dunia",
+    "question": "Perjanjian Versailles yang mengakhiri Perang Dunia I sering dianggap sebagai salah satu pemicu terjadinya Perang Dunia II karena...",
+    "options": [
+        "Memberikan wilayah yang terlalu luas kepada negara-negara yang baru merdeka.",
+        "Gagal membentuk Liga Bangsa-Bangsa sebagai badan perdamaian dunia.",
+        "Menetapkan hukuman yang sangat berat dan merendahkan bagi Jerman, sehingga menumbuhkan semangat balas dendam (revansisme).",
+        "Membagi wilayah koloni negara-negara pemenang perang secara tidak adil.",
+        "Membiarkan Jerman untuk kembali membangun kekuatan militernya tanpa batasan apapun."
+    ],
+    "answer": "Menetapkan hukuman yang sangat berat dan merendahkan bagi Jerman, sehingga menumbuhkan semangat balas dendam (revansisme).",
+    "explanation": "Perjanjian Versailles (1919) memaksa Jerman untuk menerima seluruh kesalahan sebagai penyebab perang, kehilangan wilayahnya, demiliterisasi, dan membayar pampasan perang yang sangat besar. Klausul-klausul yang 'menghukum' ini menyebabkan krisis ekonomi dan melukai harga diri bangsa Jerman, yang kemudian dimanfaatkan oleh Adolf Hitler dan Partai Nazi untuk membangkitkan nasionalisme ekstrem dan semangat balas dendam, yang berujung pada pecahnya Perang Dunia II."
+  }
+],
+
+    // --- Data dinamis ini tidak perlu diubah ---
+    judulHalaman: document.title,
+    url: window.location.href
+};
+
+// ===================================================================================
+// --- FUNGSI PENGIRIMAN DATA KE GOOGLE SHEET (DIPERBARUI) ---
+// ===================================================================================
+async function kirimKeGoogleSheet(data) {
+    const statusEl = document.getElementById('submission-status');
+    statusEl.textContent = 'Mengirim hasil ujian...';
+    
+    const formData = new FormData();
+    // Menambahkan semua data ke dalam objek FormData.
+    formData.append('kategori', data.kategori);
+    formData.append('url', data.url);
+    formData.append('judulHalaman', data.judulHalaman);
+    formData.append('Nama', data.Nama);
+    formData.append('JumlahSoal', data.JumlahSoal);
+    formData.append('JawabanBenar', data.JawabanBenar);
+    formData.append('JawabanSalah', data.JawabanSalah);
+    formData.append('TidakDijawab', data.TidakDijawab);
+    formData.append('Durasi', data.Durasi);
+    formData.append('Nilai', data.Nilai);
+    formData.append('StatusKelulusan', data.StatusKelulusan);
+
+    try {
+        const response = await fetch(EXAM_CONFIG.scriptURL, {
+            method: 'POST',
+            body: formData
+        });
+        
+        // Membaca respons sebagai JSON untuk mendapatkan pesan sukses/error dari server
+        const result = await response.json();
+        
+        if (result.result === "success") {
+            statusEl.innerHTML = `Hasil ujian berhasil disimpan. <b><a href="${EXAM_CONFIG.linkPeringkat}">Cek Peringkat kamu di sini</a></b>`;
+            statusEl.style.color = 'green';
+        } else {
+            // Menampilkan pesan error yang lebih spesifik dari server
+            throw new Error(result.message || 'Terjadi kesalahan dari server.');
+        }
+    } catch (error) {
+        console.error('Error saat mengirim ke Google Sheet:', error);
+        statusEl.textContent = `Gagal menyimpan hasil. Coba lagi nanti. Error: ${error.message}`;
+        statusEl.style.color = 'red';
+    }
+}
+
+// ===================================================================================
+// --- LOGIKA UTAMA UJIAN (DISESUAIKAN, TIDAK PERLU DIUBAH LAGI) ---
+// ===================================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Menggunakan bank soal dari EXAM_CONFIG
+    const questions = EXAM_CONFIG.bankSoal;
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let questionStatus = new Array(questions.length).fill('unanswered');
+    let timerInterval;
+    let startTime;
+    let currentUsername = '';
+
+    const loginContainer = document.getElementById('login-container');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('login-btn');
+    const loginError = document.getElementById('login-error');
+    const appHeader = document.querySelector('.header');
+    const quizContainer = document.querySelector('.quiz-container');
+    const resultPage = document.getElementById('result-page');
+    const subtestTitleEl = document.getElementById('subtest-title');
+    const questionNumberEl = document.getElementById('question-number');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsEl = document.getElementById('options');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const doubtfulBtn = document.getElementById('doubtful-btn');
+    const finishBtn = document.getElementById('finish-btn');
+    const timerEl = document.getElementById('timer');
+    const restartBtn = document.getElementById('restart-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const headerInfo = document.getElementById('header-info');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmYesBtn = document.getElementById('confirm-yes');
+    const confirmNoBtn = document.getElementById('confirm-no');
+    
+    function showLoginPage() {
+        loginContainer.style.display = 'block'; // Diubah dari 'flex' agar sesuai skrip asli
+        appHeader.style.display = 'none';
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'none';
+        passwordInput.value = '';
+        loginError.style.display = 'none';
+    }
+
+    function handleLogin() {
+        const password = passwordInput.value;
+        const username = usernameInput.value.trim();
+        if (username === "") {
+            loginError.textContent = "Username tidak boleh kosong.";
+            loginError.style.display = 'block';
+            return;
+        }
+        // Menggunakan password dari EXAM_CONFIG
+        if (password === EXAM_CONFIG.password) {
+            currentUsername = username;
+            loginContainer.style.display = 'none';
+            appHeader.style.display = 'flex';
+            quizContainer.style.display = 'flex';
+            resultPage.style.display = 'none';
+            headerInfo.textContent = `Peserta: ${currentUsername}`;
+            startQuiz();
+        } else {
+            loginError.textContent = "Password salah. Coba lagi.";
+            loginError.style.display = 'block';
+        }
+    }
+    
+    function handleLogout() {
+        clearInterval(timerInterval);
+        showLoginPage();
+    }
+
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        userAnswers.fill(null);
+        questionStatus.fill('unanswered');
+        quizContainer.style.display = 'flex';
+        resultPage.style.display = 'none';
+        setupQuestionGrids();
+        displayQuestion(currentQuestionIndex);
+        // Menggunakan durasi dari EXAM_CONFIG
+        startTimer(EXAM_CONFIG.durasiMenit * 60);
+        startTime = new Date();
+    }
+
+    function setupQuestionGrids() {
+        const gridContainer = document.getElementById('grid-container');
+        gridContainer.innerHTML = '';
+        const subtests = [...new Set(questions.map(q => q.subtest))];
+        subtests.forEach(subtest => {
+            const group = document.createElement('div');
+            group.className = 'subtest-group';
+            const title = document.createElement('h3');
+            title.textContent = subtest;
+            const grid = document.createElement('div');
+            grid.className = 'question-grid';
+            group.appendChild(title);
+            group.appendChild(grid);
+            gridContainer.appendChild(group);
+            questions.forEach((q, index) => {
+                if (q.subtest === subtest) {
+                    const button = document.createElement('button');
+                    button.className = 'grid-button';
+                    button.textContent = index + 1;
+                    button.onclick = () => jumpToQuestion(index);
+                    grid.appendChild(button);
+                }
+            });
+        });
+    }
+
+    function displayQuestion(index) {
+        document.querySelector('.grid-button.current')?.classList.remove('current');
+        currentQuestionIndex = index;
+        const question = questions[index];
+        subtestTitleEl.textContent = question.subtest;
+        questionNumberEl.textContent = index + 1;
+        questionTextEl.innerHTML = question.question;
+        optionsEl.innerHTML = '';
+        question.options.forEach(option => {
+            const li = document.createElement('li');
+            const label = document.createElement('label');
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = `option-${index}`;
+            radio.value = option;
+            if (userAnswers[index] === option) {
+                radio.checked = true;
+                label.classList.add('selected');
+            }
+            radio.onchange = () => selectAnswer(index, option, label);
+            const span = document.createElement('span');
+            span.innerHTML = option; // Menggunakan innerHTML untuk render jika ada format
+            label.appendChild(radio);
+            label.appendChild(span);
+            li.appendChild(label);
+            optionsEl.appendChild(li);
+        });
+        updateNavButtons();
+        updateGridButtonStatus(index, true);
+    }
+
+    function selectAnswer(index, answer, label) {
+        userAnswers[index] = answer;
+        document.querySelectorAll(`#options li label`).forEach(l => l.classList.remove('selected'));
+        label.classList.add('selected');
+        if (questionStatus[index] !== 'doubtful') {
+            questionStatus[index] = 'answered';
+        }
+        updateGridButtonStatus(index);
+    }
+    
+    function updateNavButtons() {
+        prevBtn.disabled = currentQuestionIndex === 0;
+        nextBtn.disabled = currentQuestionIndex === questions.length - 1;
+    }
+    
+    function updateGridButtonStatus(index, isCurrent = false) {
+        const allGridButtons = document.querySelectorAll('.grid-button');
+        if (isCurrent) {
+            const currentBtn = document.querySelector('.grid-button.current');
+            if (currentBtn) currentBtn.classList.remove('current');
+        }
+        const button = Array.from(allGridButtons).find(btn => parseInt(btn.textContent) === index + 1);
+        if (!button) return;
+        if(isCurrent) button.classList.add('current');
+        button.classList.remove('answered', 'doubtful');
+        switch (questionStatus[index]) {
+            case 'answered': button.classList.add('answered'); break;
+            case 'doubtful': button.classList.add('doubtful'); break;
+        }
+    }
+
+    function jumpToQuestion(index) {
+        displayQuestion(index);
+    }
+
+    function startTimer(duration) {
+        let timer = duration;
+        clearInterval(timerInterval);
+        timerEl.parentElement.classList.remove('low-time');
+        timerInterval = setInterval(() => {
+            let minutes = parseInt(timer / 60, 10);
+            let seconds = parseInt(timer % 60, 10);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            timerEl.textContent = `${minutes}:${seconds}`;
+            if (timer < 300 && !timerEl.parentElement.classList.contains('low-time')) { 
+                timerEl.parentElement.classList.add('low-time'); 
+            }
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                finishQuiz();
+            }
+        }, 1000);
+    }
+    
+    function showConfirmation() {
+        confirmationModal.style.display = 'flex';
+    }
+
+    function formatDuration(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes} menit ${seconds.toString().padStart(2, '0')} detik`;
+}
+
+
+    function finishQuiz() {
+        clearInterval(timerInterval);
+        confirmationModal.style.display = 'none';
+        const endTime = new Date();
+        const durationMs = endTime - startTime;
+        let correctCount = 0;
+        questions.forEach((q, index) => {
+            if (userAnswers[index] === q.answer) correctCount++;
+        });
+        const totalQuestions = questions.length;
+        const answeredCount = userAnswers.filter(a => a !== null).length;
+        const incorrectCount = answeredCount - correctCount;
+        const unansweredCount = totalQuestions - answeredCount;
+        const finalScore = totalQuestions > 0 ? parseFloat(((correctCount / totalQuestions) * 100).toFixed(2)) : 0;
+        const isPassed = finalScore >= EXAM_CONFIG.passingGrade;
+        
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'block';
+        headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
+        
+        const statusEl = document.getElementById('status-lulus');
+        statusEl.textContent = isPassed ? 'SELAMAT, ANDA LULUS!' : 'MAAF, ANDA BELUM LULUS';
+        statusEl.className = `status ${isPassed ? 'lulus' : 'gagal'}`;
+        document.getElementById('final-score').textContent = finalScore;
+        document.getElementById('score-details').textContent = `${correctCount} dari ${totalQuestions} soal benar`;
+        
+        const reviewSection = document.getElementById('review-section');
+        reviewSection.innerHTML = '';
+        questions.forEach((q, index) => {
+            const userAnswer = userAnswers[index];
+            const isCorrect = userAnswer === q.answer;
+            reviewSection.innerHTML += `
+                <div class="review-item">
+                    <p><strong>Soal ${index + 1}:</strong> ${q.question}</p>
+                    <div class="review-answer user-answer ${isCorrect ? '' : 'is-incorrect'}">Jawaban Anda: ${userAnswer || 'Tidak Dijawab'}</div>
+                    ${!isCorrect ? `<div class="review-answer correct-answer">Jawaban Benar: ${q.answer}</div>` : ''}
+                    <div class="explanation"><strong>Pembahasan:</strong> ${q.explanation}</div>
+                </div>
+            `;
+        });
+        
+        const dataForSheet = {
+            kategori: EXAM_CONFIG.kategori,
+            url: EXAM_CONFIG.url,
+            judulHalaman: EXAM_CONFIG.judulHalaman,
+            Nama: currentUsername,
+            JumlahSoal: totalQuestions,
+            JawabanBenar: correctCount,
+            JawabanSalah: incorrectCount,
+            TidakDijawab: unansweredCount,
+            Durasi: formatDuration(durationMs),
+            Nilai: finalScore,
+            StatusKelulusan: isPassed ? 'Lulus' : 'Tidak Lulus'
+        };
+        kirimKeGoogleSheet(dataForSheet);
+    }
+
+    // Event Listeners
+    loginBtn.addEventListener('click', handleLogin);
+    passwordInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
+    logoutBtn.addEventListener('click', handleLogout);
+    prevBtn.addEventListener('click', () => { if (currentQuestionIndex > 0) displayQuestion(currentQuestionIndex - 1) });
+    nextBtn.addEventListener('click', () => { if (currentQuestionIndex < questions.length - 1) displayQuestion(currentQuestionIndex + 1) });
+    doubtfulBtn.addEventListener('click', () => {
+        const currentStatus = questionStatus[currentQuestionIndex];
+        if (currentStatus === 'doubtful') {
+            questionStatus[currentQuestionIndex] = userAnswers[currentQuestionIndex] ? 'answered' : 'unanswered';
+        } else {
+            questionStatus[currentQuestionIndex] = 'doubtful';
+        }
+        updateGridButtonStatus(currentQuestionIndex);
+    });
+    finishBtn.addEventListener('click', showConfirmation);
+    confirmYesBtn.addEventListener('click', finishQuiz);
+    confirmNoBtn.addEventListener('click', () => confirmationModal.style.display = 'none');
+    restartBtn.addEventListener('click', handleLogout);
+
+    showLoginPage();
+});
+</script>
