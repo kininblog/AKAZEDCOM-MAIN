@@ -51,6 +51,7 @@ Apakah Anda sedang mencari **contoh soal PPG Sejarah HOTS** yang berkualitas? Ap
 ![try out dan latihan soal ppg sejarah](images/banner-sejarah.webp)
 
 Halaman ini bukan sekadar halaman try out biasa. Kami menyajikan sebuah **bank soal HOTS PPG Sejarah** yang dirancang khusus untuk mensimulasikan tantangan ujian yang sesungguhnya. Lupakan soal-soal hafalan tanggal dan nama. Ujian PPG modern menuntut kemampuan analisis, evaluasi, dan pemecahan masalah tingkat tinggi. Mari kita bedah bersama seluk-beluk tes substantif dan bagaimana Anda bisa menaklukkannya.
+{{< ujian/read-also >}}
 
 ## Kenapa Try Out Ini Berbeda? Fokus pada Soal HOTS!
 
@@ -79,6 +80,7 @@ Sebelum melangkah lebih jauh, penting untuk memahami "medan perang" Anda. **Apa 
 |                      | **4. Pedagogik Dasar:**<br>- Teori Belajar & Model Pembelajaran Sejarah.<br>- Pengembangan Kurikulum & Asesmen Pembelajaran.                                                                                      |                                                    |
 | **Kemampuan Dasar** | **1. Literasi:**<br>- Menganalisis & mengevaluasi informasi dari teks sejarah, artikel, atau infografis.<br>- Menemukan ide pokok dan kesimpulan dari bacaan.                                                      | Bagian dari total tes, jumlah bervariasi.          |
 |                      | **2. Numerasi:**<br>- Menginterpretasi data kuantitatif dalam konteks sejarah (tabel, grafik, diagram).<br>- Menerapkan konsep matematika dasar untuk memecahkan masalah sosial-historis.                           |                                                    |
+{{< adsense/in-article >}}
 
 ## Keunggulan Try Out Online Dibandingkan Format Lain
 
