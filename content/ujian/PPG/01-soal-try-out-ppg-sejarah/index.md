@@ -39,11 +39,6 @@ difficulty: "Sulit"
 {{< ujian/PPG/01-ppg-sejarah >}}
 
 
-
-# Try Out PPG Sejarah 2025: Bank Soal HOTS & Strategi Jitu Lolos Tes Substantif
-
-
-
 Selamat datang di halaman **try out ppg sejarah online** terlengkap sebagai persiapan Anda menghadapi **seleksi PPG Prajabatan 2025** dan tahun-tahun berikutnya! Ribuan sarjana pendidikan sejarah di seluruh Indonesia kini tengah mempersiapkan diri untuk bersaing memperebutkan kursi menjadi *[guru profesional bersertifikat](/mengenal-apa-itu-ppg-guru/)*. Salah satu tahapan paling krusial dan menentukan adalah **Tes Substantif**, yang menguji penguasaan konten profesional dan pedagogik secara mendalam.
 
 Apakah Anda sedang mencari **contoh soal PPG Sejarah HOTS** yang berkualitas? Apakah Anda ingin berlatih dengan **[Soal PPG Prajabatan Sejarah](/ujian/ppg/01-soal-try-out-ppg-sejarah/)** yang relevan dengan format ujian terbaru? Jika iya, Anda berada di halaman yang tepat.

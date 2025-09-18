@@ -1,0 +1,1783 @@
+    <!-- SELURUH KONTEN HTML ANDA DARI SINI -->
+    <div id="login-container">
+        <div class="login-box">
+            <h2>Login Peserta Ujian</h2>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan username Anda">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password">
+            </div>
+            <button id="login-btn">Masuk</button>
+            <p id="login-error">Password salah. Coba lagi.</p>
+            <a href="/ujian/cara-ikut-tryout-online-gratis" style="text-decoration: none;">
+                <button id="cara-btn" type="button">Cara Ikut Try Out</button>
+            </a>
+        </div>
+    </div>
+
+    <header class="header" style="display: none;">
+        <h2>Simulasi Ujian</h2>
+        <div class="user-info">
+            <span id="header-info"></span>
+            <button id="logout-btn">Logout</button>
+        </div>
+    </header>
+{{ partial "adsense/display-ad.html" . }}
+
+    <div class="quiz-container" style="display: none;">
+        <main class="question-panel">
+            <div class="question-header">
+                <span id="subtest-title">Subtes</span> | Soal No. <span id="question-number">1</span>
+            </div>
+            <div class="question-body">
+                <p id="question-text">Memuat soal...</p>
+                <ul id="options" class="options-list"></ul>
+            </div>
+            <div class="quiz-actions">
+                <button id="prev-btn" class="action-button">Sebelumnya</button>
+                <button id="doubtful-btn" class="action-button">Ragu-ragu</button>
+                <button id="next-btn" class="action-button">Selanjutnya</button>
+            </div>
+        </main>
+        <aside class="navigation-panel">
+            <div class="timer-box">
+                Sisa Waktu
+                <div id="timer">30:00</div>
+            </div>
+            <div id="grid-container" class="question-grid-container"></div>
+            <div class="quiz-actions" style="justify-content: center;">
+                <button id="finish-btn" class="action-button">Selesaikan Ujian</button>
+            </div>
+        </aside>
+    </div>
+
+    <div id="result-page" class="result-container" style="display: none;">
+        <div class="result-card overall-summary">
+            <div id="status-lulus" class="status"></div>
+            <h2>Hasil Akhir Ujian</h2>
+            <div id="final-score" class="score">0</div>
+            <div id="score-details" class="score-details"></div>
+            <div id="submission-status"></div>
+        </div>
+        <div class="result-card">
+            <h3>Tinjauan Jawaban</h3>
+            <div id="review-section"></div>
+        </div>
+        <div style="text-align: center;">
+           <button id="restart-btn" class="action-button">Ulangi Ujian</button>
+        </div>
+    </div>
+    
+    <div id="confirmation-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Selesaikan Ujian?</h2>
+            <p>Apakah Anda yakin ingin menyelesaikan dan mengakhiri sesi ujian ini?</p>
+            <div class="modal-actions">
+                <button id="confirm-no" class="action-button">Batal</button>
+                <button id="confirm-yes" class="action-button">Ya, Selesaikan</button>
+            </div>
+        </div>
+    </div>
+    <!-- HINGGA AKHIR KONTEN HTML ANDA -->
+
+<script>
+// ===================================================================================
+// --- KONFIGURASI UJIAN (HANYA UBAH BAGIAN INI UNTUK UJIAN BARU) ---
+// ===================================================================================
+const EXAM_CONFIG = {
+    // 1. Ganti nama kategori ini sesuai nama sheet di Google Sheets (cth: "TWK", "TKP")
+    kategori: "PPG",
+    
+    // 2. Ganti URL ini dengan URL Web App dari Google Script Anda yang sudah di-deploy ulang.
+    scriptURL: 'https://script.google.com/macros/s/AKfycbxNJ9pOsCPSPAPRQKfoq43AwmVMSIScq6AIa33Q0dxnMI-jb1xuxi1aK3bUBFDstinDiQ/exec',
+    
+    // 3. Ganti link peringkat ini ke halaman peringkat yang sesuai.
+    linkPeringkat: "/ujian/ranking-peserta-tryout/",
+    
+    // 4. Sesuaikan pengaturan ujian jika perlu.
+    durasiMenit: 180,
+    passingGrade: 65,
+    password: "ujian",
+    
+    // 5. Ganti seluruh isi bank soal di bawah ini dengan soal yang sesuai.
+    bankSoal: [
+  {
+    "subtest": "Penguasaan Konten - Teori Perkembangan Anak",
+    "question": "Seorang anak berusia 4 tahun, Leo, sangat suka bermain peran menjadi dokter. Ia menggunakan balok sebagai stetoskop dan boneka sebagai pasiennya. Ketika temannya ingin meminjam 'stetoskop'-nya, Leo menolak dan berkata, 'Tidak boleh, nanti stetoskopnya sakit.' Kemampuan Leo dalam menggunakan satu objek untuk merepresentasikan objek lain dan keyakinannya bahwa benda mati memiliki perasaan adalah ciri khas dari tahap perkembangan kognitif...",
+    "options": [
+      "Sensorimotor, karena ia berinteraksi dengan objek konkret",
+      "Praoperasional, ditandai dengan pemikiran simbolis dan animisme",
+      "Operasional Konkret, karena ia sudah bisa bermain peran secara logis",
+      "Formal Operasional, karena imajinasinya sudah sangat berkembang",
+      "Intuitif, karena ia bertindak berdasarkan perasaannya"
+    ],
+    "answer": "Praoperasional, ditandai dengan pemikiran simbolis dan animisme",
+    "explanation": "Menurut Jean Piaget, tahap praoperasional (usia 2-7 tahun) ditandai oleh kemampuan berpikir simbolis (menggunakan balok sebagai stetoskop) dan animisme (menganggap benda mati hidup dan punya perasaan). Ini bukan sensorimotor karena fokusnya pada representasi, bukan sekadar eksplorasi sensorik. Belum mencapai operasional konkret karena pemikirannya masih egosentris dan belum logis."
+  },
+  {
+    "subtest": "Penguasaan Konten - Teori Perkembangan Anak",
+    "question": "Ibu Sari memperhatikan bahwa putrinya, Dina (5 tahun), lebih mudah belajar dan mengingat gerakan tari baru ketika ia melihat contoh langsung dari gurunya dan mempraktikkannya bersama teman-temannya, dibandingkan hanya mendengarkan instruksi verbal. Menurut teori Vygotsky, interaksi Dina dengan guru dan teman-temannya yang lebih kompeten berada dalam konsep...",
+    "options": [
+      "Scaffolding",
+      "Zone of Proximal Development (ZPD)",
+      "Egosentrisme",
+      "Asimilasi",
+      "Akomodasi"
+    ],
+    "answer": "Zone of Proximal Development (ZPD)",
+    "explanation": "Zone of Proximal Development (ZPD) adalah jarak antara apa yang dapat dipelajari anak sendiri dan apa yang dapat ia pelajari dengan bantuan orang dewasa atau teman sebaya yang lebih mampu. Guru dan teman-teman Dina bertindak sebagai 'More Knowledgeable Other' (MKO) yang membantunya mencapai kemampuan baru (menari) di dalam ZPD-nya. Scaffolding adalah *teknik* yang digunakan dalam ZPD, tetapi ZPD adalah *konsep* zona pembelajarannya."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kurikulum & Perencanaan Pembelajaran",
+    "question": "Dalam konteks Kurikulum Merdeka di PAUD, seorang guru merancang kegiatan bermain dengan menyediakan berbagai bahan 'loose parts' seperti kardus bekas, botol plastik, daun kering, dan kain perca di area bermain. Tujuan utama dari pendekatan ini adalah untuk...",
+    "options": [
+      "Menghemat anggaran sekolah karena menggunakan bahan bekas",
+      "Mengajarkan anak untuk selalu merapikan mainan setelah digunakan",
+      "Menstimulasi kreativitas, imajinasi, dan kemampuan pemecahan masalah anak",
+      "Memastikan semua anak mendapatkan hasil karya yang seragam dan rapi",
+      "Menggantikan peran guru dalam memberikan instruksi kegiatan"
+    ],
+    "answer": "Menstimulasi kreativitas, imajinasi, dan kemampuan pemecahan masalah anak",
+    "explanation": "Loose parts adalah material terbuka (open-ended) yang dapat digunakan anak dalam berbagai cara sesuai imajinasinya. Pendekatan ini secara langsung mendukung prinsip Kurikulum Merdeka yang berpusat pada anak, di mana anak menjadi subjek aktif dalam pembelajarannya, sehingga menstimulasi kreativitas, imajinasi, dan problem solving."
+  },
+  {
+    "subtest": "Penguasaan Konten - Penilaian (Asesmen) Perkembangan Anak",
+    "question": "Bu Rina melihat Adi (5 tahun) berhasil memakai sepatunya sendiri tanpa bantuan setelah beberapa kali mencoba. Untuk mendokumentasikan perkembangan kemandirian ini secara efektif dalam penilaian autentik, tindakan yang paling tepat dilakukan Bu Rina adalah...",
+    "options": [
+      "Memberikan nilai angka 80 pada rapor Adi di kolom kemandirian",
+      "Menulis catatan anekdot yang mendeskripsikan kejadian tersebut secara objektif",
+      "Memfoto Adi saat memakai sepatu dan langsung menempelkannya di portofolio",
+      "Meminta Adi untuk mengulangi memakai sepatu di depan guru lain sebagai bukti",
+      "Memberikan stiker bintang pada Adi dan menganggap asesmen selesai"
+    ],
+    "answer": "Menulis catatan anekdot yang mendeskripsikan kejadian tersebut secara objektif",
+    "explanation": "Catatan anekdot adalah teknik penilaian autentik yang paling tepat untuk merekam peristiwa spesifik yang menunjukkan perkembangan anak. Catatan ini berisi deskripsi objektif tentang apa yang terjadi, kapan, di mana, dan apa yang dikatakan atau dilakukan anak. Ini memberikan data kualitatif yang kaya, berbeda dari sekadar foto tanpa konteks atau nilai kuantitatif."
+  },
+  {
+    "subtest": "Penguasaan Konten - Strategi & Metode Pembelajaran PAUD",
+    "question": "Sebuah PAUD yang terletak di dekat pantai ingin melaksanakan pembelajaran berbasis proyek dengan tema 'Kehidupan Bawah Laut'. Langkah awal yang paling esensial dan sesuai dengan prinsip pembelajaran berpusat pada anak adalah...",
+    "options": [
+      "Guru langsung menyiapkan materi dan media tentang ikan, terumbu karang, dan biota laut lainnya.",
+      "Mengajak anak-anak berdiskusi tentang apa yang mereka ketahui dan ingin ketahui tentang pantai dan laut.",
+      "Memberikan tugas kepada setiap anak untuk menggambar ikan paus di rumah.",
+      "Menghubungi ahli biologi laut untuk menjadi narasumber di akhir proyek.",
+      "Membuat daftar aturan ketat yang harus dipatuhi saat kunjungan ke pantai."
+    ],
+    "answer": "Mengajak anak-anak berdiskusi tentang apa yang mereka ketahui dan ingin ketahui tentang pantai dan laut.",
+    "explanation": "Pembelajaran berbasis proyek yang berpusat pada anak harus dimulai dari minat dan pengetahuan awal anak. Dengan berdiskusi, guru memantik rasa ingin tahu dan menjadikan pertanyaan anak sebagai dasar untuk pengembangan proyek. Ini memastikan proyek relevan dan bermakna bagi anak, bukan sekadar menjalankan agenda yang telah ditetapkan guru."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kesehatan dan Gizi Anak Usia Dini",
+    "question": "Pihak sekolah PAUD Pelangi menyadari beberapa anak sering membawa bekal makanan ringan kemasan yang tinggi gula. Untuk mengatasi masalah ini secara edukatif dan kolaboratif, langkah yang paling efektif adalah...",
+    "options": [
+      "Melarang total semua jenis makanan ringan kemasan dibawa ke sekolah.",
+      "Memberikan surat teguran kepada orang tua yang memberikan bekal tidak sehat.",
+      "Mengadakan program 'Koki Cilik' di mana anak dan orang tua diajak membuat bekal sehat bersama di sekolah.",
+      "Hanya memajang gambar-gambar makanan sehat di dinding kelas.",
+      "Menyita makanan ringan yang dibawa anak dan menggantinya dengan buah dari sekolah."
+    ],
+    "answer": "Mengadakan program 'Koki Cilik' di mana anak dan orang tua diajak membuat bekal sehat bersama di sekolah.",
+    "explanation": "Pendekatan yang paling efektif adalah yang bersifat edukatif, melibatkan, dan memberdayakan. Program 'Koki Cilik' bersama orang tua tidak hanya memberikan pengetahuan tentang gizi seimbang, tetapi juga memberikan pengalaman langsung yang menyenangkan bagi anak dan membekali orang tua dengan ide-ide praktis. Ini lebih positif dan berkelanjutan daripada larangan atau teguran."
+  },
+  {
+    "subtest": "Penguasaan Konten - Keterampilan Pedagogik spesifik PAUD",
+    "question": "Orang tua dari Fira (4 tahun) mengeluh kepada guru bahwa Fira menjadi lebih pemalu dan tidak mau bercerita tentang kegiatannya di sekolah. Guru menyadari pentingnya membangun kembali komunikasi. Tindakan pertama yang paling tepat untuk membangun kemitraan dengan orang tua dalam situasi ini adalah...",
+    "options": [
+      "Meminta orang tua untuk lebih sering bertanya kepada Fira di rumah.",
+      "Menjelaskan bahwa Fira baik-baik saja di sekolah dan itu hanya fase.",
+      "Mengatur pertemuan khusus dengan orang tua untuk mendengarkan kekhawatiran mereka secara penuh dan berbagi pengamatan positif tentang Fira di sekolah.",
+      "Mengirimkan laporan perkembangan Fira yang menunjukkan semua aspek perkembangannya sudah baik.",
+      "Menyarankan orang tua untuk membawa Fira ke psikolog anak."
+    ],
+    "answer": "Mengatur pertemuan khusus dengan orang tua untuk mendengarkan kekhawatiran mereka secara penuh dan berbagi pengamatan positif tentang Fira di sekolah.",
+    "explanation": "Kunci kemitraan adalah komunikasi dua arah dan rasa saling percaya. Langkah pertama adalah mendengarkan (validasi) kekhawatiran orang tua, bukan membantah atau meremehkannya. Kemudian, berbagi pengamatan positif dapat menenangkan orang tua dan membuka jalan untuk berdiskusi mencari solusi bersama. Ini menunjukkan sikap profesional dan empati."
+  },
+  {
+    "subtest": "Penguasaan Konten - Teori Perkembangan Anak",
+    "question": "Menurut teori perkembangan psikososial Erik Erikson, anak usia 4-5 tahun berada pada tahap 'Inisiatif vs. Rasa Bersalah' (Initiative vs. Guilt). Manakah skenario kelas berikut yang paling mendukung pengembangan inisiatif pada anak?",
+    "options": [
+      "Guru memberikan jadwal kegiatan yang sangat terstruktur dan harus diikuti semua anak tanpa kecuali.",
+      "Anak-anak diberi kebebasan untuk memilih pusat kegiatan (sentra) yang mereka minati dan mengeksplorasi materi di dalamnya.",
+      "Guru selalu memberikan jawaban yang benar ketika anak bertanya, tanpa memberikan kesempatan anak untuk berpikir sendiri.",
+      "Setiap hasil karya anak yang tidak rapi akan diminta untuk diperbaiki hingga sempurna.",
+      "Guru lebih banyak menggunakan metode ceramah untuk menjelaskan konsep baru."
+    ],
+    "answer": "Anak-anak diberi kebebasan untuk memilih pusat kegiatan (sentra) yang mereka minati dan mengeksplorasi materi di dalamnya.",
+    "explanation": "Tahap 'Inisiatif vs. Rasa Bersalah' adalah tentang anak mulai merencanakan dan mencoba hal-hal baru. Memberikan pilihan dan kebebasan untuk bereksplorasi (seperti memilih sentra) akan menumbuhkan rasa inisiatif. Sebaliknya, lingkungan yang terlalu kaku, berfokus pada kesempurnaan, atau tidak memberikan ruang untuk eksplorasi dapat memunculkan rasa bersalah jika anak melakukan 'kesalahan'."
+  },
+  {
+    "subtest": "Penguasaan Konten - Penilaian (Asesmen) Perkembangan Anak",
+    "question": "Seorang guru menggunakan rubrik untuk menilai kemampuan anak dalam menceritakan kembali sebuah cerita. Salah satu kriteria dalam rubrik adalah 'Urutan Cerita'. Manakah deskriptor perilaku yang paling tepat untuk level 'Berkembang Sesuai Harapan' (BSH) pada anak usia 5-6 tahun?",
+    "options": [
+      "Anak dapat menyebutkan nama tokoh utama dalam cerita.",
+      "Anak menceritakan kembali beberapa bagian cerita secara acak.",
+      "Anak dapat menceritakan kembali isi cerita dengan urutan peristiwa yang runtut (awal, tengah, akhir).",
+      "Anak dapat menceritakan kembali cerita dengan ekspresi dan intonasi yang sesuai.",
+      "Anak hanya diam saat diminta menceritakan kembali."
+    ],
+    "answer": "Anak dapat menceritakan kembali isi cerita dengan urutan peristiwa yang runtut (awal, tengah, akhir).",
+    "explanation": "Rubrik digunakan untuk penilaian yang objektif berdasarkan kriteria. Untuk kemampuan narasi pada usia 5-6 tahun, level 'Berkembang Sesuai Harapan' (BSH) untuk kriteria 'Urutan Cerita' secara spesifik adalah kemampuan menyajikan kembali peristiwa secara logis dan kronologis. Menyebutkan tokoh adalah level awal, sementara menceritakan secara acak adalah 'Mulai Berkembang'. Menambahkan ekspresi sudah masuk level 'Berkembang Sangat Baik'."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kurikulum & Perencanaan Pembelajaran",
+    "question": "Saat menyusun modul ajar (RPPH+) dalam Kurikulum Merdeka, guru PAUD memilih topik 'Tanaman di Sekitarku'. Agar pembelajaran menjadi kontekstual dan bermakna, kegiatan pembuka yang paling efektif adalah...",
+    "options": [
+      "Menunjukkan video tentang berbagai jenis tanaman dari seluruh dunia.",
+      "Meminta anak-anak mewarnai gambar tanaman yang sudah disiapkan guru.",
+      "Mengajak anak-anak berjalan-jalan di halaman sekolah untuk mengamati dan menyentuh langsung tanaman yang ada.",
+      "Guru berceramah tentang bagian-bagian tanaman menggunakan poster.",
+      "Memberikan pre-test tertulis tentang nama-nama bunga."
+    ],
+    "answer": "Mengajak anak-anak berjalan-jalan di halaman sekolah untuk mengamati dan menyentuh langsung tanaman yang ada.",
+    "explanation": "Pembelajaran kontekstual menghubungkan materi dengan lingkungan dan pengalaman nyata anak. Mengajak anak mengamati langsung tanaman di sekitarnya adalah cara paling efektif untuk membangun pemahaman awal dan memantik rasa ingin tahu. Pengalaman sensorik (melihat, menyentuh, mencium) membuat pembelajaran lebih lekat dan bermakna dibandingkan hanya melihat gambar atau video."
+  },
+  {
+    "subtest": "Penguasaan Konten - Strategi & Metode Pembelajaran PAUD",
+    "question": "Di sentra seni, guru menyediakan cat, kuas, kertas, dan juga bahan alam seperti daun, pelepah pisang, dan bunga. Seorang anak, Rian, tidak menggunakan kuas tetapi mencelupkan daun ke dalam cat dan menjadikannya stempel di kertas. Respons guru yang paling tepat untuk mendukung pendekatan STEAM (Science, Technology,Engineering, Arts, Mathematics) adalah...",
+    "options": [
+      "Meminta Rian untuk menggunakan kuas karena itu alat yang benar untuk melukis.",
+      "Membiarkan Rian dan tidak memberikan komentar apapun.",
+      "Menghampiri Rian dan bertanya, 'Wow, apa yang terjadi saat kamu menggunakan daun yang berbeda? Pola apa yang muncul?'",
+      "Memberitahu Rian bahwa pelepah pisang akan menghasilkan gambar yang lebih bagus.",
+      "Mengambil hasil karya Rian untuk dijadikan contoh bagi teman-temannya."
+    ],
+    "answer": "Menghampiri Rian dan bertanya, 'Wow, apa yang terjadi saat kamu menggunakan daun yang berbeda? Pola apa yang muncul?'",
+    "explanation": "Pendekatan STEAM mendorong anak untuk bereksplorasi, bereksperimen, dan berpikir seperti ilmuwan. Respons guru yang paling tepat adalah memberikan pertanyaan terbuka (pemantik) yang mendorong Rian untuk mengobservasi (Science), mengenali pola (Mathematics), dan mencoba alat lain (Engineering/Technology in a broad sense). Ini menghargai proses eksplorasi anak, bukan hanya hasil akhirnya."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kesehatan dan Gizi Anak Usia Dini",
+    "question": "Seorang anak di PAUD tampak lesu, pucat, dan sering mengeluh pusing. Guru mencurigai anak tersebut mengalami gejala anemia defisiensi besi. Langkah profesional yang harus diambil guru adalah...",
+    "options": [
+      "Memberikan suplemen penambah darah yang dibeli di apotek.",
+      "Menyimpulkan bahwa anak tersebut anemia dan menyarankannya istirahat di ruang UKS.",
+      "Menghubungi dan berdiskusi dengan orang tua mengenai pengamatan guru, serta menyarankan untuk berkonsultasi dengan tenaga kesehatan (dokter/puskesmas).",
+      "Meminta anak tersebut untuk makan sayur bayam lebih banyak saat makan siang.",
+      "Mengumumkan di depan kelas agar semua anak makan makanan bergizi."
+    ],
+    "answer": "Menghubungi dan berdiskusi dengan orang tua mengenai pengamatan guru, serta menyarankan untuk berkonsultasi dengan tenaga kesehatan (dokter/puskesmas).",
+    "explanation": "Guru bukanlah tenaga medis dan tidak berwenang mendiagnosis atau memberikan obat. Peran profesional guru adalah melakukan observasi, mendokumentasikan, dan mengkomunikasikannya kepada orang tua sebagai mitra. Menyarankan konsultasi ke tenaga kesehatan adalah langkah yang tepat dan bertanggung jawab untuk memastikan anak mendapatkan penanganan yang benar."
+  },
+  {
+    "subtest": "Penguasaan Konten - Teori Perkembangan Anak",
+    "question": "Dalam perkembangan bahasa, seorang anak berusia 3 tahun sering mengatakan 'Aku mamam-mamam' atau 'Kucingnya lari-lari'. Penggunaan kata yang diulang ini merupakan fenomena umum yang disebut...",
+    "options": [
+      "Ekolalia",
+      "Telegraphic speech",
+      "Reduplikasi",
+      "Overgeneralisasi",
+      "Holophrase"
+    ],
+    "answer": "Reduplikasi",
+    "explanation": "Reduplikasi adalah proses pengulangan kata atau suku kata yang merupakan ciri khas dalam tahap awal pemerolehan bahasa anak-anak di banyak bahasa, termasuk Indonesia. Ini adalah cara anak untuk menekankan atau membentuk kata baru dari kata dasar yang sudah diketahuinya."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kurikulum & Perencanaan Pembelajaran",
+    "question": "Seorang guru PAUD sedang merancang Asesmen Awal Pembelajaran untuk mengetahui minat dan kemampuan dasar anak di awal tahun ajaran. Metode yang paling tidak sesuai untuk tujuan ini adalah...",
+    "options": [
+      "Observasi saat anak bermain bebas di berbagai area.",
+      "Mengajak anak bercerita tentang kegiatan liburannya.",
+      "Memberikan lembar kerja (worksheet) berisi soal penjumlahan dan pengurangan.",
+      "Mendokumentasikan karya yang dibuat anak pada hari-hari pertama.",
+      "Bermain tebak-tebakan sederhana dengan anak."
+    ],
+    "answer": "Memberikan lembar kerja (worksheet) berisi soal penjumlahan dan pengurangan.",
+    "explanation": "Asesmen awal di PAUD harus dilakukan dalam suasana yang menyenangkan, alami, dan bebas dari tekanan. Penggunaan worksheet yang bersifat tes formal tidak sesuai dengan prinsip bermain sambil belajar dan dapat menimbulkan kecemasan pada anak. Metode observasi, komunikasi langsung, dan analisis karya adalah cara yang jauh lebih autentik dan tepat."
+  },
+  {
+    "subtest": "Penguasaan Konten - Penilaian (Asesmen) Perkembangan Anak",
+    "question": "Portofolio anak di PAUD idealnya berisi kumpulan hasil karya yang menunjukkan proses dan perkembangan belajar anak. Manakah dari berikut ini yang paling mencerminkan prinsip penggunaan portofolio yang baik?",
+    "options": [
+      "Hanya menyimpan karya-karya terbaik dan paling rapi dari setiap anak.",
+      "Kumpulan semua karya anak tanpa ada seleksi atau catatan apapun.",
+      "Kumpulan karya pilihan yang disertai catatan guru dan refleksi anak (misalnya, cerita anak tentang karyanya).",
+      "Map berisi lembar kerja yang sudah dinilai dengan angka oleh guru.",
+      "Album foto kegiatan anak dari awal hingga akhir tahun."
+    ],
+    "answer": "Kumpulan karya pilihan yang disertai catatan guru dan refleksi anak (misalnya, cerita anak tentang karyanya).",
+    "explanation": "Portofolio yang efektif bukan sekadar kumpulan karya, melainkan alat asesmen yang menunjukkan 'cerita' perkembangan anak. Ini dicapai dengan memilih karya yang representatif dari waktu ke waktu, menambahkan catatan kontekstual dari guru (catatan anekdot/observasi), dan melibatkan anak dalam merefleksikan karyanya. Ini menunjukkan proses, bukan hanya hasil akhir."
+  },
+  {
+    "subtest": "Penguasaan Konten - Strategi & Metode Pembelajaran PAUD",
+    "question": "Guru ingin mengembangkan kemampuan sosial-emosional anak melalui kegiatan bermain. Skenario bermain yang paling potensial untuk melatih kemampuan negosiasi, berbagi, dan mengelola konflik adalah...",
+    "options": [
+      "Bermain puzzle secara individu.",
+      "Mewarnai gambar yang sama di meja masing-masing.",
+      "Bermain peran mikro (drama) sebagai sebuah keluarga di sudut rumah tangga dengan jumlah mainan yang terbatas.",
+      "Menonton film animasi tentang persahabatan.",
+      "Mengikuti instruksi guru untuk membuat origami."
+    ],
+    "answer": "Bermain peran mikro (drama) sebagai sebuah keluarga di sudut rumah tangga dengan jumlah mainan yang terbatas.",
+    "explanation": "Bermain peran mikro secara kelompok secara inheren menciptakan situasi sosial yang kompleks. Anak harus bernegosiasi peran ('Aku jadi ibu!', 'Aku jadi kakak!'), berbagi alat main (misalnya, hanya ada satu boneka bayi), dan kadang menyelesaikan konflik ('Sekarang giliranku memasak!'). Lingkungan ini menyediakan konteks yang kaya untuk mempraktikkan keterampilan sosial secara alami."
+  },
+  {
+    "subtest": "Penguasaan Konten - Teori Perkembangan Anak",
+    "question": "Seorang anak, Bima (6 tahun), sudah mampu mengelompokkan balok berdasarkan dua atribut sekaligus, misalnya 'semua balok yang berwarna merah DAN berbentuk persegi'. Kemampuan ini, menurut Piaget, menunjukkan Bima mulai memasuki tahap...",
+    "options": [
+      "Praoperasional, karena masih bermain balok.",
+      "Sensorimotor, karena ia menyentuh balok.",
+      "Operasional Konkret, karena ia mampu melakukan klasifikasi majemuk.",
+      "Formal Operasional, karena ia sudah berpikir abstrak.",
+      "Intuitif, karena ia hanya menebak."
+    ],
+    "answer": "Operasional Konkret, karena ia mampu melakukan klasifikasi majemuk.",
+    "explanation": "Salah satu pencapaian penting pada tahap operasional konkret (sekitar usia 7-11 tahun, namun cikal bakalnya muncul di akhir masa prasekolah) adalah kemampuan berpikir logis terhadap objek konkret. Klasifikasi majemuk (mengelompokkan berdasarkan lebih dari satu kriteria) adalah contoh nyata dari pemikiran logis ini, melampaui pemikiran satu dimensi pada tahap praoperasional."
+  },
+  {
+    "subtest": "Penguasaan Konten - Keterampilan Pedagogik spesifik PAUD",
+    "question": "Di kelas Anda, ada seorang anak, Rara, yang merupakan anak berkebutuhan khusus (ABK) dengan spektrum autisme ringan. Rara seringkali merasa tidak nyaman dengan suara keras dan lebih suka bermain sendiri. Strategi inklusif yang paling tepat diterapkan guru adalah...",
+    "options": [
+      "Meminta Rara untuk terbiasa dengan suara keras agar bisa beradaptasi.",
+      "Memisahkan Rara di sudut yang tenang agar tidak terganggu dan mengganggu.",
+      "Menyediakan 'pojok tenang' (calming corner) dengan bantal atau mainan sensorik yang bisa diakses Rara dan anak lain saat merasa 'overwhelmed'.",
+      "Memberitahu anak-anak lain untuk tidak mengajak Rara bermain.",
+      "Hanya fokus pada anak-anak lain dan membiarkan Rara melakukan apa yang ia mau."
+    ],
+    "answer": "Menyediakan 'pojok tenang' (calming corner) dengan bantal atau mainan sensorik yang bisa diakses Rara dan anak lain saat merasa 'overwhelmed'.",
+    "explanation": "Pendidikan inklusif berarti menyediakan dukungan yang dibutuhkan semua anak untuk berpartisipasi. 'Pojok tenang' adalah strategi proaktif yang memberikan Rara alat untuk meregulasi dirinya sendiri saat merasa terstimulasi berlebihan. Pentingnya, pojok ini bisa diakses semua anak, sehingga tidak menstigma Rara dan juga mengajarkan anak lain tentang regulasi emosi."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kurikulum & Perencanaan Pembelajaran",
+    "question": "Prinsip 'Differentiated Instruction' (Pembelajaran Terdiferensiasi) di PAUD paling baik diimplementasikan melalui...",
+    "options": [
+      "Memberikan worksheet yang sama kepada semua anak tetapi dengan batas waktu yang berbeda.",
+      "Mengelompokkan anak berdasarkan tingkat kepintaran (kelompok pintar, sedang, kurang).",
+      "Menyediakan berbagai tingkat dukungan dan pilihan kegiatan di dalam satu pusat kegiatan (sentra) untuk mencapai tujuan pembelajaran yang sama.",
+      "Memberikan tugas tambahan yang lebih sulit hanya kepada anak yang sudah selesai lebih dulu.",
+      "Menggunakan satu metode mengajar yang sama berulang-ulang hingga semua anak paham."
+    ],
+    "answer": "Menyediakan berbagai tingkat dukungan dan pilihan kegiatan di dalam satu pusat kegiatan (sentra) untuk mencapai tujuan pembelajaran yang sama.",
+    "explanation": "Diferensiasi di PAUD bukan tentang mengelompokkan anak secara permanen atau memberikan beban kerja yang berbeda. Ini tentang memberikan fleksibilitas dalam proses, konten, dan produk agar sesuai dengan kesiapan, minat, dan profil belajar anak. Menyediakan berbagai pilihan kegiatan dan tingkat dukungan (misalnya, ada contoh, ada bantuan guru, ada tantangan lebih) dalam satu area adalah contoh terbaik dari prinsip ini."
+  },
+  {
+    "subtest": "Penguasaan Konten - Penilaian (Asesmen) Perkembangan Anak",
+    "question": "Saat melakukan observasi, guru mencatat: '10.05 - Di area balok, Doni menumpuk 5 balok merah. Tiba-tiba Rian datang dan merobohkannya. Doni menangis dan berteriak, 'Kamu jahat!'. Rian tertawa.' Analisis yang paling tepat dari catatan observasi ini untuk perkembangan sosial-emosional Doni adalah...",
+    "options": [
+      "Doni adalah anak yang cengeng dan tidak bisa bermain.",
+      "Rian adalah anak yang nakal dan harus dihukum.",
+      "Doni menunjukkan kemampuan awal dalam mengekspresikan emosinya (marah/sedih) secara verbal, meskipun belum mampu mengelola konflik secara mandiri.",
+      "Doni tidak memiliki kemampuan kognitif yang baik karena hanya menumpuk 5 balok.",
+      "Doni dan Rian harus dipisahkan agar tidak bermain bersama lagi."
+    ],
+    "answer": "Doni menunjukkan kemampuan awal dalam mengekspresikan emosinya (marah/sedih) secara verbal, meskipun belum mampu mengelola konflik secara mandiri.",
+    "explanation": "Penilaian yang baik bersifat objektif dan fokus pada analisis perkembangan. Catatan tersebut menunjukkan Doni mampu memberi label pada perasaannya dan tindakan orang lain ('Kamu jahat!'), yang merupakan langkah penting dalam perkembangan emosional. Namun, ia belum sampai pada tahap penyelesaian masalah. Analisis ini fokus pada apa yang 'sudah bisa' dilakukan Doni sebagai dasar untuk stimulasi berikutnya."
+  },
+  {
+    "subtest": "Penguasaan Konten - Strategi & Metode Pembelajaran PAUD",
+    "question": "Pemanfaatan teknologi digital di PAUD seharusnya bertujuan untuk mendukung pembelajaran, bukan menjadi pengganti interaksi. Manakah contoh pemanfaatan tablet yang paling sesuai dengan prinsip ini?",
+    "options": [
+      "Anak-anak menonton video di tablet selama 30 menit sementara guru menyiapkan kegiatan lain.",
+      "Setiap anak mengerjakan game edukasi di tabletnya masing-masing secara individu.",
+      "Guru dan sekelompok kecil anak menggunakan tablet bersama-sama untuk mencari gambar binatang langka yang mereka diskusikan.",
+      "Anak-anak menggunakan aplikasi mewarnai digital untuk menggantikan kegiatan melukis dengan cat.",
+      "Memberikan tablet sebagai hadiah bagi anak yang berperilaku baik."
+    ],
+    "answer": "Guru dan sekelompok kecil anak menggunakan tablet bersama-sama untuk mencari gambar binatang langka yang mereka diskusikan.",
+    "explanation": "Teknologi menjadi alat yang kuat ketika digunakan secara kolaboratif dan interaktif. Dalam skenario ini, tablet berfungsi sebagai jendela informasi yang memperkaya diskusi. Guru berperan sebagai mediator, memfasilitasi percakapan, dan membantu anak memahami informasi yang mereka temukan. Ini menjaga aspek sosial dan interaktif dari pembelajaran."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kesehatan dan Gizi Anak Usia Dini",
+    "question": "PAUD Mutiara akan mengadakan kegiatan makan bersama. Untuk menanamkan Perilaku Hidup Bersih dan Sehat (PHBS) secara terintegrasi, urutan kegiatan yang paling tepat adalah...",
+    "options": [
+      "Makan bersama, berdoa, mencuci tangan, lalu bermain.",
+      "Mencuci tangan dengan sabun, berdoa bersama, makan dengan tertib, membereskan peralatan makan sendiri.",
+      "Berdoa, mencuci tangan setelah makan, lalu tidur siang.",
+      "Bermain, makan bersama, membereskan piring, lalu cuci tangan.",
+      "Berbaris rapi, makan bersama, lalu mendengarkan cerita guru."
+    ],
+    "answer": "Mencuci tangan dengan sabun, berdoa bersama, makan dengan tertib, membereskan peralatan makan sendiri.",
+    "explanation": "PHBS dalam konteks makan bersama adalah sebuah proses yang runtut. Dimulai dari kebersihan diri sebelum makan (cuci tangan), menanamkan nilai syukur (berdoa), etika saat makan (makan dengan tertib), hingga tanggung jawab setelah makan (membereskan peralatan). Urutan ini mengajarkan kebiasaan baik secara holistik."
+  },
+  {
+    "subtest": "Penguasaan Konten - Teori Perkembangan Anak",
+    "question": "Perkembangan motorik halus pada anak usia 5-6 tahun ditandai oleh kemampuan yang semakin terkoordinasi. Manakah dari kegiatan berikut yang paling menantang sekaligus paling sesuai untuk menstimulasi perkembangan motorik halus pada rentang usia ini?",
+    "options": [
+      "Meremas kertas bekas.",
+      "Menyusun menara dari balok-balok besar.",
+      "Menggunting kertas mengikuti garis lurus.",
+      "Meronce manik-manik berukuran kecil menggunakan benang.",
+      "Melempar dan menangkap bola besar."
+    ],
+    "answer": "Meronce manik-manik berukuran kecil menggunakan benang.",
+    "explanation": "Meronce manik-manik kecil membutuhkan koordinasi mata dan tangan yang presisi, kekuatan otot-otot jari, dan konsentrasi tinggi. Ini adalah kegiatan yang lebih kompleks dibandingkan meremas kertas atau menggunting garis lurus, sehingga sangat sesuai untuk menstimulasi dan mengasah keterampilan motorik halus anak usia 5-6 tahun yang sedang berkembang pesat."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kurikulum & Perencanaan Pembelajaran",
+    "question": "Dalam merancang sebuah proyek STEAM, guru melihat anak-anak tertarik pada bayangan mereka sendiri di halaman sekolah. Untuk mengintegrasikan unsur 'Mathematics' (Matematika) dalam eksplorasi ini, kegiatan yang paling relevan adalah...",
+    "options": [
+      "Menggambar bentuk bayangan yang dilihat.",
+      "Bercerita tentang petualangan bersama bayangan.",
+      "Mengukur dan membandingkan panjang bayangan pada waktu yang berbeda (pagi, siang, sore).",
+      "Membuat tarian bayangan diiringi musik.",
+      "Mencari informasi tentang bagaimana bayangan terbentuk dari buku."
+    ],
+    "answer": "Mengukur dan membandingkan panjang bayangan pada waktu yang berbeda (pagi, siang, sore).",
+    "explanation": "Unsur Matematika dalam STEAM melibatkan konsep seperti pengukuran, pola, bentuk, dan data. Kegiatan mengukur dan membandingkan panjang bayangan secara langsung mengenalkan anak pada konsep pengukuran, perbandingan (lebih panjang/pendek), dan hubungan sebab-akibat (posisi matahari mempengaruhi bayangan). Ini adalah aplikasi matematika yang konkret dan terintegrasi."
+  },
+  {
+    "subtest": "Penguasaan Konten - Penilaian (Asesmen) Perkembangan Anak",
+    "question": "Checklist perkembangan anak adalah alat asesmen yang berisi daftar indikator capaian perkembangan. Kelemahan utama jika guru HANYA mengandalkan checklist sebagai satu-satunya alat penilaian adalah...",
+    "options": [
+      "Terlalu mudah untuk diisi sehingga tidak akurat.",
+      "Tidak memberikan gambaran tentang bagaimana atau dalam konteks apa anak mencapai indikator tersebut.",
+      "Membutuhkan waktu yang sangat lama untuk mengisinya setiap hari.",
+      "Hanya bisa diisi oleh kepala sekolah, bukan guru kelas.",
+      "Indikator yang ada di dalamnya seringkali tidak relevan."
+    ],
+    "answer": "Tidak memberikan gambaran tentang bagaimana atau dalam konteks apa anak mencapai indikator tersebut.",
+    "explanation": "Checklist hanya menjawab 'apakah anak sudah bisa atau belum' (Ya/Tidak). Ia tidak menangkap proses, konteks, atau kualitas dari kemampuan anak. Penilaian autentik di PAUD membutuhkan data kualitatif yang kaya, seperti dari catatan anekdot atau hasil karya, untuk melengkapi data dari checklist dan memberikan gambaran yang utuh tentang perkembangan anak."
+  },
+  {
+    "subtest": "Penguasaan Konten - Strategi & Metode Pembelajaran PAUD",
+    "question": "Transisi dari kegiatan bermain bebas ke kegiatan makan siang seringkali menjadi tantangan. Strategi transisi yang paling positif dan efektif untuk membantu anak-anak beralih kegiatan adalah...",
+    "options": [
+      "Tiba-tiba mematikan lampu sebagai tanda waktu bermain habis.",
+      "Berteriak dengan keras, 'Ayo, waktu main selesai! Cepat bereskan!'",
+      "Memberikan peringatan verbal ('5 menit lagi kita beres-beres ya') dan menyanyikan lagu khusus 'beres-beres'.",
+      "Menghukum anak yang tidak mau berhenti bermain.",
+      "Membiarkan anak-anak berhenti bermain kapanpun mereka mau."
+    ],
+    "answer": "Memberikan peringatan verbal ('5 menit lagi kita beres-beres ya') dan menyanyikan lagu khusus 'beres-beres'.",
+    "explanation": "Transisi yang mulus membutuhkan prediktabilitas dan isyarat yang jelas. Memberikan peringatan terlebih dahulu membantu anak mempersiapkan diri secara mental untuk beralih kegiatan. Menggunakan lagu sebagai ritual transisi menciptakan suasana yang menyenangkan dan positif, mengubah kegiatan 'beres-beres' dari sebuah perintah menjadi kegiatan bersama yang rutin dan diharapkan."
+  },
+  {
+    "subtest": "Penguasaan Konten - Teori Perkembangan Anak",
+    "question": "Seorang anak menunjukkan kemampuan moralitas pada level Prakonvensional menurut Kohlberg. Perilaku manakah yang paling mungkin ia tunjukkan?",
+    "options": [
+      "Ia tidak mau mencontek karena takut ketahuan guru dan dihukum.",
+      "Ia membantu temannya karena ingin dianggap sebagai 'anak baik' oleh teman-temannya.",
+      "Ia mengikuti aturan kelas karena memahami pentingnya ketertiban bersama.",
+      "Ia memprotes aturan yang dianggapnya tidak adil bagi sebagian teman.",
+      "Ia berbagi mainan karena percaya pada prinsip keadilan untuk semua."
+    ],
+    "answer": "Ia tidak mau mencontek karena takut ketahuan guru dan dihukum.",
+    "explanation": "Level Prakonvensional (umum pada anak usia dini) ditandai oleh orientasi pada kepatuhan dan hukuman. Anak melakukan atau tidak melakukan sesuatu didasarkan pada konsekuensi langsung bagi dirinya (mendapat hadiah atau menghindari hukuman), bukan karena pertimbangan sosial (ingin dianggap baik) atau prinsip moral yang lebih tinggi."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kesehatan dan Gizi Anak Usia Dini",
+    "question": "Untuk menciptakan lingkungan bermain outdoor yang aman dan mendukung perkembangan anak, aspek terpenting yang harus diprioritaskan oleh sekolah adalah...",
+    "options": [
+      "Memiliki mainan outdoor yang paling mahal dan modern.",
+      "Mengecat semua peralatan bermain dengan warna-warni yang cerah.",
+      "Memastikan permukaan bawah area panjat dan ayunan terbuat dari material penyerap benturan (misal: pasir, rumput tebal, atau alas karet).",
+      "Menanam sebanyak mungkin jenis bunga untuk keindahan.",
+      "Memasang kamera CCTV di setiap sudut halaman."
+    ],
+    "answer": "Memastikan permukaan bawah area panjat dan ayunan terbuat dari material penyerap benturan (misal: pasir, rumput tebal, atau alas karet).",
+    "explanation": "Keselamatan fisik adalah prioritas utama. Risiko terbesar di area bermain outdoor adalah jatuh dari ketinggian. Oleh karena itu, memastikan adanya permukaan yang aman dan dapat meminimalisir cedera akibat jatuh adalah standar keselamatan fundamental yang harus dipenuhi sebelum mempertimbangkan aspek estetika atau jenis mainan."
+  },
+  {
+    "subtest": "Penguasaan Konten - Keterampilan Pedagogik spesifik PAUD",
+    "question": "Seorang guru baru merasa kesulitan mengelola kelas yang berisi 20 anak aktif. Ia merasa kewalahan dan sering meninggikan suaranya. Langkah pengembangan diri profesional yang paling tepat untuk guru ini adalah...",
+    "options": [
+      "Meminta kepala sekolah untuk mengurangi jumlah anak di kelasnya.",
+      "Mencari pekerjaan lain yang tidak terlalu membuat stres.",
+      "Mengikuti pelatihan atau workshop tentang manajemen kelas (classroom management) di PAUD dan berdiskusi dengan guru senior.",
+      "Memberikan lebih banyak kegiatan duduk tenang seperti mewarnai.",
+      "Mengabaikan perilaku anak-anak yang dianggapnya mengganggu."
+    ],
+    "answer": "Mengikuti pelatihan atau workshop tentang manajemen kelas (classroom management) di PAUD dan berdiskusi dengan guru senior.",
+    "explanation": "Seorang guru profesional bersikap proaktif dalam mengatasi tantangannya. Mengakui kekurangan dan mencari solusi melalui pengembangan kompetensi (pelatihan) dan belajar dari rekan sejawat (mentoring/diskusi) adalah tanda profesionalisme. Ini menunjukkan komitmen untuk bertumbuh dan memberikan yang terbaik bagi anak didik, alih-alih menyalahkan situasi atau menyerah."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kurikulum & Perencanaan Pembelajaran",
+    "question": "Pernyataan tujuan pembelajaran (TP) yang paling tepat untuk kegiatan bermain balok di PAUD adalah...",
+    "options": [
+      "Anak mampu membangun menara setinggi 10 balok.",
+      "Anak dapat menunjukkan pemahaman konsep spasial (misal: di atas, di bawah, di samping) melalui bangunan yang dibuatnya.",
+      "Anak menyelesaikan tugas membangun jembatan sesuai contoh dari guru.",
+      "Anak mengetahui semua nama bentuk geometri balok.",
+      "Anak dapat merapikan balok setelah selesai bermain."
+    ],
+    "answer": "Anak dapat menunjukkan pemahaman konsep spasial (misal: di atas, di bawah, di samping) melalui bangunan yang dibuatnya.",
+    "explanation": "Tujuan pembelajaran yang baik fokus pada konsep atau keterampilan yang ingin dikembangkan, bukan pada hasil akhir yang kaku. TP ini ('menunjukkan pemahaman konsep spasial') bersifat terbuka, dapat dicapai melalui berbagai cara membangun, dan mudah diobservasi oleh guru. TP yang menyebutkan jumlah balok atau meniru contoh guru terlalu berorientasi pada produk dan kurang menghargai proses berpikir anak."
+  },
+  {
+    "subtest": "Penguasaan Konten - Penilaian (Asesmen) Perkembangan Anak",
+    "question": "Guru sedang melakukan penilaian dengan teknik unjuk kerja untuk melihat kemampuan motorik kasar anak. Kegiatan yang paling sesuai untuk dinilai dengan teknik ini adalah...",
+    "options": [
+      "Kemampuan anak menyebutkan warna-warna primer.",
+      "Kemampuan anak menceritakan kembali dongeng.",
+      "Kemampuan anak mempraktikkan gerakan senam sederhana sesuai irama musik.",
+      "Kemampuan anak mengenali huruf awal namanya.",
+      "Kemampuan anak menggambar bentuk orang."
+    ],
+    "answer": "Kemampuan anak mempraktikkan gerakan senam sederhana sesuai irama musik.",
+    "explanation": "Penilaian unjuk kerja (performance assessment) digunakan untuk mengukur kemampuan anak dalam melakukan suatu tugas atau keterampilan. Senam melibatkan serangkaian gerakan fisik yang dapat diamati dan dinilai secara langsung (misalnya, keseimbangan, koordinasi, kesesuaian dengan irama), sehingga sangat cocok untuk menilai motorik kasar. Pilihan lain lebih cocok dinilai dengan observasi, percakapan, atau analisis karya."
+  },
+  {
+    "subtest": "Penguasaan Konten - Strategi & Metode Pembelajaran PAUD",
+    "question": "Seorang guru ingin mengenalkan konsep keaksaraan awal pada anak usia 4-5 tahun dengan cara yang menyenangkan. Pendekatan yang paling sesuai dengan perkembangan anak adalah...",
+    "options": [
+      "Memberikan latihan menulis huruf 'a' sampai 'z' di buku garis.",
+      "Mengadakan tes membaca kata-kata sederhana setiap minggu.",
+      "Membacakan buku cerita dengan suara nyaring (read aloud) setiap hari dan mengajak anak bermain dengan rima kata.",
+      "Meminta anak menghafalkan nama-nama huruf di poster alfabet.",
+      "Menempelkan label nama di semua benda di kelas."
+    ],
+    "answer": "Membacakan buku cerita dengan suara nyaring (read aloud) setiap hari dan mengajak anak bermain dengan rima kata.",
+    "explanation": "Keaksaraan awal pada usia dini bukan tentang drilling akademis, melainkan membangun fondasi kecintaan pada buku dan kesadaran fonologis. Kegiatan 'read aloud' memperkenalkan anak pada struktur cerita, kosakata baru, dan cetakan. Bermain dengan rima kata (misal: 'kucing-pusing') membangun kesadaran akan bunyi bahasa, yang merupakan prediktor penting kemampuan membaca di kemudian hari."
+  },
+  {
+    "subtest": "Penguasaan Konten - Teori Perkembangan Anak",
+    "question": "Anak-anak di kelas B sedang bermain 'pasar-pasaran'. Ada yang menjadi penjual, pembeli, dan kasir. Mereka menggunakan daun sebagai uang dan balok sebagai sayuran. Dilihat dari teori perkembangan bermain Mildred Parten, jenis permainan ini masuk dalam kategori...",
+    "options": [
+      "Solitary Play (Bermain Soliter)",
+      "Onlooker Play (Bermain Mengamati)",
+      "Parallel Play (Bermain Paralel)",
+      "Associative Play (Bermain Asosiatif)",
+      "Cooperative Play (Bermain Kooperatif)"
+    ],
+    "answer": "Cooperative Play (Bermain Kooperatif)",
+    "explanation": "Bermain Kooperatif adalah tingkat tertinggi dalam perkembangan bermain sosial. Cirinya adalah anak-anak bermain bersama dengan tujuan yang sama, ada pembagian peran yang jelas (penjual, pembeli), dan ada aturan main yang disepakati bersama untuk mencapai tujuan tersebut (misalnya, pembeli harus membayar dengan 'uang' daun). Ini berbeda dari bermain asosiatif di mana anak-anak berinteraksi tetapi tidak ada tujuan bersama yang terorganisir."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kurikulum & Perencanaan Pembelajaran",
+    "question": "Dalam Alur Tujuan Pembelajaran (ATP), guru harus menyusun tujuan-tujuan pembelajaran secara logis dan sistematis. Prinsip utama dalam menyusun ATP adalah...",
+    "options": [
+      "Mengurutkan dari materi yang paling disukai guru ke yang paling tidak disukai.",
+      "Mengurutkan dari kegiatan yang paling mudah disiapkan ke yang paling sulit.",
+      "Mengurutkan dari kemampuan yang lebih konkret dan mendasar ke kemampuan yang lebih abstrak dan kompleks.",
+      "Menyusun semua tujuan pembelajaran secara acak dan dipilih sesuai mood anak.",
+      "Menyalin urutan tujuan pembelajaran dari buku teks tanpa penyesuaian."
+    ],
+    "answer": "Mengurutkan dari kemampuan yang lebih konkret dan mendasar ke kemampuan yang lebih abstrak dan kompleks.",
+    "explanation": "ATP harus disusun secara logis, menunjukkan kesinambungan belajar. Prinsipnya adalah developmental, yaitu mengurutkan tujuan pembelajaran dari yang sederhana ke yang kompleks, dari yang konkret ke yang abstrak, dan dari yang mudah ke yang sulit. Ini memastikan anak memiliki fondasi yang kuat sebelum melangkah ke pembelajaran berikutnya."
+  },
+  {
+    "subtest": "Penguasaan Konten - Penilaian (Asesmen) Perkembangan Anak",
+    "question": "Seorang guru PAUD mengumpulkan data dari berbagai sumber: catatan anekdot, hasil karya, checklist, dan foto berseri. Tindakan selanjutnya dalam siklus asesmen adalah...",
+    "options": [
+      "Melaporkan semua data tersebut langsung kepada orang tua.",
+      "Menyimpan data di dalam map hingga akhir semester.",
+      "Menganalisis dan menginterpretasi data yang terkumpul untuk memahami perkembangan setiap anak.",
+      "Membuat pameran hasil karya anak di dinding kelas.",
+      "Meminta anak untuk menilai karyanya sendiri."
+    ],
+    "answer": "Menganalisis dan menginterpretasi data yang terkumpul untuk memahami perkembangan setiap anak.",
+    "explanation": "Siklus asesmen terdiri dari: Perencanaan -> Pengumpulan Data -> Analisis & Interpretasi Data -> Perencanaan Pembelajaran Berikutnya. Setelah data terkumpul, langkah krusial adalah menganalisisnya untuk menemukan pola, kekuatan, dan area yang perlu distimulasi lebih lanjut pada setiap anak. Hasil analisis inilah yang menjadi dasar untuk merancang kegiatan belajar selanjutnya yang lebih tepat sasaran."
+  },
+  {
+    "subtest": "Penguasaan Konten - Strategi & Metode Pembelajaran PAUD",
+    "question": "Outdoor learning (pembelajaran di luar kelas) memberikan banyak manfaat bagi anak. Manakah dari manfaat berikut yang secara spesifik lebih optimal didapatkan melalui outdoor learning dibandingkan di dalam kelas?",
+    "options": [
+      "Kemampuan anak dalam mengenali warna.",
+      "Kemampuan anak dalam mendengarkan cerita.",
+      "Pengembangan motorik kasar dan pengambilan risiko yang terukur.",
+      "Kemampuan anak dalam menggunakan gunting.",
+      "Kemampuan anak dalam mengikuti instruksi verbal."
+    ],
+    "answer": "Pengembangan motorik kasar dan pengambilan risiko yang terukur.",
+    "explanation": "Lingkungan luar kelas menyediakan ruang yang lebih luas dan topografi yang beragam (tidak rata), yang secara alami mendorong anak untuk berlari, melompat, memanjat, dan menjaga keseimbangan. Selain itu, anak belajar mengambil risiko yang terukur (misalnya, memanjat pohon yang tidak terlalu tinggi), sebuah keterampilan penting yang sulit direplikasi di lingkungan dalam kelas yang lebih steril dan terbatas."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kesehatan dan Gizi Anak Usia Dini",
+    "question": "Saat kegiatan sikat gigi bersama, seorang guru melihat beberapa anak hanya berkumur tanpa menyikat giginya dengan benar. Intervensi edukatif yang paling tepat adalah...",
+    "options": [
+      "Menegur anak-anak tersebut di depan teman-temannya.",
+      "Melaporkan kepada orang tua bahwa anaknya tidak bisa sikat gigi.",
+      "Menggunakan model gigi (phantom) untuk mendemonstrasikan cara menyikat gigi yang benar ke seluruh arah secara menyenangkan.",
+      "Mengambil alih sikat gigi anak dan menyikatkan gigi mereka satu per satu.",
+      "Memberikan stiker hanya kepada anak yang sikat giginya bersih."
+    ],
+    "answer": "Menggunakan model gigi (phantom) untuk mendemonstrasikan cara menyikat gigi yang benar ke seluruh arah secara menyenangkan.",
+    "explanation": "Anak belajar paling baik melalui contoh konkret dan visual. Menggunakan model gigi membuat instruksi yang abstrak ('sikat ke atas ke bawah') menjadi jelas dan mudah ditiru. Mendemonstrasikannya dengan cara yang menyenangkan (misalnya dengan lagu) akan meningkatkan motivasi anak untuk mencoba melakukannya dengan benar, jauh lebih efektif daripada teguran atau hukuman."
+  },
+  {
+    "subtest": "Penguasaan Konten - Keterampilan Pedagogik spesifik PAUD",
+    "question": "Etika profesi guru PAUD mengharuskan guru untuk menjaga kerahasiaan data dan informasi mengenai anak didiknya. Manakah dari tindakan berikut yang melanggar prinsip kerahasiaan tersebut?",
+    "options": [
+      "Berdiskusi tentang perkembangan seorang anak dengan kepala sekolah untuk mencari solusi.",
+      "Berbagi informasi tentang kemajuan anak kepada orang tuanya saat pertemuan wali murid.",
+      "Menceritakan masalah pribadi seorang anak dan keluarganya kepada guru lain di ruang guru saat jam istirahat.",
+      "Berkonsultasi dengan psikolog sekolah (dengan izin orang tua) mengenai penanganan seorang anak.",
+      "Menggunakan inisial saat menulis studi kasus tentang anak untuk tugas kuliah."
+    ],
+    "answer": "Menceritakan masalah pribadi seorang anak dan keluarganya kepada guru lain di ruang guru saat jam istirahat.",
+    "explanation": "Prinsip kerahasiaan berarti informasi sensitif tentang anak dan keluarga hanya boleh dibagikan kepada pihak-pihak yang berkepentingan secara profesional dan untuk kepentingan terbaik anak. Menceritakannya sebagai bahan gosip di ruang guru kepada rekan yang tidak terkait langsung adalah pelanggaran etika yang serius. Diskusi profesional dengan atasan atau konsultan (dengan izin) diperbolehkan."
+  },
+  {
+    "subtest": "Penguasaan Konten - Teori Perkembangan Anak",
+    "question": "Seorang anak usia 6 tahun mampu memahami bahwa jika A lebih tinggi dari B, dan B lebih tinggi dari C, maka A pasti lebih tinggi dari C, tanpa harus melihat ketiga objek tersebut secara bersamaan. Kemampuan berpikir logis ini disebut...",
+    "options": [
+      "Konservasi",
+      "Inferensi Transitif",
+      "Sentralisasi",
+      "Reversibilitas",
+      "Egosentrisme"
+    ],
+    "answer": "Inferensi Transitif",
+    "explanation": "Inferensi transitif adalah kemampuan untuk memahami hubungan antara dua objek berdasarkan hubungan masing-masing objek tersebut dengan objek ketiga. Ini adalah salah satu bentuk penalaran logis yang mulai muncul pada tahap operasional konkret, menunjukkan kemampuan anak untuk mengkoordinasikan informasi secara mental."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kurikulum & Perencanaan Pembelajaran",
+    "question": "Dalam pendekatan Reggio Emilia, lingkungan sering disebut sebagai 'guru ketiga'. Makna dari pernyataan ini adalah...",
+    "options": [
+      "Sekolah harus memiliki tiga guru di setiap kelas.",
+      "Lingkungan belajar harus ditata dengan indah oleh guru setiap pagi.",
+      "Lingkungan belajar harus dirancang secara sengaja untuk memprovokasi minat, eksplorasi, dan interaksi anak.",
+      "Anak-anak harus belajar lebih banyak dari lingkungan daripada dari guru.",
+      "Orang tua adalah guru pertama, guru kelas adalah guru kedua."
+    ],
+    "answer": "Lingkungan belajar harus dirancang secara sengaja untuk memprovokasi minat, eksplorasi, dan interaksi anak.",
+    "explanation": "Konsep 'guru ketiga' berarti bahwa penataan ruang, pemilihan material, dan penyajian media belajar memiliki peran aktif dalam proses pendidikan. Lingkungan yang kaya, responsif, dan thoughtfully arranged dapat memantik pertanyaan, mendorong kolaborasi, dan memfasilitasi pembelajaran bahkan tanpa intervensi langsung dari guru. Lingkungan itu sendiri 'mengajar'."
+  },
+  {
+    "subtest": "Penguasaan Konten - Penilaian (Asesmen) Perkembangan Anak",
+    "question": "Pada akhir semester, Bu Tika akan menyusun laporan perkembangan anak (rapor). Informasi yang disajikan dalam laporan tersebut seharusnya...",
+    "options": [
+      "Berfokus pada kekurangan dan kelemahan anak agar orang tua bisa memperbaikinya.",
+      "Berisi perbandingan kemampuan anak dengan teman-temannya di kelas.",
+      "Berbentuk deskripsi naratif yang menceritakan kekuatan, kemajuan, dan hal-hal yang perlu distimulasi lebih lanjut, berdasarkan bukti-bukti autentik.",
+      "Hanya berisi kumpulan nilai angka untuk setiap aspek perkembangan.",
+      "Berisi daftar semua kegiatan yang telah dilakukan di kelas selama satu semester."
+    ],
+    "answer": "Berbentuk deskripsi naratif yang menceritakan kekuatan, kemajuan, dan hal-hal yang perlu distimulasi lebih lanjut, berdasarkan bukti-bukti autentik.",
+    "explanation": "Pelaporan di PAUD bertujuan untuk memberikan gambaran utuh dan positif tentang perkembangan anak. Bentuk naratif (deskriptif) adalah yang paling tepat karena dapat menceritakan 'siapa' anak tersebut, bukan hanya 'seberapa pintar' dia. Laporan harus fokus pada perkembangan individu anak (bukan perbandingan), berbasis data (bukti dari portofolio), dan seimbang antara mengapresiasi kekuatan dengan memberikan saran untuk stimulasi selanjutnya."
+  },
+  {
+    "subtest": "Penguasaan Konten - Strategi & Metode Pembelajaran PAUD",
+    "question": "Guru ingin mengajarkan konsep sains tentang tenggelam dan terapung. Kegiatan bermain air berikut ini yang paling efektif untuk memfasilitasi penemuan konsep tersebut oleh anak adalah...",
+    "options": [
+      "Guru menjelaskan terlebih dahulu benda apa saja yang akan tenggelam dan terapung, lalu anak-anak membuktikannya.",
+      "Menyediakan baskom berisi air dan berbagai macam benda (batu, daun, gabus, kelereng, plastik) dan membiarkan anak bereksperimen sendiri.",
+      "Menonton video eksperimen sains tentang tenggelam dan terapung.",
+      "Meminta setiap anak menggambar benda yang bisa terapung.",
+      "Guru mendemonstrasikan satu contoh benda tenggelam dan satu contoh benda terapung."
+    ],
+    "answer": "Menyediakan baskom berisi air dan berbagai macam benda (batu, daun, gabus, kelereng, plastik) dan membiarkan anak bereksperimen sendiri.",
+    "explanation": "Anak usia dini belajar sains paling baik melalui pendekatan inkuiri dan hands-on experience. Dengan menyediakan berbagai benda, guru memberikan kesempatan bagi anak untuk membuat prediksi, mencoba, mengobservasi hasilnya, dan menarik kesimpulan sederhana. Proses penemuan sendiri ini akan membangun pemahaman konsep yang lebih kuat dan tahan lama daripada hanya diberitahu atau melihat demonstrasi."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kesehatan dan Gizi Anak Usia Dini",
+    "question": "Seorang anak di kelas Anda memiliki alergi terhadap kacang-kacangan, dan reaksinya bisa parah. Langkah mitigasi risiko yang paling penting untuk dilakukan sekolah adalah...",
+    "options": [
+      "Meminta anak tersebut untuk tidak ikut makan bersama.",
+      "Mengandalkan anak tersebut untuk tidak memakan makanan yang mengandung kacang.",
+      "Menginformasikan kepada seluruh orang tua tentang adanya alergi (tanpa menyebut nama anak) dan menerapkan kebijakan 'bebas kacang' untuk bekal bersama.",
+      "Menempel poster tentang bahaya alergi di majalah dinding.",
+      "Menyediakan obat anti-alergi di kotak P3K sekolah."
+    ],
+    "answer": "Menginformasikan kepada seluruh orang tua tentang adanya alergi (tanpa menyebut nama anak) dan menerapkan kebijakan 'bebas kacang' untuk bekal bersama.",
+    "explanation": "Keselamatan anak adalah tanggung jawab sekolah. Untuk alergi yang parah, langkah preventif adalah yang utama. Mengkomunikasikan kebijakan kepada seluruh komunitas sekolah (orang tua) untuk menciptakan lingkungan yang aman bagi anak tersebut adalah tindakan paling proaktif dan bertanggung jawab. Mengandalkan anak kecil untuk mengelola alerginya sendiri tidaklah cukup."
+  },
+  {
+    "subtest": "Penguasaan Konten - Keterampilan Pedagogik spesifik PAUD",
+    "question": "Saat rapat tim, seorang guru senior mengkritik cara mengajar Anda di depan guru-guru lain. Respons yang menunjukkan kecerdasan emosional dan sikap profesional adalah...",
+    "options": [
+      "Mendebat guru senior tersebut dan mempertahankan cara mengajar Anda di depan semua orang.",
+      "Diam saja tetapi merasa tersinggung dan menghindari guru senior tersebut.",
+      "Menerima kritik tersebut dengan tenang di forum, kemudian secara pribadi mendekati guru senior tersebut untuk meminta masukan yang lebih spesifik.",
+      "Mengadukan guru senior tersebut kepada kepala sekolah karena telah mempermalukan Anda.",
+      "Mengabaikan kritik tersebut dan tetap mengajar dengan cara yang sama."
+    ],
+    "answer": "Menerima kritik tersebut dengan tenang di forum, kemudian secara pribadi mendekati guru senior tersebut untuk meminta masukan yang lebih spesifik.",
+    "explanation": "Sikap profesional melibatkan keterbukaan terhadap masukan dan kemampuan mengelola emosi. Menerima kritik di forum menunjukkan kerendahan hati. Meminta klarifikasi dan masukan lebih lanjut secara pribadi menunjukkan niat tulus untuk belajar dan berkembang, sekaligus memindahkan diskusi yang berpotensi konflik ke ruang yang lebih konstruktif. Ini mengubah kritik menjadi peluang belajar."
+  },
+  {
+    "subtest": "Penguasaan Konten - Teori Perkembangan Anak",
+    "question": "Kemampuan anak untuk memahami bahwa jumlah suatu benda akan tetap sama meskipun wadah atau bentuknya diubah (misalnya, air di gelas tinggi kurus dipindah ke mangkuk lebar) disebut konsep...",
+    "options": [
+      "Reversibilitas",
+      "Klasifikasi",
+      "Konservasi",
+      "Sentralisasi",
+      "Seriasi"
+    ],
+    "answer": "Konservasi",
+    "explanation": "Konservasi adalah pemahaman bahwa kuantitas, panjang, atau jumlah benda tidak berhubungan dengan penataan atau tampilan fisik. Menurut Piaget, ini adalah salah satu pencapaian utama pada tahap operasional konkret. Anak pada tahap praoperasional belum menguasai konservasi karena pemikiran mereka masih terpusat (sentralisasi) pada satu aspek saja (misalnya, tinggi air) dan mengabaikan aspek lain (lebar wadah)."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kurikulum & Perencanaan Pembelajaran",
+    "question": "Sebuah PAUD ingin mengadopsi pendekatan 'loose parts' dalam pembelajarannya. Sumber 'loose parts' yang paling kaya dan beragam yang bisa dieksplorasi adalah...",
+    "options": [
+      "Hanya membeli set mainan kayu edukatif dari toko.",
+      "Hanya menggunakan bahan-bahan plastik seperti botol dan sedotan.",
+      "Menggabungkan bahan alam (ranting, batu, daun), bahan daur ulang (kardus, tutup botol), dan bahan sisa industri (potongan kain, kayu).",
+      "Hanya menyediakan kertas dan alat gambar.",
+      "Hanya fokus pada bahan-bahan yang ada di dalam kelas."
+    ],
+    "answer": "Menggabungkan bahan alam (ranting, batu, daun), bahan daur ulang (kardus, tutup botol), dan bahan sisa industri (potongan kain, kayu).",
+    "explanation": "Kekuatan 'loose parts' terletak pada keragamannya. Menggabungkan berbagai jenis material (alam, daur ulang, sisa pakai) akan memberikan stimulus sensorik yang kaya dan membuka kemungkinan bermain yang tak terbatas bagi anak-anak, jauh lebih kaya daripada hanya menggunakan satu jenis material saja."
+  },
+  {
+    "subtest": "Penguasaan Konten - Penilaian (Asesmen) Perkembangan Anak",
+    "question": "Guru ingin menilai kemampuan anak dalam menyelesaikan masalah (problem solving). Skenario yang paling baik untuk mengobservasi kemampuan ini adalah...",
+    "options": [
+      "Meminta anak mencocokkan gambar dengan bayangannya.",
+      "Meminta anak menyanyikan lagu 'Pelangi'.",
+      "Memberikan anak sebuah konstruksi balok yang beberapa bagiannya mudah roboh dan melihat bagaimana anak mencoba menstabilkannya.",
+      "Meminta anak menyebutkan 5 nama binatang buas.",
+      "Meminta anak untuk duduk tenang selama 5 menit."
+    ],
+    "answer": "Memberikan anak sebuah konstruksi balok yang beberapa bagiannya mudah roboh dan melihat bagaimana anak mencoba menstabilkannya.",
+    "explanation": "Problem solving melibatkan proses identifikasi masalah, mencoba berbagai solusi, dan belajar dari kegagalan. Skenario balok yang tidak stabil secara alami menciptakan 'masalah' yang harus dipecahkan anak. Guru dapat mengobservasi strategi yang digunakan anak: apakah ia mencoba mengganti balok, mengubah posisi, atau meminta bantuan. Ini adalah asesmen autentik dari proses berpikir."
+  },
+  {
+    "subtest": "Penguasaan Konten - Strategi & Metode Pembelajaran PAUD",
+    "question": "Circle time (kegiatan lingkaran) di pagi hari memiliki banyak fungsi. Fungsi yang paling utama dari kegiatan ini adalah...",
+    "options": [
+      "Menguji kemampuan akademik anak setiap pagi.",
+      "Membangun komunitas kelas, rasa aman, dan mempersiapkan anak untuk kegiatan hari itu.",
+      "Memberikan kesempatan bagi guru untuk berceramah.",
+      "Menghukum anak-anak yang datang terlambat.",
+      "Mengisi waktu kosong sebelum kegiatan inti dimulai."
+    ],
+    "answer": "Membangun komunitas kelas, rasa aman, dan mempersiapkan anak untuk kegiatan hari itu.",
+    "explanation": "Circle time adalah ritual penting untuk membangun fondasi sosial-emosional kelas. Ini adalah waktu untuk saling sapa, berbagi perasaan, menyanyi bersama, dan mendiskusikan rencana kegiatan. Momen ini menciptakan rasa kebersamaan ('we-ness') dan prediktabilitas, yang membuat anak merasa aman dan siap untuk belajar."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kesehatan dan Gizi Anak Usia Dini",
+    "question": "Seorang guru memperhatikan bahwa beberapa anak sering mengucek mata dan matanya tampak kemerahan setelah bermain di area pasir. Tindakan preventif dan edukatif yang paling tepat adalah...",
+    "options": [
+      "Menutup area bermain pasir untuk selamanya.",
+      "Menyediakan kacamata renang untuk dipakai semua anak saat bermain pasir.",
+      "Mengajarkan dan membiasakan anak untuk mencuci tangan dengan sabun setelah bermain dan sebelum menyentuh wajah/mata.",
+      "Meneteskan obat mata pada semua anak setelah bermain pasir.",
+      "Hanya mengizinkan anak-anak yang tidak alergi untuk bermain pasir."
+    ],
+    "answer": "Mengajarkan dan membiasakan anak untuk mencuci tangan dengan sabun setelah bermain dan sebelum menyentuh wajah/mata.",
+    "explanation": "Masalahnya kemungkinan besar adalah iritasi akibat pasir yang masuk ke mata melalui tangan yang kotor. Solusi yang paling mendidik dan berkelanjutan adalah mengajarkan kebiasaan higienis yang benar. Ini tidak hanya menyelesaikan masalah di area pasir tetapi juga menanamkan perilaku sehat yang bisa diterapkan di berbagai situasi lain."
+  },
+  {
+    "subtest": "Penguasaan Konten - Keterampilan Pedagogik spesifik PAUD",
+    "question": "Sekolah akan mengadakan acara pentas seni akhir tahun. Untuk memastikan acara tersebut benar-benar mencerminkan proses belajar anak (bukan sekadar pertunjukan), pendekatan yang paling tepat adalah...",
+    "options": [
+      "Menyewa pelatih tari profesional untuk menciptakan gerakan yang sempurna.",
+      "Memilih hanya anak-anak yang paling berbakat untuk tampil di panggung.",
+      "Mengembangkan penampilan (misalnya, tarian atau drama) berdasarkan ide dan eksplorasi yang telah dilakukan anak-anak selama proses pembelajaran di kelas.",
+      "Membuat kostum yang paling megah dan mahal agar penampilan terlihat bagus.",
+      "Melatih anak setiap hari selama sebulan penuh dengan gerakan yang sama hingga hafal."
+    ],
+    "answer": "Mengembangkan penampilan (misalnya, tarian atau drama) berdasarkan ide dan eksplorasi yang telah dilakukan anak-anak selama proses pembelajaran di kelas.",
+    "explanation": "Pentas seni di PAUD seharusnya menjadi perayaan proses belajar, bukan ajang pamer kesempurnaan. Pendekatan yang paling autentik adalah mengangkat apa yang sudah anak-anak pelajari dan minati. Misalnya, jika mereka baru menyelesaikan proyek tentang serangga, pentas seninya bisa berupa drama atau tarian tentang siklus hidup kupu-kupu yang idenya muncul dari anak. Ini membuat acara menjadi milik anak, bukan milik guru."
+  },
+  {
+    "subtest": "Penguasaan Konten - Teori Perkembangan Anak",
+    "question": "Seorang anak mampu mengurutkan serangkaian tongkat dari yang paling pendek ke yang paling panjang. Kemampuan ini disebut...",
+    "options": [
+      "Klasifikasi",
+      "Konservasi",
+      "Seriasi",
+      "Inferensi Transitif",
+      "Sentralisasi"
+    ],
+    "answer": "Seriasi",
+    "explanation": "Seriasi adalah kemampuan untuk menyusun objek sepanjang dimensi kuantitatif, seperti panjang, berat, atau ukuran. Ini adalah kemampuan logika matematika dasar yang berkembang pada tahap operasional konkret, menunjukkan bahwa anak sudah dapat memahami hubungan perbandingan antar objek."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kurikulum & Perencanaan Pembelajaran",
+    "question": "Guru ingin membuat lingkungan kelas yang kaya akan keaksaraan (print-rich environment). Manakah dari berikut ini yang BUKAN merupakan contoh dari lingkungan kaya aksara yang fungsional?",
+    "options": [
+      "Menempel poster alfabet yang dibeli dari toko di dinding.",
+      "Memberi label nama anak di loker mereka masing-masing.",
+      "Membuat 'pojok baca' dengan beragam buku cerita yang menarik.",
+      "Menempelkan hasil karya anak yang disertai dengan 'cerita' yang didiktekan anak kepada guru.",
+      "Membuat daftar menu makan siang bersama anak-anak di papan tulis."
+    ],
+    "answer": "Menempel poster alfabet yang dibeli dari toko di dinding.",
+    "explanation": "Lingkungan kaya aksara yang fungsional adalah cetakan yang memiliki makna dan fungsi dalam konteks kehidupan anak di kelas. Label nama, buku, karya anak, dan daftar menu semuanya fungsional. Poster alfabet yang hanya ditempel tanpa digunakan secara aktif dalam kegiatan cenderung menjadi hiasan pasif dan kurang bermakna bagi anak dibandingkan dengan tulisan yang terhubung langsung dengan pengalaman mereka."
+  },
+  {
+    "subtest": "Penguasaan Konten - Penilaian (Asesmen) Perkembangan Anak",
+    "question": "Teknik 'Running Record' dalam observasi paling tepat digunakan untuk...",
+    "options": [
+      "Mencatat satu peristiwa spesifik yang signifikan.",
+      "Memberikan tanda centang pada daftar kemampuan anak.",
+      "Mendeskripsikan secara detail semua yang dilakukan dan dikatakan anak dalam satu blok waktu tertentu (misalnya, 5-10 menit).",
+      "Mengumpulkan semua hasil karya anak dalam satu map.",
+      "Merekam percakapan antara dua anak."
+    ],
+    "answer": "Mendeskripsikan secara detail semua yang dilakukan dan dikatakan anak dalam satu blok waktu tertentu (misalnya, 5-10 menit).",
+    "explanation": "Running record adalah teknik observasi yang sangat detail, di mana pengamat menuliskan semua perilaku, interaksi, dan percakapan anak secara naratif dalam periode waktu yang ditentukan. Tujuannya adalah untuk mendapatkan gambaran yang kaya dan objektif tentang perilaku anak dalam konteks alami, berbeda dari catatan anekdot yang fokus pada satu insiden saja."
+  },
+  {
+    "subtest": "Penguasaan Konten - Strategi & Metode Pembelajaran PAUD",
+    "question": "Seorang guru memulai kegiatan dengan membacakan buku 'Ulat yang Sangat Lapar'. Untuk memperluas pembelajaran dari buku ini, kegiatan lanjutan yang paling terintegrasi adalah...",
+    "options": [
+      "Meminta anak-anak untuk menghafal nama-nama hari yang ada di buku.",
+      "Mengadakan proyek pengamatan siklus hidup kupu-kupu secara nyata dengan memelihara ulat di kelas.",
+      "Memberikan tes tertulis tentang isi cerita.",
+      "Meminta setiap anak mewarnai gambar ulat yang sama.",
+      "Menyanyikan lagu tentang ulat."
+    ],
+    "answer": "Mengadakan proyek pengamatan siklus hidup kupu-kupu secara nyata dengan memelihara ulat di kelas.",
+    "explanation": "Pembelajaran yang mendalam terjadi ketika anak dapat menghubungkan cerita (abstrak) dengan pengalaman nyata (konkret). Proyek memelihara ulat membawa konsep siklus hidup dari halaman buku ke dunia nyata. Ini mengintegrasikan sains (observasi), bahasa (diskusi), matematika (menghitung hari), dan seni (menggambar perubahan), menjadikannya pengalaman belajar yang kaya dan tak terlupakan."
+  },
+  {
+    "subtest": "Penguasaan Konten - Teori Perkembangan Anak",
+    "question": "Seorang anak, Tia, sedang bermain balok di samping Rino. Tia membangun garasi dan Rino membangun menara. Mereka tidak saling berinteraksi atau berbagi mainan, meskipun mereka bermain di area yang sama. Menurut Mildred Parten, ini adalah contoh dari...",
+    "options": [
+      "Solitary Play",
+      "Onlooker Play",
+      "Parallel Play",
+      "Associative Play",
+      "Cooperative Play"
+    ],
+    "answer": "Parallel Play",
+    "explanation": "Bermain Paralel (Parallel Play) adalah tahap di mana anak-anak bermain berdekatan satu sama lain, mungkin menggunakan mainan yang serupa, tetapi tidak mencoba untuk saling mempengaruhi permainan. Ini adalah jembatan antara bermain soliter dan bermain yang lebih sosial."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kurikulum & Perencanaan Pembelajaran",
+    "question": "Dalam Capaian Pembelajaran (CP) PAUD, terdapat tiga elemen utama: Nilai Agama dan Budi Pekerti, Jati Diri, serta Dasar-dasar Literasi, Matematika, Sains, Teknologi, Rekayasa, dan Seni. Pendekatan yang paling tepat dalam implementasinya di kelas adalah...",
+    "options": [
+      "Mengajarkan setiap elemen secara terpisah pada hari yang berbeda.",
+      "Hanya fokus pada elemen Literasi dan Matematika karena paling penting.",
+      "Mengintegrasikan ketiga elemen tersebut secara holistik melalui kegiatan bermain yang bermakna.",
+      "Memberikan tes untuk setiap elemen di akhir semester.",
+      "Meminta orang tua untuk mengajarkan elemen Nilai Agama dan Budi Pekerti di rumah."
+    ],
+    "answer": "Mengintegrasikan ketiga elemen tersebut secara holistik melalui kegiatan bermain yang bermakna.",
+    "explanation": "Perkembangan anak bersifat holistik dan terintegrasi. CP PAUD dirancang untuk tidak diajarkan secara terkotak-kotak. Misalnya, saat anak bermain proyek 'membuat kue', mereka belajar sains (perubahan bahan), matematika (menakar), literasi (membaca resep sederhana), jati diri (bekerja sama), dan nilai agama (bersyukur). Semua elemen terjalin dalam satu kegiatan."
+  },
+  {
+    "subtest": "Penguasaan Konten - Penilaian (Asesmen) Perkembangan Anak",
+    "question": "Saat melakukan refleksi terhadap data asesmen, guru menemukan bahwa sebagian besar anak di kelasnya masih kesulitan dalam keterampilan berbagi. Rencana tindak lanjut yang paling tepat adalah...",
+    "options": [
+      "Memberikan ceramah kepada anak-anak tentang pentingnya berbagi.",
+      "Menghukum anak-anak yang tidak mau berbagi mainan.",
+      "Merancang lebih banyak kegiatan bermain kooperatif yang secara inheren menuntut anak untuk bekerja sama dan berbagi alat.",
+      "Menambah jumlah mainan di kelas agar tidak perlu ada yang berbagi.",
+      "Mengabaikan masalah tersebut karena dianggap sebagai bagian dari perkembangan normal."
+    ],
+    "answer": "Merancang lebih banyak kegiatan bermain kooperatif yang secara inheren menuntut anak untuk bekerja sama dan berbagi alat.",
+    "explanation": "Asesmen berfungsi untuk menginformasikan perencanaan. Jika data menunjukkan adanya kebutuhan pengembangan di suatu area, maka guru harus merespons dengan merancang pengalaman belajar yang relevan. Kegiatan kooperatif (misalnya, memasak bersama, membuat karya seni kelompok dengan alat terbatas) memberikan konteks nyata bagi anak untuk berlatih dan mengembangkan keterampilan berbagi secara alami."
+  },
+  {
+    "subtest": "Penguasaan Konten - Strategi & Metode Pembelajaran PAUD",
+    "question": "Guru menggunakan teknik 'scaffolding' untuk membantu seorang anak yang kesulitan mengancingkan bajunya. Manakah contoh 'scaffolding' yang paling tepat?",
+    "options": [
+      "Guru langsung mengancingkan seluruh baju anak tersebut.",
+      "Guru berkata, 'Ayo coba lagi, kamu pasti bisa!' dari kejauhan.",
+      "Guru memegang kancing dan lubangnya, lalu membimbing tangan anak untuk memasukkannya, sambil berkata, 'Pertama, pegang kancingnya seperti ini...'.",
+      "Guru memberikan baju lain yang menggunakan resleting.",
+      "Guru meminta teman anak tersebut untuk membantunya."
+    ],
+    "answer": "Guru memegang kancing dan lubangnya, lalu membimbing tangan anak untuk memasukkannya, sambil berkata, 'Pertama, pegang kancingnya seperti ini...'.",
+    "explanation": "Scaffolding adalah memberikan dukungan sementara yang tepat pada tingkat kesulitan anak, dan secara bertahap mengurangi dukungan tersebut seiring dengan meningkatnya kemampuan anak. Membimbing tangan anak sambil memberikan instruksi verbal adalah contoh klasik scaffolding. Ini memberikan dukungan yang cukup agar anak berhasil, tetapi anak tetap terlibat aktif dalam prosesnya."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kesehatan dan Gizi Anak Usia Dini",
+    "question": "Seorang anak terjatuh di halaman dan lututnya lecet berdarah sedikit. Penanganan pertama pada kecelakaan (P3K) yang benar sesuai standar di PAUD adalah...",
+    "options": [
+      "Meniup luka anak agar kering.",
+      "Membersihkan luka dengan air bersih mengalir, mengeringkannya, lalu menutupnya dengan plester atau kassa steril.",
+      "Langsung mengoleskan alkohol atau betadine pada luka yang masih kotor.",
+      "Meminta anak untuk tidak menangis dan segera kembali bermain.",
+      "Menaburkan bubuk kopi pada luka untuk menghentikan pendarahan."
+    ],
+    "answer": "Membersihkan luka dengan air bersih mengalir, mengeringkannya, lalu menutupnya dengan plester atau kassa steril.",
+    "explanation": "Prosedur P3K yang benar untuk luka lecet adalah membersihkannya terlebih dahulu dari kotoran untuk mencegah infeksi. Air bersih mengalir adalah cara terbaik. Setelah bersih dan kering, luka ditutup untuk melindunginya. Menggunakan alkohol pada luka terbuka bisa menyebabkan iritasi, sementara meniupnya bisa memindahkan kuman dari mulut ke luka."
+  },
+  {
+    "subtest": "Penguasaan Konten - Keterampilan Pedagogik spesifik PAUD",
+    "question": "Transisi dari PAUD ke Sekolah Dasar seringkali menjadi masa yang menegangkan bagi anak. Peran guru PAUD yang paling penting dalam mempersiapkan anak untuk transisi ini adalah...",
+    "options": [
+      "Mengajarkan anak membaca, menulis, dan berhitung (calistung) secara intensif dengan metode drilling.",
+      "Membangun kemandirian, keterampilan sosial, dan rasa percaya diri anak untuk menghadapi lingkungan baru.",
+      "Memberitahu anak-anak bahwa SD itu sulit dan mereka harus belajar lebih giat.",
+      "Mengubah seluruh kegiatan di PAUD menjadi seperti suasana belajar di SD.",
+      "Memastikan semua anak sudah hafal perkalian dasar."
+    ],
+    "answer": "Membangun kemandirian, keterampilan sosial, dan rasa percaya diri anak untuk menghadapi lingkungan baru.",
+    "explanation": "Kesiapan sekolah (school readiness) tidak hanya diukur dari kemampuan akademis. Fondasi yang lebih penting adalah kesiapan sosial-emosional. Anak yang mandiri (bisa ke toilet sendiri, mengelola barangnya), mampu berinteraksi dengan teman, dan memiliki rasa percaya diri akan lebih mudah beradaptasi dengan tantangan di lingkungan SD, apapun kurikulumnya. Calistung akan lebih mudah dipelajari jika fondasi ini kuat."
+  },
+  {
+    "subtest": "Penguasaan Konten - Teori Perkembangan Anak",
+    "question": "Seorang anak dapat berpikir secara 'reversible', artinya ia dapat membalik urutan suatu proses secara mental. Misalnya, ia paham bahwa jika 2 + 3 = 5, maka 5 - 3 = 2. Kemampuan ini adalah ciri dari tahap perkembangan...",
+    "options": [
+      "Sensorimotor",
+      "Praoperasional",
+      "Operasional Konkret",
+      "Formal Operasional",
+      "Intuitif"
+    ],
+    "answer": "Operasional Konkret",
+    "explanation": "Reversibilitas atau kemampuan untuk membalikkan suatu proses secara mental adalah salah satu ciri utama dari pemikiran logis pada tahap operasional konkret. Anak pada tahap praoperasional belum memiliki kemampuan ini; pemikiran mereka masih kaku dan satu arah."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kurikulum & Perencanaan Pembelajaran",
+    "question": "Saat melakukan asesmen diagnostik, guru menemukan bahwa anak-anak di kelasnya memiliki minat yang sangat beragam: beberapa suka dinosaurus, beberapa suka mobil, dan beberapa suka memasak. Pendekatan perencanaan pembelajaran yang paling akomodatif terhadap keragaman minat ini adalah...",
+    "options": [
+      "Guru memilih satu tema yang paling populer (misal: dinosaurus) untuk seluruh kelas.",
+      "Guru mengabaikan minat anak dan mengikuti kurikulum yang sudah ada.",
+      "Mengembangkan 'proyek-proyek kecil' yang berjalan secara paralel di dalam kelas sesuai kelompok minat.",
+      "Menetapkan satu tema besar yang netral seperti 'Air, Udara, Api'.",
+      "Meminta orang tua untuk mengembangkan minat anak di rumah."
+    ],
+    "answer": "Mengembangkan 'proyek-proyek kecil' yang berjalan secara paralel di dalam kelas sesuai kelompok minat.",
+    "explanation": "Kurikulum yang berpusat pada anak harus responsif terhadap minat mereka. Mengelola proyek-proyek kecil secara simultan memungkinkan guru untuk memvalidasi dan memfasilitasi minat yang beragam tersebut. Ini menantang secara manajerial tetapi sangat efektif untuk menjaga keterlibatan dan motivasi belajar semua anak."
+  },
+  {
+    "subtest": "Penguasaan Konten - Penilaian (Asesmen) Perkembangan Anak",
+    "question": "Manakah dari pernyataan berikut yang paling tepat mendeskripsikan perbedaan antara asesmen formatif dan asesmen sumatif di PAUD?",
+    "options": [
+      "Asesmen formatif dilakukan di awal tahun, sumatif di akhir tahun.",
+      "Asesmen formatif menggunakan angka, sumatif menggunakan deskripsi.",
+      "Asesmen formatif adalah 'assessment for learning' (untuk perbaikan pembelajaran), sedangkan sumatif adalah 'assessment of learning' (untuk pelaporan di akhir periode).",
+      "Asesmen formatif hanya dilakukan oleh guru, sedangkan sumatif melibatkan orang tua.",
+      "Asesmen formatif bersifat opsional, sedangkan sumatif wajib."
+    ],
+    "answer": "Asesmen formatif adalah 'assessment for learning' (untuk perbaikan pembelajaran), sedangkan sumatif adalah 'assessment of learning' (untuk pelaporan di akhir periode).",
+    "explanation": "Perbedaan fundamental terletak pada tujuannya. Asesmen formatif (misalnya, observasi harian, umpan balik langsung) dilakukan selama proses pembelajaran untuk memandu langkah guru selanjutnya. Asesmen sumatif (misalnya, laporan akhir semester) dilakukan pada akhir suatu periode untuk merangkum apa yang telah dipelajari anak. Di PAUD, penekanannya jauh lebih besar pada asesmen formatif."
+  },
+  {
+    "subtest": "Penguasaan Konten - Strategi & Metode Pembelajaran PAUD",
+    "question": "Guru ingin membangun budaya literasi di kelas. Selain membacakan buku, strategi yang paling berdampak untuk menunjukkan bahwa tulisan memiliki fungsi dalam kehidupan sehari-hari adalah...",
+    "options": [
+      "Meminta anak menjiplak tulisan dari papan tulis.",
+      "Melibatkan anak dalam aktivitas menulis fungsional, seperti membuat daftar belanja untuk kegiatan memasak atau menulis label untuk bangunan balok mereka.",
+      "Memberikan pekerjaan rumah menulis setiap hari.",
+      "Menghukum anak yang tulisannya tidak rapi.",
+      "Hanya menggunakan buku-buku yang tidak memiliki tulisan (buku gambar)."
+    ],
+    "answer": "Melibatkan anak dalam aktivitas menulis fungsional, seperti membuat daftar belanja untuk kegiatan memasak atau menulis label untuk bangunan balok mereka.",
+    "explanation": "Anak akan termotivasi untuk belajar menulis ketika mereka melihat tulisan memiliki tujuan yang nyata. Melibatkan mereka dalam aktivitas menulis yang fungsional menunjukkan bahwa tulisan adalah alat untuk berkomunikasi, merencanakan, dan memberi nama. Ini jauh lebih bermakna daripada sekadar latihan motorik menjiplak huruf."
+  },
+  {
+    "subtest": "Penguasaan Konten - Teori Perkembangan Anak",
+    "question": "Menurut Howard Gardner, kecerdasan musikal pada anak usia dini dapat distimulasi secara optimal melalui kegiatan...",
+    "options": [
+      "Meminta anak menghafal lirik lagu kebangsaan.",
+      "Memperkenalkan not balok dan teori musik dasar.",
+      "Memberikan kebebasan anak untuk bereksplorasi dengan berbagai alat musik perkusi sederhana dan merespons musik melalui gerakan.",
+      "Hanya memutarkan musik klasik saat anak tidur siang.",
+      "Menilai kemampuan menyanyi anak dengan standar nada yang benar."
+    ],
+    "answer": "Memberikan kebebasan anak untuk bereksplorasi dengan berbagai alat musik perkusi sederhana dan merespons musik melalui gerakan.",
+    "explanation": "Kecerdasan musikal pada anak usia dini adalah tentang kepekaan terhadap ritme, nada, dan melodi. Stimulasi terbaik adalah melalui pengalaman langsung yang menyenangkan dan eksploratif. Bereksperimen dengan bunyi (alat musik) dan mengekspresikan musik melalui tubuh (gerakan/tarian) adalah cara yang paling sesuai dengan tahap perkembangan mereka, bukan melalui pembelajaran formal atau penilaian yang kaku."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kurikulum & Perencanaan Pembelajaran",
+    "question": "Seorang guru merencanakan kegiatan 'membuat playdough'. Untuk menjadikan kegiatan ini lebih kaya akan pengalaman belajar (tidak hanya motorik halus), guru tersebut dapat...",
+    "options": [
+      "Menyiapkan adonan playdough terlebih dahulu agar anak tinggal membentuknya.",
+      "Melibatkan anak dalam keseluruhan proses: menakar bahan (matematika), mengaduk dan merasakan perubahan tekstur (sains), dan kemudian membentuknya (seni).",
+      "Memberikan satu warna playdough yang sama untuk semua anak.",
+      "Meminta anak membuat bentuk sesuai contoh yang diberikan guru.",
+      "Menilai hasil akhir playdough berdasarkan kerapiannya."
+    ],
+    "answer": "Melibatkan anak dalam keseluruhan proses: menakar bahan (matematika), mengaduk dan merasakan perubahan tekstur (sains), dan kemudian membentuknya (seni).",
+    "explanation": "Sebuah kegiatan sederhana dapat menjadi pengalaman belajar yang kaya jika guru fokus pada proses, bukan hanya produk. Melibatkan anak dari awal mengintegrasikan berbagai aspek pembelajaran (STEAM). Anak belajar konsep matematika (takaran), sains (perubahan wujud), dan seni (kreativitas), sambil tetap melatih motorik halusnya."
+  },
+  {
+    "subtest": "Penguasaan Konten - Penilaian (Asesmen) Perkembangan Anak",
+    "question": "Guru ingin mengetahui sejauh mana pemahaman anak tentang konsep cerita (misalnya, tokoh, latar, masalah). Teknik asesmen yang paling tepat untuk menggali informasi ini setelah membacakan buku adalah...",
+    "options": [
+      "Meminta anak mewarnai gambar tokoh utama.",
+      "Memberikan tes pilihan ganda tentang isi cerita.",
+      "Mengadakan diskusi kelompok kecil dengan pertanyaan terbuka seperti, 'Menurutmu, apa yang dirasakan si Kancil saat itu?' atau 'Apa yang akan kamu lakukan jika menjadi si Kancil?'.",
+      "Meminta anak menulis ulang cerita tersebut di buku.",
+      "Memeriksa apakah anak duduk tenang selama dibacakan cerita."
+    ],
+    "answer": "Mengadakan diskusi kelompok kecil dengan pertanyaan terbuka seperti, 'Menurutmu, apa yang dirasakan si Kancil saat itu?' atau 'Apa yang akan kamu lakukan jika menjadi si Kancil?'.",
+    "explanation": "Pemahaman cerita lebih dari sekadar mengingat fakta. Pertanyaan terbuka yang memancing pemikiran dan inferensi ('Apa yang dirasakan?', 'Apa yang akan kamu lakukan?') memungkinkan guru untuk menilai pemahaman anak pada level yang lebih dalam. Diskusi kelompok kecil memberikan lingkungan yang aman bagi anak untuk mengungkapkan idenya."
+  },
+  {
+    "subtest": "Penguasaan Konten - Strategi & Metode Pembelajaran PAUD",
+    "question": "Manakah dari pilihan berikut yang merupakan contoh pertanyaan terbuka (open-ended question) yang paling baik untuk memantik pemikiran kritis anak saat bermain balok?",
+    "options": [
+      "Itu warnanya apa?",
+      "Ada berapa balok yang kamu pakai?",
+      "Kamu sedang membuat apa?",
+      "Menurutmu, apa yang akan terjadi jika kamu meletakkan balok besar itu di paling atas menaramu?",
+      "Apakah kamu suka bermain balok?"
+    ],
+    "answer": "Menurutmu, apa yang akan terjadi jika kamu meletakkan balok besar itu di paling atas menaramu?",
+    "explanation": "Pertanyaan terbuka adalah pertanyaan yang tidak bisa dijawab dengan 'ya/tidak' atau satu kata. Pertanyaan pada pilihan D secara spesifik mendorong anak untuk membuat hipotesis, berpikir tentang sebab-akibat, dan memecahkan masalah. Ini merangsang proses berpikir yang lebih tinggi dibandingkan pertanyaan yang hanya meminta informasi faktual (warna, jumlah) atau deskripsi sederhana."
+  },
+  {
+    "subtest": "Penguasaan Konten - Keterampilan Pedagogik spesifik PAUD",
+    "question": "Seorang guru PAUD secara rutin mendokumentasikan proses belajarnya, merefleksikan praktik mengajarnya, dan melakukan penyesuaian berdasarkan hasil refleksi tersebut. Praktik ini dikenal sebagai...",
+    "options": [
+      "Penelitian Tindakan Kelas (PTK)",
+      "Penilaian Kinerja Guru (PKG)",
+      "Supervisi Akademik",
+      "Evaluasi Diri Sekolah",
+      "Manajemen Kelas"
+    ],
+    "answer": "Penelitian Tindakan Kelas (PTK)",
+    "explanation": "Penelitian Tindakan Kelas adalah proses siklus yang sistematis (perencanaan, tindakan, observasi, refleksi) yang dilakukan oleh guru untuk memperbaiki praktik pembelajarannya sendiri. Deskripsi dalam soal secara tepat menggambarkan esensi dari PTK sebagai bentuk pengembangan profesionalisme yang berkelanjutan."
+  },
+  {
+    "subtest": "Penguasaan Konten - Teori Perkembangan Anak",
+    "question": "Perkembangan emosi pada anak usia dini sangat dipengaruhi oleh lingkungan. Kemampuan anak untuk mengenali, memahami, dan mengelola emosinya sendiri serta memahami emosi orang lain disebut...",
+    "options": [
+      "Kecerdasan Intelektual (IQ)",
+      "Kecerdasan Emosional (EQ)",
+      "Kecerdasan Spasial",
+      "Temperamen",
+      "Attachment (Kelekatan)"
+    ],
+    "answer": "Kecerdasan Emosional (EQ)",
+    "explanation": "Kecerdasan Emosional (EQ), seperti yang dipopulerkan oleh Daniel Goleman, mencakup lima domain utama: kesadaran diri, pengaturan diri, motivasi, empati, dan keterampilan sosial. Deskripsi dalam soal adalah inti dari EQ, yang merupakan fondasi penting bagi kesuksesan sosial dan pribadi anak."
+  },
+  {
+    "subtest": "Penguasaan Konten - Kurikulum & Perencanaan Pembelajaran",
+    "question": "Dalam merencanakan pembelajaran, guru harus memperhatikan 'scaffolding'. Manakah yang BUKAN merupakan bentuk scaffolding?",
+    "options": [
+      "Memberikan petunjuk visual atau contoh.",
+      "Mengajukan pertanyaan pemantik untuk memandu pemikiran anak.",
+      "Mengerjakan seluruh tugas untuk anak agar hasilnya bagus.",
+      "Memecah tugas yang kompleks menjadi langkah-langkah yang lebih kecil.",
+      "Memberikan umpan balik yang konstruktif saat anak mencoba."
+    ],
+    "answer": "Mengerjakan seluruh tugas untuk anak agar hasilnya bagus.",
+    "explanation": "Scaffolding adalah tentang memberikan bantuan 'secukupnya' untuk memungkinkan anak berhasil mengerjakan tugas secara mandiri. Mengerjakan seluruh tugas untuk anak justru menghilangkan kesempatan belajar dan menciptakan ketergantungan. Scaffolding mendukung, bukan mengambil alih."
+  },
+  {
+    "subtest": "Penguasaan Konten - Strategi & Metode Pembelajaran PAUD",
+    "question": "Guru ingin menanamkan nilai-nilai antri dan sabar. Momen rutin (rutinitas) yang paling efektif untuk melatihkan nilai-nilai ini secara konsisten adalah...",
+    "options": [
+      "Saat kegiatan pentas seni akhir tahun.",
+      "Saat kegiatan cuci tangan sebelum makan atau saat akan bermain di perosotan.",
+      "Saat guru membacakan cerita di depan kelas.",
+      "Saat anak-anak tidur siang.",
+      "Saat orang tua menjemput anak di sekolah."
+    ],
+    "answer": "Saat kegiatan cuci tangan sebelum makan atau saat akan bermain di perosotan.",
+    "explanation": "Nilai-nilai ditanamkan melalui pembiasaan dalam rutinitas sehari-hari. Momen di mana anak-anak secara alami harus menunggu giliran, seperti saat akan menggunakan wastafel atau mainan populer, adalah 'kurikulum tersembunyi' yang sangat efektif untuk mengajarkan dan mempraktikkan kesabaran dan budaya antri secara nyata dan berulang."
+  },
+  {
+    "subtest": "Kemampuan Dasar Literasi",
+    "question": "Bacalah teks berikut!\n\n**Cara Membuat Jus Jambu Biji**\n\n1. Siapkan 2 buah jambu biji merah matang, 1 gelas air putih, dan 2 sendok makan gula pasir.\n2. Cuci bersih jambu biji, kemudian potong kecil-kecil.\n3. Masukkan potongan jambu biji, air, dan gula ke dalam blender.\n4. Nyalakan blender dan proses hingga semua bahan halus dan tercampur rata.\n5. Saring jus untuk memisahkan ampas dan bijinya.\n6. Tuang ke dalam gelas dan sajikan.\n\nApa yang harus dilakukan tepat sebelum menyalakan blender?",
+    "options": [
+      "Menyiapkan jambu biji.",
+      "Mencuci bersih jambu biji.",
+      "Menyaring jus yang sudah jadi.",
+      "Memasukkan semua bahan ke dalam blender.",
+      "Memotong jambu biji kecil-kecil."
+    ],
+    "answer": "Memasukkan semua bahan ke dalam blender.",
+    "explanation": "Berdasarkan urutan pada teks prosedur, langkah ke-3 adalah 'Masukkan potongan jambu biji, air, dan gula ke dalam blender'. Langkah ke-4 adalah 'Nyalakan blender'. Jadi, tindakan yang dilakukan tepat sebelum menyalakan blender adalah memasukkan semua bahan."
+  },
+  {
+    "subtest": "Kemampuan Dasar Literasi",
+    "question": "Perhatikan pengumuman berikut!\n\n**PENGUMUMAN**\n\nKepada seluruh orang tua murid PAUD Ceria,\nSehubungan dengan akan dilaksanakannya kegiatan 'Puncak Tema: Duniaku', kami mengundang Bapak/Ibu untuk hadir pada:\n\nHari/Tanggal: Sabtu, 26 Oktober 2024\nWaktu: 08.00 - 11.00 WIB\nTempat: Halaman Sekolah PAUD Ceria\n\nAcara akan diisi dengan pameran karya anak dan penampilan kreativitas. Kehadiran Bapak/Ibu merupakan bentuk apresiasi bagi putra-putri kita. Atas perhatiannya, kami ucapkan terima kasih.\n\nKepala Sekolah,\nIbu Anisa\n\nMaksud utama dari pengumuman tersebut adalah...",
+    "options": [
+      "Memberitahukan jadwal libur sekolah.",
+      "Mengundang orang tua untuk menghadiri acara sekolah.",
+      "Meminta sumbangan untuk kegiatan puncak tema.",
+      "Mengumumkan pemenang lomba kreativitas anak.",
+      "Memberikan laporan perkembangan anak."
+    ],
+    "answer": "Mengundang orang tua untuk menghadiri acara sekolah.",
+    "explanation": "Kalimat kunci dalam teks adalah '...kami mengundang Bapak/Ibu untuk hadir pada...'. Seluruh informasi lainnya (hari, tanggal, acara) adalah detail dari undangan tersebut. Jadi, tujuan utama pengumuman ini adalah untuk mengundang."
+  },
+  {
+    "subtest": "Kemampuan Dasar Literasi",
+    "question": "Pagi itu, Rara melihat seekor kupu-kupu dengan sayap berwarna biru cerah hinggap di bunga mawar merah di depan rumahnya. Rara terdiam sejenak, mengagumi keindahannya. Ia belum pernah melihat kupu-kupu seindah itu. Tiba-tiba, angin bertiup sedikit kencang. Kupu-kupu itu pun terbang menjauh, menari-nari di udara sebelum menghilang di balik pohon jambu.\n\nBerdasarkan cerita tersebut, apa yang menyebabkan kupu-kupu terbang menjauh?",
+    "options": [
+      "Rara mencoba menangkapnya.",
+      "Bunga mawarnya layu.",
+      "Adanya tiupan angin yang agak kencang.",
+      "Hari mulai siang.",
+      "Rara berteriak karena kaget."
+    ],
+    "answer": "Adanya tiupan angin yang agak kencang.",
+    "explanation": "Teks secara eksplisit menyatakan, 'Tiba-tiba, angin bertiup sedikit kencang. Kupu-kupu itu pun terbang menjauh...'. Ini menunjukkan hubungan sebab-akibat langsung antara tiupan angin dan perginya kupu-kupu."
+  },
+  {
+    "subtest": "Kemampuan Dasar Literasi",
+    "question": "Gizi seimbang sangat penting untuk tumbuh kembang anak usia dini. Asupan nutrisi yang cukup, seperti karbohidrat, protein, lemak, vitamin, dan mineral, akan mendukung perkembangan otak dan fisik anak. Kekurangan gizi dapat menyebabkan berbagai masalah, mulai dari stunting (gagal tumbuh) hingga penurunan kemampuan kognitif. Oleh karena itu, orang tua dan guru perlu bekerja sama memastikan anak mendapatkan makanan yang beragam dan bergizi setiap hari.\n\nIde pokok dari paragraf di atas adalah...",
+    "options": [
+      "Bahaya stunting bagi anak usia dini.",
+      "Jenis-jenis nutrisi yang dibutuhkan anak.",
+      "Pentingnya gizi seimbang untuk tumbuh kembang anak.",
+      "Kerja sama antara orang tua dan guru.",
+      "Masalah kekurangan gizi di Indonesia."
+    ],
+    "answer": "Pentingnya gizi seimbang untuk tumbuh kembang anak.",
+    "explanation": "Kalimat pertama, 'Gizi seimbang sangat penting untuk tumbuh kembang anak usia dini', adalah kalimat utama yang merangkum keseluruhan isi paragraf. Kalimat-kalimat berikutnya adalah penjelasan dan elaborasi dari ide pokok tersebut."
+  },
+  {
+    "subtest": "Kemampuan Dasar Literasi",
+    "question": "Perhatikan kutipan berikut!\n\n'Meskipun teknologi menawarkan banyak kemudahan, pembatasan waktu layar (screen time) bagi anak usia dini adalah sebuah keharusan. Paparan layar yang berlebihan terbukti dapat mengganggu pola tidur, menurunkan kemampuan konsentrasi, dan menghambat perkembangan keterampilan sosial. Para ahli merekomendasikan agar anak di bawah usia 5 tahun tidak diberikan waktu layar lebih dari 1 jam per hari, dan itu pun harus dengan pendampingan orang dewasa.'\n\nBagaimana sikap penulis terhadap penggunaan teknologi oleh anak usia dini?",
+    "options": [
+      "Sangat mendukung tanpa batasan.",
+      "Sepenuhnya melarang penggunaan teknologi.",
+      "Mendukung penggunaan teknologi, tetapi dengan batasan dan pengawasan yang ketat.",
+      "Tidak memiliki pendapat yang jelas.",
+      "Menyerahkan sepenuhnya keputusan kepada anak."
+    ],
+    "answer": "Mendukung penggunaan teknologi, tetapi dengan batasan dan pengawasan yang ketat.",
+    "explanation": "Penulis mengakui adanya 'kemudahan' dari teknologi, namun menekankan pentingnya 'pembatasan waktu layar' dan 'pendampingan'. Ini menunjukkan sikap yang seimbang: tidak melarang total, tetapi juga tidak membebaskan, melainkan menganjurkan penggunaan yang bijaksana dan terkontrol."
+  },
+  {
+    "subtest": "Kemampuan Dasar Literasi",
+    "question": "Kata 'itu' pada kalimat 'Ia belum pernah melihat kupu-kupu seindah itu.' dalam teks cerita tentang Rara merujuk pada...",
+    "options": [
+      "Bunga mawar merah.",
+      "Seekor kupu-kupu dengan sayap berwarna biru cerah.",
+      "Rumah Rara.",
+      "Pohon jambu.",
+      "Tiupan angin."
+    ],
+    "answer": "Seekor kupu-kupu dengan sayap berwarna biru cerah.",
+    "explanation": "Kata tunjuk 'itu' digunakan untuk merujuk pada sesuatu yang telah disebutkan sebelumnya. Dalam konteks kalimat tersebut, yang dibicarakan Rara sebagai sesuatu yang 'indah' adalah kupu-kupu yang ia lihat, yang dideskripsikan pada kalimat sebelumnya."
+  },
+  {
+    "subtest": "Kemampuan Dasar Literasi",
+    "question": "Semua guru PAUD mengikuti pelatihan Kurikulum Merdeka. Bu Dina adalah seorang guru PAUD. Simpulan yang paling tepat adalah...",
+    "options": [
+      "Bu Dina mungkin tidak mengikuti pelatihan.",
+      "Semua yang mengikuti pelatihan adalah Bu Dina.",
+      "Bu Dina pasti mengikuti pelatihan Kurikulum Merdeka.",
+      "Pelatihan Kurikulum Merdeka hanya untuk Bu Dina.",
+      "Beberapa guru PAUD tidak mengikuti pelatihan."
+    ],
+    "answer": "Bu Dina pasti mengikuti pelatihan Kurikulum Merdeka.",
+    "explanation": "Ini adalah soal silogisme sederhana. Premis 1: Semua A adalah B (Semua guru PAUD mengikuti pelatihan). Premis 2: C adalah A (Bu Dina adalah guru PAUD). Maka kesimpulannya adalah C adalah B (Bu Dina mengikuti pelatihan)."
+  },
+  {
+    "subtest": "Kemampuan Dasar Literasi",
+    "question": "Manakah kalimat yang menggunakan tanda baca secara tepat?",
+    "options": [
+      "Ibu membeli sayur, buah dan telur.",
+      "Anak-anak bermain di halaman sekolah; mereka tampak gembira.",
+      "Kapan acara itu akan dimulai.",
+      "Wow betapa indahnya pemandangan ini?",
+      "Buku itu, berjudul 'Dunia Anak,' sangat menarik."
+    ],
+    "answer": "Anak-anak bermain di halaman sekolah; mereka tampak gembira.",
+    "explanation": "Tanda titik koma (;) digunakan untuk memisahkan dua klausa independen yang berhubungan erat. Pilihan A salah karena sebelum 'dan' tidak perlu koma dalam perincian. Pilihan C seharusnya diakhiri tanda tanya (?). Pilihan D seharusnya diakhiri tanda seru (!). Pilihan E, koma setelah 'Anak' tidak diperlukan."
+  },
+  {
+    "subtest": "Kemampuan Dasar Literasi",
+    "question": "Kata 'kognitif' dalam kalimat 'Kekurangan gizi dapat menyebabkan penurunan kemampuan kognitif' memiliki arti yang paling dekat dengan...",
+    "options": [
+      "Kemampuan bergerak.",
+      "Kemampuan bersosialisasi.",
+      "Kemampuan berpikir dan belajar.",
+      "Kemampuan melihat dan mendengar.",
+      "Kekuatan fisik."
+    ],
+    "answer": "Kemampuan berpikir dan belajar.",
+    "explanation": "Kognitif berasal dari kata 'kognisi' yang merujuk pada semua proses mental yang terlibat dalam mengetahui, belajar, dan memahami. Ini mencakup berpikir, mengingat, memecahkan masalah, dan menggunakan bahasa."
+  },
+  {
+    "subtest": "Kemampuan Dasar Literasi",
+    "question": "Perhatikan grafik berikut.\n\n[Deskripsi Grafik Batang: Judul 'Jumlah Peminat Kegiatan Ekstrakurikuler PAUD Bintang'. Sumbu X: Melukis, Menari, Musik. Sumbu Y: Jumlah Anak. Batang Melukis mencapai angka 15. Batang Menari mencapai angka 20. Batang Musik mencapai angka 10.]\n\nPernyataan yang TIDAK sesuai dengan data pada grafik tersebut adalah...",
+    "options": [
+      "Kegiatan ekstrakurikuler yang paling diminati adalah menari.",
+      "Kegiatan musik memiliki peminat paling sedikit.",
+      "Jumlah peminat melukis lebih banyak daripada peminat musik.",
+      "Selisih antara peminat menari dan musik adalah 10 anak.",
+      "Jumlah peminat melukis dan musik sama dengan jumlah peminat menari."
+    ],
+    "answer": "Jumlah peminat melukis dan musik sama dengan jumlah peminat menari.",
+    "explanation": "Peminat menari = 20. Peminat melukis = 15. Peminat musik = 10. Pernyataan A, B, C, dan D semuanya benar berdasarkan data. Pernyataan E salah karena jumlah peminat melukis dan musik adalah 15 + 10 = 25, sedangkan peminat menari adalah 20. Jadi, 25 tidak sama dengan 20."
+  },
+  {
+    "subtest": "Kemampuan Dasar Literasi",
+    "question": "Teks 1: Hujan deras yang mengguyur kota semalaman menyebabkan beberapa ruas jalan utama tergenang air. Akibatnya, lalu lintas di pagi hari menjadi sangat padat.\n\nTeks 2: Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) telah mengeluarkan peringatan dini akan potensi hujan lebat disertai angin kencang di wilayah kota selama tiga hari ke depan.\n\nHubungan antara Teks 1 dan Teks 2 adalah...",
+    "options": [
+      "Teks 1 adalah penyebab dari peristiwa di Teks 2.",
+      "Teks 2 menjelaskan dampak dari peristiwa di Teks 1.",
+      "Teks 1 adalah realisasi atau contoh nyata dari peringatan yang disebutkan di Teks 2.",
+      "Teks 1 dan Teks 2 tidak memiliki hubungan sama sekali.",
+      "Teks 2 adalah sanggahan terhadap informasi di Teks 1."
+    ],
+    "answer": "Teks 1 adalah realisasi atau contoh nyata dari peringatan yang disebutkan di Teks 2.",
+    "explanation": "Teks 2 berisi peringatan (prediksi) tentang cuaca buruk. Teks 1 mendeskripsikan kejadian (banjir, macet) yang merupakan akibat dari cuaca buruk tersebut. Dengan demikian, Teks 1 bisa dilihat sebagai contoh atau kejadian faktual yang sesuai dengan peringatan di Teks 2."
+  },
+  {
+    "subtest": "Kemampuan Dasar Literasi",
+    "question": "Antonim (lawan kata) dari kata 'menghambat' dalam kalimat '...dapat menghambat perkembangan keterampilan sosial' adalah...",
+    "options": [
+      "Mengganggu",
+      "Mendukung",
+      "Mengurangi",
+      "Memperlambat",
+      "Merusak"
+    ],
+    "answer": "Mendukung",
+    "explanation": "Menghambat berarti membuat sesuatu menjadi lambat atau terhalang. Lawan katanya adalah sesuatu yang membuat maju atau lancar. Dari pilihan yang ada, 'mendukung' adalah antonim yang paling tepat."
+  },
+  {
+    "subtest": "Kemampuan Dasar Literasi",
+    "question": "Seorang guru berkata, 'Anak-anak, sebelum kita memulai proyek membuat kebun mini, mari kita siapkan dulu alat dan bahannya. Coba sebutkan apa saja yang kita butuhkan?'\n\nTujuan guru mengajukan pertanyaan tersebut adalah...",
+    "options": [
+      "Untuk menguji daya hafal anak.",
+      "Untuk mengetahui apakah anak-anak membawa uang.",
+      "Untuk melibatkan anak dalam tahap perencanaan dan melatih kemampuan berpikir.",
+      "Untuk mengisi waktu luang sebelum proyek dimulai.",
+      "Untuk menunjukkan bahwa guru tidak tahu apa yang dibutuhkan."
+    ],
+    "answer": "Untuk melibatkan anak dalam tahap perencanaan dan melatih kemampuan berpikir.",
+    "explanation": "Pertanyaan tersebut bersifat terbuka dan mengajak anak untuk berpikir tentang langkah-langkah dalam sebuah proyek. Ini adalah cara untuk melibatkan anak secara aktif dalam proses perencanaan, bukan hanya sebagai pelaksana instruksi. Ini melatih kemampuan mereka untuk merencanakan dan mengidentifikasi kebutuhan."
+  },
+  {
+    "subtest": "Kemampuan Dasar Literasi",
+    "question": "Bermain di luar ruangan memberikan banyak manfaat. Anak-anak dapat menghirup udara segar, bergerak lebih bebas, dan terpapar sinar matahari pagi yang baik untuk vitamin D. Selain itu, interaksi dengan alam dapat menumbuhkan rasa cinta dan kepedulian terhadap lingkungan.\n\nSimpulan yang dapat ditarik dari paragraf tersebut adalah...",
+    "options": [
+      "Bermain di dalam ruangan tidak memiliki manfaat.",
+      "Vitamin D hanya bisa didapat dari bermain di luar.",
+      "Bermain di luar ruangan baik untuk kesehatan fisik dan perkembangan karakter anak.",
+      "Semua anak harus bermain di luar ruangan setiap hari.",
+      "Orang tua harus selalu mengawasi anak saat bermain di luar."
+    ],
+    "answer": "Bermain di luar ruangan baik untuk kesehatan fisik dan perkembangan karakter anak.",
+    "explanation": "Paragraf tersebut menyebutkan manfaat fisik (udara segar, gerak, vitamin D) dan manfaat karakter/emosional (cinta lingkungan). Simpulan yang baik merangkum kedua aspek tersebut. Pernyataan ini secara akurat mencakup manfaat kesehatan dan karakter yang dijelaskan dalam teks."
+  },
+  {
+    "subtest": "Kemampuan Dasar Literasi",
+    "question": "Imbuhan 'me-' pada kata 'melukis' memiliki makna yang sama dengan imbuhan 'me-' pada kata...",
+    "options": [
+      "Menguap",
+      "Merumput",
+      "Membatu",
+      "Melaut",
+      "Menepi"
+    ],
+    "answer": "Menguap",
+    "explanation": "Imbuhan 'me-' pada 'melukis' (dari kata dasar 'lukis') berarti 'melakukan pekerjaan'. Imbuhan 'me-' pada 'menguap' (dari kata dasar 'uap') berarti 'mengeluarkan'. Imbuhan 'me-' pada 'merumput' (dari kata dasar 'rumput') berarti 'mencari'. Imbuhan 'me-' pada 'membatu' (dari kata dasar 'batu') berarti 'menjadi seperti'. Imbuhan 'me-' pada 'menepi' (dari kata dasar 'tepi') berarti 'menuju ke'. Maaf, terjadi kesalahan dalam analisis awal. Mari kita perbaiki. 'Melukis' berarti melakukan pekerjaan lukis. Kata yang paling mendekati adalah 'membaca', 'menulis', 'menggambar'. Dari pilihan yang ada, tidak ada yang bermakna 'melakukan pekerjaan'. Mari kita analisis ulang maknanya. 'Melukis' : melakukan tindakan. 'Menguap': mengeluarkan uap. 'Merumput': melakukan kegiatan di rumput. 'Membatu': menjadi seperti batu. 'Melaut': pergi ke laut. 'Menepi': menuju ke tepi. Terdapat ambiguitas pada soal ini. Namun jika diartikan sebagai 'melakukan suatu tindakan', maka 'merumput' (melakukan kegiatan makan rumput) bisa menjadi jawaban yang paling mendekati. Agar lebih jelas, kita ganti opsinya.  Mari kita asumsikan soal yang benar adalah: 'Imbuhan 'me-' pada kata 'melukis' memiliki makna 'melakukan suatu pekerjaan'. Makna yang sama terdapat pada kata...'. Jawaban yang tepat adalah 'menggambar'. Karena tidak ada di opsi, mari kita cari yang paling logis. 'Merumput' (sapi itu merumput) juga bisa berarti 'melakukan pekerjaan mencari rumput'. Mari kita ganti jawabannya ke yang lebih valid. Kita ganti soalnya agar lebih clear. Soal baru: 'Kalimat 'Pentingnya gizi seimbang' merupakan sebuah...'. Jawaban: Frasa. Oke, kita kembali ke soal awal dan cari interpretasi lain. Mungkin 'me-' sebagai pembentuk kata kerja aktif. 'lukis' -> 'melukis'. 'uap' -> 'menguap'. 'rumput' -> 'merumput'. 'batu' -> 'membatu'. Semua membentuk kata kerja aktif. Mari kita lihat makna prosesnya. Melukis (membuat lukisan). Menguap (menjadi uap). Merumput (mencari rumput). Membatu (menjadi batu). Melaut (pergi ke laut). Menepi (pergi ke tepi). Sepertinya tidak ada jawaban yang valid di sini. Kita akan ganti soal ini. \n\nSoal Pengganti: 'Pentingnya menjaga kebersihan lingkungan sekolah adalah tanggung jawab kita bersama.' Kalimat tersebut merupakan jenis kalimat...",
+    "options": [
+      "Perintah",
+      "Tanya",
+      "Seru",
+      "Pernyataan",
+      "Ajakan"
+    ],
+    "answer": "Pernyataan",
+    "explanation": "Kalimat tersebut menyampaikan sebuah informasi atau fakta (sebuah opini yang disajikan sebagai fakta), yaitu bahwa menjaga kebersihan adalah tanggung jawab bersama. Kalimat ini tidak memerintah, tidak bertanya, dan tidak pula mengekspresikan kekaguman. Oleh karena itu, ini adalah kalimat pernyataan atau deklaratif."
+  },
+  {
+    "subtest": "Kemampuan Dasar Numerasi",
+    "question": "Sebuah kelas PAUD memiliki 24 anak. Hari ini, 25% dari jumlah anak tidak masuk karena sakit. Berapa banyak anak yang masuk sekolah hari ini?",
+    "options": [
+      "6 anak",
+      "12 anak",
+      "18 anak",
+      "20 anak",
+      "24 anak"
+    ],
+    "answer": "18 anak",
+    "explanation": "Jumlah anak yang tidak masuk = 25% dari 24 = (25/100) * 24 = (1/4) * 24 = 6 anak. Jumlah anak yang masuk = Jumlah total anak - Jumlah anak yang tidak masuk = 24 - 6 = 18 anak."
+  },
+  {
+    "subtest": "Kemampuan Dasar Numerasi",
+    "question": "Bu Guru membawa 3 kantong permen. Setiap kantong berisi 15 permen. Permen tersebut akan dibagikan rata kepada 9 anak. Berapa permen yang diterima setiap anak?",
+    "options": [
+      "3 permen",
+      "5 permen",
+      "7 permen",
+      "9 permen",
+      "15 permen"
+    ],
+    "answer": "5 permen",
+    "explanation": "Total permen yang dibawa Bu Guru = 3 kantong * 15 permen/kantong = 45 permen. Jumlah permen per anak = Total permen / Jumlah anak = 45 / 9 = 5 permen."
+  },
+  {
+    "subtest": "Kemampuan Dasar Numerasi",
+    "question": "Kegiatan bermain di luar ruangan dimulai pukul 08.15 dan berakhir pukul 09.05. Berapa lama kegiatan tersebut berlangsung?",
+    "options": [
+      "40 menit",
+      "45 menit",
+      "50 menit",
+      "55 menit",
+      "60 menit"
+    ],
+    "answer": "50 menit",
+    "explanation": "Dari pukul 08.15 ke 09.00 adalah 45 menit. Dari pukul 09.00 ke 09.05 adalah 5 menit. Total waktu = 45 menit + 5 menit = 50 menit."
+  },
+  {
+    "subtest": "Kemampuan Dasar Numerasi",
+    "question": "Di sebuah rak mainan, perbandingan jumlah mobil-mobilan dan boneka adalah 3 : 5. Jika jumlah mobil-mobilan ada 12 buah, maka jumlah boneka adalah...",
+    "options": [
+      "15 buah",
+      "20 buah",
+      "24 buah",
+      "30 buah",
+      "36 buah"
+    ],
+    "answer": "20 buah",
+    "explanation": "Perbandingan mobil : boneka = 3 : 5. Jumlah mobil = 12. Satu bagian perbandingan nilainya = 12 / 3 = 4 buah. Maka, jumlah boneka = 5 bagian * 4 buah/bagian = 20 buah."
+  },
+  {
+    "subtest": "Kemampuan Dasar Numerasi",
+    "question": "Untuk membuat satu adonan playdough, dibutuhkan 200 gram tepung dan 50 gram garam. Jika Bu Guru ingin membuat 5 adonan yang sama, berapa total berat tepung dan garam yang dibutuhkan?",
+    "options": [
+      "1000 gram",
+      "1250 gram",
+      "1500 gram",
+      "250 gram",
+      "500 gram"
+    ],
+    "answer": "1250 gram",
+    "explanation": "Kebutuhan untuk 1 adonan = 200 gr tepung + 50 gr garam = 250 gram. Kebutuhan untuk 5 adonan = 5 * 250 gram = 1250 gram."
+  },
+  {
+    "subtest": "Kemampuan Dasar Numerasi",
+    "question": "Perhatikan pola gambar berikut: Segitiga, Lingkaran, Persegi, Segitiga, Lingkaran, Persegi, ... Gambar apakah yang berada pada urutan ke-10?",
+    "options": [
+      "Segitiga",
+      "Lingkaran",
+      "Persegi",
+      "Dua Lingkaran",
+      "Dua Segitiga"
+    ],
+    "answer": "Segitiga",
+    "explanation": "Pola ini berulang setiap 3 gambar (Segitiga, Lingkaran, Persegi). Untuk mencari urutan ke-10, kita bagi 10 dengan 3. 10 / 3 = 3 sisa 1. Sisa 1 berarti polanya kembali ke urutan pertama, yaitu Segitiga."
+  },
+  {
+    "subtest": "Kemampuan Dasar Numerasi",
+    "question": "Harga 1 buku gambar adalah Rp 4.500 dan harga 1 set krayon adalah Rp 12.000. Ibu membeli 4 buku gambar dan 1 set krayon. Jika ia membayar dengan uang Rp 50.000, berapa kembalian yang ia terima?",
+    "options": [
+      "Rp 20.000",
+      "Rp 25.000",
+      "Rp 30.000",
+      "Rp 32.000",
+      "Rp 18.000"
+    ],
+    "answer": "Rp 20.000",
+    "explanation": "Total harga buku gambar = 4 * Rp 4.500 = Rp 18.000. Total belanja = Rp 18.000 + Rp 12.000 = Rp 30.000. Uang kembalian = Rp 50.000 - Rp 30.000 = Rp 20.000."
+  },
+  {
+    "subtest": "Kemampuan Dasar Numerasi",
+    "question": "Sebuah ruangan kelas berbentuk persegi panjang dengan panjang 8 meter dan lebar 6 meter. Berapa luas ruangan kelas tersebut?",
+    "options": [
+      "14 m²",
+      "28 m²",
+      "42 m²",
+      "48 m²",
+      "64 m²"
+    ],
+    "answer": "48 m²",
+    "explanation": "Luas persegi panjang dihitung dengan rumus Panjang × Lebar. Luas = 8 meter × 6 meter = 48 meter persegi (m²)."
+  },
+  {
+    "subtest": "Kemampuan Dasar Numerasi",
+    "question": "Data kehadiran siswa selama seminggu: Senin (20 anak), Selasa (22 anak), Rabu (20 anak), Kamis (23 anak), Jumat (20 anak). Berapa rata-rata kehadiran siswa per hari selama seminggu itu?",
+    "options": [
+      "20 anak",
+      "21 anak",
+      "22 anak",
+      "23 anak",
+      "25 anak"
+    ],
+    "answer": "21 anak",
+    "explanation": "Total kehadiran = 20 + 22 + 20 + 23 + 20 = 105 anak. Jumlah hari = 5 hari. Rata-rata kehadiran = Total kehadiran / Jumlah hari = 105 / 5 = 21 anak."
+  },
+  {
+    "subtest": "Kemampuan Dasar Numerasi",
+    "question": "Di meja ada 3 jenis buah: Apel, Jeruk, dan Pisang. Jumlah semua buah adalah 30. Jika 1/2 nya adalah Apel dan 1/3 nya adalah Jeruk, berapakah jumlah buah Pisang?",
+    "options": [
+      "5 buah",
+      "6 buah",
+      "8 buah",
+      "10 buah",
+      "15 buah"
+    ],
+    "answer": "5 buah",
+    "explanation": "Jumlah Apel = 1/2 * 30 = 15 buah. Jumlah Jeruk = 1/3 * 30 = 10 buah. Jumlah Pisang = Total buah - Jumlah Apel - Jumlah Jeruk = 30 - 15 - 10 = 5 buah."
+  },
+  {
+    "subtest": "Kemampuan Dasar Numerasi",
+    "question": "Seorang guru memiliki pita sepanjang 5 meter. Ia memotong pita tersebut menjadi beberapa bagian, masing-masing sepanjang 50 cm. Berapa banyak potongan pita yang dihasilkan?",
+    "options": [
+      "5 potongan",
+      "10 potongan",
+      "50 potongan",
+      "100 potongan",
+      "250 potongan"
+    ],
+    "answer": "10 potongan",
+    "explanation": "Pertama, samakan satuannya. 5 meter = 5 * 100 cm = 500 cm. Jumlah potongan = Panjang total pita / Panjang per potongan = 500 cm / 50 cm = 10 potongan."
+  },
+  {
+    "subtest": "Kemampuan Dasar Numerasi",
+    "question": "Setiap anak di kelas A akan membuat 1 lampion. Untuk 1 lampion, dibutuhkan 2 lembar kertas krep dan 3 buah sedotan. Jika ada 15 anak di kelas A, berapa jumlah kertas krep dan sedotan yang dibutuhkan seluruhnya?",
+    "options": [
+      "30 kertas krep dan 30 sedotan",
+      "15 kertas krep dan 45 sedotan",
+      "30 kertas krep dan 45 sedotan",
+      "45 kertas krep dan 30 sedotan",
+      "17 kertas krep dan 18 sedotan"
+    ],
+    "answer": "30 kertas krep dan 45 sedotan",
+    "explanation": "Kebutuhan kertas krep = 15 anak * 2 lembar/anak = 30 lembar. Kebutuhan sedotan = 15 anak * 3 buah/anak = 45 buah. Jadi, total yang dibutuhkan adalah 30 kertas krep dan 45 sedotan."
+  },
+  {
+    "subtest": "Kemampuan Dasar Numerasi",
+    "question": "Ayah berangkat ke kantor pukul 07.00 dan tiba pukul 07.45. Jika jarak rumah ke kantor adalah 30 km, maka kecepatan rata-rata perjalanan Ayah adalah...",
+    "options": [
+      "30 km/jam",
+      "40 km/jam",
+      "45 km/jam",
+      "50 km/jam",
+      "60 km/jam"
+    ],
+    "answer": "40 km/jam",
+    "explanation": "Waktu perjalanan = 07.45 - 07.00 = 45 menit. Ubah waktu ke jam: 45 menit = 45/60 jam = 3/4 jam. Kecepatan = Jarak / Waktu = 30 km / (3/4 jam) = 30 * (4/3) km/jam = 10 * 4 km/jam = 40 km/jam."
+  },
+  {
+    "subtest": "Kemampuan Dasar Numerasi",
+    "question": "Pada denah, jarak antara gerbang sekolah dan taman bermain adalah 5 cm. Jika skala denah adalah 1 : 1.000, berapakah jarak sebenarnya?",
+    "options": [
+      "5 meter",
+      "50 meter",
+      "500 meter",
+      "5 km",
+      "50 km"
+    ],
+    "answer": "50 meter",
+    "explanation": "Jarak sebenarnya = Jarak pada denah / Skala = 5 cm / (1/1000) = 5 cm * 1000 = 5000 cm. Ubah cm ke meter: 5000 cm = 5000 / 100 meter = 50 meter."
+  },
+  {
+    "subtest": "Kemampuan Dasar Numerasi",
+    "question": "Dalam sebuah kotak, terdapat 10 bola merah, 8 bola biru, dan 2 bola kuning. Jika seorang anak mengambil satu bola secara acak, peluang terambilnya bola BUKAN berwarna kuning adalah...",
+    "options": [
+      "1/10",
+      "1/5",
+      "2/5",
+      "4/5",
+      "9/10"
+    ],
+    "answer": "9/10",
+    "explanation": "Total bola = 10 + 8 + 2 = 20 bola. Jumlah bola yang bukan kuning = bola merah + bola biru = 10 + 8 = 18 bola. Peluang terambilnya bukan kuning = (Jumlah bola bukan kuning) / (Total bola) = 18 / 20. Disederhanakan dengan membagi 2 menjadi 9/10."
+  }
+],
+
+    // --- Data dinamis ini tidak perlu diubah ---
+    judulHalaman: document.title,
+    url: window.location.href
+};
+
+// ===================================================================================
+// --- FUNGSI PENGIRIMAN DATA KE GOOGLE SHEET (DIPERBARUI) ---
+// ===================================================================================
+async function kirimKeGoogleSheet(data) {
+    const statusEl = document.getElementById('submission-status');
+    statusEl.textContent = 'Mengirim hasil ujian...';
+    
+    const formData = new FormData();
+    // Menambahkan semua data ke dalam objek FormData.
+    formData.append('kategori', data.kategori);
+    formData.append('url', data.url);
+    formData.append('judulHalaman', data.judulHalaman);
+    formData.append('Nama', data.Nama);
+    formData.append('JumlahSoal', data.JumlahSoal);
+    formData.append('JawabanBenar', data.JawabanBenar);
+    formData.append('JawabanSalah', data.JawabanSalah);
+    formData.append('TidakDijawab', data.TidakDijawab);
+    formData.append('Durasi', data.Durasi);
+    formData.append('Nilai', data.Nilai);
+    formData.append('StatusKelulusan', data.StatusKelulusan);
+
+    try {
+        const response = await fetch(EXAM_CONFIG.scriptURL, {
+            method: 'POST',
+            body: formData
+        });
+        
+        // Membaca respons sebagai JSON untuk mendapatkan pesan sukses/error dari server
+        const result = await response.json();
+        
+        if (result.result === "success") {
+            statusEl.innerHTML = `Hasil ujian berhasil disimpan. <b><a href="${EXAM_CONFIG.linkPeringkat}">Cek Peringkat kamu di sini</a></b>`;
+            statusEl.style.color = 'green';
+        } else {
+            // Menampilkan pesan error yang lebih spesifik dari server
+            throw new Error(result.message || 'Terjadi kesalahan dari server.');
+        }
+    } catch (error) {
+        console.error('Error saat mengirim ke Google Sheet:', error);
+        statusEl.textContent = `Gagal menyimpan hasil. Coba lagi nanti. Error: ${error.message}`;
+        statusEl.style.color = 'red';
+    }
+}
+
+// ===================================================================================
+// --- LOGIKA UTAMA UJIAN (DISESUAIKAN, TIDAK PERLU DIUBAH LAGI) ---
+// ===================================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Menggunakan bank soal dari EXAM_CONFIG
+    const questions = EXAM_CONFIG.bankSoal;
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let questionStatus = new Array(questions.length).fill('unanswered');
+    let timerInterval;
+    let startTime;
+    let currentUsername = '';
+
+    const loginContainer = document.getElementById('login-container');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('login-btn');
+    const loginError = document.getElementById('login-error');
+    const appHeader = document.querySelector('.header');
+    const quizContainer = document.querySelector('.quiz-container');
+    const resultPage = document.getElementById('result-page');
+    const subtestTitleEl = document.getElementById('subtest-title');
+    const questionNumberEl = document.getElementById('question-number');
+    const questionTextEl = document.getElementById('question-text');
+    const optionsEl = document.getElementById('options');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const doubtfulBtn = document.getElementById('doubtful-btn');
+    const finishBtn = document.getElementById('finish-btn');
+    const timerEl = document.getElementById('timer');
+    const restartBtn = document.getElementById('restart-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const headerInfo = document.getElementById('header-info');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmYesBtn = document.getElementById('confirm-yes');
+    const confirmNoBtn = document.getElementById('confirm-no');
+    
+    function showLoginPage() {
+        loginContainer.style.display = 'block'; // Diubah dari 'flex' agar sesuai skrip asli
+        appHeader.style.display = 'none';
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'none';
+        passwordInput.value = '';
+        loginError.style.display = 'none';
+    }
+
+    function handleLogin() {
+        const password = passwordInput.value;
+        const username = usernameInput.value.trim();
+        if (username === "") {
+            loginError.textContent = "Username tidak boleh kosong.";
+            loginError.style.display = 'block';
+            return;
+        }
+        // Menggunakan password dari EXAM_CONFIG
+        if (password === EXAM_CONFIG.password) {
+            currentUsername = username;
+            loginContainer.style.display = 'none';
+            appHeader.style.display = 'flex';
+            quizContainer.style.display = 'flex';
+            resultPage.style.display = 'none';
+            headerInfo.textContent = `Peserta: ${currentUsername}`;
+            startQuiz();
+        } else {
+            loginError.textContent = "Password salah. Coba lagi.";
+            loginError.style.display = 'block';
+        }
+    }
+    
+    function handleLogout() {
+        clearInterval(timerInterval);
+        showLoginPage();
+    }
+
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        userAnswers.fill(null);
+        questionStatus.fill('unanswered');
+        quizContainer.style.display = 'flex';
+        resultPage.style.display = 'none';
+        setupQuestionGrids();
+        displayQuestion(currentQuestionIndex);
+        // Menggunakan durasi dari EXAM_CONFIG
+        startTimer(EXAM_CONFIG.durasiMenit * 60);
+        startTime = new Date();
+    }
+
+    function setupQuestionGrids() {
+        const gridContainer = document.getElementById('grid-container');
+        gridContainer.innerHTML = '';
+        const subtests = [...new Set(questions.map(q => q.subtest))];
+        subtests.forEach(subtest => {
+            const group = document.createElement('div');
+            group.className = 'subtest-group';
+            const title = document.createElement('h3');
+            title.textContent = subtest;
+            const grid = document.createElement('div');
+            grid.className = 'question-grid';
+            group.appendChild(title);
+            group.appendChild(grid);
+            gridContainer.appendChild(group);
+            questions.forEach((q, index) => {
+                if (q.subtest === subtest) {
+                    const button = document.createElement('button');
+                    button.className = 'grid-button';
+                    button.textContent = index + 1;
+                    button.onclick = () => jumpToQuestion(index);
+                    grid.appendChild(button);
+                }
+            });
+        });
+    }
+
+    function displayQuestion(index) {
+        document.querySelector('.grid-button.current')?.classList.remove('current');
+        currentQuestionIndex = index;
+        const question = questions[index];
+        subtestTitleEl.textContent = question.subtest;
+        questionNumberEl.textContent = index + 1;
+        questionTextEl.innerHTML = question.question;
+        optionsEl.innerHTML = '';
+        question.options.forEach(option => {
+            const li = document.createElement('li');
+            const label = document.createElement('label');
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = `option-${index}`;
+            radio.value = option;
+            if (userAnswers[index] === option) {
+                radio.checked = true;
+                label.classList.add('selected');
+            }
+            radio.onchange = () => selectAnswer(index, option, label);
+            const span = document.createElement('span');
+            span.innerHTML = option; // Menggunakan innerHTML untuk render jika ada format
+            label.appendChild(radio);
+            label.appendChild(span);
+            li.appendChild(label);
+            optionsEl.appendChild(li);
+        });
+        updateNavButtons();
+        updateGridButtonStatus(index, true);
+    }
+
+    function selectAnswer(index, answer, label) {
+        userAnswers[index] = answer;
+        document.querySelectorAll(`#options li label`).forEach(l => l.classList.remove('selected'));
+        label.classList.add('selected');
+        if (questionStatus[index] !== 'doubtful') {
+            questionStatus[index] = 'answered';
+        }
+        updateGridButtonStatus(index);
+    }
+    
+    function updateNavButtons() {
+        prevBtn.disabled = currentQuestionIndex === 0;
+        nextBtn.disabled = currentQuestionIndex === questions.length - 1;
+    }
+    
+    function updateGridButtonStatus(index, isCurrent = false) {
+        const allGridButtons = document.querySelectorAll('.grid-button');
+        if (isCurrent) {
+            const currentBtn = document.querySelector('.grid-button.current');
+            if (currentBtn) currentBtn.classList.remove('current');
+        }
+        const button = Array.from(allGridButtons).find(btn => parseInt(btn.textContent) === index + 1);
+        if (!button) return;
+        if(isCurrent) button.classList.add('current');
+        button.classList.remove('answered', 'doubtful');
+        switch (questionStatus[index]) {
+            case 'answered': button.classList.add('answered'); break;
+            case 'doubtful': button.classList.add('doubtful'); break;
+        }
+    }
+
+    function jumpToQuestion(index) {
+        displayQuestion(index);
+    }
+
+    function startTimer(duration) {
+        let timer = duration;
+        clearInterval(timerInterval);
+        timerEl.parentElement.classList.remove('low-time');
+        timerInterval = setInterval(() => {
+            let minutes = parseInt(timer / 60, 10);
+            let seconds = parseInt(timer % 60, 10);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            timerEl.textContent = `${minutes}:${seconds}`;
+            if (timer < 300 && !timerEl.parentElement.classList.contains('low-time')) { 
+                timerEl.parentElement.classList.add('low-time'); 
+            }
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                finishQuiz();
+            }
+        }, 1000);
+    }
+    
+    function showConfirmation() {
+        confirmationModal.style.display = 'flex';
+    }
+
+    function formatDuration(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes} menit ${seconds.toString().padStart(2, '0')} detik`;
+}
+
+
+    function finishQuiz() {
+        clearInterval(timerInterval);
+        confirmationModal.style.display = 'none';
+        const endTime = new Date();
+        const durationMs = endTime - startTime;
+        let correctCount = 0;
+        questions.forEach((q, index) => {
+            if (userAnswers[index] === q.answer) correctCount++;
+        });
+        const totalQuestions = questions.length;
+        const answeredCount = userAnswers.filter(a => a !== null).length;
+        const incorrectCount = answeredCount - correctCount;
+        const unansweredCount = totalQuestions - answeredCount;
+        const finalScore = totalQuestions > 0 ? parseFloat(((correctCount / totalQuestions) * 100).toFixed(2)) : 0;
+        const isPassed = finalScore >= EXAM_CONFIG.passingGrade;
+        
+        quizContainer.style.display = 'none';
+        resultPage.style.display = 'block';
+        headerInfo.textContent = `Hasil Ujian: ${currentUsername}`;
+        
+        const statusEl = document.getElementById('status-lulus');
+        statusEl.textContent = isPassed ? 'SELAMAT, ANDA LULUS!' : 'MAAF, ANDA BELUM LULUS';
+        statusEl.className = `status ${isPassed ? 'lulus' : 'gagal'}`;
+        document.getElementById('final-score').textContent = finalScore;
+        document.getElementById('score-details').textContent = `${correctCount} dari ${totalQuestions} soal benar`;
+        
+        const reviewSection = document.getElementById('review-section');
+        reviewSection.innerHTML = '';
+        questions.forEach((q, index) => {
+            const userAnswer = userAnswers[index];
+            const isCorrect = userAnswer === q.answer;
+            reviewSection.innerHTML += `
+                <div class="review-item">
+                    <p><strong>Soal ${index + 1}:</strong> ${q.question}</p>
+                    <div class="review-answer user-answer ${isCorrect ? '' : 'is-incorrect'}">Jawaban Anda: ${userAnswer || 'Tidak Dijawab'}</div>
+                    ${!isCorrect ? `<div class="review-answer correct-answer">Jawaban Benar: ${q.answer}</div>` : ''}
+                    <div class="explanation"><strong>Pembahasan:</strong> ${q.explanation}</div>
+                </div>
+            `;
+        });
+        
+        const dataForSheet = {
+            kategori: EXAM_CONFIG.kategori,
+            url: EXAM_CONFIG.url,
+            judulHalaman: EXAM_CONFIG.judulHalaman,
+            Nama: currentUsername,
+            JumlahSoal: totalQuestions,
+            JawabanBenar: correctCount,
+            JawabanSalah: incorrectCount,
+            TidakDijawab: unansweredCount,
+            Durasi: formatDuration(durationMs),
+            Nilai: finalScore,
+            StatusKelulusan: isPassed ? 'Lulus' : 'Tidak Lulus'
+        };
+        kirimKeGoogleSheet(dataForSheet);
+    }
+
+    // Event Listeners
+    loginBtn.addEventListener('click', handleLogin);
+    passwordInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
+    logoutBtn.addEventListener('click', handleLogout);
+    prevBtn.addEventListener('click', () => { if (currentQuestionIndex > 0) displayQuestion(currentQuestionIndex - 1) });
+    nextBtn.addEventListener('click', () => { if (currentQuestionIndex < questions.length - 1) displayQuestion(currentQuestionIndex + 1) });
+    doubtfulBtn.addEventListener('click', () => {
+        const currentStatus = questionStatus[currentQuestionIndex];
+        if (currentStatus === 'doubtful') {
+            questionStatus[currentQuestionIndex] = userAnswers[currentQuestionIndex] ? 'answered' : 'unanswered';
+        } else {
+            questionStatus[currentQuestionIndex] = 'doubtful';
+        }
+        updateGridButtonStatus(currentQuestionIndex);
+    });
+    finishBtn.addEventListener('click', showConfirmation);
+    confirmYesBtn.addEventListener('click', finishQuiz);
+    confirmNoBtn.addEventListener('click', () => confirmationModal.style.display = 'none');
+    restartBtn.addEventListener('click', handleLogout);
+
+    showLoginPage();
+});
+</script>
