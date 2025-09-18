@@ -47,7 +47,7 @@ Untuk itu, persiapan yang matang sebelum menghadapi ujian sangat diperlukan. Sal
 
 Akazed Ujian sudah mempublikasikan ratusan *[try out](/ujian/)* dari berbagai topik, mulai dari ppg, cpns, bumn dan lainnya yang dapat diakses secara gratis dari manapun dan oleh siapapun. Tak heran, jika akazed ujian menjadi salah satu platform ujian online gratis terbaik di Indonesia.
 
-Setelah kemarin kita mengadakan *[try out ppg sejarah](/ujian/ppg/01-soal-try-out-ppg-sejarah/)* di sini kamu akan mengikuti *Soal try out PPG Piloting 2 PAUD* yang lengkap dengan *Kunci jawaban Try Out PPG 2025* agar memudahkan kamu dapat mempelajari berbagai latihan soal ujian serta memahami karakter pertanyaan ujiannya.
+Setelah kemarin kita mengadakan *[try out ppg sejarah](/ujian/ppg/01-soal-try-out-ppg-sejarah/)* di sini kamu akan mengikuti *Soal try out PPG Piloting 2 PAUD* dan *[Contoh Latihan Soal Try Out PPG 2025 Paud](/ujian/ppg/contoh-soal-try-out-ppg-2025-paud/)* yang lengkap dengan *Kunci jawaban Try Out PPG 2025* agar memudahkan kamu dapat mempelajari berbagai latihan soal ujian serta memahami karakter pertanyaan ujiannya.
 
 Ada juga Contoh Soal Try Out PPG Piloting 3 yang dikemas dan disusun sedemikian rupa agar mudah dipahami. Serta *[Soal UTBK PPG DALJAB 2025](/contoh-soal-pretest-ppg-dalam-jabatan/)* yang sudah bisa dibuka kembali. Atau kamu bisa juga mengikuti *[soal studi kasus ppg paud](/ujian/ppg/tryout-ppg-paud-soal-studi-kasus/)* yang sudah diikuti oleh ratusan peserta lainnya dari berbagai penjuru.
 {{< ujian/read-also >}}
