@@ -2,7 +2,7 @@
 title: Tryout PPG PAUD 2025 Soal Studi Kasus
 description: Siap hadapi seleksi PPG PAUD 2025? Pelajari contoh soal tryout PPG PAUD terbaru, fokus pada studi kasus pembelajaran, asesmen, dan pedagogik. Lengkap dengan pembahasan mendalam dan kunci jawaban untuk persiapan PPG Prajabatan dan Daljab.
 date: 2025-07-06T15:31:20+07:00
-lastmod: 2025-07-07T15:31:20+07:00
+lastmod: 2025-09-23T15:31:20+07:00
 comments: true
 draft: false 
 slug:   #这里要修改
@@ -128,9 +128,9 @@ Setelah melihat contoh-contoh di atas, kini saatnya menyusun strategi. Berikut b
 
 ### Siap Menjadi Guru PAUD Profesional dengan Lulus PPG 2025
 
-Menghadapi soal studi kasus dalam **[tryout PPG](/categories/ppg/)** PAUD bukanlah hal yang perlu ditakuti. Sebaliknya, anggaplah ini sebagai kesempatan untuk menunjukkan sejauh mana pemahaman dan empati Anda sebagai calon pendidik profesional. Semakin sering Anda berlatih dengan beragam kumpulan soal PPG Daljab PAUD maupun Prajabatan, semakin terasah pula kemampuan analisis Anda.
+Menghadapi soal studi kasus dalam **[tryout PPG](/categories/ppg/)** PAUD bukanlah hal yang perlu ditakuti. Sebaliknya, anggaplah ini sebagai kesempatan untuk menunjukkan sejauh mana pemahaman dan empati Anda sebagai calon pendidik profesional. Semakin sering Anda berlatih dengan beragam kumpulan soal*[ PPG Daljab PAUD](/ujian/ppg/contoh-soal-try-out-ppg-2025-paud/)* maupun Prajabatan, semakin terasah pula kemampuan analisis Anda.
 
 Teruslah belajar, tetap semangat, dan persiapkan diri Anda sebaik mungkin. Semoga sukses dalam perjalanan Anda menjadi guru PAUD yang hebat dan inspiratif!
 
 ## Download Soal Tryout PPG PAUD dan Pembahasan PDF
-Kamu juga bisa mengunduh soal-soal tryout ini gratis. Akan segera tersedia.
+Kamu juga bisa mengunduh *[soal-soal tryout paud](/ujian/ppg/soal-try-out-ppg-paud/)* ini gratis. Akan segera tersedia.
