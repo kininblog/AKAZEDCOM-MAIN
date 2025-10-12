@@ -236,6 +236,36 @@ menu:
               newTab: false
               icon: file-star
 
+
+        - identifier: Ujian Online
+          name: Try Out PPG 
+          url: /categories/tryout-ppg/ 
+          weight: -50
+          params:
+               ### For demonstration purpose, the home link will be open in a new tab
+              newTab: false
+              icon: file-star
+
+        - identifier: Ujian Online CPNS
+          name: Try Out CPNS 
+          url: /categories/tryout-cpns/ 
+          weight: -50
+          params:
+               ### For demonstration purpose, the home link will be open in a new tab
+              newTab: false
+              icon: file-star
+
+
+        - identifier: Ujian Online BUMN
+          name: Try Out BUMN
+          url: /categories/tryout-bumn/
+          weight: -50
+          params:
+               ### For demonstration purpose, the home link will be open in a new tab
+              newTab: false
+              icon: file-star
+
+
         - identifier: Blogger
           name: Blogger
           url: /categories/blogger/
