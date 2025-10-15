@@ -2,7 +2,7 @@
 title:  Mengapa Guru Wajib Ikut PPG? Pentingnya Sertifikasi Guru
 description:  Pernahkah Anda bertanya-tanya mengapa Pendidikan Profesi Guru (PPG) menjadi kewajiban bagi para pengajar di Indonesia? Cari tahu pentingnya sertifikasi guru dan manfaat PPG bagi profesi guru, karir, kesejahteraan, serta dampaknya pada kualitas pendidikan nasional. Artikel ini mengupas tuntas mengapa guru wajib ikut PPG dan bagaimana sertifikasi pendidik menjadi kunci kompetensi guru yang profesional.
 date: 2025-05-25 17:31:34 +0700
-lastmod: 2025-05-25T21:14:15+08:00 
+lastmod: 2025-10-13T21:14:15+08:00 
 comments: true
 license: 
 slug: /pentingnya-sertifikasi-guru/
@@ -46,7 +46,7 @@ Program ini bertujuan untuk membekali calon guru dengan empat pilar **kompetensi
 {{< ujian/read-also >}}
 
 Di Indonesia, ada dua jalur utama dalam **program PPG**:
-1.  **PPG Prajabatan:** Ini untuk Anda yang *belum* menjadi guru. Anda baru lulus S1 non-kependidikan atau kependidikan dan ingin langsung berkarir sebagai guru profesional. Program ini biasanya lebih komprehensif, mencakup perkuliahan intensif dan praktik mengajar di sekolah.
+1.  **[PPG Prajabatan](/ppg-calon-guru-2025-resmi-dibuka/):** Ini untuk Anda yang *belum* menjadi guru. Anda baru lulus S1 non-kependidikan atau kependidikan dan ingin langsung berkarir sebagai guru profesional. Program ini biasanya lebih komprehensif, mencakup perkuliahan intensif dan praktik mengajar di sekolah.
 2.  **PPG Dalam Jabatan (Daljab):** Nah, kalau ini khusus untuk Anda yang *sudah* menjadi guru (baik honorer maupun PNS), namun *belum* memiliki **sertifikat pendidik**. Program ini seringkali disesuaikan dengan pengalaman mengajar yang sudah dimiliki guru.
 
 ### Memahami Sertifikasi Guru

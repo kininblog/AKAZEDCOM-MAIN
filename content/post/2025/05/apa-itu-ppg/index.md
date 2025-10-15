@@ -2,7 +2,7 @@
 title:  Mengenal Apa Itu PPG Guru? Definisi, Tujuan, dan Manfaatnya
 description:  kupas tuntas semua tentang PPG dengan gaya bahasa yang santai, mudah dimengerti, dan pastinya nggak bikin kening berkerut. Anggap saja kita lagi ngobrol ngopi-ngopi sore, membahas salah satu gerbang penting menuju profesi guru yang profesional dan kompeten. 
 date: 2025-05-20T21:14:15+08:00 
-lastmod: 2025-05-26T21:14:15+08:00 
+lastmod: 2025-10-13T21:14:15+08:00 
 comments: true
 license: 
 slug: /mengenal-apa-itu-ppg-guru/
@@ -133,7 +133,7 @@ Meskipun detailnya bisa berubah sewaktu-waktu (tergantung kebijakan pemerintah),
 6.  **Pendidikan dan Latihan:** Ini adalah inti dari PPG, di mana kamu akan mengikuti perkuliahan, workshop, praktik mengajar, dan berbagai aktivitas lainnya.
 7.  **Uji Kinerja (UKin) dan Uji Pengetahuan (UP):** Di akhir program, kamu akan mengikuti Uji Kompetensi Mahasiswa PPG (UKMPPG) yang terdiri dari Uji Kinerja (praktik mengajar dan portofolio) dan Uji Pengetahuan (tes tertulis).
 8.  **Sertifikasi Pendidik:** Kalau kamu berhasil lulus UKMPPG, selamat! Kamu resmi mendapatkan sertifikat pendidik. 
-> Kamu bisa latihan soal ppg 2025, di halaman berikut **[contoh soal test ppg dalam jabatan](/contoh-soal-pretest-ppg-dalam-jabatan/)**
+> Kamu bisa latihan soal *[ppg 2025](/ppg-calon-guru-2025-resmi-dibuka/)*, di halaman berikut **[contoh soal test ppg dalam jabatan](/contoh-soal-pretest-ppg-dalam-jabatan/)**
 
 > Kalau kamu masih bingung, jangan lupa baca juga ulasan kami tentang *[cara daftar ppg prajab 2025](/cara-daftar-ppg-prajab-2025/)* di sini, kamu akan dipandu *step-by-step* lho
 

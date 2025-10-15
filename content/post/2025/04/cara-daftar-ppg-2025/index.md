@@ -3,7 +3,7 @@ title: Cara Daftar PPG Prajabatan 2025
 description: Informasi jadwal PPG 2025 kapan dibuka, syarat dan cara daftar PPG 2025 untuk guru honorer dan lulusan S1 kependidikan Indonesia.
 date: 2025-04-27T21:14:15+08:00 
 #2023年12月27日21:14:15
-lastmod: 2025-05-25T21:14:15+08:00 
+lastmod: 2025-10-15T19:14:15+08:00 
 comments: true
 license: 
 slug: /cara-daftar-ppg-prajab-2025/
@@ -33,7 +33,7 @@ Program **[PPG Prajabatan 2025](/jadwal-ppg-2025-kapan-dibuka/)** kembali dibuka
 
 ## Panduan Teknis Pendaftaran Online PPG Prajabatan 2025
 
-Pendaftaran PPG Prajabatan 2025 dilakukan secara daring (*online*) melalui situs resmi PPG Kemendikbudristek. Berikut langkah demi langkahnya:
+*[Pendaftaran PPG Prajabatan 2025](/ppg-calon-guru-2025-resmi-dibuka/)* dilakukan secara daring (*online*) melalui situs resmi PPG Kemendikbudristek. Berikut langkah demi langkahnya:
 
 1.  **Akses situs pendaftaran PPG.** Buka laman resmi PPG di **ppg.kemdikbud.go.id** atau **ppg-prajab.simpkb.id**.
 2.  **Pilih menu pendaftaran.** Klik menu “Daftar PPG Calon Guru (Prajabatan)”, kemudian pilih “Daftar sebagai Peserta”.
