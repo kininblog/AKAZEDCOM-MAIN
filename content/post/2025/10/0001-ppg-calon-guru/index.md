@@ -93,7 +93,7 @@ Untuk dapat mengikuti seleksi calon mahasiswa PPG Prajabatan 2025, terdapat sera
 | Ilmu Pengetahuan Alam (IPA) | Teknik Pengelasan dan Fabrikasi Logam |
 | Matematika | Agriteknologi Pengolahan Hasil Pertanian |
 | Pendidikan Luar Biasa | Broadcasting dan Perfilman |
-| Pendidikan Guru Anak Usia Dini (PGPAUD) | Desain Komunikasi Visual |
+| *[Pendidikan Guru Anak Usia Dini (PGPAUD)](/categories/try-out-ppg-paud/)* | Desain Komunikasi Visual |
 
 ### Komitmen Mengikuti Seleksi
 Calon pendaftar wajib bersedia dan berkomitmen untuk mengikuti seluruh tahapan seleksi yang terdiri dari:
